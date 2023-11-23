@@ -28,4 +28,18 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+
+Route::get('admin', function (){
+    return '<h1>Hello Admin</h1>';
+})->middleware(['auth', 'verified', 'role:admin']);
+
+Route::get('penulis', function () {
+    return '<h1>Hello penulis</h1>';
+})->middleware(['auth', 'verified', 'role:penulis|admin']);
+
+Route::get('kelas', function () {
+    return view('kelas');
+})->middleware(['auth', 'verified', 'role_or_permission:lihat-kelas|admin']);
+
+
 require __DIR__.'/auth.php';
