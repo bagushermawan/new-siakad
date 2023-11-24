@@ -29,11 +29,12 @@ Route::middleware('auth')->group(function () {
 });
 
 
-Route::get('admin', function (){
+Route::get('admin', function () {
     return '<h1>Hello Admin</h1>';
 })->middleware(['auth', 'verified', 'role:admin']);
 
 Route::get('penulis', function () {
+    notify()->success('Welcome to Laravel Notify ⚡️') or notify()->success('Welcome to Laravel Notify ⚡️', 'My custom title');
     return '<h1>Hello penulis</h1>';
 })->middleware(['auth', 'verified', 'role:penulis|admin']);
 
@@ -41,5 +42,9 @@ Route::get('kelas', function () {
     return view('kelas');
 })->middleware(['auth', 'verified', 'role_or_permission:lihat-kelas|admin']);
 
+Route::get('coba', function () {
+    return view('coba');
+});
 
-require __DIR__.'/auth.php';
+
+require __DIR__ . '/auth.php';
