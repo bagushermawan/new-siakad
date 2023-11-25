@@ -21,7 +21,7 @@ class AdminDashboardController extends Controller
         // Alternatif: Mendapatkan role pertama dari user
         // $role = $user->getRoleNames()->first();
 
-        return view('admin.dashboard', ['roles' => $roles]);
+        return view('admin.tesdashboard', ['roles' => $roles]);
     }
 
     /**

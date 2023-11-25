@@ -31,17 +31,17 @@ Route::middleware('auth')->group(function () {
 });
 
 
-Route::get('admin', function () {
-    return '<h1>Hello Admin</h1>';
-})->middleware(['auth', 'verified', 'role:admin']);
+// Route::get('admin', function () {
+//     return '<h1>Hello Admin</h1>';
+// })->middleware(['auth', 'verified', 'role:admin']);
 
-Route::get('penulis', function () {
-    return '<h1>Hello penulis</h1>';
-})->middleware(['auth', 'verified', 'role:penulis|admin']);
+// Route::get('penulis', function () {
+//     return '<h1>Hello penulis</h1>';
+// })->middleware(['auth', 'verified', 'role:penulis|admin']);
 
-Route::get('kelas', function () {
-    return view('kelas');
-})->middleware(['auth', 'verified', 'role_or_permission:lihat-kelas|admin']);
+// Route::get('kelas', function () {
+//     return view('kelas');
+// })->middleware(['auth', 'verified', 'role_or_permission:lihat-kelas|admin']);
 
 Route::get('coba', function () {
     return view('coba');

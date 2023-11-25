@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vertical Navbar - Mazer Admin Dashboard</title>
+    <title>{{ config('app.name', 'Siakad') }}</title>
 
 
 
@@ -25,7 +25,8 @@
                 <div class="sidebar-header position-relative">
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="logo">
-                            <a href="index.html"><img src="{{ asset('compiled/svg/logo.svg') }}" alt="Logo" srcset=""></a>
+                            <a href="index.html"><img src="{{ asset('compiled/svg/logo.svg') }}" alt="Logo"
+                                    srcset=""></a>
                         </div>
                         <div class="theme-toggle d-flex gap-2  align-items-center mt-2">
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -171,17 +172,14 @@
                                     <li><a class="dropdown-item" href="#"><i
                                                 class="icon-mid bi bi-person me-2"></i> My
                                             Profile</a></li>
-                                    <li><a class="dropdown-item" href="#"><i
-                                                class="icon-mid bi bi-gear me-2"></i>
-                                            Settings</a></li>
-                                    <li><a class="dropdown-item" href="#"><i
-                                                class="icon-mid bi bi-wallet me-2"></i>
-                                            Wallet</a></li>
                                     <li>
-                                        <hr class="dropdown-divider">
+                                        <form method="POST" action="{{ route('logout') }}">
+                                            @csrf<a class="dropdown-item" href=""
+                                                onclick="event.preventDefault();
+                                                this.closest('form').submit();"><i
+                                                    class="icon-mid bi bi-box-arrow-left me-2"></i> Logout</a>
                                     </li>
-                                    <li><a class="dropdown-item" href="#"><i
-                                                class="icon-mid bi bi-box-arrow-left me-2"></i> Logout</a></li>
+                                    </form>
                                 </ul>
                             </div>
                         </div>
@@ -189,7 +187,6 @@
                 </nav>
             </header>
             <div id="main-content">
-
                 <div class="page-heading">
                     <div class="page-title">
                         <div class="row">
@@ -214,7 +211,8 @@
                                 <h4 class="card-title">Welcome <b><i>{{ auth()->user()->name }}</i></b></h4>
                             </div>
                             <div class="card-body">
-                                <p style="color:green;">You're logged in as <b>{{ implode(', ', $roles->all()) }}</b></p>
+                                <p style="color:green;">You're logged in as <b>{{ implode(', ', $roles->all()) }}</b>
+                                </p>
                             </div>
                         </div>
                         <div class="card">
@@ -238,13 +236,6 @@
                                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. In mollis tincidunt tempus.
                                     Duis vitae facilisis enim, at rutrum lacus. Nam at nisl ut ex egestas placerat
                                     sodales id quam. Aenean sit amet nibh quis lacus pellentesque venenatis vitae at
-                                    justo. Orci varius natoque penatibus et magnis dis parturient montes, nascetur
-                                    ridiculus mus. Suspendisse venenatis tincidunt odio ut rutrum. Maecenas ut urna
-                                    venenatis, dapibus tortor sed, ultrices justo. Phasellus scelerisque, nibh quis
-                                    gravida venenatis, nibh mi lacinia est, et porta purus nisi eget nibh. Fusce pretium
-                                    vestibulum sagittis. Donec sodales velit cursus convallis sollicitudin. Nunc vel
-                                    scelerisque elit, eget facilisis tellus. Donec id molestie ipsum. Nunc tincidunt
-                                    tellus sed felis vulputate euismod.
                                 </p>
                             </div>
                         </div>
