@@ -18,8 +18,8 @@
                                 <a href="#" data-bs-toggle="dropdown" aria-expanded="false">
                                     <div class="user-menu d-flex">
                                         <div class="user-name text-end me-3">
-                                            <h6 class="mb-0 text-gray-600">John Ducky</h6>
-                                            <p class="mb-0 text-sm text-gray-600">Administrator</p>
+                                            <h6 class="mb-0 text-gray-600">{{ ucfirst(auth()->user()->name )}}</h6>
+                                            <p class="mb-0 text-sm text-gray-600">{{ ucfirst(implode(', ', $roles->all())) }}</p>
                                         </div>
                                         <div class="user-img d-flex align-items-center">
                                             <div class="avatar avatar-md">
@@ -31,9 +31,9 @@
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton"
                                     style="min-width: 11rem;">
                                     <li>
-                                        <h6 class="dropdown-header">Hello, John!</h6>
+                                        <h6 class="dropdown-header">Hello, {{ ucfirst(auth()->user()->name )}}!</h6>
                                     </li>
-                                    <li><a class="dropdown-item" href="#"><i
+                                    <li><a class="dropdown-item" href="{{ route('profile.editt') }}"><i
                                                 class="icon-mid bi bi-person me-2"></i> My
                                             Profile</a></li>
                                     <li>
