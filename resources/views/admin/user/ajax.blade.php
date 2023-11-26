@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DataTables with Ajax</title>
+    <title>DataTables with Ajax POLOSAN</title>
 
     <!-- Sertakan library DataTables dan jQuery -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
