@@ -65,7 +65,7 @@ class UserController extends Controller
         }
 
         $user->save();
-        return redirect()->route('admin.user.edit', $id)->with('status', 'profile-updated');;
+        return redirect()->back()->with('status', 'profile-updated');
     }
 
 

@@ -68,11 +68,11 @@
                                     </td>
                                     @if (auth()->user()->hasRole('admin'))
                                         <td>{{ ucfirst(implode(', ', $user->roles->pluck('name')->all())) }}</td>
-                                    @endif
                                     <td>
                                         <center><a href="{{ route('admin.user.edit', ['id'=>$user->id])}}" class="badge bg-primary">Edit</a> | <a href="#"
                                                 class="badge bg-danger">Delete</a></center>
                                     </td>
+                                    @endif
                                 </tr>
                             @endforeach
                         </tbody>
