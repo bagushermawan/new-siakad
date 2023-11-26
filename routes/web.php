@@ -27,6 +27,8 @@ Route::get('/', function () {
 Route::middleware('auth')->group(function () {
     Route::get('/qwe/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
     Route::get('/qwe/user', [UserController::class, 'index'])->name('admin.user');
+    Route::get('/qwe/user/{id}', [UserController::class, 'edit'])->name('admin.user.edit');
+    Route::put('/qwe/user/{id}', [UserController::class, 'update'])->name('admin.user.update');
 
     Route::get('/qwe/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::get('/profile', [ProfileController::class, 'editt'])->name('profile.editt');

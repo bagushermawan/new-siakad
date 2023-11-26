@@ -44,15 +44,28 @@ class UserController extends Controller
     }
 
 
-    public function edit(string $id)
+    public function edit($id)
     {
-        //
+        $user = Auth::user();
+        // Mendapatkan roles dari user
+        $roles = $user->getRoleNames();
+        $user = User::find($id);
+        return view('admin.user.profileEdit', ['user' => $user, 'roles' => $roles]);
     }
 
 
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $user = User::find($id);
+        $user->name = $request->get('name');
+        $user->username = $request->get('username');
+        $user->email = $request->get('email');
+        if ($request->has('password')) {
+            $user->password = bcrypt($request->get('password'));
+        }
+
+        $user->save();
+        return redirect()->route('admin.user.edit', $id)->with('status', 'profile-updated');;
     }
 
 

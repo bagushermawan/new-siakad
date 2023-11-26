@@ -47,23 +47,21 @@
                             @csrf
                         </form>
                         <div class="card-body">
-                            <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6">
+                            <form method="post" action="{{ route('admin.user.update', ['id' => $user->id]) }}" class="mt-6 space-y-6">
                                 @csrf
-                                @method('patch')
+                                {{ method_field('put') }}
                                 <div class="form-group">
                                     <label for="name" class="form-label">Name</label>
                                     <input type="text" name="name" id="name" class="form-control" required
-                                        autofocus autocomplete value="{{ old('name', $user->name) }}">
+                                        autofocus value="{{$user->name}}">
                                 </div>
                                 <div class="form-group">
                                     <label for="username" class="form-label">Username</label>
-                                    <input type="text" name="username" id="username" class="form-control" required
-                                        autocomplete value="{{ old('username', $user->username) }}">
+                                    <input type="text" name="username" id="username" class="form-control" required value="{{$user->username}}">
                                 </div>
                                 <div class="form-group">
                                     <label for="email" class="form-label">Email</label>
-                                    <input type="text" name="email" id="email" class="form-control" required
-                                        autocomplete value="{{ old('email', $user->email) }}">
+                                    <input type="text" name="email" id="email" class="form-control" required value="{{$user->email}}">
                                     @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && !$user->hasVerifiedEmail())
                                         <div>
                                             <p class="text-sm mt-2 text-gray-800 dark:text-gray-200">
