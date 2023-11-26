@@ -82,4 +82,26 @@ class UserController extends Controller
         $user->delete();
         return redirect()->route('admin.user.index');
     }
+
+    public function getDataForDataTables()
+    {
+        $data = User::all();
+
+        $formattedData = $data->map(function ($user, $index) {
+            return [
+                'no' => $index + 1,
+                'name' => $user->name,
+                'username' => $user->username,
+                'email' => $user->email,
+                'created_at' => $user->created_at->toDateString(),
+                'roles' => ucfirst(implode(', ', $user->roles->pluck('name')->all())), // Tambah kolom roles
+                'edit_url' => route('admin.user.edit', $user->id),
+                'delete_url' => route('admin.user.destroy', $user->id),
+            ];
+        });
+
+        $isAdmin = auth()->user()->hasRole('admin');
+
+        return response()->json(['data' => $formattedData, 'isAdmin' => $isAdmin]);
+    }
 }
