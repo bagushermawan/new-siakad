@@ -20,7 +20,7 @@ class UserController extends Controller
         // Mendapatkan roles dari user
         $roles = $user->getRoleNames();
         // dd($daftar_user->role->nama);
-        $daftar_user = User::paginate();
+        $daftar_user = User::get();
 
         return view('admin.user.index', ['roles' => $roles, 'daftar_user' => $daftar_user]);
     }

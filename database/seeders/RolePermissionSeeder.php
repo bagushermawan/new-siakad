@@ -26,6 +26,7 @@ class RolePermissionSeeder extends Seeder
 
         Role::create(['name' => 'admin']);
         Role::create(['name' => 'penulis']);
+        Role::create(['name' => 'user']);
 
         $roleAdmin = Role::findByName('admin');
         $roleAdmin->givePermissionTo('lihat-user');

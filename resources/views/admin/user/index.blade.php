@@ -52,7 +52,7 @@
                                 <tr role="row" class="even">
                                     <td>
                                         <center>
-                                            {{ ++$no + ($daftar_user->currentPage() - 1) * $daftar_user->perPage() }}
+                                           {{ ++$no }}
                                         </center>
                                     </td>
                                     <td>{{ $user->name }}</td>

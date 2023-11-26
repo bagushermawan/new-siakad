@@ -15,7 +15,7 @@ class tambahUser extends Command
      *
      * @var string
      */
-    protected $signature = 'tambah:user';
+    protected $signature = 'tambah:admin';
 
     /**
      * The console command description.
