@@ -71,6 +71,15 @@ class UserController extends Controller
 
     public function destroy(string $id)
     {
-        //
+        $user = User::find($id);
+
+        // Jika pengguna tidak ditemukan
+        if (!$user) {
+            return Redirect::route('admin.user.index')->with('error', 'User not found');
+        }
+
+        // Lakukan operasi penghapusan
+        $user->delete();
+        return redirect()->route('admin.user.index');
     }
 }

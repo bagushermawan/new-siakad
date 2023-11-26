@@ -1,8 +1,10 @@
 @extends('admin.layouts.master')
 @section('title', 'Dashboard')
 @push('page-css')
-    <link rel="stylesheet" href="{{ asset('extensions/simple-datatables/style.css') }}">
-    <link rel="stylesheet" href="{{ asset('compiled/css/table-datatable.css') }}">
+    <link rel="stylesheet" href="{{ asset('extensions/datatables.net-bs5/css/dataTables.bootstrap5.min.css') }}">
+
+
+  <link rel="stylesheet" href="{{ asset('compiled/css/table-datatable-jquery.css') }}">
 @endpush
 @section('content')
     <div class="page-heading">
@@ -69,8 +71,10 @@
                                     @if (auth()->user()->hasRole('admin'))
                                         <td>{{ ucfirst(implode(', ', $user->roles->pluck('name')->all())) }}</td>
                                     <td>
-                                        <center><a href="{{ route('admin.user.edit', ['id'=>$user->id])}}" class="badge bg-primary">Edit</a> | <a href="#"
-                                                class="badge bg-danger">Delete</a></center>
+                                        <center>
+                                            <a href="{{ route('admin.user.edit', $user->id) }}" class="badge bg-primary">Edit</a> | 
+                                            <a href="{{ route('admin.user.destroy', $user->id) }}" class="badge bg-danger">Delete</a>
+                                        </center>
                                     </td>
                                     @endif
                                 </tr>
@@ -84,6 +88,8 @@
     </div>
 @endsection
 @push('page-script')
-    <script src="{{ asset('extensions/simple-datatables/umd/simple-datatables.js') }}"></script>
-    <script src="{{ asset('static/js/pages/simple-datatables.js') }}"></script>
+    <script src="{{ asset('extensions/jquery/jquery.min.js') }}"></script>
+<script src="{{ asset('extensions/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('extensions/datatables.net-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
+<script src="{{ asset('static/js/pages/datatables.js') }}"></script>
 @endpush

@@ -54,8 +54,8 @@
                         </li>
 
                         <li class="sidebar-title">Pages</li>
-                        <li class="sidebar-item {{ request()->routeIs('admin.user') ? 'active' : '' }}">
-                            <a href="{{ route('admin.user') }}" class='sidebar-link'>
+                        <li class="sidebar-item {{ request()->routeIs('admin.user.index') ? 'active' : '' }}">
+                            <a href="{{ route('admin.user.index') }}" class='sidebar-link'>
                                 <i class="bi bi-person-circle"></i>
                                 <span>Users</span>
                             </a>
