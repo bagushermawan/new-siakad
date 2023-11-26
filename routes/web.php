@@ -27,8 +27,9 @@ Route::get('/', function () {
 Route::middleware('auth')->group(function () {
     Route::get('/qwe/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
     Route::get('/qwe/user', [UserController::class, 'index'])->name('admin.user');
-    Route::get('/qwe/profile', [ProfileController::class, 'edit'])->name('profile.editt');
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+
+    Route::get('/qwe/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::get('/profile', [ProfileController::class, 'editt'])->name('profile.editt');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
@@ -49,6 +50,7 @@ Route::get('kelas', function () {
 Route::get('coba', function () {
     return view('coba');
 });
+
 
 
 require __DIR__ . '/auth.php';
