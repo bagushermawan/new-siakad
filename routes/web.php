@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserAjaxController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -31,6 +32,7 @@ Route::middleware('auth')->group(function () {
 
     // User With Ajax
     Route::resource('/qwe/userAjax', UserAjaxController::class);
+    Route::resource('/qwe/role', RoleController::class)->middleware('role:admin');
 
 
     Route::get('/qwe/user', [UserController::class, 'index'])->name('admin.user.index');

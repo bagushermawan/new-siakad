@@ -113,15 +113,16 @@
                                 </li>
                             </ul>
                         </li>
+                        @if(auth()->user()->hasRole('admin'))
                         <li class="sidebar-title">Roles & Permission</li>
-                        <li class="sidebar-item  has-sub">
+                        <li class="sidebar-item  {{ request()->routeIs('role.*') ? 'active' : '' }} has-sub">
                             <a href="#" class='sidebar-link'>
                                 <i class="bi bi-x-octagon-fill"></i>
                                 <span>Administration</span>
                             </a>
                             <ul class="submenu ">
-                                <li class="submenu-item  ">
-                                    <a href="error-403.html" class="submenu-link">Roles</a>
+                                <li class="submenu-item  {{ request()->routeIs('role.*') ? 'active' : '' }}">
+                                    <a href="{{ route('role.index') }}" class="submenu-link">Roles</a>
                                 </li>
                                 <li class="submenu-item  ">
                                     <a href="error-404.html" class="submenu-link">Permission</a>
@@ -131,6 +132,7 @@
                                 </li>
                             </ul>
                         </li>
+                        @endif
                         <li class="sidebar-item  {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
                             <a href="{{ route('admin.dashboard') }}" class='sidebar-link'>
                                 <i class="bi bi-grid-fill"></i>

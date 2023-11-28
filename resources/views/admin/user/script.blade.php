@@ -71,6 +71,17 @@
                 } // Menyembunyikan/menampilkan kolom 'Roles' berdasarkan isAdmin
             ]
         });
+        // Fungsi untuk memberi warna pada pagination
+            const setTableColor = () => {
+                document.querySelectorAll('.dataTables_paginate .pagination').forEach(dt => {
+                    dt.classList.add('pagination-primary')
+                })
+            }
+            // Memanggil fungsi setTableColor pada awal dan setiap kali DataTable digambar ulang
+            setTableColor();
+            table1.on('draw', setTableColor);
+            table2.on('draw', setTableColor);
+
     });
 
 
