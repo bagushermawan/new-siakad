@@ -115,7 +115,7 @@
                         </li>
                         @if(auth()->user()->hasRole('admin'))
                         <li class="sidebar-title">Roles & Permission</li>
-                        <li class="sidebar-item  {{ request()->routeIs('role.*') ? 'active' : '' }} has-sub">
+                        <li class="sidebar-item  {{ request()->routeIs('role.*', 'permission.*') ? 'active' : '' }} has-sub">
                             <a href="#" class='sidebar-link'>
                                 <i class="bi bi-x-octagon-fill"></i>
                                 <span>Administration</span>
@@ -124,11 +124,8 @@
                                 <li class="submenu-item  {{ request()->routeIs('role.*') ? 'active' : '' }}">
                                     <a href="{{ route('role.index') }}" class="submenu-link">Roles</a>
                                 </li>
-                                <li class="submenu-item  ">
-                                    <a href="error-404.html" class="submenu-link">Permission</a>
-                                </li>
-                                <li class="submenu-item  ">
-                                    <a href="error-500.html" class="submenu-link">500</a>
+                                <li class="submenu-item  {{ request()->routeIs('permission.*') ? 'active' : '' }}">
+                                    <a href="{{ route('permission.index') }}" class="submenu-link">Permission</a>
                                 </li>
                             </ul>
                         </li>

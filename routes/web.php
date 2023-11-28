@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserAjaxController;
@@ -33,6 +34,7 @@ Route::middleware('auth')->group(function () {
     // User With Ajax
     Route::resource('/qwe/userAjax', UserAjaxController::class);
     Route::resource('/qwe/role', RoleController::class)->middleware('role:admin');
+    Route::resource('/qwe/permission', PermissionController::class)->middleware('role:admin');
 
 
     Route::get('/qwe/user', [UserController::class, 'index'])->name('admin.user.index');
