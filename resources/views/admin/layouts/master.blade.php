@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ config('app.name')}} - @yield('title')</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>{{ config('app.name') }} - @yield('title')</title>
 
 
 
@@ -14,6 +15,7 @@
         type="image/png">
     <link rel="stylesheet" href="{{ asset('compiled/css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('compiled/css/app-dark.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.0/dist/sweetalert2.min.css" rel="stylesheet">
     @stack('page-css')
 </head>
 
@@ -31,6 +33,7 @@
         <script src="{{ asset('static/js/components/dark.js') }}"></script>
         <script src="{{ asset('extensions/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
         <script src="{{ asset('compiled/js/app.js') }}"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.0/dist/sweetalert2.all.min.js"></script>
         @stack('page-script')
 </body>
 

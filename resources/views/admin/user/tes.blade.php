@@ -33,9 +33,7 @@
                     <h5 class="card-title">
                         Ajax CRUD Datatables
                     </h5>
-                    @if(auth()->user()->hasRole('admin'))
-                    <h6>
-                        <a href="#" class="btn icon icon-left btn-success tombol-tambah"><svg
+                    <h6><a href="#" class="btn icon icon-left btn-success tombol-tambah"><svg
                                 xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                 stroke-linejoin="round" class="feather feather-edit">
@@ -43,23 +41,20 @@
                                 <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
                             </svg> Tambah Data</a>
                     </h6>
-                    @endif
                 </div>
                 <div class="card-body">
                     <table class="table table-striped" id="myTable">
                         <thead>
                             <tr>
-                                <th>No</th>
-                                <th>Name</th>
-                                <th>username</th>
-                                <th>Email</th>
-                                <th>created at</th>
-                                <th>
-                                    <center>Status</center>
+                                <th class="col-md-1">
+                                    <center>No</center>
                                 </th>
-                                <th>
-                                    <center>Action</center>
-                                </th>
+                                <th class="col-md-2">Nama</th>
+                                <th class="col-md-2">Username</th>
+                                <th class="col-md-2">Email</th>
+                                <th class="col-md-2">Created at</th>
+                                <th class="col-md-2">Status</th>
+                                <th class="col-md-2"><center>Action</center></th>
                             </tr>
                         </thead>
                     </table>
@@ -81,36 +76,36 @@
                             </svg>
                         </button>
                     </div>
-                    <div class="modal-body">
-                        <div class="alert alert-danger d-none"></div>
-                        {{-- <div class="alert alert-success d-none"></div> --}}
-                        <label>Nama: </label>
-                        <div class="form-group">
-                            <input id="name" type="text" name="name" class="form-control" autofocus>
+                        <div class="modal-body">
+                            <div class="alert alert-danger d-none"></div>
+                            {{-- <div class="alert alert-success d-none"></div> --}}
+                            <label for="Nama">Nama: </label>
+                            <div class="form-group">
+                                <input id="name" type="text" name="name" class="form-control" autofocus>
+                            </div>
+                            <label for="username">Username: </label>
+                            <div class="form-group">
+                                <input id="username" type="text" name="username" class="form-control">
+                            </div>
+                            <label for="email">Email: </label>
+                            <div class="form-group">
+                                <input id="email" type="text" name="email" class="form-control">
+                            </div>
+                            <label for="password">Password: </label>
+                            <div class="form-group">
+                                <input id="password" type="password" name="password" class="form-control">
+                            </div>
                         </div>
-                        <label>Username: </label>
-                        <div class="form-group">
-                            <input id="username" type="text" name="username" class="form-control">
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
+                                <i class="bx bx-x d-block d-sm-none"></i>
+                                <span class="d-none d-sm-block">Close</span>
+                            </button>
+                            <button type="button" class="btn btn-primary ms-1" data-bs-dismiss="modal">
+                                <i class="bx bx-check d-block d-sm-none"></i>
+                                <span class="d-none d-sm-block tombol-simpan">Save</span>
+                            </button>
                         </div>
-                        <label>Email: </label>
-                        <div class="form-group">
-                            <input id="email" type="text" name="email" class="form-control">
-                        </div>
-                        <label>Password: </label>
-                        <div class="form-group">
-                            <input id="password" type="password" name="password" class="form-control">
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
-                            <i class="bx bx-x d-block d-sm-none"></i>
-                            <span class="d-none d-sm-block">Close</span>
-                        </button>
-                        <button type="button" class="btn btn-primary ms-1" data-bs-dismiss="modal">
-                            <i class="bx bx-check d-block d-sm-none"></i>
-                            <span class="d-none d-sm-block tombol-simpan">Save</span>
-                        </button>
-                    </div>
                 </div>
             </div>
         </div>

@@ -19,10 +19,12 @@ class UserController extends Controller
         $user = Auth::user();
         // Mendapatkan roles dari user
         $roles = $user->getRoleNames();
-        // dd($daftar_user->role->nama);
+        // Mendapatkan daftar user
         $daftar_user = User::get();
+        // Menentukan apakah user adalah admin
+        $isAdmin = $user->hasRole('admin');
 
-        return view('admin.user.index', ['roles' => $roles, 'daftar_user' => $daftar_user]);
+        return view('admin.user.index', ['roles' => $roles, 'daftar_user' => $daftar_user, 'isAdmin' => $isAdmin]);
     }
 
 
@@ -80,7 +82,7 @@ class UserController extends Controller
 
         // Lakukan operasi penghapusan
         $user->delete();
-        return redirect()->route('admin.user.index');
+        return redirect()->route('admin.user.index')->with('success', 'User deleted successfully');
     }
 
     public function getDataForDataTables()

@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserAjaxController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,10 +28,15 @@ Route::get('/', function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/qwe/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
+
+    // User With Ajax
+    Route::resource('/qwe/userAjax', UserAjaxController::class);
+
+
     Route::get('/qwe/user', [UserController::class, 'index'])->name('admin.user.index');
     Route::get('/data', [UserController::class, 'getDataForDataTables'])->name('admin.user.ajax');
     Route::get('/qwe/user/edit/{id}', [UserController::class, 'edit'])->name('admin.user.edit')->middleware('role:admin');
-    Route::put('/qwe/user/{id}', [UserController::class, 'update'])->name('admin.user.update')->middleware('role:admin');
+    Route::put('/qwe/user/{id}', [UserController::class, 'update'])->name('admin.user.update');
     Route::get('/qwe/user/destroy/{id}', [UserController::class, 'destroy'])->name('admin.user.destroy')->middleware('role:admin');
 
     Route::get('/qwe/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -55,6 +62,14 @@ Route::get('coba', function () {
     return view('coba');
 });
 
+
+Route::get('user', function () {
+    $user = Auth::user();
+    // Mendapatkan roles dari user
+    $roles = $user->getRoleNames();
+
+    return view('admin.user.tes', ['roles' => $roles]);
+})->middleware(['auth', 'verified', 'role:admin']);
 
 
 require __DIR__ . '/auth.php';
