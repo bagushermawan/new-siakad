@@ -113,6 +113,31 @@
                                 </li>
                             </ul>
                         </li>
+                        <li class="sidebar-title">Roles & Permission</li>
+                        <li class="sidebar-item  has-sub">
+                            <a href="#" class='sidebar-link'>
+                                <i class="bi bi-x-octagon-fill"></i>
+                                <span>Administration</span>
+                            </a>
+                            <ul class="submenu ">
+                                <li class="submenu-item  ">
+                                    <a href="error-403.html" class="submenu-link">Roles</a>
+                                </li>
+                                <li class="submenu-item  ">
+                                    <a href="error-404.html" class="submenu-link">Permission</a>
+                                </li>
+                                <li class="submenu-item  ">
+                                    <a href="error-500.html" class="submenu-link">500</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="sidebar-item  {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+                            <a href="{{ route('admin.dashboard') }}" class='sidebar-link'>
+                                <i class="bi bi-grid-fill"></i>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+
                     </ul>
                 </div>
             </div>
