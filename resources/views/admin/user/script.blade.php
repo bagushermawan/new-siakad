@@ -1,28 +1,15 @@
 <script>
     $(document).ready(function() {
         var isAdmin = {{ $isAdmin ? 'true' : 'false' }};
-        $('#myTable').DataTable({
+        var myTable= $('#myTable').DataTable({
             processing: true,
             serverside: true,
             ajax: "{{ url('/qwe/userAjax') }}",
-            columns: [{
-                    data: 'DT_RowIndex',
-                    name: 'DT_RowIndex',
-                    orderable: false,
-                    searchable: false
-                },
-                {
-                    data: 'name',
-                    name: 'Nama'
-                },
-                {
-                    data: 'username',
-                    name: 'Username'
-                },
-                {
-                    data: 'email',
-                    name: 'Email'
-                },
+            columns: [
+                {data: 'DT_RowIndex',name: 'DT_RowIndex',orderable: false,searchable: false},
+                {data: 'name',name: 'Nama'},
+                {data: 'username',name: 'Username'},
+                {data: 'email',name: 'Email'},
                 {
                     data: 'created_at',
                     name: 'created_at',
@@ -55,11 +42,7 @@
                         return '';
                     }
                 },
-                {
-                    data: 'aksi',
-                    name: 'Aksi',
-                    visible: isAdmin, // Menyembunyikan/menampilkan kolom 'Aksi' berdasarkan isAdmin
-                }
+                {data: 'aksi',name: 'Aksi',visible: isAdmin}
             ],
             columnDefs: [{
                     targets: -1,
@@ -79,8 +62,8 @@
             }
             // Memanggil fungsi setTableColor pada awal dan setiap kali DataTable digambar ulang
             setTableColor();
-            table1.on('draw', setTableColor);
-            table2.on('draw', setTableColor);
+            myTable.on('draw', setTableColor);
+
 
     });
 

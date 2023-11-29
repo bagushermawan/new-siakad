@@ -1,6 +1,7 @@
 <script>
         $(document).ready(function() {
             $('#myTable').DataTable();
+            const myTable = $('#myTable').DataTable();
             // Fungsi untuk memberi warna pada pagination
             const setTableColor = () => {
                 document.querySelectorAll('.dataTables_paginate .pagination').forEach(dt => {
