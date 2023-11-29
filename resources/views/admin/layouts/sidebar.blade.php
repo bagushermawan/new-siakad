@@ -63,9 +63,27 @@
 
                         <li class="sidebar-item {{ request()->routeIs('prestasi.index') ? 'active' : '' }}">
                             <a href="{{ route('prestasi.index') }}" class='sidebar-link'>
-                                <i class="bi bi-person-circle"></i>
+                                <i class="bi bi-award-fill"></i>
                                 <span>Prestasi</span>
                             </a>
+                        </li>
+
+                        <li class="sidebar-item  {{ request()->routeIs('tahunajaran.*') ? 'active' : '' }} has-sub">
+                            <a href="#" class='sidebar-link'>
+                                <i class="bi bi-x-octagon-fill"></i>
+                                <span>Pelajaran</span>
+                            </a>
+                            <ul class="submenu ">
+                                <li class="submenu-item  ">
+                                    <a href="" class="submenu-link">Mata Pelajaran</a>
+                                </li>
+                                <li class="submenu-item  ">
+                                    <a href="" class="submenu-link">Jadwal Mata Pelajaran</a>
+                                </li>
+                                <li class="submenu-item  {{ request()->routeIs('tahunajaran.*') ? 'active' : '' }}">
+                                    <a href="{{ route('tahunajaran.index') }}" class="submenu-link">Tahun Ajaran</a>
+                                </li>
+                            </ul>
                         </li>
 
                         <li class="sidebar-item  has-sub">

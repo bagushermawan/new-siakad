@@ -1,5 +1,5 @@
 @extends('admin.layouts.master')
-@section('title', 'Prestasi')
+@section('title', 'Tahun Ajaran')
 @push('page-css')
     <link rel="stylesheet" href="{{ asset('extensions/datatables.net-bs5/css/dataTables.bootstrap5.min.css') }}">
 
@@ -12,7 +12,7 @@
         <div class="page-title">
             <div class="row">
                 <div class="col-12 col-md-6 order-md-1 order-last">
-                    <h3>Data Prestasi</h3>
+                    <h3>Data Tahun Ajaran</h3>
                     <p class="text-subtitle text-muted">A sortable, searchable, paginated table without dependencies thanks
                         to simple-datatables.</p>
                 </div>
@@ -52,7 +52,7 @@
                                 <th class="col-md-1">
                                     <center>No</center>
                                 </th>
-                                <th class="col-md-8">Name</th>
+                                <th class="col-md-8">Tahun Ajaran</th>
                                 <th>Created at</th>
                                 <th>
                                     <center>Action</center>
@@ -81,9 +81,9 @@
                     <div class="modal-body">
                         <div class="alert alert-danger d-none"></div>
                         {{-- <div class="alert alert-success d-none"></div> --}}
-                        <label>Nama Prestasi: </label>
+                        <label>Tahun Ajaran: </label>
                         <div class="form-group">
-                            <input id="name" type="text" name="name" class="form-control" autofocus>
+                            <input id="tahun" type="text" name="tahun" class="form-control tahunajaran" autofocus>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -105,5 +105,13 @@
     <script src="{{ asset('extensions/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('extensions/datatables.net/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('extensions/datatables.net-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
-    @include('admin.prestasi.script')
+    @include('admin.tahunajaran.script')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cleave.js/1.6.0/cleave.min.js"></script>
+        <script type="text/javascript">
+            var cleavePC = new Cleave('.tahunajaran', {
+  delimiter: '-',
+  blocks: [4,4],
+  uppercase: true
+});
+        </script>
 @endpush

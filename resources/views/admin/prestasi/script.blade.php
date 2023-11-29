@@ -6,7 +6,16 @@
             serverside: true,
             ajax: "{{ url('/qwe/prestasiAjax') }}",
             columns: [
-                {data: 'DT_RowIndex',name: 'DT_RowIndex',orderable: false,searchable: false},
+                {data: 'DT_RowIndex',
+    name: 'DT_RowIndex',
+    orderable: false,
+    searchable: false,
+    render: function (data, type, row, meta) {
+        if (type === 'display') {
+            return '<center>' + (meta.row + 1) + '</center>';
+        }
+        return meta.row + 1;
+    }},
                 {data: 'name',name: 'Nama'},
                 {
                     data: 'created_at',
@@ -68,7 +77,7 @@
                 $('#exampleModal').modal('show');
                 $('#name').val(response.result.name);
                 console.log(response.result);
-                $('.tombol-simpan').click(function() {
+                $('.tombol-simpan').off('click').on('click', function() {
                     simpan(id);
                 });
             }

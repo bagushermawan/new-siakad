@@ -6,6 +6,8 @@ use App\Http\Controllers\PrestasiAjaxController;
 use App\Http\Controllers\PrestasiController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\TahunAjaranAjaxController;
+use App\Http\Controllers\TahunAjaranController;
 use App\Http\Controllers\UserAjaxController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -35,7 +37,10 @@ Route::middleware('auth')->group(function () {
 
 
     Route::resource('/qwe/prestasiAjax', PrestasiAjaxController::class);
-    Route::resource('/qwe/prestasi', PrestasiController::class)->middleware('role:admin');
+    Route::resource('/qwe/prestasi', PrestasiController::class);
+
+    Route::resource('/qwe/tahunajaranAjax', TahunAjaranAjaxController::class);
+    Route::resource('/qwe/tahunajaran', TahunAjaranController::class);
 
     Route::resource('/qwe/userAjax', UserAjaxController::class);
     Route::resource('/qwe/role', RoleController::class)->middleware('role:admin');
