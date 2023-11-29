@@ -61,6 +61,13 @@
                             </a>
                         </li>
 
+                        <li class="sidebar-item {{ request()->routeIs('prestasi.index') ? 'active' : '' }}">
+                            <a href="{{ route('prestasi.index') }}" class='sidebar-link'>
+                                <i class="bi bi-person-circle"></i>
+                                <span>Prestasi</span>
+                            </a>
+                        </li>
+
                         <li class="sidebar-item  has-sub">
                             <a href="#" class='sidebar-link'>
                                 <i class="bi bi-person-circle"></i>

@@ -4,12 +4,10 @@
         var myTable= $('#myTable').DataTable({
             processing: true,
             serverside: true,
-            ajax: "{{ url('/qwe/userAjax') }}",
+            ajax: "{{ url('/qwe/prestasiAjax') }}",
             columns: [
                 {data: 'DT_RowIndex',name: 'DT_RowIndex',orderable: false,searchable: false},
                 {data: 'name',name: 'Nama'},
-                {data: 'username',name: 'Username'},
-                {data: 'email',name: 'Email'},
                 {
                     data: 'created_at',
                     name: 'created_at',
@@ -22,36 +20,12 @@
                         return formattedDate;
                     }
                 },
-                {
-                    data: 'roles',
-                    name: 'Status',
-                    render: function(data, type, row) {
-                        if (isAdmin) {
-                            if (Array.isArray(data) && data.length > 0) {
-                                // Capitalize the first letter of each role
-                                var formattedRoles = data.map(function(role) {
-                                    return role.name.charAt(0).toUpperCase() + role.name
-                                        .slice(1);
-                                }).join(', ');
-
-                                return formattedRoles;
-                            }
-
-                            return 'No roles assigned';
-                        }
-                        return '';
-                    }
-                },
                 {data: 'aksi',name: 'Aksi',visible: isAdmin}
             ],
             columnDefs: [{
                     targets: -1,
                     visible: isAdmin
                 },
-                {
-                    targets: -2,
-                    visible: isAdmin
-                } // Menyembunyikan/menampilkan kolom 'Roles' berdasarkan isAdmin
             ]
         });
         // Fungsi untuk memberi warna pada pagination
@@ -88,14 +62,11 @@
     $('body').on('click', '.tombol-edit', function(e) {
         var id = $(this).data('id');
         $.ajax({
-            url: 'userAjax/' + id + '/edit',
+            url: 'prestasiAjax/' + id + '/edit',
             type: 'GET',
             success: function(response) {
                 $('#exampleModal').modal('show');
                 $('#name').val(response.result.name);
-                $('#username').val(response.result.username);
-                $('#email').val(response.result.email);
-                $('#password').val(response.result.password);
                 console.log(response.result);
                 $('.tombol-simpan').click(function() {
                     simpan(id);
@@ -110,10 +81,10 @@
         if (confirm('Yakin mau hapus data ini?') == true) {
             var id = $(this).data('id');
             $.ajax({
-                url: 'userAjax/' + id,
+                url: 'prestasiAjax/' + id,
                 type: 'DELETE',
             });
-            Swal.fire('Sukses!', 'Berhasil hapus user.', 'info');
+            Swal.fire('Sukses!', 'Berhasil hapus prestasi.', 'info');
             $('#myTable').DataTable().ajax.reload();
         }
     });
@@ -123,13 +94,13 @@
         let var_url, var_type, successMessage;
 
         if (id === '') {
-            var_url = 'userAjax';
+            var_url = 'prestasiAjax';
             var_type = 'POST';
-            successMessage = 'Berhasil tambah user.';
+            successMessage = 'Berhasil tambah prestasi.';
         } else {
-            var_url = 'userAjax/' + id;
+            var_url = 'prestasiAjax/' + id;
             var_type = 'PUT';
-            successMessage = 'Berhasil update user.';
+            successMessage = 'Berhasil update prestasi.';
         }
 
         $.ajax({
@@ -137,9 +108,6 @@
             type: var_type,
             data: {
                 name: $('#name').val(),
-                username: $('#username').val(),
-                email: $('#email').val(),
-                password: $('#password').val()
             },
             success: function(response) {
                 if (response.errors) {
@@ -162,9 +130,7 @@
 
     $('#exampleModal').on('hidden.bs.modal', function() {
         $('#name').val('');
-        $('#username').val('');
-        $('#email').val('');
-        $('#password').val('');
+
 
         $('.alert-danger').addClass('d-none');
         $('.alert-danger').html('');

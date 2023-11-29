@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\PrestasiAjaxController;
+use App\Http\Controllers\PrestasiController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserAjaxController;
@@ -31,7 +33,10 @@ Route::get('/', function () {
 Route::middleware('auth')->group(function () {
     Route::get('/qwe/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
 
-    // User With Ajax
+
+    Route::resource('/qwe/prestasiAjax', PrestasiAjaxController::class);
+    Route::resource('/qwe/prestasi', PrestasiController::class)->middleware('role:admin');
+
     Route::resource('/qwe/userAjax', UserAjaxController::class);
     Route::resource('/qwe/role', RoleController::class)->middleware('role:admin');
     Route::resource('/qwe/permission', PermissionController::class)->middleware('role:admin');
