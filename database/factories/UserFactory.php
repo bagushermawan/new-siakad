@@ -43,8 +43,8 @@ class UserFactory extends Factory
             'remember_token' => Str::random(10),
         ]);
 
-        // Menetapkan role 'user' untuk user yang baru dibuat
-        $user->assignRole('user');
+        // Ganti role disini
+        $user->assignRole('guru');
 
         return [
             'name' => $user->name,

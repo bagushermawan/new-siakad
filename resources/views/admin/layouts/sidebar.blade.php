@@ -54,11 +54,24 @@
                         </li>
 
                         <li class="sidebar-title">Pages</li>
-                        <li class="sidebar-item {{ request()->routeIs('admin.user.index') ? 'active' : '' }}">
-                            <a href="{{ route('admin.user.index') }}" class='sidebar-link'>
-                                <i class="bi bi-person-circle"></i>
+
+
+                        <li class="sidebar-item  {{ request()->routeIs('admin.user.index*', 'guru.*', 'siswa.*') ? 'active' : '' }} has-sub">
+                            <a href="#" class='sidebar-link'>
+                                <i class="bi bi-people-fill"></i>
                                 <span>Users</span>
                             </a>
+                            <ul class="submenu">
+                                <li class="submenu-item  {{ request()->routeIs('admin.user.index') ? 'active' : '' }}">
+                                    <a href="{{ route('admin.user.index') }}" class="submenu-link">All Users</a>
+                                </li>
+                                <li class="submenu-item  {{ request()->routeIs('guru.index') ? 'active' : '' }}">
+                                    <a href="{{ route('guru.index') }}" class="submenu-link">Guru</a>
+                                </li>
+                                <li class="submenu-item  {{ request()->routeIs('siswa.index') ? 'active' : '' }}">
+                                    <a href="{{ route('siswa.index') }}" class="submenu-link">Siswa</a>
+                                </li>
+                            </ul>
                         </li>
 
                         <li class="sidebar-item {{ request()->routeIs('prestasi.index') ? 'active' : '' }}">
@@ -70,34 +83,18 @@
 
                         <li class="sidebar-item  {{ request()->routeIs('tahunajaran.*') ? 'active' : '' }} has-sub">
                             <a href="#" class='sidebar-link'>
-                                <i class="bi bi-x-octagon-fill"></i>
+                                <i class="bi bi-book-half"></i>
                                 <span>Pelajaran</span>
                             </a>
                             <ul class="submenu ">
                                 <li class="submenu-item  ">
-                                    <a href="" class="submenu-link">Mata Pelajaran</a>
+                                    <a href="#" class="submenu-link">Mata Pelajaran</a>
                                 </li>
                                 <li class="submenu-item  ">
-                                    <a href="" class="submenu-link">Jadwal Mata Pelajaran</a>
+                                    <a href="#" class="submenu-link">Jadwal Mata Pelajaran</a>
                                 </li>
                                 <li class="submenu-item  {{ request()->routeIs('tahunajaran.*') ? 'active' : '' }}">
                                     <a href="{{ route('tahunajaran.index') }}" class="submenu-link">Tahun Ajaran</a>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li class="sidebar-item  has-sub">
-                            <a href="#" class='sidebar-link'>
-                                <i class="bi bi-person-circle"></i>
-                                <span>Account</span>
-                            </a>
-
-                            <ul class="submenu ">
-                                <li class="submenu-item  ">
-                                    <a href="account-profile.html" class="submenu-link">Profile</a>
-                                </li>
-                                <li class="submenu-item  ">
-                                    <a href="account-security.html" class="submenu-link">Security</a>
                                 </li>
                             </ul>
                         </li>
@@ -139,11 +136,11 @@
                             </ul>
                         </li>
                         @if(auth()->user()->hasRole('admin'))
-                        <li class="sidebar-title">Roles & Permission</li>
+                        <li class="sidebar-title"></li>
                         <li class="sidebar-item  {{ request()->routeIs('role.*', 'permission.*') ? 'active' : '' }} has-sub">
                             <a href="#" class='sidebar-link'>
                                 <i class="bi bi-x-octagon-fill"></i>
-                                <span>Administration</span>
+                                <span>Roles & Permission</span>
                             </a>
                             <ul class="submenu ">
                                 <li class="submenu-item  {{ request()->routeIs('role.*') ? 'active' : '' }}">

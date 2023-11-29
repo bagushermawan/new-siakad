@@ -32,6 +32,52 @@ class UserAjaxController extends Controller
             ->make(true);
     }
 
+    public function indexGuru()
+    {
+        $user = Auth::user();
+        $roles = $user->getRoleNames();
+        $isAdmin = $user->hasRole('admin');
+
+        $data = User::with('roles')
+        ->when($isAdmin, function ($query) {
+            // Jika bukan admin, filter hanya user dengan role 'guru'
+            $query->whereHas('roles', function ($q) {
+                $q->where('name', 'guru');
+            });
+        })
+            ->orderBy('name', 'asc');
+
+        return DataTables::of($data)
+            ->addIndexColumn()
+            ->addColumn('aksi', function ($data) use ($isAdmin) {
+                return view('admin.user.tombol', ['data' => $data, 'isAdmin' => $isAdmin]);
+            })
+            ->make(true);
+    }
+
+    public function indexSiswa()
+    {
+        $user = Auth::user();
+        $roles = $user->getRoleNames();
+        $isAdmin = $user->hasRole('admin');
+
+        $data = User::with('roles')
+        ->when($isAdmin, function ($query) {
+            // Jika bukan admin, filter hanya user dengan role 'guru'
+            $query->whereHas('roles', function ($q) {
+                $q->where('name', 'user');
+            });
+        })
+            ->orderBy('name', 'asc');
+
+        return DataTables::of($data)
+            ->addIndexColumn()
+            ->addColumn('aksi', function ($data) use ($isAdmin) {
+                return view('admin.user.tombol', ['data' => $data, 'isAdmin' => $isAdmin]);
+            })
+            ->make(true);
+    }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -48,12 +94,18 @@ class UserAjaxController extends Controller
         $validasi = Validator::make(
             $request->all(),
             [
+                'nisn' => ['required', 'string', 'max:255'],
+                'nuptk' => ['required', 'string', 'max:255'],
+                'nohp' => ['required', 'string', 'max:255'],
                 'name' => ['required', 'string', 'max:255'],
                 'username' => ['required', 'string', 'max:255', 'unique:users,username', 'alpha_num'],
                 'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
                 'password' => ['required', Rules\Password::defaults()],
             ],
             [
+                'nohp.required' => 'No HP wajib diisi',
+                'nisn.required' => 'NISN wajib diisi',
+                'nuptk.required' => 'NUPTK wajib diisi',
                 'name.required' => 'Nama wajib diisi',
                 'username.required' => 'Username wajib diisi',
                 'email.required' => 'Email wajib diisi',
@@ -65,6 +117,9 @@ class UserAjaxController extends Controller
             return response()->json(['errors' => $validasi->errors()]);
         } else {
             $data = [
+                'nohp' => $request->nohp,
+                'nisn' => $request->nisn,
+                'nuptk' => $request->nuptk,
                 'name' => $request->name,
                 'username' => $request->username,
                 'email' => $request->email,
@@ -103,6 +158,9 @@ class UserAjaxController extends Controller
     public function update(Request $request, string $id)
     {
         $data = [
+            'nisn' => $request->nisn,
+            'nuptk' => $request->nuptk,
+            'nohp' => $request->nohp,
             'name' => $request->name,
             'username' => $request->username,
             'email' => $request->email,

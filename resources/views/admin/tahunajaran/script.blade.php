@@ -94,15 +94,34 @@
 
     // 04_PROSES Delete
     $('body').on('click', '.tombol-del', function(e) {
-        if (confirm('Yakin mau hapus data ini?') == true) {
-            var id = $(this).data('id');
-            $.ajax({
-                url: 'tahunajaranAjax/' + id,
-                type: 'DELETE',
-            });
-            Swal.fire('Sukses!', 'Berhasil hapus tahun ajaran.', 'info');
-            $('#myTable').DataTable().ajax.reload();
-        }
+        var id = $(this).data('id');
+
+        Swal.fire({
+            title: 'Yakin mau hapus data ini?',
+            text: "Anda tidak akan dapat mengembalikan data ini!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Hapus',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Jika pengguna menekan tombol "Hapus", kirim permintaan DELETE
+                $.ajax({
+                    url: 'tahunajaranAjax/' + id,
+                    type: 'DELETE',
+                    success: function(response) {
+                        $('#myTable').DataTable().ajax.reload();
+                        Swal.fire('Sukses!', 'Berhasil hapus prestasi.', 'info');
+                    },
+                    error: function(response) {
+                        Swal.fire('Gagal!', 'Terjadi kesalahan saat menghapus prestasi.',
+                            'error');
+                    }
+                });
+            }
+        });
     });
 
     // fungsi simpan dan update

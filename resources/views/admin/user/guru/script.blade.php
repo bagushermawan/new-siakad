@@ -4,7 +4,7 @@
         var myTable= $('#myTable').DataTable({
             processing: true,
             serverside: true,
-            ajax: "{{ url('/qwe/userAjax') }}",
+            ajax: "{{ url('/qwe/guruAjax') }}",
             columns: [
                 {data: 'DT_RowIndex',
     name: 'DT_RowIndex',
@@ -16,21 +16,11 @@
         }
         return meta.row + 1;
     }},
+                {data: 'nuptk',name: 'nuptk'},
                 {data: 'name',name: 'Nama'},
                 {data: 'username',name: 'Username'},
                 {data: 'email',name: 'Email'},
-                {
-                    data: 'created_at',
-                    name: 'created_at',
-                    render: function(data, type, row) {
-                        // Mengubah format tanggal dan waktu
-                        var date = new Date(data);
-                        var formattedDate = date
-                            .toLocaleString(); // Sesuaikan format sesuai kebutuhan
-
-                        return formattedDate;
-                    }
-                },
+                {data: 'nohp',name: 'No Hp'},
                 {
                     data: 'roles',
                     name: 'Status',
@@ -101,12 +91,14 @@
             type: 'GET',
             success: function(response) {
                 $('#exampleModal').modal('show');
+                $('#nuptk').val(response.result.nuptk);
                 $('#name').val(response.result.name);
                 $('#username').val(response.result.username);
                 $('#email').val(response.result.email);
+                $('#nohp').val(response.result.nohp);
                 $('#password').val(response.result.password);
                 console.log(response.result);
-                $('.tombol-simpan').off('click').on('click', function() {
+                $('.tombol-simpan').click(function() {
                     simpan(id);
                 });
             }
@@ -164,9 +156,11 @@
             url: var_url,
             type: var_type,
             data: {
+                nuptk: $('#nuptk').val(),
                 name: $('#name').val(),
                 username: $('#username').val(),
                 email: $('#email').val(),
+                nohp: $('#nohp').val(),
                 password: $('#password').val()
             },
             success: function(response) {
@@ -189,9 +183,11 @@
     }
 
     $('#exampleModal').on('hidden.bs.modal', function() {
+        $('#nuptk').val('');
         $('#name').val('');
         $('#username').val('');
         $('#email').val('');
+        $('#nohp').val('');
         $('#password').val('');
 
         $('.alert-danger').addClass('d-none');

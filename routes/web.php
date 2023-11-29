@@ -1,11 +1,13 @@
 <?php
 
 use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\GuruController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\PrestasiAjaxController;
 use App\Http\Controllers\PrestasiController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\TahunAjaranAjaxController;
 use App\Http\Controllers\TahunAjaranController;
 use App\Http\Controllers\UserAjaxController;
@@ -34,6 +36,12 @@ Route::get('/', function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/qwe/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
+
+
+    Route::resource('/qwe/guru', GuruController::class);
+    Route::resource('/qwe/siswa', SiswaController::class);
+    Route::get('/qwe/guruAjax', [UserAjaxController::class, 'indexGuru'])->name('admin.user.guru.ajax');
+    Route::get('/qwe/siswaAjax', [UserAjaxController::class, 'indexSiswa'])->name('admin.user.siswa.ajax');
 
 
     Route::resource('/qwe/prestasiAjax', PrestasiAjaxController::class);
