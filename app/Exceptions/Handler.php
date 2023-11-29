@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Spatie\Permission\Exceptions\UnauthorizedException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -13,11 +14,7 @@ class Handler extends ExceptionHandler
      *
      * @var array<int, string>
      */
-    protected $dontFlash = [
-        'current_password',
-        'password',
-        'password_confirmation',
-    ];
+    protected $dontFlash = ['current_password', 'password', 'password_confirmation'];
 
     /**
      * Register the exception handling callbacks for the application.
@@ -31,9 +28,22 @@ class Handler extends ExceptionHandler
 
     public function render($request, Throwable $e)
     {
-        if($e instanceof UnauthorizedException){
-            return response()->view('errors.index', ['exception' => $e->getMessage()], 403);
+        // view untuk user doesnt have roles/permission
+        if ($e instanceof UnauthorizedException) {
+            return response()->view('errors.403', ['exception' => $e->getMessage()], 403);
         }
         return parent::render($request, $e);
+
+        // view untuk 404 error
+        if ($e instanceof NotFoundHttpException) {
+            return response()->view('errors.404');
+        }
+
+        // view untuk 500 error
+        if ($this->isHttpException($e)) {
+            return $this->renderHttpException($e);
+        } elseif ($e instanceof \ErrorException) {
+            return response()->view('errors.500', [], 500);
+        }
     }
 }

@@ -94,4 +94,8 @@ Route::get('user', function () {
 })->middleware(['auth', 'verified', 'role:admin']);
 
 
+Route::get('/test500', function () {
+    abort(500, 'Internal Server Error');
+});
+
 require __DIR__ . '/auth.php';

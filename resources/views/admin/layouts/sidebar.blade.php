@@ -56,23 +56,29 @@
                         <li class="sidebar-title">Pages</li>
 
 
+                        @if(auth()->user()->hasAnyRole(['admin', 'guru']))
                         <li class="sidebar-item  {{ request()->routeIs('admin.user.index*', 'guru.*', 'siswa.*') ? 'active' : '' }} has-sub">
                             <a href="#" class='sidebar-link'>
                                 <i class="bi bi-people-fill"></i>
                                 <span>Users</span>
                             </a>
                             <ul class="submenu">
+                                @if(auth()->user()->hasRole('admin'))
                                 <li class="submenu-item  {{ request()->routeIs('admin.user.index') ? 'active' : '' }}">
                                     <a href="{{ route('admin.user.index') }}" class="submenu-link">All Users</a>
                                 </li>
+                                @endif
+                                @if(auth()->user()->hasAnyRole(['admin', 'guru']))
                                 <li class="submenu-item  {{ request()->routeIs('guru.index') ? 'active' : '' }}">
                                     <a href="{{ route('guru.index') }}" class="submenu-link">Guru</a>
                                 </li>
                                 <li class="submenu-item  {{ request()->routeIs('siswa.index') ? 'active' : '' }}">
                                     <a href="{{ route('siswa.index') }}" class="submenu-link">Siswa</a>
                                 </li>
+                                @endif
                             </ul>
                         </li>
+                        @endif
 
                         <li class="sidebar-item {{ request()->routeIs('prestasi.index') ? 'active' : '' }}">
                             <a href="{{ route('prestasi.index') }}" class='sidebar-link'>
@@ -99,42 +105,6 @@
                             </ul>
                         </li>
 
-                        <li class="sidebar-item  has-sub">
-                            <a href="#" class='sidebar-link'>
-                                <i class="bi bi-person-badge-fill"></i>
-                                <span>Authentication</span>
-                            </a>
-
-                            <ul class="submenu ">
-
-                                <li class="submenu-item  ">
-                                    <a href="auth-login.html" class="submenu-link">Login</a>
-                                </li>
-                                <li class="submenu-item  ">
-                                    <a href="auth-register.html" class="submenu-link">Register</a>
-                                </li>
-                                <li class="submenu-item  ">
-                                    <a href="auth-forgot-password.html" class="submenu-link">Forgot Password</a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="sidebar-item  has-sub">
-                            <a href="#" class='sidebar-link'>
-                                <i class="bi bi-x-octagon-fill"></i>
-                                <span>Errors</span>
-                            </a>
-                            <ul class="submenu ">
-                                <li class="submenu-item  ">
-                                    <a href="error-403.html" class="submenu-link">403</a>
-                                </li>
-                                <li class="submenu-item  ">
-                                    <a href="error-404.html" class="submenu-link">404</a>
-                                </li>
-                                <li class="submenu-item  ">
-                                    <a href="error-500.html" class="submenu-link">500</a>
-                                </li>
-                            </ul>
-                        </li>
                         @if(auth()->user()->hasRole('admin'))
                         <li class="sidebar-title"></li>
                         <li class="sidebar-item  {{ request()->routeIs('role.*', 'permission.*') ? 'active' : '' }} has-sub">
@@ -152,13 +122,6 @@
                             </ul>
                         </li>
                         @endif
-                        <li class="sidebar-item  {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
-                            <a href="{{ route('admin.dashboard') }}" class='sidebar-link'>
-                                <i class="bi bi-grid-fill"></i>
-                                <span>Dashboard</span>
-                            </a>
-                        </li>
-
                     </ul>
                 </div>
             </div>
