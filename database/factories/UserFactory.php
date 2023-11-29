@@ -15,21 +15,28 @@ class UserFactory extends Factory
 {
     protected static ?string $password;
 
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
+
+
     public function definition(): array
     {
-        $name = fake()->unique()->name();
+
+        $name = $this->faker->name();
+        $nisn = $this->faker->numerify('##########');
+        $nuptk = $this->faker->numerify('################');
+        $nohp = $this->faker->numerify('############');
         $nameParts = explode(' ', $name);
         $randomString = Str::random(1);
-        $email = strtolower(str_replace(' ', '.', $name)) . '_' . $randomString . '@mail.com';
+        // $email = strtolower(str_replace(' ', '.', $name)) . '_' . $randomString . '@mail.com';
+        $email = $this->faker->unique()->safeEmail;
+        $username = $this->faker->unique()->name;
+
         // Membuat user baru
         $user = User::create([
             'name' => $name,
-            'username' => $nameParts[0] . $randomString, // Menggunakan bagian pertama dari nama sebagai username
+            'username' => $username,
+            'nisn' => $nisn,
+            'nuptk' => $nuptk,
+            'nohp' => $nohp,
             'email' => $email,
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('123'),
@@ -42,6 +49,10 @@ class UserFactory extends Factory
         return [
             'name' => $user->name,
             'username' => $user->username,
+            'nisn' => $user->nisn,
+            'nuptk' => $user->nuptk,
+            'nohp' => $user->nohp,
+            'username' => $user->username,
             'email' => $user->email,
             'email_verified_at' => $user->email_verified_at,
             'password' => $user->password,
@@ -49,9 +60,7 @@ class UserFactory extends Factory
         ];
     }
 
-    /**
-     * Indicate that the model's email address should be unverified.
-     */
+
     public function unverified(): static
     {
         return $this->state(fn (array $attributes) => [

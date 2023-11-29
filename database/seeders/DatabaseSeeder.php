@@ -6,6 +6,8 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use App\Models;
+
 
 class DatabaseSeeder extends Seeder
 {
@@ -14,7 +16,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory(5000)->create();
+        $this->call(TahunAjaranSeeder::class);
+        // User::factory(1000)->create();
         // \App\Models\User::factory(10)->create();
 
         // \App\Models\User::factory()->create([
