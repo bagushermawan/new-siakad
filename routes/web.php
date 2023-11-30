@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\KelasAjaxController;
+use App\Http\Controllers\MataPelajaranAjaxController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\PrestasiAjaxController;
 use App\Http\Controllers\PrestasiController;
@@ -52,6 +53,9 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('/qwe/kelas', KelasAjaxController::class);
     Route::get('/qwe/kelasAjax', [KelasAjaxController::class, 'indexKelas']);
+
+    Route::resource('/qwe/matapelajaran', MataPelajaranAjaxController::class);
+    Route::get('/qwe/matapelajaranAjax', [MataPelajaranAjaxController::class, 'indexMatapelajaran']);
 
     Route::resource('/qwe/tahunajaranAjax', TahunAjaranAjaxController::class);
     Route::resource('/qwe/tahunajaran', TahunAjaranController::class);
