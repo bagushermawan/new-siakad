@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use App\Models\User;
-use Spatie\Permission\Models\Role;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -29,6 +28,7 @@ class UserFactory extends Factory
         // $email = strtolower(str_replace(' ', '.', $name)) . '_' . $randomString . '@mail.com';
         $email = $this->faker->unique()->safeEmail;
         $username = $this->faker->unique()->name;
+        $kelas_id= $this->faker->numberBetween(1, 10);
 
         // Membuat user baru
         $user = User::create([
@@ -38,13 +38,14 @@ class UserFactory extends Factory
             'nuptk' => $nuptk,
             'nohp' => $nohp,
             'email' => $email,
+            'kelas_id' => $kelas_id,
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('123'),
             'remember_token' => Str::random(10),
         ]);
 
         // Ganti role disini
-        $user->assignRole('guru');
+        $user->assignRole('user');
 
         return [
             'name' => $user->name,
@@ -54,6 +55,7 @@ class UserFactory extends Factory
             'nohp' => $user->nohp,
             'username' => $user->username,
             'email' => $user->email,
+            'kelas_id' => $user->kelas_id,
             'email_verified_at' => $user->email_verified_at,
             'password' => $user->password,
             'remember_token' => $user->remember_token,

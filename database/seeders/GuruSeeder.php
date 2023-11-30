@@ -30,6 +30,7 @@ class GuruSeeder extends Seeder
             'password' => bcrypt('guru'),
             'email_verified_at' => Carbon::now()
         ]);
+        
 
         $guru->assignRole('guru');
     }
