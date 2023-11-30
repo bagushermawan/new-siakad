@@ -36,6 +36,8 @@ Route::get('/', function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/qwe/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
+    Route::get('/user-role-count', [UserAjaxController::class, 'getUserRoleCountChartjs']);
+    
 
 
     Route::resource('/qwe/guru', GuruController::class);

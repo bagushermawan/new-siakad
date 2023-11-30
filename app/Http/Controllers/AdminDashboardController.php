@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class AdminDashboardController extends Controller
 {
@@ -17,11 +20,13 @@ class AdminDashboardController extends Controller
 
         // Mendapatkan roles dari user
         $roles = $user->getRoleNames();
-
+        $total_user = User::count();
+        $total_role = Role::count();
+        $total_permission = Permission::count();
         // Alternatif: Mendapatkan role pertama dari user
         // $role = $user->getRoleNames()->first();
 
-        return view('admin.tesdashboard', ['roles' => $roles]);
+        return view('admin.tesdashboard', ['roles' => $roles, 'total_user' => $total_user, 'total_role' => $total_role, 'total_permission' => $total_permission]);
     }
 
     /**

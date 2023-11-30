@@ -48,7 +48,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="form-group">
+                                        <div class="list-group">
                                             <br>
                                             @php
                                                 $categoryMappings = [
@@ -74,7 +74,7 @@
                                             @foreach ($permissionsByCategory as $category => $categoryPermissions)
                                                 <div class="row">
                                                     <div class="col-6">
-                                                        <div class="form-group">
+                                                        <div class="list-group-item">
                                                             <h5>{{ $category }}</h5>
                                                             @foreach ($categoryPermissions as $value)
                                                                 <label>

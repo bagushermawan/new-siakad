@@ -78,6 +78,20 @@ class UserAjaxController extends Controller
             ->make(true);
     }
 
+
+    public function getUserRoleCountChartjs()
+    {
+        $adminCount = User::role('admin')->count();
+        $guruCount = User::role('guru')->count();
+        $userCount = User::role('user')->count();
+
+        return response()->json([
+            'admin' => $adminCount,
+            'guru' => $guruCount,
+            'user' => $userCount,
+        ]);
+    }
+
     /**
      * Show the form for creating a new resource.
      */

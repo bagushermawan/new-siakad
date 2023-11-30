@@ -105,8 +105,10 @@
                             </ul>
                         </li>
 
+
+
                         @if(auth()->user()->hasRole('admin'))
-                        <li class="sidebar-title"></li>
+                        <li class="sidebar-title">Administrator</li>
                         <li class="sidebar-item  {{ request()->routeIs('role.*', 'permission.*') ? 'active' : '' }} has-sub">
                             <a href="#" class='sidebar-link'>
                                 <i class="bi bi-x-octagon-fill"></i>
