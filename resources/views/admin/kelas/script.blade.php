@@ -22,6 +22,16 @@
                     name: 'Nama'
                 },
                 {
+                    data: 'users_count',
+                    name: 'Jumlah User',
+                    render: function(data, type, row) {
+                        if (type === 'display') {
+                            return '<center>' + data + ' Siswa</center>';
+                        }
+                        return data;
+                    },
+                },
+                {
                     data: 'created_at',
                     name: 'created_at',
                     render: function(data, type, row) {

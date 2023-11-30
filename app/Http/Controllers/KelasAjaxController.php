@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\DB;
 
 class KelasAjaxController extends Controller
 {
@@ -31,7 +32,10 @@ class KelasAjaxController extends Controller
         $user = Auth::user();
         // Mendapatkan roles dari user
         $roles = $user->getRoleNames();
-        $data = Kelas::orderBy('name', 'asc');
+        $data = Kelas::select(['kelas.*', DB::raw('COUNT(users.id) as users_count')])
+        ->leftJoin('users', 'kelas.id', '=', 'users.kelas_id')
+        ->groupBy('kelas.id')
+        ->orderBy('name', 'asc');
         $isAdmin = $user->hasRole('admin');
 
         return DataTables::of($data)
