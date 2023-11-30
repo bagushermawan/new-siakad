@@ -91,7 +91,7 @@ Route::get('kelas', function () {
 })->middleware(['auth', 'verified', 'role_or_permission:lihat-kelas|admin']);
 
 Route::get('coba', function () {
-    return view('coba');
+    return view('auth.forgotpw');
 });
 
 

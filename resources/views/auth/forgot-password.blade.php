@@ -38,11 +38,11 @@
                                 <i class="bi bi-envelope"></i>
                             </div>
                             @error('email')
-                                <div class="mt-2">{{ $message }}</div>
+                                <div class="auth-subtitle mb-5" style="color:#F8719D;">{{ $message }}</div>
                             @enderror
                         </div>
                         @if (session('status'))
-                            <div style="color:#198754;">
+                            <div class="auth-subtitle mb-5" style="color:#198754;">
                                 {{ session('status') }}
                             </div>
                         @endif

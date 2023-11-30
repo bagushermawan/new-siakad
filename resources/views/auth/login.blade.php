@@ -19,11 +19,7 @@
     <div id="auth">
 
         <!-- Session Status -->
-        @if (session('status'))
-            <div class="mb-4">
-                {{ session('status') }}
-            </div>
-        @endif
+
         <div class="row h-100">
             <div class="col-lg-5 col-12">
                 <div id="auth-left">
@@ -32,13 +28,18 @@
                     </div>
                     <h1 class="auth-title">Log in.</h1>
                     <p class="auth-subtitle mb-5">Log in with your data that you entered during registration.</p>
+                    @if (session('status'))
+                        <div class="auth-subtitle mb-5" style="color:#198754;">
+                            {{ session('status') }}
+                        </div>
+                    @endif
 
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
                         <div class="form-group position-relative has-icon-left mb-4">
                             <input type="text" class="form-control form-control-xl" id="id_user"
-                                placeholder="Username or Email" name="id_user" value="{{ old('id_user') }}" required autofocus
-                                autocomplete="id_user">
+                                placeholder="Username or Email" name="id_user" value="{{ old('email') }}" required
+                                autofocus autocomplete="id_user">
                             <div class="form-control-icon">
                                 <i class="bi bi-person"></i>
                             </div>
@@ -47,18 +48,21 @@
                             @enderror
                         </div>
 
+
                         <div class="form-group position-relative has-icon-left mb-4">
-                            <input type="password" id="password" class="form-control form-control-xl" placeholder="Password" name="password" required autocomplete="current-password">
+                            <input type="password" id="password" class="form-control form-control-xl"
+                                placeholder="Password" name="password" required autocomplete="current-password">
                             <div class="form-control-icon">
                                 <i class="bi bi-shield-lock"></i>
                             </div>
                             @error('password')
-                <div style="color:#F8719D;">{{ $message }}</div>
-            @enderror
+                                <div style="color:#F8719D;">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <div class="form-check form-check-lg d-flex align-items-end">
-                            <input id="remember_me" class="form-check-input me-2" type="checkbox" name="remember" value="">
+                            <input id="remember_me" class="form-check-input me-2" type="checkbox" name="remember"
+                                value="">
                             <label class="form-check-label text-gray-600" for="remember_me">
                                 Remember me
                             </label>

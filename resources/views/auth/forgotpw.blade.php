@@ -36,8 +36,8 @@
                         <input type="hidden" name="token" value="{{ $request->route('token') }}">
 
                         <div class="form-group position-relative has-icon-left mb-4">
-                            <input type="email" class="form-control form-control-xl" id="email" name="email"
-                                 value="{{ old('email', $request->email) }}">
+                            <input type="password" class="form-control form-control-xl" id="password" name="password"
+                                autocomplete="new-password" value="{{ old('email', $request->email) }}">
                             <div class="form-control-icon">
                                 <i class="bi bi-envelope"></i>
                             </div>
@@ -48,8 +48,8 @@
 
 
                         <div class="form-group position-relative has-icon-left mb-4">
-                            <input type="password" class="form-control form-control-xl" id="password" name="password"
-                                placeholder="New Password" autocomplete="new-password">
+                            <input type="email" class="form-control form-control-xl" id="email" name="email"
+                                placeholder="New Password" autofocus>
                             <div class="form-control-icon">
                                 <i class="bi bi-envelope"></i>
                             </div>
