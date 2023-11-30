@@ -24,8 +24,14 @@ class User extends Authenticatable implements MustVerifyEmail
         'username',
         'email',
         'password',
+        'kelas_id',
         'email_verified_at',
     ];
+
+    public function kelas()
+    {
+        return $this->belongsTo(Kelas::class);
+    }
 
     /**
      * The attributes that should be hidden for serialization.

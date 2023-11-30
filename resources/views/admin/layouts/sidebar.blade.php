@@ -87,6 +87,13 @@
                             </a>
                         </li>
 
+                        <li class="sidebar-item {{ request()->routeIs('kelas.index') ? 'active' : '' }}">
+                            <a href="{{ route('kelas.index') }}" class='sidebar-link'>
+                                <i class="bi bi-person-video2"></i>
+                                <span>Kelas</span>
+                            </a>
+                        </li>
+
                         <li class="sidebar-item  {{ request()->routeIs('tahunajaran.*') ? 'active' : '' }} has-sub">
                             <a href="#" class='sidebar-link'>
                                 <i class="bi bi-book-half"></i>
