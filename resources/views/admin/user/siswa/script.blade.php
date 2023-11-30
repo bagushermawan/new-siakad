@@ -19,6 +19,7 @@
                 {data: 'nisn',name: 'nisn'},
                 {data: 'name',name: 'Nama'},
                 {data: 'username',name: 'Username'},
+                { data: 'kelas_name', name: 'kelas_name' },
                 {data: 'email',name: 'Email'},
                 {data: 'nohp',name: 'No Hp'},
                 {
@@ -94,11 +95,12 @@
                 $('#nisn').val(response.result.nisn);
                 $('#name').val(response.result.name);
                 $('#username').val(response.result.username);
+                $('#kelas_id').val(response.result.kelas_id);
                 $('#email').val(response.result.email);
                 $('#nohp').val(response.result.nohp);
                 $('#password').val(response.result.password);
                 console.log(response.result);
-                $('.tombol-simpan').click(function() {
+                $('.tombol-simpan').off('click').on('click', function() {
                     simpan(id);
                 });
             }
@@ -159,6 +161,7 @@
                 nisn: $('#nisn').val(),
                 name: $('#name').val(),
                 username: $('#username').val(),
+                kelas_id: $('#kelas_id').val(),
                 email: $('#email').val(),
                 nohp: $('#nohp').val(),
                 password: $('#password').val()
@@ -186,6 +189,7 @@
         $('#nisn').val('');
         $('#name').val('');
         $('#username').val('');
+        $('#kelas_id').val('');
         $('#email').val('');
         $('#nohp').val('');
         $('#password').val('');

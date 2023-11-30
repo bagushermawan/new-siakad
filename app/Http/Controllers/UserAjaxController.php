@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Kelas;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -27,7 +28,7 @@ class UserAjaxController extends Controller
         return DataTables::of($data)
             ->addIndexColumn()
             ->addColumn('aksi', function ($data) use ($isAdmin) {
-                return view('admin.user.tombol', ['data' =>$data, 'isAdmin' => $isAdmin]);
+                return view('admin.user.tombol', ['data' => $data, 'isAdmin' => $isAdmin]);
             })
             ->make(true);
     }
@@ -39,12 +40,12 @@ class UserAjaxController extends Controller
         $isAdmin = $user->hasRole('admin');
 
         $data = User::with('roles')
-        ->when($isAdmin, function ($query) {
-            // Jika bukan admin, filter hanya user dengan role 'guru'
-            $query->whereHas('roles', function ($q) {
-                $q->where('name', 'guru');
-            });
-        })
+            ->when($isAdmin, function ($query) {
+                // Jika bukan admin, filter hanya user dengan role 'guru'
+                $query->whereHas('roles', function ($q) {
+                    $q->where('name', 'guru');
+                });
+            })
             ->orderBy('name', 'asc');
 
         return DataTables::of($data)
@@ -61,23 +62,26 @@ class UserAjaxController extends Controller
         $roles = $user->getRoleNames();
         $isAdmin = $user->hasRole('admin');
 
-        $data = User::with('roles')
-        ->when($isAdmin, function ($query) {
-            // Jika bukan admin, filter hanya user dengan role 'guru'
-            $query->whereHas('roles', function ($q) {
-                $q->where('name', 'user');
-            });
-        })
+
+        $data = User::with(['roles', 'kelas'])->orderBy('name', 'asc')
+            ->when($isAdmin, function ($query) {
+                // Jika bukan admin, filter hanya user dengan role 'guru'
+                $query->whereHas('roles', function ($q) {
+                    $q->where('name', 'user');
+                });
+            })
             ->orderBy('name', 'asc');
 
         return DataTables::of($data)
             ->addIndexColumn()
+            ->addColumn('kelas_name', function ($data) {
+                return $data->kelas->name ?? ''; // Pastikan menangani kasus jika tidak ada kelas terkait
+            })
             ->addColumn('aksi', function ($data) use ($isAdmin) {
                 return view('admin.user.tombol', ['data' => $data, 'isAdmin' => $isAdmin]);
             })
             ->make(true);
     }
-
 
     public function getUserRoleCountChartjs()
     {
@@ -115,6 +119,7 @@ class UserAjaxController extends Controller
                 'username' => ['required', 'string', 'max:255', 'unique:users,username', 'alpha_num'],
                 'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
                 'password' => ['required', Rules\Password::defaults()],
+                'kelas_id' => ['required', 'exists:kelas,id'],
             ],
             [
                 'nohp.required' => 'No HP wajib diisi',
@@ -137,6 +142,7 @@ class UserAjaxController extends Controller
                 'name' => $request->name,
                 'username' => $request->username,
                 'email' => $request->email,
+                'kelas_id' => $request->kelas_id,
                 'password' => Hash::make($request->password),
                 'email_verified_at' => Carbon::now(),
             ];
@@ -177,6 +183,7 @@ class UserAjaxController extends Controller
             'nohp' => $request->nohp,
             'name' => $request->name,
             'username' => $request->username,
+            'kelas_id' => $request->kelas_id,
             'email' => $request->email,
         ];
 

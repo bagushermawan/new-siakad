@@ -98,7 +98,7 @@
                 $('#nohp').val(response.result.nohp);
                 $('#password').val(response.result.password);
                 console.log(response.result);
-                $('.tombol-simpan').click(function() {
+                $('.tombol-simpan').off('click').on('click', function() {
                     simpan(id);
                 });
             }

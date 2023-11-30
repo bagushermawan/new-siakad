@@ -52,8 +52,9 @@
                                 <th class="col-md-1">
                                     <center>No</center>
                                 </th>
-                                <th class="col-md-8">Name</th>
+                                <th class="col-md-8">Nama Kelas</th>
                                 <th>Created at</th>
+                                <th>Jumlah Siswa</th>
                                 <th>
                                     <center>Action</center>
                                 </th>

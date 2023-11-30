@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\Kelas;
 
 class SiswaController extends Controller
 {
@@ -16,7 +17,9 @@ class SiswaController extends Controller
         $daftar_user = User::get();
         // Menentukan apakah user adalah admin
         $isAdmin = $user->hasRole('admin');
+        $kelasOptions = Kelas::all();
+        // dd($kelasOptions);
 
-        return view('admin.user.siswa.index', ['roles' => $roles, 'daftar_user' => $daftar_user, 'isAdmin' => $isAdmin]);
+        return view('admin.user.siswa.index', ['roles' => $roles, 'daftar_user' => $daftar_user, 'isAdmin' => $isAdmin, 'kelasOptions' => $kelasOptions]);
     }
 }

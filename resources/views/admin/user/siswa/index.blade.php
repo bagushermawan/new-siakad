@@ -5,7 +5,7 @@
 
 
     <link rel="stylesheet" href="{{ asset('compiled/css/table-datatable-jquery.css') }}">
-    <script></script>
+
 @endpush
 @section('content')
     <div class="page-heading">
@@ -33,16 +33,16 @@
                     <h5 class="card-title">
                         Ajax CRUD Datatables
                     </h5>
-                    @if(auth()->user()->hasRole('admin'))
-                    <h6>
-                        <a href="#" class="btn icon icon-left btn-success tombol-tambah"><svg
-                                xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" class="feather feather-edit">
-                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                            </svg> Tambah Data</a>
-                    </h6>
+                    @if (auth()->user()->hasRole('admin'))
+                        <h6>
+                            <a href="#" class="btn icon icon-left btn-success tombol-tambah"><svg
+                                    xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" class="feather feather-edit">
+                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                </svg> Tambah Data</a>
+                        </h6>
                     @endif
                 </div>
                 <div class="card-body">
@@ -53,6 +53,7 @@
                                 <th>NISN</th>
                                 <th>Name</th>
                                 <th>Username</th>
+                                <th>Kelas</th>
                                 <th>Email</th>
                                 <th>No Hp</th>
                                 <th>
@@ -66,6 +67,9 @@
                     </table>
                 </div>
             </div>
+
+
+
 
         </section>
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -96,6 +100,15 @@
                         <label>Username: </label>
                         <div class="form-group">
                             <input id="username" type="text" name="username" class="form-control">
+                        </div>
+                        <label>Kelas: </label>
+                        <div class="form-group">
+                            <select class="form-select" id="kelas_id" name="kelas_id" name="kelas_id" required>
+                                {{-- <input type="hidden" id="old_kelas_id" name="old_kelas_id" value="{{ $users->kelas_id }}"> --}}
+                                @foreach ($kelasOptions as $kelas)
+                                    <option value="{{ $kelas->id }}">{{ $kelas->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <label>Email: </label>
                         <div class="form-group">
