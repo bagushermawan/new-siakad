@@ -45,7 +45,7 @@
                                             <input type="text" class="form-control" name="name"
                                                 value="{{ $role->name }}" autofocus>
                                         </div>
-                                        <div class="form-group">
+                                        <div class="list-group">
                                             <br>
                                             @php
                                                 $categoryMappings = [
@@ -69,17 +69,21 @@
                                             @endphp
 
                                             @foreach ($permissionsByCategory as $category => $categoryPermissions)
-                                                <div>
-                                                    <h5>{{ $category }}</h5>
-                                                    @foreach ($categoryPermissions as $value)
-                                                       <label>
-                                                    <input type="checkbox" name="permission[]" value="{{ $value->name }}"
-                                                        class="form-check-input"
-                                                        {{ in_array($value->id, $rolePermissions) ? 'checked' : '' }}>
-                                                    {{ $value->name }}
-                                                </label>
-                                                        <br>
-                                                    @endforeach
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        <div class="list-group-item">
+                                                            <h5>{{ $category }}</h5>
+                                                            @foreach ($categoryPermissions as $value)
+                                                                <label>
+                                                                    <input type="checkbox" name="permission[]"
+                                                                        value="{{ $value->name }}" class="form-check-input"
+                                                                        {{ in_array($value->id, $rolePermissions) ? 'checked' : '' }}>
+                                                                    {{ $value->name }}
+                                                                </label>
+                                                                <br>
+                                                            @endforeach
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             @endforeach
                                         </div>
