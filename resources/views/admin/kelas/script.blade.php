@@ -22,6 +22,17 @@
                     name: 'Nama'
                 },
                 {
+                    data: 'walikelas_name',
+                    name: 'walikelas_name',
+                    render: function(data, type, row) {
+                        if (type === 'display') {
+                            return data ? data :
+                                '<a style="font-size: 12px;">Tidak tersedia</a>';
+                        }
+                        return data;
+                    }
+                },
+                {
                     data: 'users_count',
                     name: 'Jumlah User',
                     render: function(data, type, row) {
@@ -93,6 +104,12 @@
             success: function(response) {
                 $('#exampleModal').modal('show');
                 $('#name').val(response.result.name);
+                if (response.result.walikelas_id !== null) {
+                    $('#walikelas_id').val(response.result.walikelas_id);
+                } else {
+                    // Reset nilai jika walikelas_id null
+                    $('#walikelas_id').val('');
+                }
                 console.log(response.result);
                 $('.tombol-simpan').off('click').on('click', function() {
                     simpan(id);
@@ -153,6 +170,7 @@
             type: var_type,
             data: {
                 name: $('#name').val(),
+                walikelas_id: $('#walikelas_id').val(),
             },
             success: function(response) {
                 if (response.errors) {
@@ -168,6 +186,8 @@
                     $('.alert-success').html(response.success);
                     Swal.fire('Sukses!', successMessage, 'success');
                     $('#myTable').DataTable().ajax.reload();
+                    console.log('Nama:', $('#name').val());
+                    console.log('WaliKelas ID:', $('#walikelas_id').val());
                 }
             }
         });
@@ -175,6 +195,7 @@
 
     $('#exampleModal').on('hidden.bs.modal', function() {
         $('#name').val('');
+        $('#walikelas_id').val('');
 
 
         $('.alert-danger').addClass('d-none');

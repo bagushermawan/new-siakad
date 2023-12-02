@@ -5,7 +5,7 @@
 
 
     <link rel="stylesheet" href="{{ asset('compiled/css/table-datatable-jquery.css') }}">
-    <script></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
 @endpush
 @section('content')
     <div class="page-heading">
@@ -52,8 +52,11 @@
                                 <th class="col-md-1">
                                     <center>No</center>
                                 </th>
-                                <th class="col-md-6">Nama Kelas</th>
-                                <th class="col-md-2"><center>Jumlah</center></th>
+                                <th class="col-md-3">Nama Kelas</th>
+                                <th class="col-md-3">Wali Kelas</th>
+                                <th class="col-md-2">
+                                    <center>Jumlah</center>
+                                </th>
                                 <th>Created at</th>
                                 <th>
                                     <center>Action</center>
@@ -86,6 +89,16 @@
                         <div class="form-group">
                             <input id="name" type="text" name="name" class="form-control" autofocus>
                         </div>
+
+                        <label>Wali Kelas: </label>
+                        <div class="form-group">
+                            <select id="walikelas_id" name="walikelas_id" class="form-control">
+                                <option value="">Pilih Wali Kelas</option>
+                                @foreach ($walikelas as $a)
+                                    <option value="{{ $a->id }}">{{ $a->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
@@ -107,4 +120,14 @@
     <script src="{{ asset('extensions/datatables.net/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('extensions/datatables.net-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
     @include('admin.kelas.script')
+    <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Inisialisasi Choices.js pada elemen dengan ID walikelas_id
+            var walikelasSelect = new Choices('#walikelas_id', {
+                searchEnabled: true,
+                itemSelectText: '',
+            });
+        });
+    </script>
 @endpush

@@ -5,6 +5,7 @@
 
 
     <link rel="stylesheet" href="{{ asset('compiled/css/table-datatable-jquery.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
 
 @endpush
 @section('content')
@@ -103,8 +104,9 @@
                         </div>
                         <label>Kelas: </label>
                         <div class="form-group">
-                            <select class="form-select" id="kelas_id" name="kelas_id" name="kelas_id" required>
+                            <select class="form-control" id="kelas_id" name="kelas_id" name="kelas_id" required>
                                 {{-- <input type="hidden" id="old_kelas_id" name="old_kelas_id" value="{{ $users->kelas_id }}"> --}}
+                                <option value="">Pilih Kelas</option>
                                 @foreach ($kelasOptions as $kelas)
                                     <option value="{{ $kelas->id }}">{{ $kelas->name }}</option>
                                 @endforeach
@@ -143,4 +145,14 @@
     <script src="{{ asset('extensions/datatables.net/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('extensions/datatables.net-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
     @include('admin.user.siswa.script')
+    <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Inisialisasi Choices.js pada elemen dengan ID walikelas_id
+            var walikelasSelect = new Choices('#kelas_id', {
+                searchEnabled: true,
+                itemSelectText: '',
+            });
+        });
+    </script>
 @endpush

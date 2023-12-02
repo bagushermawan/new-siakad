@@ -12,9 +12,17 @@ class Kelas extends Model
     public $table = "kelas";
     protected $fillable = [
         'name',
+        'walikelas_id',
 
     ];
 
+
+    // Relasi ke User untuk mendapatkan wali kelas
+    public function walikelas()
+    {
+        return $this->belongsTo(User::class, 'walikelas_id');
+    }
+    
     public function users()
     {
         return $this->hasMany(User::class);

@@ -112,14 +112,14 @@ class UserAjaxController extends Controller
         $validasi = Validator::make(
             $request->all(),
             [
-                'nisn' => ['required', 'string', 'max:255'],
-                'nuptk' => ['required', 'string', 'max:255'],
-                'nohp' => ['required', 'string', 'max:255'],
+                'nisn' => ['nullable', 'string', 'max:255'],
+                'nuptk' => ['nullable', 'string', 'max:255'],
+                'nohp' => ['nullable', 'string', 'max:255'],
                 'name' => ['required', 'string', 'max:255'],
                 'username' => ['required', 'string', 'max:255', 'unique:users,username', 'alpha_num'],
                 'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
                 'password' => ['required', Rules\Password::defaults()],
-                'kelas_id' => ['required', 'exists:kelas,id'],
+                'kelas_id' => ['nullable', 'exists:kelas,id'],
             ],
             [
                 'nohp.required' => 'No HP wajib diisi',
@@ -129,6 +129,7 @@ class UserAjaxController extends Controller
                 'username.required' => 'Username wajib diisi',
                 'email.required' => 'Email wajib diisi',
                 'password.required' => 'Password wajib diisi',
+                'kelas_id.exists' => 'Kelas tidak valid',
             ],
         );
 

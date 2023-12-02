@@ -95,7 +95,12 @@
                 $('#nisn').val(response.result.nisn);
                 $('#name').val(response.result.name);
                 $('#username').val(response.result.username);
+                if (response.result.kelas_id !== null) {
                 $('#kelas_id').val(response.result.kelas_id);
+            } else {
+                // Reset nilai jika kelas_id null
+                $('#kelas_id').val('');
+            }
                 $('#email').val(response.result.email);
                 $('#nohp').val(response.result.nohp);
                 $('#password').val(response.result.password);
@@ -161,7 +166,7 @@
                 nisn: $('#nisn').val(),
                 name: $('#name').val(),
                 username: $('#username').val(),
-                kelas_id: $('#kelas_id').val(),
+                kelas_id: $('#kelas_id').val() || null,
                 email: $('#email').val(),
                 nohp: $('#nohp').val(),
                 password: $('#password').val()

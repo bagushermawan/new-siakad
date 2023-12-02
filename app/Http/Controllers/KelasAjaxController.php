@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Kelas;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -17,29 +18,53 @@ class KelasAjaxController extends Controller
     public function index()
     {
         $user = Auth::user();
-        // Mendapatkan roles dari user
         $roles = $user->getRoleNames();
-        // Mendapatkan daftar user
-        // Menentukan apakah user adalah admin
         $isAdmin = $user->hasRole('admin');
 
-        return view('admin.kelas.index', ['roles' => $roles, 'isAdmin' => $isAdmin]);
-    }
+        // Mengambil daftar guru
+        $walikelas = User::whereHas('roles', function ($query) {
+            $query->where('name', 'guru');
+        })->get();
 
+        return view('admin.kelas.index', [
+            'roles' => $roles,
+            'isAdmin' => $isAdmin,
+            'walikelas' => $walikelas, // Menyertakan daftar guru ke dalam view
+        ]);
+    }
 
     public function indexKelas()
     {
         $user = Auth::user();
-        // Mendapatkan roles dari user
-        $roles = $user->getRoleNames();
-        $data = Kelas::select(['kelas.*', DB::raw('COUNT(users.id) as users_count')])
-        ->leftJoin('users', 'kelas.id', '=', 'users.kelas_id')
-        ->groupBy('kelas.id')
-        ->orderBy('name', 'asc');
         $isAdmin = $user->hasRole('admin');
+
+        $data = Kelas::select(['kelas.*', DB::raw('COUNT(users.id) as users_count')])
+            ->leftJoin('users', 'kelas.id', '=', 'users.kelas_id')
+            ->groupBy('kelas.id')
+            ->orderBy('name', 'asc');
+
+        if (!$isAdmin) {
+            // Jika bukan admin, tambahkan kondisi untuk siswa yang memiliki role 'guru'
+            $data->where(function ($query) {
+                $query
+                    ->whereHas('users', function ($subquery) {
+                        $subquery->whereHas('roles', function ($rolesQuery) {
+                            $rolesQuery->where('name', 'guru');
+                        });
+                    })
+                    ->orWhereNull('users.id'); // Siswa tanpa kelas juga akan ditampilkan
+            });
+        }
 
         return DataTables::of($data)
             ->addIndexColumn()
+            ->addColumn('users_count', function ($data) {
+                return $data->users_count ?? 0;
+            })
+            ->addColumn('walikelas_name', function ($data) {
+                // Mengambil nama dari ID wali kelas melalui relasi
+                return optional($data->walikelas)->name;
+            })
             ->addColumn('aksi', function ($data) use ($isAdmin) {
                 return view('admin.kelas.tombol', ['data' => $data, 'isAdmin' => $isAdmin]);
             })
@@ -63,9 +88,11 @@ class KelasAjaxController extends Controller
             $request->all(),
             [
                 'name' => ['required', 'string', 'max:255'],
+                'walikelas_id' => ['nullable', 'exists:users,id'],
             ],
             [
                 'name.required' => 'Nama wajib diisi',
+                // 'walikelas_id.exists' => 'Wali kelas tidak valid',
             ],
         );
 
@@ -74,6 +101,7 @@ class KelasAjaxController extends Controller
         } else {
             $data = [
                 'name' => $request->name,
+                'walikelas_id' => $request->walikelas_id,
             ];
             // Membuat user baru
             $kelas = Kelas::create($data);
@@ -107,6 +135,7 @@ class KelasAjaxController extends Controller
     {
         $data = [
             'name' => $request->name,
+            'walikelas_id' => $request->walikelas_id,
         ];
 
         Kelas::where('id', $id)->update($data);

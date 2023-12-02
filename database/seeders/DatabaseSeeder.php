@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
         // $this->call(MataPelajaranSeeder::class);
 
 
-        User::factory(500)->create();
+        User::factory(100)->create();
+        // User::factory(55)->create();
     }
 }
