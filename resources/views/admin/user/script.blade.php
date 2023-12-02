@@ -104,8 +104,15 @@
                 $('#name').val(response.result.name);
                 $('#username').val(response.result.username);
                 $('#email').val(response.result.email);
+                if (response.result.role !== null) {
+                $('#role').val(response.role);
+            } else {
+                // Reset nilai jika role null
+                $('#role').val('');
+            }
                 $('#password').val(response.result.password);
                 console.log(response.result);
+                console.log('Roles yang dimiliki:', response.role);
                 $('.tombol-simpan').off('click').on('click', function() {
                     simpan(id);
                 });
@@ -167,7 +174,8 @@
                 name: $('#name').val(),
                 username: $('#username').val(),
                 email: $('#email').val(),
-                password: $('#password').val()
+                password: $('#password').val(),
+                role: $('#role').val(),
             },
             success: function(response) {
                 if (response.errors) {
@@ -193,6 +201,7 @@
         $('#username').val('');
         $('#email').val('');
         $('#password').val('');
+        $('#role').val('');
 
         $('.alert-danger').addClass('d-none');
         $('.alert-danger').html('');

@@ -5,7 +5,7 @@
 
 
     <link rel="stylesheet" href="{{ asset('compiled/css/table-datatable-jquery.css') }}">
-    <script></script>
+
 @endpush
 @section('content')
     <div class="page-heading">
@@ -53,7 +53,7 @@
                                 <th>Name</th>
                                 <th>username</th>
                                 <th>Email</th>
-                                <th>created at</th>
+                                <th>Created at</th>
                                 <th>
                                     <center>Status</center>
                                 </th>
@@ -108,6 +108,19 @@
                         <div class="form-group">
                             <input id="nohp" type="text" name="nohp" class="form-control">
                         </div>
+
+
+                        <label>Roles: </label>
+                        <div class="form-group">
+                            <select id="role" name="role" class="form-control">
+                                <option selected="">Pilih Role</option>
+                                @foreach ($roless as $a)
+                                    <option value="{{ ucfirst($a->name) }}">{{ ucfirst($a->name) }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+
                         <label>Password: </label>
                         <div class="form-group">
                             <input id="password" type="password" name="password" class="form-control">
@@ -133,4 +146,5 @@
     <script src="{{ asset('extensions/datatables.net/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('extensions/datatables.net-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
     @include('admin.user.script')
+
 @endpush

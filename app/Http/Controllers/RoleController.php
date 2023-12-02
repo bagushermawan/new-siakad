@@ -56,11 +56,14 @@ class RoleController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|unique:roles,name',
-            'permission' => 'required|array',
+            'permission' => 'nullable|array',
         ]);
 
         $role = Role::create(['name' => $request->input('name')]);
-        $role->syncPermissions($request->input('permission'));
+        // Memastikan bahwa permission tidak null sebelum melakukan syncPermissions
+        if ($request->has('permission')) {
+            $role->syncPermissions($request->input('permission'));
+        }
 
         return redirect()
             ->route('role.index')
@@ -115,20 +118,24 @@ class RoleController extends Controller
     public function update(Request $request, string $id)
     {
         $this->validate($request, [
-            'name' => 'required',
-            'permission' => 'required',
+            'name' => 'required|unique:roles,name,' . $id,
+            'permission' => 'nullable|array',
         ]);
 
         $role = Role::find($id);
         $role->name = $request->input('name');
         $role->save();
 
-        $role->syncPermissions($request->input('permission'));
+        // Memastikan bahwa permission tidak null sebelum melakukan syncPermissions
+        if ($request->has('permission')) {
+            $role->syncPermissions($request->input('permission'));
+        }
 
         return redirect()
             ->route('role.index')
             ->with('success', 'Role updated successfully');
     }
+
 
     /**
      * Remove the specified resource from storage.

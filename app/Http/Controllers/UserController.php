@@ -11,6 +11,7 @@ use Illuminate\View\View;
 use App\Models\User;
 use App\Models\Kelas;
 use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -25,7 +26,10 @@ class UserController extends Controller
         // Menentukan apakah user adalah admin
         $isAdmin = $user->hasRole('admin');
 
-        return view('admin.user.index', ['roles' => $roles, 'daftar_user' => $daftar_user, 'isAdmin' => $isAdmin]);
+        // Mengambil daftar guru
+        $roless = Role::get();
+
+        return view('admin.user.index', ['roles' => $roles, 'daftar_user' => $daftar_user, 'isAdmin' => $isAdmin, 'roless'=>$roless]);
     }
 
 

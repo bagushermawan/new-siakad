@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Models\Role;
+
 
 class UserAjaxController extends Controller
 {
@@ -96,17 +98,13 @@ class UserAjaxController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+
     public function store(Request $request)
     {
         $validasi = Validator::make(
@@ -130,7 +128,7 @@ class UserAjaxController extends Controller
                 'email.required' => 'Email wajib diisi',
                 'password.required' => 'Password wajib diisi',
                 'kelas_id.exists' => 'Kelas tidak valid',
-            ],
+            ]
         );
 
         if ($validasi->fails()) {
@@ -144,38 +142,36 @@ class UserAjaxController extends Controller
                 'username' => $request->username,
                 'email' => $request->email,
                 'kelas_id' => $request->kelas_id,
+                'role' => $request->role,
                 'password' => Hash::make($request->password),
                 'email_verified_at' => Carbon::now(),
             ];
+
             // Membuat user baru
+            // print_r($request->role);
             $user = User::create($data);
 
-            // Memberikan role 'user' pada user yang baru dibuat
-            $user->assignRole('user');
+            $user->assignRole($request->role);
+
             return response()->json(['success' => 'Berhasil menyimpan data']);
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
+
     public function show(string $id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+
     public function edit(string $id)
     {
         $data = User::where('id', $id)->first();
-        return response()->json(['result' => $data]);
+        $role = $data->getRoleNames();
+        return response()->json(['result' =>$data, 'role' => $role]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+
     public function update(Request $request, string $id)
     {
         $data = [
@@ -192,13 +188,24 @@ class UserAjaxController extends Controller
         if ($request->filled('password')) {
             $data['password'] = Hash::make($request->password);
         }
+
+        // Update user data
         User::where('id', $id)->update($data);
+
+        // Update roles
+        if ($request->filled('role')) {
+            $user = User::findOrFail($id);
+
+            // Remove existing roles
+            $user->roles()->detach();
+
+            // Add new roles
+            $user->assignRole($request->role);
+        }
+
         return response()->json(['success' => 'Berhasil melakukan update data']);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         User::where('id', $id)->delete();
