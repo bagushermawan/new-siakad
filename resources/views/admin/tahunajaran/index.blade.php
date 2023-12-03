@@ -5,7 +5,10 @@
 
 
     <link rel="stylesheet" href="{{ asset('compiled/css/table-datatable-jquery.css') }}">
-    <script></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
+    <link rel="stylesheet" href="{{ asset('/extensions/flatpickr/flatpickr.min.css') }}">
+    {{-- moment untuk ngantur tampilan format date di datatable  --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 @endpush
 @section('content')
     <div class="page-heading">
@@ -52,7 +55,10 @@
                                 <th class="col-md-1">
                                     <center>No</center>
                                 </th>
-                                <th class="col-md-8">Tahun Ajaran</th>
+                                <th class="col-md-4">Tahun Ajaran</th>
+                                <th>Semester</th>
+                                <th>Mulai</th>
+                                <th>Selesai</th>
                                 <th>Created at</th>
                                 <th>
                                     <center>Action</center>
@@ -83,8 +89,24 @@
                         {{-- <div class="alert alert-success d-none"></div> --}}
                         <label>Tahun Ajaran: </label>
                         <div class="form-group">
-                            <input id="tahun" type="text" name="tahun" class="form-control tahunajaran" autofocus>
+                            <input id="name" type="text" name="name" class="form-control tahunajaran" autofocus>
                         </div>
+                        <label>Semester: </label>
+                        <div class="form-group">
+                            <select id="semester" name="semester" class="form-control">
+                                <option value="">Pilih Semester</option>
+                                <option value="Ganjil">Ganjil</option>
+                                <option value="Genap">Genap</option>
+                            </select>
+                        </div>
+
+                        <label>Mulai - Selesai:</label>
+                        <div class="form-group">
+                            <input id="dateRange" type="text" name="dateRange"
+                                class="form-control flatpickr-range mb-3 flatpickr-input" autocomplete="off">
+                        </div>
+
+
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
@@ -107,11 +129,29 @@
     <script src="{{ asset('extensions/datatables.net-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
     @include('admin.tahunajaran.script')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cleave.js/1.6.0/cleave.min.js"></script>
-        <script type="text/javascript">
-            var cleavePC = new Cleave('.tahunajaran', {
-  delimiter: '-',
-  blocks: [4,4],
-  uppercase: true
-});
-        </script>
+    <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+    <script src="{{ asset('/extensions/flatpickr/flatpickr.min.js') }}"></script>
+    <script type="text/javascript">
+        var cleavePC = new Cleave('.tahunajaran', {
+            delimiter: '-',
+            blocks: [4, 4],
+            uppercase: true
+        });
+
+        var semesterSelect = new Choices('#semester', {
+            searchEnabled: true,
+            itemSelectText: '',
+        });
+
+
+        flatpickr('.flatpickr-range', {
+            dateFormat: "d-m-Y",
+            mode: 'range'
+        })
+        flatpickr('.flatpickr-range-preloaded', {
+            dateFormat: "F j, Y",
+            mode: 'range',
+            defaultDate: ["2016-10-10T00:00:00Z", "2016-10-20T00:00:00Z"]
+        })
+    </script>
 @endpush

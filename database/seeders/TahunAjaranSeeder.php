@@ -2,9 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\TahunAjaran;
+use Illuminate\Support\Facades\DB;
+use Faker\Factory as Faker;
 
 class TahunAjaranSeeder extends Seeder
 {
@@ -13,9 +14,20 @@ class TahunAjaranSeeder extends Seeder
      */
     public function run(): void
     {
-        TahunAjaran::create(['tahun' => '2021-2022']);
-        TahunAjaran::create(['tahun' => '2022-2023']);
-        TahunAjaran::create(['tahun' => '2023-2024']);
-        TahunAjaran::create(['tahun' => '2023-2024']);
+        $faker = Faker::create();
+
+        foreach (range(1, 5) as $index) {
+            $startYear = $faker->numberBetween(2020, 2030);
+            $endYear = $startYear + 1;
+
+            DB::table('tahun_ajarans')->insert([
+                'name' => "$startYear-$endYear",
+                'semester' => $faker->randomElement(['Ganjil', 'Genap']),
+                'mulai' => $faker->date,
+                'selesai' => $faker->date,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
     }
 }

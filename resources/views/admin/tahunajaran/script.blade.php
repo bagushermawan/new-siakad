@@ -17,9 +17,21 @@
                         return meta.row + 1;
                     }
                 },
+                {data: 'name',name: 'Tahun'},
+                {data: 'semester',name: 'Semester'},
                 {
-                    data: 'tahun',
-                    name: 'Tahun'
+                    data: 'mulai',
+                    render: function(data, type, full, meta) {
+                        // Format tanggal menggunakan moment.js
+                        return moment(data).format('DD MMMM YYYY');
+                    }
+                },
+                {
+                    data: 'selesai',
+                    render: function(data, type, full, meta) {
+                        // Format tanggal menggunakan moment.js
+                        return moment(data).format('DD MMMM YYYY');
+                    }
                 },
                 {
                     data: 'created_at',
@@ -33,11 +45,7 @@
                         return formattedDate;
                     }
                 },
-                {
-                    data: 'aksi',
-                    name: 'Aksi',
-                    visible: isAdmin
-                }
+                {data: 'aksi',name: 'Aksi',visible: isAdmin}
             ],
             columnDefs: [{
                 targets: -1,
@@ -82,7 +90,9 @@
             type: 'GET',
             success: function(response) {
                 $('#exampleModal').modal('show');
-                $('#tahun').val(response.result.tahun);
+                $('#name').val(response.result.name);
+                $('#semester').val(response.result.semester);
+                $('#dateRange').val(response.result.dateRange);
                 console.log(response.result);
                 $('.tombol-simpan').off('click').on('click', function() {
                     simpan(id);
@@ -142,11 +152,16 @@
             url: var_url,
             type: var_type,
             data: {
-                tahun: $('#tahun').val(),
+                name: $('#name').val(),
+                semester: $('#semester').val(),
+                dateRange: $('#dateRange').val(),
             },
             success: function(response) {
                 if (response.errors) {
                     console.log(response.errors);
+                    console.log('tahun ajaran:', $('#name').val());
+                    console.log('semester:', $('#semester').val());
+                    console.log('dateRange:', $('#dateRange').val());
                     $('.alert-danger').removeClass('d-none');
                     $('.alert-danger').html("<ul>");
                     $.each(response.errors, function(key, value) {
@@ -156,6 +171,9 @@
                 } else {
                     $('.alert-success').removeClass('d-none');
                     $('.alert-success').html(response.success);
+                    console.log('tahun ajaran:', $('#name').val());
+                    console.log('semester:', $('#semester').val());
+                    console.log('dateRange:', $('#dateRange').val());
                     Swal.fire('Sukses!', successMessage, 'success');
                     $('#myTable').DataTable().ajax.reload();
                 }
@@ -164,7 +182,8 @@
     }
 
     $('#exampleModal').on('hidden.bs.modal', function() {
-        $('#tahun').val('');
+        $('#name').val('');
+        $('#semester').val('');
 
 
         $('.alert-danger').addClass('d-none');

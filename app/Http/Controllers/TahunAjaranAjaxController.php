@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\TahunAjaran;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -18,7 +19,7 @@ class TahunAjaranAjaxController extends Controller
         $user = Auth::user();
         // Mendapatkan roles dari user
         $roles = $user->getRoleNames();
-        $data = TahunAjaran::orderBy('tahun', 'asc');
+        $data = TahunAjaran::orderBy('name', 'asc');
         $isAdmin = $user->hasRole('admin');
 
         return DataTables::of($data)
@@ -45,60 +46,100 @@ class TahunAjaranAjaxController extends Controller
         $validasi = Validator::make(
             $request->all(),
             [
-                'tahun' => ['required', 'string', 'max:255'],
+                'name' => ['required', 'string', 'max:255'],
+                'semester' => ['required', 'string', 'max:255'],
+                'dateRange' => ['required', 'string'], // Validasi untuk input dateRange
             ],
             [
-                'tahun.required' => 'tahun ajaran wajib diisi',
+                'name.required' => 'Tahun ajaran wajib diisi',
+                'semester.required' => 'Semester wajib diisi',
+                'dateRange.required' => 'Rentang tanggal wajib diisi',
             ],
         );
 
         if ($validasi->fails()) {
             return response()->json(['errors' => $validasi->errors()]);
         } else {
-            $data = [
-                'tahun' => $request->tahun,
-            ];
-            // Membuat user baru
-            $prestasi = TahunAjaran::create($data);
+            // Memisahkan tanggal mulai dan selesai dari rentang dateRange
+            $dateRangeArray = explode(' to ', $request->dateRange);
 
-            // Memberikan role 'prestasi' pada prestasi yang baru dibuat
-            return response()->json(['success' => 'Berhasil menyimpan data']);
+            // Memeriksa apakah array memiliki setidaknya dua elemen
+            if (count($dateRangeArray) >= 2) {
+                list($mulai, $selesai) = $dateRangeArray;
+
+                // Mengonversi tanggal menjadi objek Carbon
+                $mulai = Carbon::parse($mulai);
+                $selesai = Carbon::parse($selesai);
+
+                $data = [
+                    'name' => $request->name,
+                    'semester' => $request->semester,
+                    'mulai' => $mulai,
+                    'selesai' => $selesai,
+                ];
+
+                // Membuat tahun ajaran baru
+                $tahunAjaran = TahunAjaran::create($data);
+
+                return response()->json(['success' => 'Berhasil menyimpan data', 'data' => $tahunAjaran]);
+            } else {
+                return response()->json(['errors' => ['dateRange' => 'Format rentang tanggal tidak valid']]);
+            }
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
+
+
     public function show(string $id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+
     public function edit(string $id)
     {
         $data = TahunAjaran::where('id', $id)->first();
         return response()->json(['result' => $data]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+
     public function update(Request $request, string $id)
     {
         $data = [
-            'tahun' => $request->tahun,
+            'name' => ['required', 'string', 'max:255'],
+            'semester' => ['required', 'string', 'max:255'],
+            'dateRange' => ['required', 'string'],
         ];
+        $dateRangeArray = explode(' to ', $request->dateRange);
+
+        // Memeriksa apakah array memiliki setidaknya dua elemen
+        if (count($dateRangeArray) >= 2) {
+            list($mulai, $selesai) = $dateRangeArray;
+
+            // Mengonversi tanggal menjadi objek Carbon
+            $mulai = Carbon::parse($mulai);
+            $selesai = Carbon::parse($selesai);
+
+            $data = [
+                'name' => $request->name,
+                'semester' => $request->semester,
+                'mulai' => $mulai,
+                'selesai' => $selesai,
+            ];
+
+            // Membuat tahun ajaran baru
+            $tahunAjaran = TahunAjaran::create($data);
+
+            return response()->json(['success' => 'Berhasil menyimpan data', 'data' => $tahunAjaran]);
+        } else {
+            return response()->json(['errors' => ['dateRange' => 'Format rentang tanggal tidak valid']]);
+        }
 
         TahunAjaran::where('id', $id)->update($data);
         return response()->json(['success' => 'Berhasil melakukan update data']);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+
     public function destroy(string $id)
     {
         TahunAjaran::where('id', $id)->delete();
