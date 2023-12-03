@@ -65,7 +65,7 @@ class TahunAjaranAjaxController extends Controller
 
             // Memeriksa apakah array memiliki setidaknya dua elemen
             if (count($dateRangeArray) >= 2) {
-                list($mulai, $selesai) = $dateRangeArray;
+                [$mulai, $selesai] = $dateRangeArray;
 
                 // Mengonversi tanggal menjadi objek Carbon
                 $mulai = Carbon::parse($mulai);
@@ -88,20 +88,16 @@ class TahunAjaranAjaxController extends Controller
         }
     }
 
-
-
     public function show(string $id)
     {
         //
     }
-
 
     public function edit(string $id)
     {
         $data = TahunAjaran::where('id', $id)->first();
         return response()->json(['result' => $data]);
     }
-
 
     public function update(Request $request, string $id)
     {
@@ -114,7 +110,7 @@ class TahunAjaranAjaxController extends Controller
 
         // Memeriksa apakah array memiliki setidaknya dua elemen
         if (count($dateRangeArray) >= 2) {
-            list($mulai, $selesai) = $dateRangeArray;
+            [$mulai, $selesai] = $dateRangeArray;
 
             // Mengonversi tanggal menjadi objek Carbon
             $mulai = Carbon::parse($mulai);
@@ -128,17 +124,13 @@ class TahunAjaranAjaxController extends Controller
             ];
 
             // Membuat tahun ajaran baru
-            $tahunAjaran = TahunAjaran::create($data);
+            $tahunAjaran = TahunAjaran::where('id', $id)->update($data);
 
-            return response()->json(['success' => 'Berhasil menyimpan data', 'data' => $tahunAjaran]);
+            return response()->json(['success' => 'Berhasil melakukan update data', 'data' => $tahunAjaran]);
         } else {
             return response()->json(['errors' => ['dateRange' => 'Format rentang tanggal tidak valid']]);
         }
-
-        TahunAjaran::where('id', $id)->update($data);
-        return response()->json(['success' => 'Berhasil melakukan update data']);
     }
-
 
     public function destroy(string $id)
     {
