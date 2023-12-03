@@ -118,7 +118,7 @@
                         <li class="sidebar-title">Administrator</li>
                         <li class="sidebar-item  {{ request()->routeIs('role.*', 'permission.*') ? 'active' : '' }} has-sub">
                             <a href="#" class='sidebar-link'>
-                                <i class="bi bi-x-octagon-fill"></i>
+                                <i class="bi bi-key-fill"></i>
                                 <span>Roles & Permission</span>
                             </a>
                             <ul class="submenu ">
