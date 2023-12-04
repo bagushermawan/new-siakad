@@ -118,6 +118,7 @@
                 $('#semester').val(response.result.semester);
                 $('#dateRange').val(response.result.dateRange);
                 console.log(response.result);
+                console.log(response.result.dateRange);
                 $('.tombol-simpan').off('click').on('click', function() {
                     simpan(id);
                 });

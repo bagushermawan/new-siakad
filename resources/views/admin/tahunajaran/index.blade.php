@@ -139,12 +139,7 @@
         });
         flatpickr('.flatpickr-range', {
             dateFormat: "d-m-Y",
-            mode: 'range'
-        })
-        flatpickr('.flatpickr-range-preloaded', {
-            dateFormat: "F j, Y",
             mode: 'range',
-            defaultDate: ["2016-10-10T00:00:00Z", "2016-10-20T00:00:00Z"]
         })
     </script>
 @endpush
