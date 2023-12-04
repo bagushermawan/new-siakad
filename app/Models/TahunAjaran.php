@@ -17,4 +17,9 @@ class TahunAjaran extends Model
         'selesai',
 
     ];
+
+    public function jadwalMataPelajaran()
+    {
+        return $this->hasMany(JadwalMataPelajaran::class, 'tahun_ajaran_id');
+    }
 }

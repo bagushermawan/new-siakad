@@ -3,8 +3,8 @@
         var isAdmin = {{ $isAdmin ? 'true' : 'false' }};
         var myTable = $('#myTable').DataTable({
             processing: true,
-            serverside: true,
-            ajax: "{{ url('/qwe/kelasAjax') }}",
+            serveride: true,
+            ajax: "{{ url('/qwe/jadwalmatapelajaranAjax') }}",
             columns: [{
                     data: 'DT_RowIndex',
                     name: 'DT_RowIndex',
@@ -18,29 +18,31 @@
                     }
                 },
                 {
-                    data: 'name',
-                    name: 'Nama'
+                    data: 'kelas_id',
+                    name: 'Kelas'
                 },
                 {
-                    data: 'walikelas_name',
-                    name: 'walikelas_name',
+                    data: 'mata_pelajaran_id',
+                    name: 'Mata Pelajaran',
                     render: function(data, type, row) {
                         if (type === 'display') {
                             return data ? data :
-                                '<a style="color:#6c757d;">Tidak tersedia</a>';
+                                '<a style="color:#6c757d;">Data Mata Pelajaran tidak tersedia</a>';
                         }
                         return data;
                     }
                 },
                 {
-                    data: 'users_count',
-                    name: 'Jumlah User',
-                    render: function(data, type, row) {
-                        if (type === 'display') {
-                            return '<center>' + data + ' Siswa</center>';
-                        }
-                        return data;
-                    },
+                    data: 'hari',
+                    name: 'Hari'
+                },
+                {
+                    data: 'jam',
+                    name: 'Jam'
+                },
+                {
+                    data: 'tahun_ajaran_id',
+                    name: 'Tahun Ajaran',
                 },
                 {
                     data: 'created_at',
@@ -63,7 +65,7 @@
             columnDefs: [{
                 targets: -1,
                 visible: isAdmin
-            }, ]
+            }, ],
         });
         // Fungsi untuk memberi warna pada pagination
         const setTableColor = () => {
@@ -99,17 +101,15 @@
     $('body').on('click', '.tombol-edit', function(e) {
         var id = $(this).data('id');
         $.ajax({
-            url: 'kelas/' + id + '/edit',
+            url: 'jadwalmatapelajaran/' + id + '/edit',
             type: 'GET',
             success: function(response) {
                 $('#exampleModal').modal('show');
-                $('#name').val(response.result.name);
-                if (response.result.walikelas_id !== null) {
-                    $('#walikelas_id').val(response.result.walikelas_id);
-                } else {
-                    // Reset nilai jika walikelas_id null
-                    $('#walikelas_id').val('');
-                }
+                $('#kelas_id').val(response.result.kelas_id);
+                $('#mata_pelajaran_id').val(response.result.mata_pelajaran_id);
+                $('#hari').val(response.result.hari);
+                $('#jam').val(response.result.jam);
+                $('#tahun_ajaran_id').val(response.result.tahun_ajaran_id);
                 console.log(response.result);
                 $('.tombol-simpan').off('click').on('click', function() {
                     simpan(id);
@@ -136,14 +136,14 @@
             if (result.isConfirmed) {
                 // Jika pengguna menekan tombol "Hapus", kirim permintaan DELETE
                 $.ajax({
-                    url: 'kelas/' + id,
+                    url: 'jadwalmatapelajaran/' + id,
                     type: 'DELETE',
                     success: function(response) {
                         $('#myTable').DataTable().ajax.reload();
-                        Swal.fire('Sukses!', 'Berhasil hapus kelas.', 'info');
+                        Swal.fire('Sukses!', 'Berhasil hapus prestasi.', 'info');
                     },
                     error: function(response) {
-                        Swal.fire('Gagal!', 'Terjadi kesalahan saat menghapus kelas.',
+                        Swal.fire('Gagal!', 'Terjadi kesalahan saat menghapus prestasi.',
                             'error');
                     }
                 });
@@ -156,25 +156,33 @@
         let var_url, var_type, successMessage;
 
         if (id === '') {
-            var_url = 'kelas';
+            var_url = 'jadwalmatapelajaran';
             var_type = 'POST';
-            successMessage = 'Berhasil tambah kelas.';
+            successMessage = 'Berhasil tambah tahunajaran.';
         } else {
-            var_url = 'kelas/' + id;
+            var_url = 'jadwalmatapelajaran/' + id;
             var_type = 'PUT';
-            successMessage = 'Berhasil update kelas.';
+            successMessage = 'Berhasil update tahunajaran.';
         }
 
         $.ajax({
             url: var_url,
             type: var_type,
             data: {
-                name: $('#name').val(),
-                walikelas_id: $('#walikelas_id').val(),
+                kelas_id: $('#kelas_id').val(),
+                mata_pelajaran_id: $('#mata_pelajaran_id').val(),
+                hari: $('#hari').val(),
+                jam: $('#jam').val(),
+                tahun_ajaran_id: $('#tahun_ajaran_id').val(),
             },
             success: function(response) {
                 if (response.errors) {
                     console.log(response.errors);
+                    console.log('kelas_id:', $('#kelas_id').val());
+                    console.log('mata_pelajaran_id:', $('#mata_pelajaran_id').val());
+                    console.log('hari:', $('#hari').val());
+                    console.log('jam:', $('#jam').val());
+                    console.log('tahun_ajaran_id:', $('#tahun_ajaran_id').val());
                     $('.alert-danger').removeClass('d-none');
                     $('.alert-danger').html("<ul>");
                     $.each(response.errors, function(key, value) {
@@ -184,10 +192,9 @@
                 } else {
                     $('.alert-success').removeClass('d-none');
                     $('.alert-success').html(response.success);
+                    console.log(response.result);
                     Swal.fire('Sukses!', successMessage, 'success');
                     $('#myTable').DataTable().ajax.reload();
-                    console.log('Nama:', $('#name').val());
-                    console.log('WaliKelas ID:', $('#walikelas_id').val());
                 }
             }
         });
@@ -195,7 +202,7 @@
 
     $('#exampleModal').on('hidden.bs.modal', function() {
         $('#name').val('');
-        $('#walikelas_id').val('');
+        $('#semester').val('');
 
 
         $('.alert-danger').addClass('d-none');

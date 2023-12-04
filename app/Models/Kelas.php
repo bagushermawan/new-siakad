@@ -22,9 +22,14 @@ class Kelas extends Model
     {
         return $this->belongsTo(User::class, 'walikelas_id');
     }
-    
+
     public function users()
     {
         return $this->hasMany(User::class);
+    }
+
+    public function jadwalMataPelajaran()
+    {
+        return $this->hasMany(JadwalMataPelajaran::class, 'kelas_id');
     }
 }
