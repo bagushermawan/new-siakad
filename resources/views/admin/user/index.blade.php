@@ -5,7 +5,7 @@
 
 
     <link rel="stylesheet" href="{{ asset('compiled/css/table-datatable-jquery.css') }}">
-
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
 @endpush
 @section('content')
     <div class="page-heading">
@@ -113,7 +113,7 @@
                         <label>Roles: </label>
                         <div class="form-group">
                             <select id="role" name="role" class="form-control">
-                                <option selected="">Pilih Role</option>
+                                <option value="">Pilih Role</option>
                                 @foreach ($roless as $a)
                                     <option value="{{ ucfirst($a->name) }}">{{ ucfirst($a->name) }}</option>
                                 @endforeach
@@ -146,5 +146,6 @@
     <script src="{{ asset('extensions/datatables.net/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('extensions/datatables.net-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
     @include('admin.user.script')
+    <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
 
 @endpush

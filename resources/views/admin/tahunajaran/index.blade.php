@@ -137,13 +137,6 @@
             blocks: [4, 4],
             uppercase: true
         });
-
-        var semesterSelect = new Choices('#semester', {
-            searchEnabled: true,
-            itemSelectText: '',
-        });
-
-
         flatpickr('.flatpickr-range', {
             dateFormat: "d-m-Y",
             mode: 'range'

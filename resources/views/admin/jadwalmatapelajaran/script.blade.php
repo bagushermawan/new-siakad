@@ -92,6 +92,50 @@
     $('body').on('click', '.tombol-tambah', function(e) {
         e.preventDefault();
         $('#exampleModal').modal('show');
+        // Hancurkan Choices.js sebelum inisialisasi jika sudah ada
+        if (typeof kelasSelect !== 'undefined') {
+            kelasSelect.destroy();
+        }
+
+        // Hancurkan Choices.js sebelum inisialisasi jika sudah ada
+        if (typeof matpelSelect !== 'undefined') {
+            matpelSelect.destroy();
+        }
+
+        // Hancurkan Choices.js sebelum inisialisasi jika sudah ada
+        if (typeof hariSelect !== 'undefined') {
+            hariSelect.destroy();
+        }
+
+        // Hancurkan Choices.js sebelum inisialisasi jika sudah ada
+        if (typeof tahunajaranSelect !== 'undefined') {
+            tahunajaranSelect.destroy();
+        }
+        // Inisialisasi Choices.js
+                kelasSelect = new Choices('#kelas_id', {
+                    searchEnabled: true,
+                    itemSelectText: '',
+                    allowHTML: true,
+                });
+
+                matpelSelect = new Choices('#mata_pelajaran_id', {
+                    searchEnabled: true,
+                    itemSelectText: '',
+                    allowHTML: true,
+                });
+
+                hariSelect = new Choices('#hari', {
+                    searchEnabled: true,
+                    itemSelectText: '',
+                    shouldSort: false,
+                    allowHTML: true,
+                });
+
+                tahunajaranSelect = new Choices('#tahun_ajaran_id', {
+                    searchEnabled: true,
+                    itemSelectText: '',
+                    allowHTML: true,
+                });
         $('.tombol-simpan').off('click').on('click', function() {
             simpan();
         });
@@ -100,6 +144,27 @@
     // 03_PROSES EDIT
     $('body').on('click', '.tombol-edit', function(e) {
         var id = $(this).data('id');
+
+        // Hancurkan Choices.js sebelum inisialisasi jika sudah ada
+        if (typeof kelasSelect !== 'undefined') {
+            kelasSelect.destroy();
+        }
+
+        // Hancurkan Choices.js sebelum inisialisasi jika sudah ada
+        if (typeof matpelSelect !== 'undefined') {
+            matpelSelect.destroy();
+        }
+
+        // Hancurkan Choices.js sebelum inisialisasi jika sudah ada
+        if (typeof hariSelect !== 'undefined') {
+            hariSelect.destroy();
+        }
+
+        // Hancurkan Choices.js sebelum inisialisasi jika sudah ada
+        if (typeof tahunajaranSelect !== 'undefined') {
+            tahunajaranSelect.destroy();
+        }
+
         $.ajax({
             url: 'jadwalmatapelajaran/' + id + '/edit',
             type: 'GET',
@@ -114,10 +179,36 @@
                 $('.tombol-simpan').off('click').on('click', function() {
                     simpan(id);
                 });
+
+                // Inisialisasi Choices.js
+                kelasSelect = new Choices('#kelas_id', {
+                    searchEnabled: true,
+                    itemSelectText: '',
+                    allowHTML: true,
+                });
+
+                matpelSelect = new Choices('#mata_pelajaran_id', {
+                    searchEnabled: true,
+                    itemSelectText: '',
+                    allowHTML: true,
+                });
+
+                hariSelect = new Choices('#hari', {
+                    searchEnabled: true,
+                    itemSelectText: '',
+                    shouldSort: false,
+                    allowHTML: true,
+                });
+
+                tahunajaranSelect = new Choices('#tahun_ajaran_id', {
+                    searchEnabled: true,
+                    itemSelectText: '',
+                    allowHTML: true,
+                });
             }
         });
-
     });
+
 
     // 04_PROSES Delete
     $('body').on('click', '.tombol-del', function(e) {

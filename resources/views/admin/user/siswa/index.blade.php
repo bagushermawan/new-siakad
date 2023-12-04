@@ -6,7 +6,6 @@
 
     <link rel="stylesheet" href="{{ asset('compiled/css/table-datatable-jquery.css') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
-
 @endpush
 @section('content')
     <div class="page-heading">
@@ -146,13 +145,4 @@
     <script src="{{ asset('extensions/datatables.net-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
     @include('admin.user.siswa.script')
     <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Inisialisasi Choices.js pada elemen dengan ID walikelas_id
-            var walikelasSelect = new Choices('#kelas_id', {
-                searchEnabled: true,
-                itemSelectText: '',
-            });
-        });
-    </script>
 @endpush

@@ -17,8 +17,14 @@
                         return meta.row + 1;
                     }
                 },
-                {data: 'name',name: 'Tahun'},
-                {data: 'semester',name: 'Semester'},
+                {
+                    data: 'name',
+                    name: 'Tahun'
+                },
+                {
+                    data: 'semester',
+                    name: 'Semester'
+                },
                 {
                     data: 'mulai',
                     render: function(data, type, full, meta) {
@@ -45,7 +51,11 @@
                         return formattedDate;
                     }
                 },
-                {data: 'aksi',name: 'Aksi',visible: isAdmin}
+                {
+                    data: 'aksi',
+                    name: 'Aksi',
+                    visible: isAdmin
+                }
             ],
             columnDefs: [{
                 targets: -1,
@@ -77,6 +87,14 @@
     $('body').on('click', '.tombol-tambah', function(e) {
         e.preventDefault();
         $('#exampleModal').modal('show');
+        if (typeof semesterSelect !== 'undefined') {
+                    semesterSelect.destroy();
+                }
+        semesterSelect = new Choices('#semester', {
+                    searchEnabled: true,
+                    itemSelectText: '',
+                    allowHTML: true,
+                });
         $('.tombol-simpan').off('click').on('click', function() {
             simpan();
         });
@@ -91,16 +109,29 @@
             success: function(response) {
                 $('#exampleModal').modal('show');
                 $('#name').val(response.result.name);
+
+                // Hapus objek Choices.js sebelum membuat yang baru
+                if (typeof semesterSelect !== 'undefined') {
+                    semesterSelect.destroy();
+                }
+
                 $('#semester').val(response.result.semester);
                 $('#dateRange').val(response.result.dateRange);
                 console.log(response.result);
                 $('.tombol-simpan').off('click').on('click', function() {
                     simpan(id);
                 });
+
+                // Inisialisasi objek Choices.js baru
+                semesterSelect = new Choices('#semester', {
+                    searchEnabled: true,
+                    itemSelectText: '',
+                    allowHTML: true,
+                });
             }
         });
-
     });
+
 
     // 04_PROSES Delete
     $('body').on('click', '.tombol-del', function(e) {

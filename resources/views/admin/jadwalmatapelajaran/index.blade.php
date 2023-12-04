@@ -162,35 +162,7 @@
     <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
     <script src="{{ asset('/extensions/flatpickr/flatpickr.min.js') }}"></script>
     <script type="text/javascript">
-        var kelasSelect = new Choices('#kelas_id', {
-            searchEnabled: true,
-            itemSelectText: '',
-            itemSelectText: 'Press to select',
-            allowHTML: true,
-
-        });
-
-        var matpelSelect = new Choices('#mata_pelajaran_id', {
-            searchEnabled: true,
-            itemSelectText: '',
-            allowHTML: true,
-
-        });
-
-        var hariSelect = new Choices('#hari', {
-            searchEnabled: true,
-            itemSelectText: '',
-            shouldSort: false,
-            allowHTML: true,
-
-        });
-
-        var tahunajaranSelect = new Choices('#tahun_ajaran_id', {
-            searchEnabled: true,
-            itemSelectText: '',
-            allowHTML: true,
-
-        });
+        
 
         flatpickr('.flatpickr-time-picker-24h', {
             enableTime: true,

@@ -104,17 +104,21 @@
                 $('#name').val(response.result.name);
                 $('#username').val(response.result.username);
                 $('#email').val(response.result.email);
-                if (response.result.role !== null) {
-                $('#role').val(response.role);
-            } else {
-                // Reset nilai jika role null
-                $('#role').val('');
-            }
+                if (typeof roleSelect !== 'undefined') {
+                    roleSelect.destroy();
+                }
+                $('#role').val(response.result.role);
                 $('#password').val(response.result.password);
                 console.log(response.result);
                 console.log('Roles yang dimiliki:', response.role);
                 $('.tombol-simpan').off('click').on('click', function() {
                     simpan(id);
+                });
+                // Inisialisasi objek Choices.js baru
+                 roleSelect = new Choices('#role', {
+                    searchEnabled: true,
+                    itemSelectText: '',
+                    allowHTML: true,
                 });
             }
         });

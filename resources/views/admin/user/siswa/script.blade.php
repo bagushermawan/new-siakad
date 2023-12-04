@@ -1,27 +1,46 @@
 <script>
     $(document).ready(function() {
         var isAdmin = {{ $isAdmin ? 'true' : 'false' }};
-        var myTable= $('#myTable').DataTable({
+        var myTable = $('#myTable').DataTable({
             processing: true,
             serverside: true,
             ajax: "{{ url('/qwe/siswaAjax') }}",
-            columns: [
-                {data: 'DT_RowIndex',
-    name: 'DT_RowIndex',
-    orderable: false,
-    searchable: false,
-    render: function (data, type, row, meta) {
-        if (type === 'display') {
-            return '<center>' + (meta.row + 1) + '</center>';
-        }
-        return meta.row + 1;
-    }},
-                {data: 'nisn',name: 'nisn'},
-                {data: 'name',name: 'Nama'},
-                {data: 'username',name: 'Username'},
-                { data: 'kelas_name', name: 'kelas_name' },
-                {data: 'email',name: 'Email'},
-                {data: 'nohp',name: 'No Hp'},
+            columns: [{
+                    data: 'DT_RowIndex',
+                    name: 'DT_RowIndex',
+                    orderable: false,
+                    searchable: false,
+                    render: function(data, type, row, meta) {
+                        if (type === 'display') {
+                            return '<center>' + (meta.row + 1) + '</center>';
+                        }
+                        return meta.row + 1;
+                    }
+                },
+                {
+                    data: 'nisn',
+                    name: 'nisn'
+                },
+                {
+                    data: 'name',
+                    name: 'Nama'
+                },
+                {
+                    data: 'username',
+                    name: 'Username'
+                },
+                {
+                    data: 'kelas_name',
+                    name: 'kelas_name'
+                },
+                {
+                    data: 'email',
+                    name: 'Email'
+                },
+                {
+                    data: 'nohp',
+                    name: 'No Hp'
+                },
                 {
                     data: 'roles',
                     name: 'Status',
@@ -42,7 +61,11 @@
                         return '';
                     }
                 },
-                {data: 'aksi',name: 'Aksi',visible: isAdmin}
+                {
+                    data: 'aksi',
+                    name: 'Aksi',
+                    visible: isAdmin
+                }
             ],
             columnDefs: [{
                     targets: -1,
@@ -55,14 +78,14 @@
             ]
         });
         // Fungsi untuk memberi warna pada pagination
-            const setTableColor = () => {
-                document.querySelectorAll('.dataTables_paginate .pagination').forEach(dt => {
-                    dt.classList.add('pagination-primary')
-                })
-            }
-            // Memanggil fungsi setTableColor pada awal dan setiap kali DataTable digambar ulang
-            setTableColor();
-            myTable.on('draw', setTableColor);
+        const setTableColor = () => {
+            document.querySelectorAll('.dataTables_paginate .pagination').forEach(dt => {
+                dt.classList.add('pagination-primary')
+            })
+        }
+        // Memanggil fungsi setTableColor pada awal dan setiap kali DataTable digambar ulang
+        setTableColor();
+        myTable.on('draw', setTableColor);
 
 
     });
@@ -80,7 +103,7 @@
         e.preventDefault();
         $('#exampleModal').modal('show');
         $('.tombol-simpan').off('click').on('click', function() {
-                simpan();
+            simpan();
         });
     });
 
@@ -95,23 +118,32 @@
                 $('#nisn').val(response.result.nisn);
                 $('#name').val(response.result.name);
                 $('#username').val(response.result.username);
-                if (response.result.kelas_id !== null) {
+
+                // Hapus objek Choices.js sebelum membuat yang baru
+                if (typeof kelasSelect !== 'undefined') {
+                    kelasSelect.destroy();
+                }
+
                 $('#kelas_id').val(response.result.kelas_id);
-            } else {
-                // Reset nilai jika kelas_id null
-                $('#kelas_id').val('');
-            }
                 $('#email').val(response.result.email);
                 $('#nohp').val(response.result.nohp);
                 $('#password').val(response.result.password);
                 console.log(response.result);
+
                 $('.tombol-simpan').off('click').on('click', function() {
                     simpan(id);
                 });
+
+                // Inisialisasi objek Choices.js baru
+                kelasSelect = new Choices('#kelas_id', {
+                    searchEnabled: true,
+                    itemSelectText: '',
+                    allowHTML: true,
+                });
             }
         });
-
     });
+
 
     // 04_PROSES Delete
     $('body').on('click', '.tombol-del', function(e) {

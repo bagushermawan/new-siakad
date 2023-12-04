@@ -90,6 +90,14 @@
     $('body').on('click', '.tombol-tambah', function(e) {
         e.preventDefault();
         $('#exampleModal').modal('show');
+        if (typeof walikelasSelect !== 'undefined') {
+            walikelasSelect.destroy();
+        }
+        walikelasSelect = new Choices('#walikelas_id', {
+            searchEnabled: true,
+            itemSelectText: '',
+            allowHTML: true,
+        });
         $('.tombol-simpan').off('click').on('click', function() {
             simpan();
         });
@@ -104,6 +112,12 @@
             success: function(response) {
                 $('#exampleModal').modal('show');
                 $('#name').val(response.result.name);
+
+                // Hapus objek Choices.js sebelum membuat yang baru
+                if (typeof walikelasSelect !== 'undefined') {
+                    walikelasSelect.destroy();
+                }
+
                 if (response.result.walikelas_id !== null) {
                     $('#walikelas_id').val(response.result.walikelas_id);
                 } else {
@@ -114,10 +128,17 @@
                 $('.tombol-simpan').off('click').on('click', function() {
                     simpan(id);
                 });
+
+                // Inisialisasi objek Choices.js baru
+                walikelasSelect = new Choices('#walikelas_id', {
+                    searchEnabled: true,
+                    itemSelectText: '',
+                    allowHTML: true,
+                });
             }
         });
-
     });
+
 
     // 04_PROSES Delete
     $('body').on('click', '.tombol-del', function(e) {

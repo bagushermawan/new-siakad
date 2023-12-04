@@ -121,13 +121,4 @@
     <script src="{{ asset('extensions/datatables.net-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
     @include('admin.kelas.script')
     <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Inisialisasi Choices.js pada elemen dengan ID walikelas_id
-            var walikelasSelect = new Choices('#walikelas_id', {
-                searchEnabled: true,
-                itemSelectText: '',
-            });
-        });
-    </script>
 @endpush
