@@ -102,6 +102,14 @@
     $('body').on('click', '.tombol-tambah', function(e) {
         e.preventDefault();
         $('#exampleModal').modal('show');
+        if (typeof kelasSelect !== 'undefined') {
+                    kelasSelect.destroy();
+                }
+        kelasSelect = new Choices('#kelas_id', {
+                    searchEnabled: true,
+                    itemSelectText: '',
+                    allowHTML: true,
+                });
         $('.tombol-simpan').off('click').on('click', function() {
             simpan();
         });
