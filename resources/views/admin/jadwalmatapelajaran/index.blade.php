@@ -162,8 +162,6 @@
     <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
     <script src="{{ asset('/extensions/flatpickr/flatpickr.min.js') }}"></script>
     <script type="text/javascript">
-        
-
         flatpickr('.flatpickr-time-picker-24h', {
             enableTime: true,
             noCalendar: true,

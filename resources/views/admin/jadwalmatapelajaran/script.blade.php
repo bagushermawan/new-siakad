@@ -1,9 +1,74 @@
 <script>
     $(document).ready(function() {
         var isAdmin = {{ $isAdmin ? 'true' : 'false' }};
+        $('#myTable thead tr')
+            .clone(true)
+            .addClass('filters')
+            .appendTo('#myTable thead');
         var myTable = $('#myTable').DataTable({
+            orderCellsTop: true,
             processing: true,
-            serveride: true,
+            serverside: true,
+            initComplete: function() {
+                var api = this.api();
+
+                // For each column
+                api
+                    .columns()
+                    .eq(0)
+                    .each(function(colIdx) {
+                        // Set the header cell to contain the input element
+                        var cell = $('.filters th').eq(
+                            $(api.column(colIdx).header()).index()
+                        );
+                        var title = $(cell).text();
+                        // Tambahkan kondisi untuk mengecek apakah kolom No
+                        if (colIdx === 0 || colIdx === 7) {
+                            // Jika kolom No, tidak tambahkan input filter
+                            $(cell).html('');
+                        } else {
+                            // Jika bukan kolom No, tambahkan input filter seperti biasa
+                            $(cell).html(
+                                '<input type="text" class="form-control" placeholder="' +
+                                title + '" />');
+                        }
+
+                        // On every keypress in this input
+                        $(
+                                'input',
+                                $('.filters th').eq($(api.column(colIdx).header()).index())
+                            )
+                            .off('keyup change')
+                            .on('change', function(e) {
+                                // Get the search value
+                                $(this).attr('title', $(this).val());
+                                var regexr =
+                                    '({search})'; //$(this).parents('th').find('select').val();
+
+                                cursorPosition = this.selectionStart;
+                                // Search the column for that value
+                                api
+                                    .column(colIdx)
+                                    .search(
+                                        this.value != '' ?
+                                        regexr.replace('{search}', '(((' + this.value +
+                                            ')))') :
+                                        '',
+                                        this.value != '',
+                                        this.value == ''
+                                    )
+                                    .draw();
+                            })
+                            .on('keyup', function(e) {
+                                e.stopPropagation();
+
+                                $(this).trigger('change');
+                                $(this)
+                                    .focus()[0]
+                                    .setSelectionRange(cursorPosition, cursorPosition);
+                            });
+                    });
+            },
             ajax: "{{ url('/qwe/jadwalmatapelajaranAjax') }}",
             columns: [{
                     data: 'DT_RowIndex',
@@ -58,7 +123,9 @@
                 },
                 {
                     data: 'aksi',
-                    name: 'Aksi',
+                    name: 'Action',
+                    orderable: false,
+                    searchable: false,
                     visible: isAdmin
                 }
             ],
@@ -112,30 +179,30 @@
             tahunajaranSelect.destroy();
         }
         // Inisialisasi Choices.js
-                kelasSelect = new Choices('#kelas_id', {
-                    searchEnabled: true,
-                    itemSelectText: '',
-                    allowHTML: true,
-                });
+        kelasSelect = new Choices('#kelas_id', {
+            searchEnabled: true,
+            itemSelectText: '',
+            allowHTML: true,
+        });
 
-                matpelSelect = new Choices('#mata_pelajaran_id', {
-                    searchEnabled: true,
-                    itemSelectText: '',
-                    allowHTML: true,
-                });
+        matpelSelect = new Choices('#mata_pelajaran_id', {
+            searchEnabled: true,
+            itemSelectText: '',
+            allowHTML: true,
+        });
 
-                hariSelect = new Choices('#hari', {
-                    searchEnabled: true,
-                    itemSelectText: '',
-                    shouldSort: false,
-                    allowHTML: true,
-                });
+        hariSelect = new Choices('#hari', {
+            searchEnabled: true,
+            itemSelectText: '',
+            shouldSort: false,
+            allowHTML: true,
+        });
 
-                tahunajaranSelect = new Choices('#tahun_ajaran_id', {
-                    searchEnabled: true,
-                    itemSelectText: '',
-                    allowHTML: true,
-                });
+        tahunajaranSelect = new Choices('#tahun_ajaran_id', {
+            searchEnabled: true,
+            itemSelectText: '',
+            allowHTML: true,
+        });
         $('.tombol-simpan').off('click').on('click', function() {
             simpan();
         });
