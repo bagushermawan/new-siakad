@@ -9,9 +9,42 @@
             orderCellsTop: true,
             processing: true,
             serverside: true,
+            dom: 'Bfrtipl',
+            buttons: [{
+                    extend: 'copy',
+                    className: 'btn btn-outline-secondary',
+                    text: '<i class="fas fa-copy"></i> Copy to clipboard',
+                    exportOptions: {
+                        columns: [0, 1, 2, 3, 4, 5, 6]
+                    },
+                },
+                {
+                    extend: 'csv',
+                    className: 'btn btn-outline-secondary',
+                    text: '<i class="fas fa-file-csv"></i>',
+                    titleAttr: 'Download CSV'
+                },
+                {
+                    extend: 'excel',
+                    className: 'btn btn-outline-secondary',
+                    text: '<i class="far fa-file-excel"></i>',
+                    titleAttr: 'Download Excel'
+                },
+                {
+                    extend: 'pdf',
+                    className: 'btn btn-outline-secondary',
+                    text: '<i class="far fa-file-pdf"></i>',
+                    titleAttr: 'Download PDF'
+                },
+                {
+                    extend: 'print',
+                    className: 'btn btn-outline-secondary',
+                    text: '<i class="fas fa-print"></i>',
+                    titleAttr: 'Print Data'
+                },
+            ],
             initComplete: function() {
                 var api = this.api();
-
                 // For each column
                 api
                     .columns()
@@ -32,7 +65,6 @@
                                 '<input type="text" class="form-control" placeholder="' +
                                 title + '" />');
                         }
-
                         // On every keypress in this input
                         $(
                                 'input',
