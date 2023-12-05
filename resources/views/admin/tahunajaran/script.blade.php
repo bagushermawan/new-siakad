@@ -88,13 +88,13 @@
         e.preventDefault();
         $('#exampleModal').modal('show');
         if (typeof semesterSelect !== 'undefined') {
-                    semesterSelect.destroy();
-                }
+            semesterSelect.destroy();
+        }
         semesterSelect = new Choices('#semester', {
-                    searchEnabled: true,
-                    itemSelectText: '',
-                    allowHTML: true,
-                });
+            searchEnabled: true,
+            itemSelectText: '',
+            allowHTML: true,
+        });
         $('.tombol-simpan').off('click').on('click', function() {
             simpan();
         });
@@ -110,15 +110,19 @@
                 $('#exampleModal').modal('show');
                 $('#name').val(response.result.name);
 
+
                 // Hapus objek Choices.js sebelum membuat yang baru
                 if (typeof semesterSelect !== 'undefined') {
                     semesterSelect.destroy();
                 }
-
                 $('#semester').val(response.result.semester);
-                $('#dateRange').val(response.result.dateRange);
+
+                // Set nilai kolom "mulai" dan "selesai" ke elemen #daterange
+                var dateRangeValue = response.result.mulai + ' to ' + response.result.selesai;
+                $('#daterange').val(dateRangeValue);
+
+                console.log(dateRangeValue);
                 console.log(response.result);
-                console.log(response.result.dateRange);
                 $('.tombol-simpan').off('click').on('click', function() {
                     simpan(id);
                 });

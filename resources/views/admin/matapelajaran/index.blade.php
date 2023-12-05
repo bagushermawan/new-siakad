@@ -68,7 +68,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title" id="myModalLabel33">Form Tambah Data Kelas </h4>
+                        <h4 class="modal-title" id="myModalLabel33">Form Tambah Data Mata Pelajaran </h4>
                         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
