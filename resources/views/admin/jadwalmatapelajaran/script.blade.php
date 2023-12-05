@@ -22,25 +22,37 @@
                     extend: 'csv',
                     className: 'btn btn-outline-secondary',
                     text: '<i class="fas fa-file-csv"></i>',
-                    titleAttr: 'Download CSV'
+                    titleAttr: 'Download CSV',
+                    exportOptions: {
+                        columns: [0, 1, 2, 3, 4, 5, 6]
+                    },
                 },
                 {
                     extend: 'excel',
                     className: 'btn btn-outline-secondary',
                     text: '<i class="far fa-file-excel"></i>',
-                    titleAttr: 'Download Excel'
+                    titleAttr: 'Download Excel',
+                    exportOptions: {
+                        columns: [0, 1, 2, 3, 4, 5, 6]
+                    },
                 },
                 {
                     extend: 'pdf',
                     className: 'btn btn-outline-secondary',
                     text: '<i class="far fa-file-pdf"></i>',
-                    titleAttr: 'Download PDF'
+                    titleAttr: 'Download PDF',
+                    exportOptions: {
+                        columns: [0, 1, 2, 3, 4, 5, 6]
+                    },
                 },
                 {
                     extend: 'print',
                     className: 'btn btn-outline-secondary',
                     text: '<i class="fas fa-print"></i>',
-                    titleAttr: 'Print Data'
+                    titleAttr: 'Print Data',
+                    exportOptions: {
+                        columns: [0, 1, 2, 3, 4, 5, 6]
+                    },
                 },
             ],
             initComplete: function() {

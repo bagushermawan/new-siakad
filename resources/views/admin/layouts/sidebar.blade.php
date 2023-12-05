@@ -112,6 +112,13 @@
                             </ul>
                         </li>
 
+                        <li class="sidebar-item {{ request()->routeIs('kelas.index') ? 'active' : '' }}">
+                            <a href="{{ route('kelas.index') }}" class='sidebar-link'>
+                                <i class="bi bi-list-ol"></i>
+                                <span>Nilai</span>
+                            </a>
+                        </li>
+
 
 
                         @if(auth()->user()->hasRole('admin'))
