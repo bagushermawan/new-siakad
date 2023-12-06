@@ -75,9 +75,16 @@
                                     </td>
                                     <td>
                                         <center>
-                                            <a href='{{ route('role.edit', ['role' => $a->id]) }}'class="badge bg-primary tombol-edit">Edit</a>
-                                            |
-                                            <a href='{{ route('role.edit', ['role' => $a->id]) }}'class="badge bg-danger tombol-del">Delete</a>
+                                            <form action="{{ route('role.destroy', ['role' => $a->id]) }}" method="POST">
+                                                @csrf
+                                                @method('DELETE')
+
+                                                <a href="{{ route('role.edit', ['role' => $a->id]) }}"
+                                                    class="badge bg-primary tombol-edit">Edit</a>
+                                                |
+                                                <button type="submit" class="badge bg-danger tombol-del"
+                                                    onclick="return confirm('Are you sure you want to delete this role?')">Delete</button>
+                                            </form>
                                         </center>
                                     </td>
                                 </tr>

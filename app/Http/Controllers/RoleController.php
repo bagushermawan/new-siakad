@@ -65,9 +65,12 @@ class RoleController extends Controller
             $role->syncPermissions($request->input('permission'));
         }
 
+        // Notifikasi SweetAlert
+        $successMessage = 'Role berhasil dibuat';
+
         return redirect()
-            ->route('role.index')
-            ->with('success', 'Role created successfully');
+        ->route('role.index')
+        ->with('successMessage', $successMessage);
     }
 
     /**
@@ -131,17 +134,29 @@ class RoleController extends Controller
             $role->syncPermissions($request->input('permission'));
         }
 
+        $updateMessage = 'Role berhasil diupdate';
+
         return redirect()
             ->route('role.index')
-            ->with('success', 'Role updated successfully');
+            ->with('updateMessage', $updateMessage);
     }
 
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        $role = Role::findById($id);
+
+        if (!$role) {
+            return redirect()->route('role.index')->with('error', 'Role not found');
+        }
+
+        // Hapus role
+        $role->delete();
+        $destroyMessage = 'Role berhasil dihapus';
+
+        return redirect()->route('role.index')->with('destroyMessage', $destroyMessage);
     }
 }

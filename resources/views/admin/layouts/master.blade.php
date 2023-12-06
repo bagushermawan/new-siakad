@@ -23,10 +23,12 @@
         div.dt-buttons {
             position: initial;
         }
+
         div.dt-buttons .dt-button {
             overflow: hidden;
             text-overflow: ellipsis;
         }
+
         div.dt-button-info {
             position: fixed;
             top: 50%;
@@ -41,18 +43,22 @@
             z-index: 2003;
             overflow: hidden;
         }
+
         div.dt-button-info h2 {
             padding: 2rem 2rem 1rem 2rem;
             margin: 0;
             font-weight: normal;
         }
+
         div.dt-button-info>div {
             padding: 1em 2em 2em 2em;
         }
+
         div.dt-button-info {
             background-color: var(--dt-html-background);
             border: 1px solid rgba(255, 255, 255, 0.15);
         }
+
         /* Gaya untuk tema gelap */
         html[data-bs-theme=dark] div.dt-button-info {
             /* Aturan gaya khusus untuk tema gelap */
@@ -82,6 +88,17 @@
         {{-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.0/dist/sweetalert2.all.min.js"></script> --}}
         <script src="{{ asset('/extensions/sweetalert2/sweetalert2.all.min.js') }}"></script>
         @stack('page-script')
+        <script>
+            @if (session('successMessage'))
+                Swal.fire('Sukses!', '{{ session('successMessage') }}', 'success');
+            @endif
+            @if (session('destroyMessage'))
+                Swal.fire('Sukses!', '{{ session('destroyMessage') }}', 'info');
+            @endif
+            @if (session('updateMessage'))
+                Swal.fire('Sukses!', '{{ session('updateMessage') }}', 'success');
+            @endif
+        </script>
 </body>
 
 </html>
