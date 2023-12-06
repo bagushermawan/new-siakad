@@ -67,9 +67,12 @@ class PermissionController extends Controller
             Permission::create(['name' => $action . '-' . $moduleName]);
         }
 
+        // Notifikasi SweetAlert
+        $successMessage = 'Role berhasil dibuat';
+
         return redirect()
         ->route('permission.index')
-        ->with('success', 'Permission created successfully');
+        ->with('successMessage', $successMessage);
     }
 
     /**
@@ -131,6 +134,7 @@ class PermissionController extends Controller
     {
         $permission = Permission::find($id);
         $permission->delete();
-        return redirect()->route('permission.index');
+        $destroyMessage = 'Role berhasil dihapus';
+        return redirect()->route('permission.index')->with('destroyMessage', $destroyMessage);
     }
 }
