@@ -5,11 +5,10 @@
 
 
     <link rel="stylesheet" href="{{ asset('compiled/css/table-datatable-jquery.css') }}">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
+    <link rel="stylesheet" href="{{ asset('/extensions/choices.js/public/assets/styles/choices.css') }}">
     <link rel="stylesheet" href="{{ asset('/extensions/flatpickr/flatpickr.min.css') }}">
     <link rel="stylesheet" href="{{ asset('/extensions/@fortawesome/fontawesome-free/css/all.min.css') }}">
-    {{-- moment untuk ngantur tampilan format date di datatable  --}}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <link rel="stylesheet" href="{{ asset('/extensions/moment/moment.min.js') }}">
     {{-- <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css" /> --}}
 @endpush
 @section('content')
@@ -161,16 +160,15 @@
     <script src="{{ asset('extensions/datatables.net/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('extensions/datatables.net-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
 
-    <script src="https://cdn.datatables.net/buttons/2.4.2/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.html5.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.4.2/js/buttons.print.min.js"></script>
-
+    <script src="{{ asset('extensions/datatables.net/js/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('extensions/datatables.net/js/jszip.min.js') }}"></script>
+    <script src="{{ asset('extensions/datatables.net/js/pdfmake.min.js') }}"></script>
+    <script src="{{ asset('extensions/datatables.net/js/vfs_fonts.js') }}"></script>
+    <script src="{{ asset('extensions/datatables.net/js/buttons.html5.min.js') }}"></script>
+    <script src="{{ asset('extensions/datatables.net/js/buttons.print.min.js') }}"></script>
 
     @include('admin.jadwalmatapelajaran.script')
-    <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+    <script src="{{ asset('/extensions/choices.js/public/assets/scripts/choices.min.js') }}"></script>
     <script src="{{ asset('/extensions/flatpickr/flatpickr.min.js') }}"></script>
     <script type="text/javascript">
         flatpickr('.flatpickr-time-picker-24h', {

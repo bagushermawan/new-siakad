@@ -1,24 +1,143 @@
 <script>
     $(document).ready(function() {
         var isAdmin = {{ $isAdmin ? 'true' : 'false' }};
-        var myTable= $('#myTable').DataTable({
+        $('#myTable thead tr')
+            .clone(true)
+            .addClass('filters')
+            .appendTo('#myTable thead');
+        var myTable = $('#myTable').DataTable({
+            orderCellsTop: true,
             processing: true,
             serverside: true,
+            dom: 'Bfrtipl',
+            buttons: [{
+                    extend: 'copy',
+                    className: 'btn btn-outline-secondary',
+                    text: '<i class="fas fa-copy"></i> Copy to clipboard',
+                    exportOptions: {
+                        columns: [0, 1, 2, 3, 4, 5]
+                    },
+                },
+                {
+                    extend: 'csv',
+                    className: 'btn btn-outline-secondary',
+                    text: '<i class="fas fa-file-csv"></i>',
+                    titleAttr: 'Download CSV',
+                    exportOptions: {
+                        columns: [0, 1, 2, 3, 4, 5]
+                    },
+                },
+                {
+                    extend: 'excel',
+                    className: 'btn btn-outline-secondary',
+                    text: '<i class="far fa-file-excel"></i>',
+                    titleAttr: 'Download Excel',
+                    exportOptions: {
+                        columns: [0, 1, 2, 3, 4, 5]
+                    },
+                },
+                {
+                    extend: 'pdf',
+                    className: 'btn btn-outline-secondary',
+                    text: '<i class="far fa-file-pdf"></i>',
+                    titleAttr: 'Download PDF',
+                    exportOptions: {
+                        columns: [0, 1, 2, 3, 4, 5]
+                    },
+                },
+                {
+                    extend: 'print',
+                    className: 'btn btn-outline-secondary',
+                    text: '<i class="fas fa-print"></i>',
+                    titleAttr: 'Print Data',
+                    exportOptions: {
+                        columns: [0, 1, 2, 3, 4, 5]
+                    },
+                },
+            ],
+            initComplete: function() {
+                var api = this.api();
+                // For each column
+                api
+                    .columns()
+                    .eq(0)
+                    .each(function(colIdx) {
+                        // Set the header cell to contain the input element
+                        var cell = $('.filters th').eq(
+                            $(api.column(colIdx).header()).index()
+                        );
+                        var title = $(cell).text();
+                        // Tambahkan kondisi untuk mengecek apakah kolom No
+                        if (colIdx === 0 || colIdx === 4 || colIdx === 5 || colIdx === 6) {
+                            // Jika kolom No, tidak tambahkan input filter
+                            $(cell).html('');
+                        } else {
+                            // Jika bukan kolom No, tambahkan input filter seperti biasa
+                            $(cell).html(
+                                '<input type="text" class="form-control" placeholder="' +
+                                title + '" />');
+                        }
+                        // On every keypress in this input
+                        $(
+                                'input',
+                                $('.filters th').eq($(api.column(colIdx).header()).index())
+                            )
+                            .off('keyup change')
+                            .on('change', function(e) {
+                                // Get the search value
+                                $(this).attr('title', $(this).val());
+                                var regexr =
+                                    '({search})'; //$(this).parents('th').find('select').val();
+
+                                cursorPosition = this.selectionStart;
+                                // Search the column for that value
+                                api
+                                    .column(colIdx)
+                                    .search(
+                                        this.value != '' ?
+                                        regexr.replace('{search}', '(((' + this.value +
+                                            ')))') :
+                                        '',
+                                        this.value != '',
+                                        this.value == ''
+                                    )
+                                    .draw();
+                            })
+                            .on('keyup', function(e) {
+                                e.stopPropagation();
+
+                                $(this).trigger('change');
+                                $(this)
+                                    .focus()[0]
+                                    .setSelectionRange(cursorPosition, cursorPosition);
+                            });
+                    });
+            },
             ajax: "{{ url('/qwe/userAjax') }}",
-            columns: [
-                {data: 'DT_RowIndex',
-    name: 'DT_RowIndex',
-    orderable: false,
-    searchable: false,
-    render: function (data, type, row, meta) {
-        if (type === 'display') {
-            return '<center>' + (meta.row + 1) + '</center>';
-        }
-        return meta.row + 1;
-    }},
-                {data: 'name',name: 'Nama'},
-                {data: 'username',name: 'Username'},
-                {data: 'email',name: 'Email'},
+            columns: [{
+                    data: 'DT_RowIndex',
+                    name: 'DT_RowIndex',
+                    orderable: false,
+                    searchable: false,
+                    render: function(data, type, row, meta) {
+                        if (type === 'display') {
+                            return '<center>' + (meta.row + 1) + '</center>';
+                        }
+                        return meta.row + 1;
+                    }
+                },
+                {
+                    data: 'name',
+                    name: 'Nama'
+                },
+                {
+                    data: 'username',
+                    name: 'Username'
+                },
+                {
+                    data: 'email',
+                    name: 'Email'
+                },
                 {
                     data: 'created_at',
                     name: 'created_at',
@@ -51,7 +170,11 @@
                         return '';
                     }
                 },
-                {data: 'aksi',name: 'Aksi',visible: isAdmin}
+                {
+                    data: 'aksi',
+                    name: 'Aksi',
+                    visible: isAdmin
+                }
             ],
             columnDefs: [{
                     targets: -1,
@@ -64,14 +187,14 @@
             ]
         });
         // Fungsi untuk memberi warna pada pagination
-            const setTableColor = () => {
-                document.querySelectorAll('.dataTables_paginate .pagination').forEach(dt => {
-                    dt.classList.add('pagination-primary')
-                })
-            }
-            // Memanggil fungsi setTableColor pada awal dan setiap kali DataTable digambar ulang
-            setTableColor();
-            myTable.on('draw', setTableColor);
+        const setTableColor = () => {
+            document.querySelectorAll('.dataTables_paginate .pagination').forEach(dt => {
+                dt.classList.add('pagination-primary')
+            })
+        }
+        // Memanggil fungsi setTableColor pada awal dan setiap kali DataTable digambar ulang
+        setTableColor();
+        myTable.on('draw', setTableColor);
 
 
     });
@@ -87,9 +210,18 @@
     // 02_PROSES SIMPAN
     $('body').on('click', '.tombol-tambah', function(e) {
         e.preventDefault();
+        if (typeof roleSelect !== 'undefined') {
+            roleSelect.destroy();
+        }
+        // Inisialisasi objek Choices.js baru
+        roleSelect = new Choices('#role', {
+            searchEnabled: true,
+            itemSelectText: '',
+            allowHTML: true,
+        });
         $('#exampleModal').modal('show');
         $('.tombol-simpan').off('click').on('click', function() {
-                simpan();
+            simpan();
         });
     });
 
@@ -101,9 +233,12 @@
             type: 'GET',
             success: function(response) {
                 $('#exampleModal').modal('show');
+                $('#nisn').val(response.result.nisn);
+                $('#nuptk').val(response.result.nuptk);
                 $('#name').val(response.result.name);
                 $('#username').val(response.result.username);
                 $('#email').val(response.result.email);
+                $('#nohp').val(response.result.nohp);
                 if (typeof roleSelect !== 'undefined') {
                     roleSelect.destroy();
                 }
@@ -115,7 +250,7 @@
                     simpan(id);
                 });
                 // Inisialisasi objek Choices.js baru
-                 roleSelect = new Choices('#role', {
+                roleSelect = new Choices('#role', {
                     searchEnabled: true,
                     itemSelectText: '',
                     allowHTML: true,
@@ -175,6 +310,9 @@
             url: var_url,
             type: var_type,
             data: {
+                nohp: $('#nohp').val(),
+                nuptk: $('#nuptk').val(),
+                nisn: $('#nisn').val(),
                 name: $('#name').val(),
                 username: $('#username').val(),
                 email: $('#email').val(),
@@ -201,6 +339,9 @@
     }
 
     $('#exampleModal').on('hidden.bs.modal', function() {
+        $('#nohp').val('');
+        $('#nisn').val('');
+        $('#nuptk').val('');
         $('#name').val('');
         $('#username').val('');
         $('#email').val('');

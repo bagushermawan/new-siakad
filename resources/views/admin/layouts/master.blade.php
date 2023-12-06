@@ -15,7 +15,8 @@
         type="image/png">
     <link rel="stylesheet" href="{{ asset('compiled/css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('compiled/css/app-dark.css') }}">
-    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.0/dist/sweetalert2.min.css" rel="stylesheet">
+    {{-- <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.0/dist/sweetalert2.min.css" rel="stylesheet"> --}}
+    <link rel="stylesheet" href="{{ asset('/extensions/sweetalert2/sweetalert2.min.css') }}">
     @stack('page-css')
 </head>
 
@@ -33,7 +34,8 @@
         <script src="{{ asset('static/js/components/dark.js') }}"></script>
         <script src="{{ asset('extensions/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
         <script src="{{ asset('compiled/js/app.js') }}"></script>
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.0/dist/sweetalert2.all.min.js"></script>
+        {{-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.0/dist/sweetalert2.all.min.js"></script> --}}
+        <script src="{{ asset('/extensions/sweetalert2/sweetalert2.all.min.js') }}"></script>
         @stack('page-script')
 </body>
 

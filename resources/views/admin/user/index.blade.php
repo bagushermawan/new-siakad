@@ -5,7 +5,8 @@
 
 
     <link rel="stylesheet" href="{{ asset('compiled/css/table-datatable-jquery.css') }}">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
+    <link rel="stylesheet" href="{{ asset('/extensions/choices.js/public/assets/styles/choices.css') }}">
+    <link rel="stylesheet" href="{{ asset('/extensions/@fortawesome/fontawesome-free/css/all.min.css') }}">
 @endpush
 @section('content')
     <div class="page-heading">
@@ -51,7 +52,7 @@
                             <tr>
                                 <th>No</th>
                                 <th>Name</th>
-                                <th>username</th>
+                                <th>Username</th>
                                 <th>Email</th>
                                 <th>Created at</th>
                                 <th>
@@ -145,7 +146,23 @@
     <script src="{{ asset('extensions/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('extensions/datatables.net/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('extensions/datatables.net-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
+
+    <script src="{{ asset('extensions/datatables.net/js/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('extensions/datatables.net/js/jszip.min.js') }}"></script>
+    <script src="{{ asset('extensions/datatables.net/js/pdfmake.min.js') }}"></script>
+    <script src="{{ asset('extensions/datatables.net/js/vfs_fonts.js') }}"></script>
+    <script src="{{ asset('extensions/datatables.net/js/buttons.html5.min.js') }}"></script>
+    <script src="{{ asset('extensions/datatables.net/js/buttons.print.min.js') }}"></script>
+
     @include('admin.user.script')
-    <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+    <script src="{{ asset('/extensions/choices.js/public/assets/scripts/choices.min.js') }}"></script>
+    <script>
+        // Inisialisasi objek Choices.js baru
+                var roleSelect = new Choices('#role', {
+                    searchEnabled: false,
+                    itemSelectText: '',
+                    allowHTML: true,
+                });
+    </script>
 
 @endpush

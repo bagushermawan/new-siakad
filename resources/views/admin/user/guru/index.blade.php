@@ -5,7 +5,8 @@
 
 
     <link rel="stylesheet" href="{{ asset('compiled/css/table-datatable-jquery.css') }}">
-    <script></script>
+    <link rel="stylesheet" href="{{ asset('/extensions/choices.js/public/assets/styles/choices.css') }}">
+    <link rel="stylesheet" href="{{ asset('/extensions/@fortawesome/fontawesome-free/css/all.min.css') }}">
 @endpush
 @section('content')
     <div class="page-heading">
@@ -33,16 +34,16 @@
                     <h5 class="card-title">
                         Ajax CRUD Datatables
                     </h5>
-                    @if(auth()->user()->hasRole('admin'))
-                    <h6>
-                        <a href="#" class="btn icon icon-left btn-success tombol-tambah"><svg
-                                xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" class="feather feather-edit">
-                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                            </svg> Tambah Data</a>
-                    </h6>
+                    @if (auth()->user()->hasRole('admin'))
+                        <h6>
+                            <a href="#" class="btn icon icon-left btn-success tombol-tambah"><svg
+                                    xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" class="feather feather-edit">
+                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                </svg> Tambah Data</a>
+                        </h6>
                     @endif
                 </div>
                 <div class="card-body">
@@ -105,6 +106,17 @@
                         <div class="form-group">
                             <input id="nohp" type="text" name="nohp" class="form-control">
                         </div>
+
+                        <label>Roles: </label>
+                        <div class="form-group">
+                            <select id="role" name="role" class="form-control">
+                                <option value="">Pilih Role</option>
+                                @if (count($roless) >= 2)
+                                    <option value="{{ $roless[1]->name }}" selected>{{ ucfirst($roless[1]->name) }}</option>
+                                @endif
+                            </select>
+                        </div>
+
                         <label>Password: </label>
                         <div class="form-group">
                             <input id="password" type="password" name="password" class="form-control">
@@ -129,5 +141,22 @@
     <script src="{{ asset('extensions/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('extensions/datatables.net/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('extensions/datatables.net-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
+
+    <script src="{{ asset('extensions/datatables.net/js/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('extensions/datatables.net/js/jszip.min.js') }}"></script>
+    <script src="{{ asset('extensions/datatables.net/js/pdfmake.min.js') }}"></script>
+    <script src="{{ asset('extensions/datatables.net/js/vfs_fonts.js') }}"></script>
+    <script src="{{ asset('extensions/datatables.net/js/buttons.html5.min.js') }}"></script>
+    <script src="{{ asset('extensions/datatables.net/js/buttons.print.min.js') }}"></script>
+
     @include('admin.user.guru.script')
+    <script src="{{ asset('/extensions/choices.js/public/assets/scripts/choices.min.js') }}"></script>
+    <script>
+        // Inisialisasi objek Choices.js baru
+                var roleSelect = new Choices('#role', {
+                    searchEnabled: false,
+                    itemSelectText: '',
+                    allowHTML: true,
+                });
+    </script>
 @endpush
