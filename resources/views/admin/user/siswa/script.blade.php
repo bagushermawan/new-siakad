@@ -244,9 +244,10 @@
                 $('#kelas_id').val(response.result.kelas_id);
                 $('#email').val(response.result.email);
                 $('#nohp').val(response.result.nohp);
+                $('#role').val(response.result.role);
                 $('#password').val(response.result.password);
                 console.log(response.result);
-
+                console.log('Roles yang dimiliki:', response.role);
                 $('.tombol-simpan').off('click').on('click', function() {
                     simpan(id);
                 });
@@ -318,6 +319,7 @@
                 kelas_id: $('#kelas_id').val() || null,
                 email: $('#email').val(),
                 nohp: $('#nohp').val(),
+                role: $('#role').val(),
                 password: $('#password').val()
             },
             success: function(response) {
@@ -346,6 +348,7 @@
         $('#kelas_id').val('');
         $('#email').val('');
         $('#nohp').val('');
+        $('#role').val('');
         $('#password').val('');
 
         $('.alert-danger').addClass('d-none');

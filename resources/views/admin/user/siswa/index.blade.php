@@ -120,6 +120,17 @@
                         <div class="form-group">
                             <input id="nohp" type="text" name="nohp" class="form-control">
                         </div>
+
+                        <label>Roles: </label>
+                        <div class="form-group">
+                            <select id="role" name="role" class="form-control">
+                                {{-- <option value="">Pilih Role</option> --}}
+                                @if (count($roless) >= 2)
+                                    <option value="{{ $roless[2]->name }}" selected>{{ ucfirst($roless[2]->name) }}</option>
+                                @endif
+                            </select>
+                        </div>
+
                         <label>Password: </label>
                         <div class="form-group">
                             <input id="password" type="password" name="password" class="form-control">
@@ -154,4 +165,12 @@
 
     @include('admin.user.siswa.script')
     <script src="{{ asset('/extensions/choices.js/public/assets/scripts/choices.min.js') }}"></script>
+    <script>
+        // Inisialisasi objek Choices.js baru
+        var roleSelect = new Choices('#role', {
+            searchEnabled: false,
+            itemSelectText: '',
+            allowHTML: true,
+        });
+    </script>
 @endpush

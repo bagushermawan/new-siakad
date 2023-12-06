@@ -110,9 +110,10 @@
                         <label>Roles: </label>
                         <div class="form-group">
                             <select id="role" name="role" class="form-control">
-                                <option value="">Pilih Role</option>
+                                {{-- <option value="">Pilih Role</option> --}}
                                 @if (count($roless) >= 2)
-                                    <option value="{{ $roless[1]->name }}" selected>{{ ucfirst($roless[1]->name) }}</option>
+                                    <option value="{{ $roless[1]->name }}" selected>{{ ucfirst($roless[1]->name) }}
+                                    </option>
                                 @endif
                             </select>
                         </div>
@@ -153,10 +154,10 @@
     <script src="{{ asset('/extensions/choices.js/public/assets/scripts/choices.min.js') }}"></script>
     <script>
         // Inisialisasi objek Choices.js baru
-                var roleSelect = new Choices('#role', {
-                    searchEnabled: false,
-                    itemSelectText: '',
-                    allowHTML: true,
-                });
+        var roleSelect = new Choices('#role', {
+            searchEnabled: false,
+            itemSelectText: '',
+            allowHTML: true,
+        });
     </script>
 @endpush
