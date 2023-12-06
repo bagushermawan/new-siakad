@@ -17,6 +17,51 @@
     <link rel="stylesheet" href="{{ asset('compiled/css/app-dark.css') }}">
     {{-- <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.0/dist/sweetalert2.min.css" rel="stylesheet"> --}}
     <link rel="stylesheet" href="{{ asset('/extensions/sweetalert2/sweetalert2.min.css') }}">
+    {{-- style popup copy cliboard --}}
+    <style>
+        /* Gaya untuk tema terang */
+        div.dt-buttons {
+            position: initial;
+        }
+        div.dt-buttons .dt-button {
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        div.dt-button-info {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 400px;
+            margin-top: -100px;
+            margin-left: -200px;
+            background-color: white;
+            border-radius: .75em;
+            box-shadow: 3px 4px 10px 1px rgba(0, 0, 0, 0.8);
+            text-align: center;
+            z-index: 2003;
+            overflow: hidden;
+        }
+        div.dt-button-info h2 {
+            padding: 2rem 2rem 1rem 2rem;
+            margin: 0;
+            font-weight: normal;
+        }
+        div.dt-button-info>div {
+            padding: 1em 2em 2em 2em;
+        }
+        div.dt-button-info {
+            background-color: var(--dt-html-background);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        /* Gaya untuk tema gelap */
+        html[data-bs-theme=dark] div.dt-button-info {
+            /* Aturan gaya khusus untuk tema gelap */
+            /* Contoh: Ubah warna latar belakang menjadi gelap */
+            background-color: #282835;
+            color: #a8a8c4;
+            border: 1px solid rgba(39, 81, 231, 0.15);
+        }
+    </style>
     @stack('page-css')
 </head>
 

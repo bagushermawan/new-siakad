@@ -55,6 +55,16 @@
                     },
                 },
             ],
+            //     language: {
+            //     buttons: {
+            //         copyTitle: 'Sukses menyalin ke clipboard',
+            //         copyKeys: 'Appuyez sur <i>ctrl</i> ou <i>\u2318</i> + <i>C</i> pour copier les données du tableau à votre presse-papiers. <br><br>Pour annuler, cliquez sur ce message ou appuyez sur Echap.',
+            //         copySuccess: {
+            //             _: '%d lignes copiées',
+            //             1: '1 ligne copiée'
+            //         }
+            //     }
+            // },
             initComplete: function() {
                 var api = this.api();
                 // For each column
