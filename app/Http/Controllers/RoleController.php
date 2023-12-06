@@ -145,18 +145,8 @@ class RoleController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(string $id)
     {
-        $role = Role::find($id);
-
-        if (!$role) {
-            return redirect()->route('role.index')->with('error', 'Role not found');
-        }
-
-        // Hapus role
-        $role->delete();
-        $destroyMessage = 'Role berhasil dihapus';
-
-        return redirect()->route('role.index')->with('destroyMessage', $destroyMessage);
+        Role::where('id', $id)->delete();
     }
 }

@@ -68,7 +68,7 @@ class PermissionController extends Controller
         }
 
         // Notifikasi SweetAlert
-        $successMessage = 'Role berhasil dibuat';
+        $successMessage = 'Permission berhasil dibuat';
 
         return redirect()
         ->route('permission.index')
@@ -122,9 +122,11 @@ class PermissionController extends Controller
         $permission->name = $request->input('name');
         $permission->save();
 
+        $updateMessage = 'Permission berhasil diupdate';
+
         return redirect()
             ->route('permission.index')
-            ->with('success', 'permission updated successfully');
+            ->with('updateMessage', $updateMessage);
     }
 
     /**
@@ -132,9 +134,6 @@ class PermissionController extends Controller
      */
     public function destroy(string $id)
     {
-        $permission = Permission::find($id);
-        $permission->delete();
-        $destroyMessage = 'Role berhasil dihapus';
-        return redirect()->route('permission.index')->with('destroyMessage', $destroyMessage);
+        Permission::where('id', $id)->delete();
     }
 }

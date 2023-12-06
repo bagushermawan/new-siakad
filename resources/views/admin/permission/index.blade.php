@@ -79,17 +79,8 @@
                                             <a
                                                 href='{{ route('permission.edit', ['permission' => $a->id]) }}'class="badge bg-primary tombol-edit">Edit</a>
                                             |
-                                            <a href="{{ route('permission.destroy', ['permission' => $a->id]) }}"
-                                                class="badge bg-danger tombol-del"
-                                                onclick="event.preventDefault(); document.getElementById('delete-form-{{ $a->id }}').submit();">
-                                                Delete
-                                            </a>
-                                            <form id="delete-form-{{ $a->id }}"
-                                                action="{{ route('permission.destroy', ['permission' => $a->id]) }}"
-                                                method="POST" style="display: none;">
-                                                @csrf
-                                                @method('DELETE')
-                                            </form>
+                                            <a href="#" class="badge bg-danger tombol-del"
+                                                data-id="{{ $a->id }}">Delete</a>
                                         </center>
                                     </td>
                                 </tr>
@@ -106,4 +97,46 @@
     <script src="{{ asset('extensions/datatables.net/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('extensions/datatables.net-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
     @include('admin.permission.script')
+    <script>
+        $(document).on('click', '.tombol-del', function(e) {
+            e.preventDefault();
+            var id = $(this).data('id');
+
+            // Tampilkan SweetAlert konfirmasi
+            Swal.fire({
+                title: 'Apa kamu yakin?',
+                text: 'Data yang sudah dihapus tidak bisa dikembalikan!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Hapus',
+                cancelButtonText: "Batal",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Jika pengguna mengonfirmasi, lakukan penghapusan
+                    $.ajax({
+                        type: 'DELETE',
+                        url: '/qwe/permission/' + id,
+                        data: {
+                            _token: '{{ csrf_token() }}',
+                            id: id
+                        },
+                        success: function(data) {
+                            // Handle sukses, misalnya, perbarui tampilan atau tampilkan pesan sukses
+                            Swal.fire('Deleted!', 'Permission berhasil dihapus.', 'success').then(
+                                function() {
+                                    // Reload halaman setelah tombol OK ditekan
+                                    location.reload();
+                                });
+                        },
+                        error: function(error) {
+                            // Handle kesalahan, tampilkan pesan kesalahan
+                            Swal.fire('Error!', 'Failed to delete file.', 'error');
+                        }
+                    });
+                }
+            });
+        });
+    </script>
 @endpush
