@@ -147,7 +147,7 @@ class RoleController extends Controller
      */
     public function destroy($id)
     {
-        $role = Role::findById($id);
+        $role = Role::find($id);
 
         if (!$role) {
             return redirect()->route('role.index')->with('error', 'Role not found');

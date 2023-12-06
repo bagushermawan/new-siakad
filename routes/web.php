@@ -69,6 +69,7 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('/qwe/userAjax', UserAjaxController::class);
     Route::resource('/qwe/role', RoleController::class)->middleware('role:admin');
+    Route::get('/role/{id}', [RoleController::class, 'destroy'])->name('role.destroyy');
     Route::resource('/qwe/permission', PermissionController::class)->middleware('role:admin');
 
 
