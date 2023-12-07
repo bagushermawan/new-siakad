@@ -20,7 +20,7 @@
                 },
                 {
                     extend: 'csv',
-                    className: 'btn btn-outline-secondary',
+                    className: 'btn btn-outline-success',
                     text: '<i class="fas fa-file-csv"></i>',
                     titleAttr: 'Download CSV',
                     exportOptions: {
@@ -29,7 +29,7 @@
                 },
                 {
                     extend: 'excel',
-                    className: 'btn btn-outline-secondary',
+                    className: 'btn btn-outline-success',
                     text: '<i class="far fa-file-excel"></i>',
                     titleAttr: 'Download Excel',
                     exportOptions: {
@@ -38,7 +38,7 @@
                 },
                 {
                     extend: 'pdf',
-                    className: 'btn btn-outline-secondary',
+                    className: 'btn btn-outline-danger',
                     text: '<i class="far fa-file-pdf"></i>',
                     titleAttr: 'Download PDF',
                     exportOptions: {
@@ -47,24 +47,22 @@
                 },
                 {
                     extend: 'print',
-                    className: 'btn btn-outline-secondary',
+                    className: 'btn btn-outline-info',
                     text: '<i class="fas fa-print"></i>',
                     titleAttr: 'Print Data',
                     exportOptions: {
                         columns: [0, 1, 2, 3, 4, 5, 6]
                     },
                 },
+                {
+                    className: 'btn btn-outline-secondary',
+                    text: '<i class="fas fa-sync-alt"></i>',
+                    titleAttr: 'Reload Data',
+                    action: function(e, dt, node, config) {
+                        dt.ajax.reload();
+                    }
+                },
             ],
-            //     language: {
-            //     buttons: {
-            //         copyTitle: 'Sukses menyalin ke clipboard',
-            //         copyKeys: 'Appuyez sur <i>ctrl</i> ou <i>\u2318</i> + <i>C</i> pour copier les données du tableau à votre presse-papiers. <br><br>Pour annuler, cliquez sur ce message ou appuyez sur Echap.',
-            //         copySuccess: {
-            //             _: '%d lignes copiées',
-            //             1: '1 ligne copiée'
-            //         }
-            //     }
-            // },
             initComplete: function() {
                 var api = this.api();
                 // For each column
