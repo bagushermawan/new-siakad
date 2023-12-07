@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MataPelajaran;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,10 +24,11 @@ class AdminDashboardController extends Controller
         $total_user = User::count();
         $total_role = Role::count();
         $total_permission = Permission::count();
+        $total_matapelajaran = MataPelajaran::count();
         // Alternatif: Mendapatkan role pertama dari user
         // $role = $user->getRoleNames()->first();
 
-        return view('admin.tesdashboard', ['roles' => $roles, 'total_user' => $total_user, 'total_role' => $total_role, 'total_permission' => $total_permission]);
+        return view('admin.dashboard', ['roles' => $roles, 'total_user' => $total_user, 'total_role' => $total_role, 'total_permission' => $total_permission, 'total_matapelajaran'=> $total_matapelajaran]);
     }
 
     /**

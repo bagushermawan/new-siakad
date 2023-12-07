@@ -19,11 +19,11 @@
     <link rel="stylesheet" href="{{ asset('/compiled/css/iconly.css') }}">
     <!-- Include Chart.js -->
     <script src="
-        https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js
-        "></script>
+            https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js
+            "></script>
     <script src="
-        https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js
-        "></script>
+            https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js
+            "></script>
 </head>
 
 <body>
@@ -106,19 +106,20 @@
                                     <div class="card">
                                         <div class="card-body px-4 py-4-5">
                                             <div class="d-flex align-items-center">
-                                        <div class="avatar avatar-xl">
-                                            <img src="{{ asset('/compiled/jpg/1.jpg') }}" alt="Face 1">
-                                        </div>
-                                        <div class="ms-3 name">
-                                            <h5 class="font-bold">{{ ucfirst(auth()->user()->name) }}</h5>
-                                            <h6 class="text-muted mb-0">{{ ucfirst(implode(', ', $roles->all())) }}</h6>
-                                            <form method="POST" action="{{ route('logout') }}">
-                                                @csrf
-                                                <a href="" class="card-link d-flex justify-content-end"
-                                                    onclick="event.preventDefault(); this.closest('form').submit();">Logout</a>
-                                            </form>
-                                        </div>
-                                    </div>
+                                                <div class="avatar avatar-xl">
+                                                    <img src="{{ asset('/compiled/jpg/1.jpg') }}" alt="Face 1">
+                                                </div>
+                                                <div class="ms-3 name">
+                                                    <h5 class="font-bold">{{ ucfirst(auth()->user()->name) }}</h5>
+                                                    <h6 class="text-muted mb-0">
+                                                        {{ ucfirst(implode(', ', $roles->all())) }}</h6>
+                                                    <form method="POST" action="{{ route('logout') }}">
+                                                        @csrf
+                                                        <a href="" class="card-link d-flex justify-content-end"
+                                                            onclick="event.preventDefault(); this.closest('form').submit();">Logout</a>
+                                                    </form>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

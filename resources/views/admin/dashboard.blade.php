@@ -17,6 +17,13 @@
     <link rel="stylesheet" href="http://127.0.0.1:8000/compiled/css/app-dark.css">
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.0/dist/sweetalert2.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('/compiled/css/iconly.css') }}">
+    <!-- Include Chart.js -->
+    <script src="
+                https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js
+                "></script>
+    <script src="
+                https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js
+                "></script>
 </head>
 
 <body>
@@ -26,12 +33,17 @@
         <div id="main" class='layout-navbar navbar-fixed'>
             {{-- header --}}
             <div id="main-content">
+                <header class="mb-3">
+                <a href="#" class="burger-btn d-block d-xl-none">
+                    <i class="bi bi-justify fs-3"></i>
+                </a>
+            </header>
                 <div class="page-heading">
                     <div class="page-title">
                         <div class="row">
                             <div class="col-12 col-md-6 order-md-1 order-last">
                                 <h3>Dashboard</h3>
-                                <p class="text-subtitle text-muted">.</p>
+                                <p class="text-subtitle text-muted">aweaw</p>
                             </div>
                         </div>
                     </div>
@@ -51,7 +63,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
-                                                    <h6 class="text-muted font-semibold">Total Users</h6>
+                                                    <h6 class="text-muted font-semibold">Totaawrl Users</h6>
                                                     <h6 class="font-extrabold mb-0">{{ $total_user }}</h6>
                                                 </div>
                                             </div>
@@ -69,8 +81,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
-                                                    <h6 class="text-muted font-semibold">Followers</h6>
-                                                    <h6 class="font-extrabold mb-0">183.000</h6>
+                                                    <h6 class="text-muted font-semibold">Total Roles</h6>
+                                                    <h6 class="font-extrabold mb-0">{{ $total_role }}</h6>
                                                 </div>
                                             </div>
                                         </div>
@@ -87,8 +99,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
-                                                    <h6 class="text-muted font-semibold">Following</h6>
-                                                    <h6 class="font-extrabold mb-0">80.000</h6>
+                                                    <h6 class="text-muted font-semibold">Total Permissions</h6>
+                                                    <h6 class="font-extrabold mb-0">{{ $total_permission }}</h6>
                                                 </div>
                                             </div>
                                         </div>
@@ -105,8 +117,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
-                                                    <h6 class="text-muted font-semibold">Saved Post</h6>
-                                                    <h6 class="font-extrabold mb-0">112</h6>
+                                                    <h6 class="text-muted font-semibold">Total Mata Pelajaran</h6>
+                                                    <h6 class="font-extrabold mb-0">{{ $total_matapelajaran }}</h6>
                                                 </div>
                                             </div>
                                         </div>
@@ -126,10 +138,29 @@
                                             <h5 class="font-bold">{{ ucfirst(auth()->user()->name) }}</h5>
                                             <h6 class="text-muted mb-0">{{ ucfirst(implode(', ', $roles->all())) }}</h6>
                                             <form method="POST" action="{{ route('logout') }}">
-                                            @csrf
-                                            <a href="" class="card-link d-flex justify-content-end" onclick="event.preventDefault(); this.closest('form').submit();">Logout</a>
+                                                @csrf
+                                                <a href="" class="card-link d-flex justify-content-end"
+                                                    onclick="event.preventDefault(); this.closest('form').submit();">Logout</a>
                                             </form>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-12 col-lg-3">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4>Total Users</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div id="chart-visitors-profile" style="min-height: 317.7px;">
+                                        <canvas id="roleDistributionChart"
+                                            class="apexcharts-canvas apexcharts09ft04es apexcharts-theme-light"
+                                            style="width: 319px; height: 317.7px;">
+
+                                        </canvas>
                                     </div>
                                 </div>
                             </div>
@@ -145,6 +176,7 @@
         <script src="http://127.0.0.1:8000/extensions/perfect-scrollbar/perfect-scrollbar.min.js"></script>
         <script src="http://127.0.0.1:8000/compiled/js/app.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.0/dist/sweetalert2.all.min.js"></script>
+        @include('admin.script')
 </body>
 
 </html>
