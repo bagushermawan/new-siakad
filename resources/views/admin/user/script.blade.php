@@ -54,6 +54,14 @@
                         columns: [0, 1, 2, 3, 4, 5]
                     },
                 },
+                {
+                    className: 'btn btn-outline-warning justify-content-end',
+                    text: '<i class="far fa-file-excel"></i> Reload Datatable',
+                    titleAttr: 'Reload Data',
+                    action: function(e, dt, node, config) {
+                        dt.ajax.reload();
+                    }
+                },
             ],
             initComplete: function() {
                 var api = this.api();
