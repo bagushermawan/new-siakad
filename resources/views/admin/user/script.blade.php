@@ -68,17 +68,42 @@
                     titleAttr: 'Reload Data',
                     action: function(e, dt, node, config) {
                         Swal.fire({
-                            title: 'Import Excel',
-                            html: '<input type="file" id="excel_file" class="swal2-file" accept=".xlsx, .xls, .csv">',
+                            html: `
+                                    <input type="file" id="excel_file" class="swal2-file" accept=".xlsx, .xls, .csv">
+                                    <br><br><br>
+                                    <div class="accordion" id="accordionExample">
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header" id="headingOne">
+                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                                    data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                                    Contoh struktur kolom excell
+                                                </button>
+                                            </h2>
+                                            <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
+                                                data-bs-parent="#accordionExample" style="">
+                                                <div class="accordion-body">
+                                                    <img src="/storage/faw.png">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                     `,
                             showCancelButton: true,
                             confirmButtonText: 'Import',
+                            cancelButtonText: 'Batal',
                             footer: 'Download file sample excell <a href="/storage/user_import_sample.xlsx" download>disini</a>.',
                             backdrop: `
-                                          rgba(240, 240, 240,0.3)
-                                          url("/storage/faw.png")
-                                          top center
-                                          no-repeat
-                                        `,
+                                        rgba(60, 60, 60,0.3)
+                                        //url("/storage/faw.png")
+                                        top center
+                                        no-repeat
+                                      `,
+                            showClass: {
+                                popup: `animate__fadeInDown animate__animated animate__faster`
+                            },
+                            hideClass: {
+                                popup: `animate__animated animate__fadeOutDown animate__faster`
+                            },
                             preConfirm: () => {
                                 const excelFile = document.getElementById(
                                     'excel_file').files[0];
@@ -337,7 +362,7 @@
             confirmButtonColor: '#d33',
             cancelButtonColor: '#3085d6',
             confirmButtonText: 'Hapus',
-            cancelButtonText: 'Batal'
+            cancelButtonText: 'Batal',
         }).then((result) => {
             if (result.isConfirmed) {
                 // Jika pengguna menekan tombol "Hapus", kirim permintaan DELETE
