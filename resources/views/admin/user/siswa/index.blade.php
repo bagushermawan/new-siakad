@@ -47,25 +47,27 @@
                     @endif
                 </div>
                 <div class="card-body">
-                    <table class="table table-striped" id="myTable">
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>NISN</th>
-                                <th>Name</th>
-                                <th>Username</th>
-                                <th>Kelas</th>
-                                <th>Email</th>
-                                <th>No Hp</th>
-                                <th>
-                                    <center>Status</center>
-                                </th>
-                                <th>
-                                    <center>Action</center>
-                                </th>
-                            </tr>
-                        </thead>
-                    </table>
+                    <div class="table-responsive">
+                        <table class="table table-striped" id="myTable">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>NISN</th>
+                                    <th>Name</th>
+                                    <th>Username</th>
+                                    <th>Kelas</th>
+                                    <th>Email</th>
+                                    <th>No Hp</th>
+                                    <th>
+                                        <center>Status</center>
+                                    </th>
+                                    <th>
+                                        <center>Action</center>
+                                    </th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
                 </div>
             </div>
 
@@ -126,7 +128,8 @@
                             <select id="role" name="role" class="form-control">
                                 {{-- <option value="">Pilih Role</option> --}}
                                 @if (count($roless) >= 2)
-                                    <option value="{{ $roless[2]->name }}" selected>{{ ucfirst($roless[2]->name) }}</option>
+                                    <option value="{{ $roless[2]->name }}" selected>{{ ucfirst($roless[2]->name) }}
+                                    </option>
                                 @endif
                             </select>
                         </div>

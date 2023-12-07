@@ -49,23 +49,25 @@
                     @endif
                 </div>
                 <div class="card-body">
-                    <table class="table table-striped" id="myTable">
-                        <thead>
-                            <tr>
-                                <th class="col-md-1">
-                                    <center>No</center>
-                                </th>
-                                <th class="col-md-4">Tahun Ajaran</th>
-                                <th>Semester</th>
-                                <th>Mulai</th>
-                                <th>Selesai</th>
-                                <th>Created at</th>
-                                <th>
-                                    <center>Action</center>
-                                </th>
-                            </tr>
-                        </thead>
-                    </table>
+                    <div class="table-responsive">
+                        <table class="table table-striped" id="myTable">
+                            <thead>
+                                <tr>
+                                    <th class="col-md-1">
+                                        <center>No</center>
+                                    </th>
+                                    <th class="col-md-4">Tahun Ajaran</th>
+                                    <th>Semester</th>
+                                    <th>Mulai</th>
+                                    <th>Selesai</th>
+                                    <th>Created at</th>
+                                    <th>
+                                        <center>Action</center>
+                                    </th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
                 </div>
             </div>
 

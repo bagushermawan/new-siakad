@@ -16,7 +16,7 @@
         <div class="page-title">
             <div class="row">
                 <div class="col-12 col-md-6 order-md-1 order-last">
-                    <h3>Data Jadwal Mata Pelajaran</h3>
+                    <h3>Data Tahun Ajaran</h3>
                     <p class="text-subtitle text-muted">A sortable, searchable, paginated table without dependencies thanks
                         to simple-datatables.</p>
                 </div>
@@ -50,24 +50,26 @@
                     @endif
                 </div>
                 <div class="card-body">
-                    <table class="table table-striped" id="myTable">
-                        <thead>
-                            <tr>
-                                <th class="col-md-1">
-                                    <center>No</center>
-                                </th>
-                                <th class="col-md-1">Kelas</th>
-                                <th>Mata Pelajaran</th>
-                                <th>Hari</th>
-                                <th>Jam</th>
-                                <th>Tahun Ajaran</th>
-                                <th>Created at</th>
-                                <th>
-                                    <center>Action</center>
-                                </th>
-                            </tr>
-                        </thead>
-                    </table>
+                    <div class="table-responsive">
+                        <table class="table table-striped" id="myTable">
+                            <thead>
+                                <tr>
+                                    <th class="col-md-1">
+                                        <center>No</center>
+                                    </th>
+                                    <th class="col-md-1">Kelas</th>
+                                    <th>Mata Pelajaran</th>
+                                    <th>Hari</th>
+                                    <th>Jam</th>
+                                    <th>Tahun Ajaran</th>
+                                    <th>Created at</th>
+                                    <th>
+                                        <center>Action</center>
+                                    </th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
                 </div>
             </div>
 
@@ -133,7 +135,8 @@
                             <select id="tahun_ajaran_id" name="tahun_ajaran_id" class="form-control">
                                 <option value="">Pilih Tahun Ajaran</option>
                                 @foreach ($tahunajaran as $a)
-                                    <option value="{{ $a->id }}">{{ $a->name }} - {{ $a->semester }}</option>
+                                    <option value="{{ $a->id }}">{{ $a->name }} - {{ $a->semester }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>

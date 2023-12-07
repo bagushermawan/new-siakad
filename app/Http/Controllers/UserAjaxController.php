@@ -12,6 +12,9 @@ use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\UserImport;
+use Illuminate\Support\Facades\Storage;
 
 
 class UserAjaxController extends Controller
@@ -203,5 +206,41 @@ class UserAjaxController extends Controller
     public function destroy(string $id)
     {
         User::where('id', $id)->delete();
+    }
+
+    public function importAlluser()
+    {
+        // Pastikan file ada sebelum melanjutkan
+        if (request()->hasFile('excel_file')) {
+            $file = request()->file('excel_file');
+
+            // Dapatkan timestamp saat ini
+            $timestamp = time();
+
+            // Dapatkan nama asli file
+            $originalName = $file->getClientOriginalName();
+
+            // Ubah nama file dengan menambahkan timestamp
+            $filename = pathinfo($originalName, PATHINFO_FILENAME) . "_{$timestamp}." . $file->getClientOriginalExtension();
+
+            // Simpan file ke penyimpanan 'Import User' dengan nama yang telah diubah
+            Storage::disk('local')->putFileAs('Import User', $file, $filename);
+
+            try {
+                // Impor data menggunakan UserImport
+                Excel::import(new UserImport, storage_path("app/Import User/{$filename}"));
+
+                // Hapus file setelah diimpor
+                // Storage::disk('local')->delete("Import User/{$filename}");
+
+                return redirect()->back()->with('success', 'Data imported successfully.');
+            } catch (\Exception $e) {
+                // Jika terjadi kesalahan saat impor, tangani kesalahan di sini
+                Storage::disk('local')->delete("Import User/{$filename}"); // Hapus file jika impor gagal
+                return redirect()->back()->with('error', 'Error during import: ' . $e->getMessage());
+            }
+        }
+
+        return redirect()->back()->with('error', 'No file selected.');
     }
 }

@@ -47,46 +47,48 @@
                     @endif
                 </div>
                 <div class="card-body">
-                    <table class="table table-striped" id="myTable">
-                        <thead>
-                            <tr>
-                                <th class="col-md-1">
-                                    <center>No</center>
-                                </th>
-                                <th class="col-md-8">Name</th>
-                                <th>
-                                    <center>Created at</center>
-                                </th>
-                                <th>
-                                    <center>Action</center>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($daftar_permission as $a)
+                    <div class="table-responsive">
+                        <table class="table table-striped" id="myTable">
+                            <thead>
                                 <tr>
-                                    <td>
-                                        <center>
-                                            {{ $loop->iteration }}
-                                        </center>
-                                    </td>
-                                    <td>{{ $a->name }}</td>
-                                    <td>
-                                        <center>{{ date('Y-m-d h:i A', strtotime($a->created_at)) }}</center>
-                                    </td>
-                                    <td>
-                                        <center>
-                                            <a
-                                                href='{{ route('permission.edit', ['permission' => $a->id]) }}'class="badge bg-primary tombol-edit">Edit</a>
-                                            |
-                                            <a href="#" class="badge bg-danger tombol-del"
-                                                data-id="{{ $a->id }}">Delete</a>
-                                        </center>
-                                    </td>
+                                    <th class="col-md-1">
+                                        <center>No</center>
+                                    </th>
+                                    <th class="col-md-8">Name</th>
+                                    <th>
+                                        <center>Created at</center>
+                                    </th>
+                                    <th>
+                                        <center>Action</center>
+                                    </th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach ($daftar_permission as $a)
+                                    <tr>
+                                        <td>
+                                            <center>
+                                                {{ $loop->iteration }}
+                                            </center>
+                                        </td>
+                                        <td>{{ $a->name }}</td>
+                                        <td>
+                                            <center>{{ date('Y-m-d h:i A', strtotime($a->created_at)) }}</center>
+                                        </td>
+                                        <td>
+                                            <center>
+                                                <a
+                                                    href='{{ route('permission.edit', ['permission' => $a->id]) }}'class="badge bg-primary tombol-edit">Edit</a>
+                                                |
+                                                <a href="#" class="badge bg-danger tombol-del"
+                                                    data-id="{{ $a->id }}">Delete</a>
+                                            </center>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </section>
@@ -124,11 +126,12 @@
                         },
                         success: function(data) {
                             // Handle sukses, misalnya, perbarui tampilan atau tampilkan pesan sukses
-                            Swal.fire('Deleted!', 'Permission berhasil dihapus.', 'success').then(
-                                function() {
-                                    // Reload halaman setelah tombol OK ditekan
-                                    location.reload();
-                                });
+                            Swal.fire('Deleted!', 'Permission berhasil dihapus.', 'success')
+                                .then(
+                                    function() {
+                                        // Reload halaman setelah tombol OK ditekan
+                                        location.reload();
+                                    });
                         },
                         error: function(error) {
                             // Handle kesalahan, tampilkan pesan kesalahan

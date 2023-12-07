@@ -48,6 +48,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('/qwe/siswa', SiswaController::class);
     Route::get('/qwe/guruAjax', [UserAjaxController::class, 'indexGuru'])->name('admin.user.guru.ajax');
     Route::get('/qwe/siswaAjax', [UserAjaxController::class, 'indexSiswa'])->name('admin.user.siswa.ajax');
+    Route::post('/qwe/import-alluser', [UserAjaxController::class, 'importAlluser'])->name('import.alluser');
 
 
     Route::resource('/qwe/prestasiAjax', PrestasiAjaxController::class);

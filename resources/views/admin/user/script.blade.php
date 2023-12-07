@@ -20,7 +20,7 @@
                 },
                 {
                     extend: 'csv',
-                    className: 'btn btn-outline-secondary',
+                    className: 'btn btn-outline-success',
                     text: '<i class="fas fa-file-csv"></i>',
                     titleAttr: 'Download CSV',
                     exportOptions: {
@@ -29,7 +29,7 @@
                 },
                 {
                     extend: 'excel',
-                    className: 'btn btn-outline-secondary',
+                    className: 'btn btn-outline-success',
                     text: '<i class="far fa-file-excel"></i>',
                     titleAttr: 'Download Excel',
                     exportOptions: {
@@ -38,7 +38,7 @@
                 },
                 {
                     extend: 'pdf',
-                    className: 'btn btn-outline-secondary',
+                    className: 'btn btn-outline-danger',
                     text: '<i class="far fa-file-pdf"></i>',
                     titleAttr: 'Download PDF',
                     exportOptions: {
@@ -47,7 +47,7 @@
                 },
                 {
                     extend: 'print',
-                    className: 'btn btn-outline-secondary',
+                    className: 'btn btn-outline-info',
                     text: '<i class="fas fa-print"></i>',
                     titleAttr: 'Print Data',
                     exportOptions: {
@@ -55,11 +55,68 @@
                     },
                 },
                 {
-                    className: 'btn btn-outline-warning justify-content-end',
-                    text: '<i class="far fa-file-excel"></i> Reload Datatable',
+                    className: 'btn btn-outline-secondary',
+                    text: '<i class="fas fa-sync-alt"></i>',
                     titleAttr: 'Reload Data',
                     action: function(e, dt, node, config) {
                         dt.ajax.reload();
+                    }
+                },
+                {
+                    className: 'btn btn-outline-success',
+                    text: '<i class="fas fa-file-import"></i> Import Excel',
+                    titleAttr: 'Reload Data',
+                    action: function(e, dt, node, config) {
+                        Swal.fire({
+                            title: 'Import Excel',
+                            html: '<input type="file" id="excel_file" class="swal2-file" accept=".xlsx, .xls, .csv">',
+                            showCancelButton: true,
+                            confirmButtonText: 'Import',
+                            footer: 'Download file sample excell <a href="/storage/user_import_sample.xlsx" download>disini</a>.',
+                            backdrop: `
+                                          rgba(240, 240, 240,0.3)
+                                          url("/storage/faw.png")
+                                          top center
+                                          no-repeat
+                                        `,
+                            preConfirm: () => {
+                                const excelFile = document.getElementById(
+                                    'excel_file').files[0];
+                                if (!excelFile) {
+                                    Swal.showValidationMessage(
+                                        'Please choose an Excel file');
+                                }
+                                return {
+                                    excelFile: excelFile
+                                };
+                            }
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                // Handle import here, you can use AJAX to send the file
+                                const formData = new FormData();
+                                formData.append('excel_file', result.value.excelFile);
+
+                                $.ajax({
+                                    url: '{{ route('import.alluser') }}',
+                                    method: 'POST',
+                                    data: formData,
+                                    processData: false,
+                                    contentType: false,
+                                    success: function(response) {
+                                        $('#myTable').DataTable().ajax
+                                            .reload();
+                                        Swal.fire('Sukses!',
+                                            'Berhasil import data user.',
+                                            'success');
+                                    },
+                                    error: function(error) {
+                                        Swal.fire('Gagal!',
+                                            'Gagal import data user.',
+                                            'error');
+                                    }
+                                });
+                            }
+                        });
                     }
                 },
             ],

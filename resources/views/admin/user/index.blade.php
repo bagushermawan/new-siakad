@@ -34,36 +34,38 @@
                     <h5 class="card-title">
                         Ajax CRUD Datatables
                     </h5>
-                    @if(auth()->user()->hasRole('admin'))
-                    <h6>
-                        <a href="#" class="btn icon icon-left btn-success tombol-tambah"><svg
-                                xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" class="feather feather-edit">
-                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                            </svg> Tambah Data</a>
-                    </h6>
+                    @if (auth()->user()->hasRole('admin'))
+                        <h6>
+                            <a href="#" class="btn icon icon-left btn-success tombol-tambah"><svg
+                                    xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" class="feather feather-edit">
+                                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                </svg> Tambah Data</a>
+                        </h6>
                     @endif
                 </div>
                 <div class="card-body">
-                    <table class="table table-striped" id="myTable">
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Name</th>
-                                <th>Username</th>
-                                <th>Email</th>
-                                <th>Created at</th>
-                                <th>
-                                    <center>Status</center>
-                                </th>
-                                <th>
-                                    <center>Action</center>
-                                </th>
-                            </tr>
-                        </thead>
-                    </table>
+                    <div class="table-responsive">
+                        <table class="table table-striped" id="myTable">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Name</th>
+                                    <th>Username</th>
+                                    <th>Email</th>
+                                    <th>Created at</th>
+                                    <th>
+                                        <center>Status</center>
+                                    </th>
+                                    <th>
+                                        <center>Action</center>
+                                    </th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
                 </div>
             </div>
 
@@ -158,11 +160,10 @@
     <script src="{{ asset('/extensions/choices.js/public/assets/scripts/choices.min.js') }}"></script>
     <script>
         // Inisialisasi objek Choices.js baru
-                var roleSelect = new Choices('#role', {
-                    searchEnabled: false,
-                    itemSelectText: '',
-                    allowHTML: true,
-                });
+        var roleSelect = new Choices('#role', {
+            searchEnabled: false,
+            itemSelectText: '',
+            allowHTML: true,
+        });
     </script>
-
 @endpush
