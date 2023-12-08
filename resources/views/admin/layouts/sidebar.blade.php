@@ -80,6 +80,13 @@
                         </li>
                         @endif
 
+                        <li class="sidebar-item {{ request()->routeIs('ekskul.index') ? 'active' : '' }}">
+                            <a href="{{ route('ekskul.index') }}" class='sidebar-link'>
+                                <i class="bi bi-bookmark-plus"></i>
+                                <span>Ekskul</span>
+                            </a>
+                        </li>
+
                         <li class="sidebar-item {{ request()->routeIs('prestasi.index') ? 'active' : '' }}">
                             <a href="{{ route('prestasi.index') }}" class='sidebar-link'>
                                 <i class="bi bi-award-fill"></i>

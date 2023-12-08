@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\EkskulAjaxController;
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\JadwalMataPelajaranAjaxController;
 use App\Http\Controllers\JadwalMataPelajaranController;
@@ -49,6 +50,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/qwe/guruAjax', [UserAjaxController::class, 'indexGuru'])->name('admin.user.guru.ajax');
     Route::get('/qwe/siswaAjax', [UserAjaxController::class, 'indexSiswa'])->name('admin.user.siswa.ajax');
     Route::post('/qwe/import-alluser', [UserAjaxController::class, 'importAlluser'])->name('import.alluser');
+
+
+    Route::resource('/qwe/ekskul', EkskulAjaxController::class);
+    Route::get('/qwe/ekskulAjax', [EkskulAjaxController::class, 'indexEkskul']);
 
 
     Route::resource('/qwe/prestasiAjax', PrestasiAjaxController::class);
