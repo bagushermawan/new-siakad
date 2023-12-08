@@ -1,11 +1,11 @@
 @extends('admin.layouts.master')
-@section('title', 'Prestasi')
+@section('title', 'Ekstrakulikuler')
 @push('page-css')
     <link rel="stylesheet" href="{{ asset('extensions/datatables.net-bs5/css/dataTables.bootstrap5.min.css') }}">
 
 
     <link rel="stylesheet" href="{{ asset('compiled/css/table-datatable-jquery.css') }}">
-    <script></script>
+    <link rel="stylesheet" href="{{ asset('/extensions/@fortawesome/fontawesome-free/css/all.min.css') }}">
 @endpush
 @section('content')
     <div class="page-heading">
@@ -70,7 +70,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title" id="myModalLabel33">Form Tambah Data Prestasi </h4>
+                        <h4 class="modal-title" id="myModalLabel33">Form Tambah Data Ekskul </h4>
                         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -83,7 +83,7 @@
                     <div class="modal-body">
                         <div class="alert alert-danger d-none"></div>
                         {{-- <div class="alert alert-success d-none"></div> --}}
-                        <label>Nama Prestasi: </label>
+                        <label>Nama Ekskul: </label>
                         <div class="form-group">
                             <input id="name" type="text" name="name" class="form-control" autofocus>
                         </div>
@@ -107,5 +107,13 @@
     <script src="{{ asset('extensions/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('extensions/datatables.net/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('extensions/datatables.net-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
+
+    <script src="{{ asset('extensions/datatables.net/js/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('extensions/datatables.net/js/jszip.min.js') }}"></script>
+    <script src="{{ asset('extensions/datatables.net/js/pdfmake.min.js') }}"></script>
+    <script src="{{ asset('extensions/datatables.net/js/vfs_fonts.js') }}"></script>
+    <script src="{{ asset('extensions/datatables.net/js/buttons.html5.min.js') }}"></script>
+    <script src="{{ asset('extensions/datatables.net/js/buttons.print.min.js') }}"></script>
+
     @include('admin.ekskul.script')
 @endpush
