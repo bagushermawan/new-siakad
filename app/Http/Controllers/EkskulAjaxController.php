@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\EkskulImport;
+use Illuminate\Support\Facades\Storage;
 
 class EkskulAjaxController extends Controller
 {
@@ -102,5 +106,41 @@ class EkskulAjaxController extends Controller
     public function destroy(string $id)
     {
         Ekskul::where('id', $id)->delete();
+    }
+
+    public function importEkskul()
+    {
+        // Pastikan file ada sebelum melanjutkan
+        if (request()->hasFile('excel_file')) {
+            $file = request()->file('excel_file');
+
+            // Dapatkan timestamp saat ini
+            $timestamp = time();
+
+            // Dapatkan nama asli file
+            $originalName = $file->getClientOriginalName();
+
+            // Ubah nama file dengan menambahkan timestamp
+            $filename = pathinfo($originalName, PATHINFO_FILENAME) . "_{$timestamp}." . $file->getClientOriginalExtension();
+
+            // Simpan file ke penyimpanan 'Import Ekskul' dengan nama yang telah diubah
+            Storage::disk('local')->putFileAs('Import Ekskul', $file, $filename);
+
+            try {
+                // Impor data menggunakan EkskulImport
+                Excel::import(new EkskulImport, storage_path("app/Import Ekskul/{$filename}"));
+
+                // Hapus file setelah diimpor
+                // Storage::disk('local')->delete("Import ekskul/{$filename}");
+
+                return redirect()->back()->with('success', 'Data imported successfully.');
+            } catch (\Exception $e) {
+                // Jika terjadi kesalahan saat impor, tangani kesalahan di sini
+                Storage::disk('local')->delete("Import Ekskul/{$filename}"); // Hapus file jika impor gagal
+                return redirect()->back()->with('error', 'Error during import: ' . $e->getMessage());
+            }
+        }
+
+        return redirect()->back()->with('error', 'No file selected.');
     }
 }

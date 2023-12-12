@@ -54,10 +54,12 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('/qwe/ekskul', EkskulAjaxController::class);
     Route::get('/qwe/ekskulAjax', [EkskulAjaxController::class, 'indexEkskul']);
+    Route::post('/qwe/import-ekskul', [EkskulAjaxController::class, 'importEkskul'])->name('import.ekskul');
 
 
     Route::resource('/qwe/prestasiAjax', PrestasiAjaxController::class);
     Route::resource('/qwe/prestasi', PrestasiController::class);
+    Route::post('/qwe/import-prestasi', [PrestasiAjaxController::class, 'importPrestasi'])->name('import.prestasi');
 
     Route::resource('/qwe/kelas', KelasAjaxController::class);
     Route::get('/qwe/kelasAjax', [KelasAjaxController::class, 'indexKelas']);

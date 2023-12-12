@@ -76,13 +76,13 @@
                                             <h2 class="accordion-header" id="headingOne">
                                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                                     data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                                                    Contoh struktur kolom excell
+                                                    Contoh struktur kolom excell import prestasi
                                                 </button>
                                             </h2>
                                             <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
                                                 data-bs-parent="#accordionExample" style="">
                                                 <div class="accordion-body">
-                                                    <img src="/storage/faw.png">
+                                                    <img src="/storage/prestasi.png">
                                                 </div>
                                             </div>
                                         </div>
@@ -91,7 +91,7 @@
                             showCancelButton: true,
                             confirmButtonText: 'Import',
                             cancelButtonText: 'Batal',
-                            footer: 'Download file sample excell <a href="/storage/user_import_sample.xlsx" download>disini</a>.',
+                            footer: 'Download file sample excell <a href="/storage/prestasi_import_sample.xlsx" download>disini</a>.',
                             backdrop: `
                                         rgba(60, 60, 60,0.3)
                                         //url("/storage/faw.png")
@@ -109,7 +109,7 @@
                                     'excel_file').files[0];
                                 if (!excelFile) {
                                     Swal.showValidationMessage(
-                                        'Please choose an Excel file');
+                                        'Silahkan upload file terlebih dahulu');
                                 }
                                 return {
                                     excelFile: excelFile
@@ -122,7 +122,7 @@
                                 formData.append('excel_file', result.value.excelFile);
 
                                 $.ajax({
-                                    url: '{{ route('import.alluser') }}',
+                                    url: '{{ route('import.prestasi') }}',
                                     method: 'POST',
                                     data: formData,
                                     processData: false,

@@ -11,12 +11,12 @@ use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\PrestasiImport;
+use Illuminate\Support\Facades\Storage;
 
 class PrestasiAjaxController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $user = Auth::user();
@@ -33,17 +33,11 @@ class PrestasiAjaxController extends Controller
             ->make(true);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $validasi = Validator::make(
@@ -70,26 +64,17 @@ class PrestasiAjaxController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
         $data = Prestasi::where('id', $id)->first();
         return response()->json(['result' => $data]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
         $data = [
@@ -100,11 +85,44 @@ class PrestasiAjaxController extends Controller
         return response()->json(['success' => 'Berhasil melakukan update data']);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         Prestasi::where('id', $id)->delete();
+    }
+
+    public function importPrestasi()
+    {
+        // Pastikan file ada sebelum melanjutkan
+        if (request()->hasFile('excel_file')) {
+            $file = request()->file('excel_file');
+
+            // Dapatkan timestamp saat ini
+            $timestamp = time();
+
+            // Dapatkan nama asli file
+            $originalName = $file->getClientOriginalName();
+
+            // Ubah nama file dengan menambahkan timestamp
+            $filename = pathinfo($originalName, PATHINFO_FILENAME) . "_{$timestamp}." . $file->getClientOriginalExtension();
+
+            // Simpan file ke penyimpanan 'Import Prestasi' dengan nama yang telah diubah
+            Storage::disk('local')->putFileAs('Import Prestasi', $file, $filename);
+
+            try {
+                // Impor data menggunakan PrestasiImport
+                Excel::import(new PrestasiImport, storage_path("app/Import Prestasi/{$filename}"));
+
+                // Hapus file setelah diimpor
+                // Storage::disk('local')->delete("Import prestasi/{$filename}");
+
+                return redirect()->back()->with('success', 'Data imported successfully.');
+            } catch (\Exception $e) {
+                // Jika terjadi kesalahan saat impor, tangani kesalahan di sini
+                Storage::disk('local')->delete("Import Prestasi/{$filename}"); // Hapus file jika impor gagal
+                return redirect()->back()->with('error', 'Error during import: ' . $e->getMessage());
+            }
+        }
+
+        return redirect()->back()->with('error', 'No file selected.');
     }
 }
