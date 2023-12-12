@@ -50,6 +50,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/qwe/guruAjax', [UserAjaxController::class, 'indexGuru'])->name('admin.user.guru.ajax');
     Route::get('/qwe/siswaAjax', [UserAjaxController::class, 'indexSiswa'])->name('admin.user.siswa.ajax');
     Route::post('/qwe/import-alluser', [UserAjaxController::class, 'importAlluser'])->name('import.alluser');
+    Route::post('/qwe/import-guru', [UserAjaxController::class, 'importGuru'])->name('import.guru');
+    Route::post('/qwe/import-siswa', [UserAjaxController::class, 'importSiswa'])->name('import.siswa');
 
 
     Route::resource('/qwe/ekskul', EkskulAjaxController::class);

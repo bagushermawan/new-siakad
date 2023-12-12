@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\GuruImport;
+use App\Imports\SiswaImport;
 use App\Models\User;
 use App\Models\Kelas;
 use Carbon\Carbon;
@@ -234,6 +236,78 @@ class UserAjaxController extends Controller
             } catch (\Exception $e) {
                 // Jika terjadi kesalahan saat impor, tangani kesalahan di sini
                 Storage::disk('local')->delete("Import User/{$filename}"); // Hapus file jika impor gagal
+                return redirect()->back()->with('error', 'Error during import: ' . $e->getMessage());
+            }
+        }
+
+        return redirect()->back()->with('error', 'No file selected.');
+    }
+
+    public function importGuru()
+    {
+        // Pastikan file ada sebelum melanjutkan
+        if (request()->hasFile('excel_file')) {
+            $file = request()->file('excel_file');
+
+            // Dapatkan timestamp saat ini
+            $timestamp = time();
+
+            // Dapatkan nama asli file
+            $originalName = $file->getClientOriginalName();
+
+            // Ubah nama file dengan menambahkan timestamp
+            $filename = pathinfo($originalName, PATHINFO_FILENAME) . "_{$timestamp}." . $file->getClientOriginalExtension();
+
+            // Simpan file ke penyimpanan 'Import User' dengan nama yang telah diubah
+            Storage::disk('local')->putFileAs('Import Guru', $file, $filename);
+
+            try {
+                // Impor data menggunakan UserImport
+                Excel::import(new GuruImport, storage_path("app/Import Guru/{$filename}"));
+
+                // Hapus file setelah diimpor
+                // Storage::disk('local')->delete("Import User/{$filename}");
+
+                return redirect()->back()->with('success', 'Data imported successfully.');
+            } catch (\Exception $e) {
+                // Jika terjadi kesalahan saat impor, tangani kesalahan di sini
+                Storage::disk('local')->delete("Import Guru/{$filename}"); // Hapus file jika impor gagal
+                return redirect()->back()->with('error', 'Error during import: ' . $e->getMessage());
+            }
+        }
+
+        return redirect()->back()->with('error', 'No file selected.');
+    }
+
+    public function importSiswa()
+    {
+        // Pastikan file ada sebelum melanjutkan
+        if (request()->hasFile('excel_file')) {
+            $file = request()->file('excel_file');
+
+            // Dapatkan timestamp saat ini
+            $timestamp = time();
+
+            // Dapatkan nama asli file
+            $originalName = $file->getClientOriginalName();
+
+            // Ubah nama file dengan menambahkan timestamp
+            $filename = pathinfo($originalName, PATHINFO_FILENAME) . "_{$timestamp}." . $file->getClientOriginalExtension();
+
+            // Simpan file ke penyimpanan 'Import User' dengan nama yang telah diubah
+            Storage::disk('local')->putFileAs('Import Siswa', $file, $filename);
+
+            try {
+                // Impor data menggunakan UserImport
+                Excel::import(new SiswaImport, storage_path("app/Import Siswa/{$filename}"));
+
+                // Hapus file setelah diimpor
+                // Storage::disk('local')->delete("Import User/{$filename}");
+
+                return redirect()->back()->with('success', 'Data imported successfully.');
+            } catch (\Exception $e) {
+                // Jika terjadi kesalahan saat impor, tangani kesalahan di sini
+                Storage::disk('local')->delete("Import Siswa/{$filename}"); // Hapus file jika impor gagal
                 return redirect()->back()->with('error', 'Error during import: ' . $e->getMessage());
             }
         }
