@@ -5,10 +5,10 @@
 
 
     <link rel="stylesheet" href="{{ asset('compiled/css/table-datatable-jquery.css') }}">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
+    <link rel="stylesheet" href="{{ asset('/extensions/choices.js/public/assets/styles/choices.css') }}">
     <link rel="stylesheet" href="{{ asset('/extensions/flatpickr/flatpickr.min.css') }}">
     {{-- moment untuk ngantur tampilan format date di datatable  --}}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="{{ asset('/extensions/moment/moment.min.js') }}"></script>
 @endpush
 @section('content')
     <div class="page-heading">
@@ -130,8 +130,8 @@
     <script src="{{ asset('extensions/datatables.net/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('extensions/datatables.net-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
     @include('admin.tahunajaran.script')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/cleave.js/1.6.0/cleave.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+    <script src="{{ asset('/extensions/cleave/cleave.min.js') }}"></script>
+    <script src="{{ asset('/extensions/choices.js/public/assets/scripts/choices.min.js') }}"></script>
     <script src="{{ asset('/extensions/flatpickr/flatpickr.min.js') }}"></script>
     <script type="text/javascript">
         var cleavePC = new Cleave('.tahunajaran', {

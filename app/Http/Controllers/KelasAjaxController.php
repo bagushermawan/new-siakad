@@ -20,6 +20,7 @@ class KelasAjaxController extends Controller
         $user = Auth::user();
         $roles = $user->getRoleNames();
         $isAdmin = $user->hasRole('admin');
+        $total_kelas=Kelas::count();
 
         // Mengambil daftar guru
         $walikelas = User::whereHas('roles', function ($query) {
@@ -30,6 +31,7 @@ class KelasAjaxController extends Controller
             'roles' => $roles,
             'isAdmin' => $isAdmin,
             'walikelas' => $walikelas, // Menyertakan daftar guru ke dalam view
+            'total_kelas' => $total_kelas,
         ]);
     }
 
@@ -166,5 +168,19 @@ class KelasAjaxController extends Controller
         }
 
         return redirect()->back()->with('error', 'No file selected.');
+    }
+
+    public function deleteAll()
+    {
+        try {
+            // Tambahkan logika penghapusan data di sini
+            // Contoh: Hapus semua data dari tabel 'users'
+            DB::table('kelas')->delete();
+
+            return response()->json(['success' => true, 'message' => 'All data deleted successfully.']);
+        } catch (\Exception $e) {
+            // Tangani kesalahan jika terjadi
+            return response()->json(['success' => false, 'message' => 'Failed to delete data: ' . $e->getMessage()]);
+        }
     }
 }

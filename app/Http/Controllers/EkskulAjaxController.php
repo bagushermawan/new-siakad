@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Storage;
 
 class EkskulAjaxController extends Controller
 {
-
     public function index()
     {
         $user = Auth::user();
@@ -23,8 +22,9 @@ class EkskulAjaxController extends Controller
         // Mendapatkan daftar user
         // Menentukan apakah user adalah admin
         $isAdmin = $user->hasRole('admin');
+        $total_ekskul = Ekskul::count();
 
-        return view('admin.ekskul.index', ['roles' => $roles, 'isAdmin' => $isAdmin]);
+        return view('admin.ekskul.index', ['roles' => $roles, 'isAdmin' => $isAdmin, 'total_ekskul' => $total_ekskul]);
     }
 
     public function indexEkskul()
@@ -43,12 +43,10 @@ class EkskulAjaxController extends Controller
             ->make(true);
     }
 
-
     public function create()
     {
         //
     }
-
 
     public function store(Request $request)
     {
@@ -76,19 +74,16 @@ class EkskulAjaxController extends Controller
         }
     }
 
-
     public function show(string $id)
     {
         //
     }
-
 
     public function edit(string $id)
     {
         $data = Ekskul::where('id', $id)->first();
         return response()->json(['result' => $data]);
     }
-
 
     public function update(Request $request, string $id)
     {
@@ -128,19 +123,39 @@ class EkskulAjaxController extends Controller
 
             try {
                 // Impor data menggunakan EkskulImport
-                Excel::import(new EkskulImport, storage_path("app/Import Ekskul/{$filename}"));
+                Excel::import(new EkskulImport(), storage_path("app/Import Ekskul/{$filename}"));
 
                 // Hapus file setelah diimpor
                 // Storage::disk('local')->delete("Import ekskul/{$filename}");
 
-                return redirect()->back()->with('success', 'Data imported successfully.');
+                return redirect()
+                    ->back()
+                    ->with('success', 'Data imported successfully.');
             } catch (\Exception $e) {
                 // Jika terjadi kesalahan saat impor, tangani kesalahan di sini
                 Storage::disk('local')->delete("Import Ekskul/{$filename}"); // Hapus file jika impor gagal
-                return redirect()->back()->with('error', 'Error during import: ' . $e->getMessage());
+                return redirect()
+                    ->back()
+                    ->with('error', 'Error during import: ' . $e->getMessage());
             }
         }
 
-        return redirect()->back()->with('error', 'No file selected.');
+        return redirect()
+            ->back()
+            ->with('error', 'No file selected.');
+    }
+
+    public function deleteAll()
+    {
+        try {
+            // Tambahkan logika penghapusan data di sini
+            // Contoh: Hapus semua data dari tabel 'users'
+            DB::table('ekskuls')->delete();
+
+            return response()->json(['success' => true, 'message' => 'All data deleted successfully.']);
+        } catch (\Exception $e) {
+            // Tangani kesalahan jika terjadi
+            return response()->json(['success' => false, 'message' => 'Failed to delete data: ' . $e->getMessage()]);
+        }
     }
 }

@@ -22,8 +22,9 @@ class MataPelajaranAjaxController extends Controller
         // Mendapatkan daftar user
         // Menentukan apakah user adalah admin
         $isAdmin = $user->hasRole('admin');
+        $total_matpel = MataPelajaran::count();
 
-        return view('admin.matapelajaran.index', ['roles' => $roles, 'isAdmin' => $isAdmin]);
+        return view('admin.matapelajaran.index', ['roles' => $roles, 'isAdmin' => $isAdmin, 'total_matpel' => $total_matpel]);
     }
 
 
@@ -116,5 +117,19 @@ class MataPelajaranAjaxController extends Controller
     public function destroy(string $id)
     {
         MataPelajaran::where('id', $id)->delete();
+    }
+
+    public function deleteAll()
+    {
+        try {
+            // Tambahkan logika penghapusan data di sini
+            // Contoh: Hapus semua data dari tabel 'users'
+            DB::table('mata_pelajarans')->delete();
+
+            return response()->json(['success' => true, 'message' => 'All data deleted successfully.']);
+        } catch (\Exception $e) {
+            // Tangani kesalahan jika terjadi
+            return response()->json(['success' => false, 'message' => 'Failed to delete data: ' . $e->getMessage()]);
+        }
     }
 }

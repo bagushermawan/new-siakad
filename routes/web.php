@@ -57,18 +57,22 @@ Route::middleware('auth')->group(function () {
     Route::resource('/qwe/ekskul', EkskulAjaxController::class);
     Route::get('/qwe/ekskulAjax', [EkskulAjaxController::class, 'indexEkskul']);
     Route::post('/qwe/import-ekskul', [EkskulAjaxController::class, 'importEkskul'])->name('import.ekskul');
+    Route::delete('/delete-all-ekskul', [EkskulAjaxController::class, 'deleteAll'])->name('delete.all.ekskul');
 
 
     Route::resource('/qwe/prestasiAjax', PrestasiAjaxController::class);
     Route::resource('/qwe/prestasi', PrestasiController::class);
     Route::post('/qwe/import-prestasi', [PrestasiAjaxController::class, 'importPrestasi'])->name('import.prestasi');
+    Route::delete('/delete-all-prestasi', [PrestasiAjaxController::class, 'deleteAll'])->name('delete.all.prestasi');
 
     Route::resource('/qwe/kelas', KelasAjaxController::class);
     Route::get('/qwe/kelasAjax', [KelasAjaxController::class, 'indexKelas']);
     Route::post('/qwe/import-kelas', [KelasAjaxController::class, 'importKelas'])->name('import.kelas');
+    Route::delete('/delete-all-kelas', [KelasAjaxController::class, 'deleteAll'])->name('delete.all.kelas');
 
     Route::resource('/qwe/matapelajaran', MataPelajaranAjaxController::class);
     Route::get('/qwe/matapelajaranAjax', [MataPelajaranAjaxController::class, 'indexMatapelajaran']);
+    Route::delete('/delete-all-matpel', [MataPelajaranAjaxController::class, 'deleteAll'])->name('delete.all.matpel');
 
     Route::resource('/qwe/jadwalmatapelajaran', JadwalMataPelajaranAjaxController::class);
     Route::get('/qwe/jadwalmatapelajaranAjax', [JadwalMataPelajaranAjaxController::class, 'indexJadwalMataPelajaran']);

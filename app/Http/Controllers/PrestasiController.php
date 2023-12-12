@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Prestasi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -18,8 +19,9 @@ class PrestasiController extends Controller
         // Mendapatkan daftar user
         // Menentukan apakah user adalah admin
         $isAdmin = $user->hasRole('admin');
+        $total_prestasi=Prestasi::count();
 
-        return view('admin.prestasi.index', ['roles' => $roles, 'isAdmin' => $isAdmin]);
+        return view('admin.prestasi.index', ['roles' => $roles, 'isAdmin' => $isAdmin, 'total_prestasi'=>$total_prestasi]);
     }
 
     /**
