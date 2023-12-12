@@ -19,9 +19,6 @@ use Illuminate\Support\Facades\Storage;
 
 class UserAjaxController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $user = Auth::user();
@@ -243,4 +240,5 @@ class UserAjaxController extends Controller
 
         return redirect()->back()->with('error', 'No file selected.');
     }
+
 }

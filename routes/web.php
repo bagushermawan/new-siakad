@@ -61,6 +61,7 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('/qwe/kelas', KelasAjaxController::class);
     Route::get('/qwe/kelasAjax', [KelasAjaxController::class, 'indexKelas']);
+    Route::post('/qwe/import-kelas', [KelasAjaxController::class, 'importKelas'])->name('import.kelas');
 
     Route::resource('/qwe/matapelajaran', MataPelajaranAjaxController::class);
     Route::get('/qwe/matapelajaranAjax', [MataPelajaranAjaxController::class, 'indexMatapelajaran']);

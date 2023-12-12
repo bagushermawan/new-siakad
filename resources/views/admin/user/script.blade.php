@@ -76,7 +76,7 @@
                                             <h2 class="accordion-header" id="headingOne">
                                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                                     data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                                                    Contoh struktur kolom excell
+                                                    Contoh struktur kolom excell import users
                                                 </button>
                                             </h2>
                                             <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
@@ -109,7 +109,7 @@
                                     'excel_file').files[0];
                                 if (!excelFile) {
                                     Swal.showValidationMessage(
-                                        'Please choose an Excel file');
+                                        'Silahkan upload file terlebih dahulu');
                                 }
                                 return {
                                     excelFile: excelFile

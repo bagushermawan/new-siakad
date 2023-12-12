@@ -119,8 +119,8 @@
                             </ul>
                         </li>
 
-                        <li class="sidebar-item {{ request()->routeIs('kelas.index') ? 'active' : '' }}">
-                            <a href="{{ route('kelas.index') }}" class='sidebar-link'>
+                        <li class="sidebar-item #">
+                            <a href="#" class='sidebar-link'>
                                 <i class="bi bi-list-ol"></i>
                                 <span>Nilai</span>
                             </a>

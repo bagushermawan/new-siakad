@@ -9,12 +9,12 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\KelasImport;
+use Illuminate\Support\Facades\Storage;
 
 class KelasAjaxController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $user = Auth::user();
@@ -71,17 +71,11 @@ class KelasAjaxController extends Controller
             ->make(true);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $validasi = Validator::make(
@@ -111,26 +105,17 @@ class KelasAjaxController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
         $data = Kelas::where('id', $id)->first();
         return response()->json(['result' => $data]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
         $data = [
@@ -142,11 +127,44 @@ class KelasAjaxController extends Controller
         return response()->json(['success' => 'Berhasil melakukan update data']);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         Kelas::where('id', $id)->delete();
+    }
+
+    public function importKelas()
+    {
+        // Pastikan file ada sebelum melanjutkan
+        if (request()->hasFile('excel_file')) {
+            $file = request()->file('excel_file');
+
+            // Dapatkan timestamp saat ini
+            $timestamp = time();
+
+            // Dapatkan nama asli file
+            $originalName = $file->getClientOriginalName();
+
+            // Ubah nama file dengan menambahkan timestamp
+            $filename = pathinfo($originalName, PATHINFO_FILENAME) . "_{$timestamp}." . $file->getClientOriginalExtension();
+
+            // Simpan file ke penyimpanan 'Import Kelas' dengan nama yang telah diubah
+            Storage::disk('local')->putFileAs('Import Kelas', $file, $filename);
+
+            try {
+                // Impor data menggunakan KelasImport
+                Excel::import(new KelasImport, storage_path("app/Import Kelas/{$filename}"));
+
+                // Hapus file setelah diimpor
+                // Storage::disk('local')->delete("Import kelas/{$filename}");
+
+                return redirect()->back()->with('success', 'Data imported successfully.');
+            } catch (\Exception $e) {
+                // Jika terjadi kesalahan saat impor, tangani kesalahan di sini
+                Storage::disk('local')->delete("Import Kelas/{$filename}"); // Hapus file jika impor gagal
+                return redirect()->back()->with('error', 'Error during import: ' . $e->getMessage());
+            }
+        }
+
+        return redirect()->back()->with('error', 'No file selected.');
     }
 }
