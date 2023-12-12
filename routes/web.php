@@ -7,6 +7,7 @@ use App\Http\Controllers\JadwalMataPelajaranAjaxController;
 use App\Http\Controllers\JadwalMataPelajaranController;
 use App\Http\Controllers\KelasAjaxController;
 use App\Http\Controllers\MataPelajaranAjaxController;
+use App\Http\Controllers\NilaiAjaxController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\PrestasiAjaxController;
 use App\Http\Controllers\PrestasiController;
@@ -77,6 +78,9 @@ Route::middleware('auth')->group(function () {
     Route::resource('/qwe/jadwalmatapelajaran', JadwalMataPelajaranAjaxController::class);
     Route::get('/qwe/jadwalmatapelajaranAjax', [JadwalMataPelajaranAjaxController::class, 'indexJadwalMataPelajaran']);
 
+    Route::resource('/qwe/nilai', NilaiAjaxController::class);
+    Route::get('/qwe/nilaiAjax', [NilaiAjaxController::class, 'indexNilai']);
+    Route::delete('/delete-all-nilai', [NilaiAjaxController::class, 'deleteAll'])->name('delete.all.nilai');
 
 
     Route::resource('/qwe/tahunajaranAjax', TahunAjaranAjaxController::class);

@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use App\Models\Kelas;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
@@ -28,34 +29,35 @@ class UserFactory extends Factory
         // $email = strtolower(str_replace(' ', '.', $name)) . '_' . $randomString . '@mail.com';
         $email = $this->faker->unique()->safeEmail;
         $username = $this->faker->unique()->name;
-        $kelas_id= $this->faker->numberBetween(1, 10);
+        $kelas_ids = Kelas::pluck('id')->toArray();
+        $kelas_id = $this->faker->randomElement($kelas_ids);
 
         // Membuat user baru
         $user = User::create([
             'name' => $name,
             'username' => $username,
             'nisn' => $nisn,
-            'nuptk' => $nuptk,
+            // 'nuptk' => $nuptk,
             'nohp' => $nohp,
             'email' => $email,
-            // 'kelas_id' => $kelas_id,
+            'kelas_id' => $kelas_id,
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('123'),
             'remember_token' => Str::random(10),
         ]);
 
         // Ganti role disini
-        $user->assignRole('guru');
+        $user->assignRole('user');
 
         return [
             'name' => $user->name,
             'username' => $user->username,
             'nisn' => $user->nisn,
-            'nuptk' => $user->nuptk,
+            // 'nuptk' => $user->nuptk,
             'nohp' => $user->nohp,
             'username' => $user->username,
             'email' => $user->email,
-            // 'kelas_id' => $user->kelas_id,
+            'kelas_id' => $user->kelas_id,
             'email_verified_at' => $user->email_verified_at,
             'password' => $user->password,
             'remember_token' => $user->remember_token,

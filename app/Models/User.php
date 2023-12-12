@@ -36,21 +36,16 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsTo(Kelas::class, 'kelas_id');
     }
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
+    public function nilai()
+    {
+        return $this->hasMany(Nilai::class);
+    }
+
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
