@@ -158,7 +158,7 @@
                         );
                         var title = $(cell).text();
                         // Tambahkan kondisi untuk mengecek apakah kolom No
-                        if (colIdx === 0 || colIdx === 3 || colIdx === 4 || colIdx === 5) {
+                        if (colIdx === 0 || colIdx === 4 || colIdx === 5|| colIdx === 6) {
                             // Jika kolom No, tidak tambahkan input filter
                             $(cell).html('');
                         } else {
@@ -222,6 +222,17 @@
                 {
                     data: 'walikelas_name',
                     name: 'walikelas_name',
+                    render: function(data, type, row) {
+                        if (type === 'display') {
+                            return data ? data :
+                                '<a style="color:#6c757d;">Tidak tersedia</a>';
+                        }
+                        return data;
+                    }
+                },
+                {
+                    data: 'event',
+                    name: 'Event',
                     render: function(data, type, row) {
                         if (type === 'display') {
                             return data ? data :
@@ -322,6 +333,7 @@
                     // Reset nilai jika walikelas_id null
                     $('#walikelas_id').val('');
                 }
+                $('#event').val(response.result.event);
                 console.log(response.result);
                 $('.tombol-simpan').off('click').on('click', function() {
                     simpan(id);
@@ -436,6 +448,7 @@
             data: {
                 name: $('#name').val(),
                 walikelas_id: $('#walikelas_id').val(),
+                event: $('#event').val(),
             },
             success: function(response) {
                 if (response.errors) {
@@ -453,6 +466,7 @@
                     $('#myTable').DataTable().ajax.reload();
                     console.log('Nama:', $('#name').val());
                     console.log('WaliKelas ID:', $('#walikelas_id').val());
+                    console.log('Event/Pengumuman:', $('#event').val());
                 }
             }
         });

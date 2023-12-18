@@ -98,6 +98,7 @@ class KelasAjaxController extends Controller
             $data = [
                 'name' => $request->name,
                 'walikelas_id' => $request->walikelas_id,
+                'event' => $request->event,
             ];
             // Membuat user baru
             $kelas = Kelas::create($data);
@@ -123,6 +124,7 @@ class KelasAjaxController extends Controller
         $data = [
             'name' => $request->name,
             'walikelas_id' => $request->walikelas_id,
+            'event' => $request->event,
         ];
 
         Kelas::where('id', $id)->update($data);

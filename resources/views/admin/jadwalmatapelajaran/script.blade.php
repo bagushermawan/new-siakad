@@ -134,10 +134,7 @@
                         return meta.row + 1;
                     }
                 },
-                {
-                    data: 'kelas_id',
-                    name: 'Kelas'
-                },
+                {data: 'kelas_id',name: 'Kelas'},
                 {
                     data: 'mata_pelajaran_id',
                     name: 'Mata Pelajaran',
@@ -149,18 +146,9 @@
                         return data;
                     }
                 },
-                {
-                    data: 'hari',
-                    name: 'Hari'
-                },
-                {
-                    data: 'jam',
-                    name: 'Jam'
-                },
-                {
-                    data: 'tahun_ajaran_id',
-                    name: 'Tahun Ajaran',
-                },
+                {data: 'hari',name: 'Hari'},
+                {data: 'jam',name: 'Jam'},
+                {data: 'tahun_ajaran_id',name: 'Tahun Ajaran',},
                 {
                     data: 'created_at',
                     name: 'created_at',
@@ -185,6 +173,11 @@
                 targets: -1,
                 visible: isAdmin
             }, ],
+            "order": [
+            [1, 'asc'],  // Urutkan berdasarkan kelas_id secara ascending
+            [3, 'asc'],  // Kemudian urutkan berdasarkan hari secara ascending
+            [4, 'asc']   // Terakhir, urutkan berdasarkan jam secara ascending
+        ],
         });
         // Fungsi untuk memberi warna pada pagination
         const setTableColor = () => {

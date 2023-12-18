@@ -60,9 +60,10 @@
                                     <th class="col-md-1">
                                         <center>No</center>
                                     </th>
-                                    <th class="col-md-3">Nama Kelas</th>
+                                    <th class="col-md-1">Nama Kelas</th>
                                     <th class="col-md-3">Wali Kelas</th>
-                                    <th class="col-md-2">
+                                    <th class="col-md-3">Event/Pengumuman</th>
+                                    <th class="col-md-1">
                                         <center>Jumlah</center>
                                     </th>
                                     <th>Created at</th>
@@ -107,6 +108,11 @@
                                     <option value="{{ $a->id }}">{{ $a->name }}</option>
                                 @endforeach
                             </select>
+                        </div>
+
+                        <label>Event/Pengumuman: </label>
+                        <div class="form-group">
+                            <input id="event" type="text" name="event" class="form-control">
                         </div>
                     </div>
                     <div class="modal-footer">
