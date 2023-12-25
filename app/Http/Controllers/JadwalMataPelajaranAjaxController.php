@@ -15,6 +15,17 @@ use Illuminate\Support\Facades\DB;
 
 class JadwalMataPelajaranAjaxController extends Controller
 {
+    public function getKelasOptions()
+    {
+        $kelasOptions = Kelas::all(['id', 'name']);
+        return response()->json($kelasOptions);
+    }
+
+    public function getTahunAjaranOptions()
+    {
+        $tahunAjaranOptions = TahunAjaran::all(['id', 'name']);
+        return response()->json($tahunAjaranOptions);
+    }
     public function index()
     {
         $user = Auth::user();

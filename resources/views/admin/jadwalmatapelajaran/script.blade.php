@@ -1,24 +1,51 @@
 <script>
     $(document).ready(function() {
         var isAdmin = {{ $isAdmin ? 'true' : 'false' }};
-        var classes = ['1A', '1B', '2A', '2B', '3A', '3B', '4A', '4B', '5A', '5B', '6A', '6B'];
-        var selectKelas = document.getElementById('filterKelas');
-    // Mengisi opsi kelas
-    classes.forEach(function (kelas) {
-        var option = document.createElement('option');
-        option.value = kelas;
-        option.text = kelas;
-        selectKelas.add(option);
-    });
+        // Mengambil data kelas dari server
+        $.ajax({
+            url: "{{ url('/get_kelas_options') }}", // Gantilah dengan URL yang sesuai di server Anda
+            method: 'GET',
+            success: function(kelasOptions) {
+                var selectKelas = document.getElementById('filterKelas');
 
-    // Mendeteksi perubahan pada elemen <select>
-    $('#filterKelas').on('change', function () {
-        // Mendapatkan nilai kelas yang dipilih
-        var selectedKelas = $(this).val();
+                kelasOptions.forEach(function(kelas) {
+                    var option = document.createElement('option');
+                    option.value = kelas.name;
+                    option.text = kelas.name;
+                    selectKelas.add(option);
+                });
+            }
+        });
 
-        // Menyesuaikan permintaan Ajax dengan filter kelas
-        myTable.column(1).search(selectedKelas).draw();
-    });
+        // Mengambil data tahun ajaran dari server
+        $.ajax({
+            url: "{{ url('/get_tahunajaran_options') }}", // Gantilah dengan URL yang sesuai di server Anda
+            method: 'GET',
+            success: function(tahunAjaranOptions) {
+                var selectTahunAjaran = document.getElementById('filterTahunAjaran');
+
+                tahunAjaranOptions.forEach(function(tahunAjaran) {
+                    var option = document.createElement('option');
+                    option.value = tahunAjaran.name;
+                    option.text = tahunAjaran.name;
+                    selectTahunAjaran.add(option);
+                });
+            }
+        });
+
+        // Mendeteksi perubahan pada elemen <select> kelas
+        $('#filterKelas').on('change', function() {
+            var selectedKelasId = $(this).val();
+            myTable.column(1).search(selectedKelasId).draw();
+        });
+
+        // Mendeteksi perubahan pada elemen <select> tahun ajaran
+        $('#filterTahunAjaran').on('change', function() {
+            var selectedTahunAjaranId = $(this).val();
+            myTable.column(5).search(selectedTahunAjaranId).draw();
+        });
+
+
         $('#myTable thead tr')
             .clone(true)
             .addClass('filters')
@@ -152,15 +179,17 @@
                         return meta.row + 1;
                     }
                 },
-                {data: 'kelas_id',
-                name: 'kelas_id',
-                render: function(data, type, row) {
+                {
+                    data: 'kelas_id',
+                    name: 'kelas_id',
+                    render: function(data, type, row) {
                         if (type === 'display') {
                             return data ? data :
                                 '<a style="color:#6c757d;">Tidak tersedia</a>';
                         }
                         return data;
-                    }},
+                    }
+                },
                 {
                     data: 'mata_pelajaran_id',
                     name: 'Mata Pelajaran',
@@ -172,9 +201,18 @@
                         return data;
                     }
                 },
-                {data: 'hari',name: 'Hari'},
-                {data: 'jam',name: 'Jam'},
-                {data: 'tahun_ajaran_id',name: 'Tahun Ajaran',},
+                {
+                    data: 'hari',
+                    name: 'Hari'
+                },
+                {
+                    data: 'jam',
+                    name: 'Jam'
+                },
+                {
+                    data: 'tahun_ajaran_id',
+                    name: 'Tahun Ajaran',
+                },
                 {
                     data: 'created_at',
                     name: 'created_at',
@@ -200,9 +238,9 @@
                 visible: isAdmin
             }, ],
             "order": [
-            [3, 'desc'],  // Kemudian urutkan berdasarkan hari secara ascending
-            [4, 'asc']   // Terakhir, urutkan berdasarkan jam secara ascending
-        ],
+                [3, 'desc'], // Kemudian urutkan berdasarkan hari secara ascending
+                [4, 'asc'] // Terakhir, urutkan berdasarkan jam secara ascending
+            ],
         });
         // Fungsi untuk memberi warna pada pagination
         const setTableColor = () => {
@@ -381,50 +419,50 @@
 
 
     // Proses Delete All
-    $("#deleteAllButton").on("click", function () {
-    // Tampilkan SweetAlert untuk konfirmasi pengguna
-    Swal.fire({
-      title: "Apa kamu yakin?",
-      text: "Data yang sudah dihapus tidak bisa dikembalikan!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#d33",
-      cancelButtonColor: "#3085d6",
-      confirmButtonText: "Ya, Hapus Semua!",
-      cancelButtonText: "Batal",
-    }).then((result) => {
-      // Jika pengguna mengkonfirmasi
-      if (result.isConfirmed) {
-        // Kirim permintaan AJAX ke backend untuk menghapus data
-        $.ajax({
-          url: "/delete-all-jadwal", // Ganti dengan URL backend Anda
-          method: "DELETE", // Sesuaikan dengan metode yang digunakan di backend
-          success: function (response) {
-            // Jika penghapusan dari database berhasil
-            if (response.success) {
-              // Hapus semua data dari DataTables
-              $('#myTable').DataTable().ajax.reload();
-              Swal.fire("Deleted!", "Your data has been deleted.", "success");
-            } else {
-              Swal.fire(
-                "Error!",
-                "Failed to delete data from database.",
-                "error"
-              );
+    $("#deleteAllButton").on("click", function() {
+        // Tampilkan SweetAlert untuk konfirmasi pengguna
+        Swal.fire({
+            title: "Apa kamu yakin?",
+            text: "Data yang sudah dihapus tidak bisa dikembalikan!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Ya, Hapus Semua!",
+            cancelButtonText: "Batal",
+        }).then((result) => {
+            // Jika pengguna mengkonfirmasi
+            if (result.isConfirmed) {
+                // Kirim permintaan AJAX ke backend untuk menghapus data
+                $.ajax({
+                    url: "/delete-all-jadwal", // Ganti dengan URL backend Anda
+                    method: "DELETE", // Sesuaikan dengan metode yang digunakan di backend
+                    success: function(response) {
+                        // Jika penghapusan dari database berhasil
+                        if (response.success) {
+                            // Hapus semua data dari DataTables
+                            $('#myTable').DataTable().ajax.reload();
+                            Swal.fire("Deleted!", "Your data has been deleted.", "success");
+                        } else {
+                            Swal.fire(
+                                "Error!",
+                                "Failed to delete data from database.",
+                                "error"
+                            );
+                        }
+                    },
+                    error: function(error) {
+                        console.error("Error deleting data:", error);
+                        Swal.fire(
+                            "Error!",
+                            "Failed to delete data from database.",
+                            "error"
+                        );
+                    },
+                });
             }
-          },
-          error: function (error) {
-            console.error("Error deleting data:", error);
-            Swal.fire(
-              "Error!",
-              "Failed to delete data from database.",
-              "error"
-            );
-          },
         });
-      }
     });
-  });
 
     // fungsi simpan dan update
     function simpan(id = '') {

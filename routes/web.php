@@ -78,6 +78,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('/qwe/jadwalmatapelajaran', JadwalMataPelajaranAjaxController::class);
     Route::get('/qwe/jadwalmatapelajaranAjax', [JadwalMataPelajaranAjaxController::class, 'indexJadwalMataPelajaran']);
     Route::delete('/delete-all-jadwal', [JadwalMataPelajaranAjaxController::class, 'deleteAll']);
+    Route::get('/get_kelas_options', [JadwalMataPelajaranAjaxController::class, 'getKelasOptions']);
+    Route::get('/get_tahunajaran_options', [JadwalMataPelajaranAjaxController::class, 'getTahunAjaranOptions']);
 
     Route::resource('/qwe/nilai', NilaiAjaxController::class);
     Route::get('/qwe/nilaiAjax', [NilaiAjaxController::class, 'indexNilai']);
