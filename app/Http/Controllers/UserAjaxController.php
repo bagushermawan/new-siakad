@@ -44,7 +44,7 @@ class UserAjaxController extends Controller
         $isAdmin = $user->hasRole('admin');
 
         $data = User::with('roles')
-            ->when($isAdmin, function ($query) {
+            ->when(function ($query) {
                 // Jika bukan admin, filter hanya user dengan role 'guru'
                 $query->whereHas('roles', function ($q) {
                     $q->where('name', 'guru');
@@ -68,7 +68,7 @@ class UserAjaxController extends Controller
 
 
         $data = User::with(['roles', 'kelas'])->orderBy('name', 'asc')
-            ->when($isAdmin, function ($query) {
+            ->when(function ($query) {
                 // Jika bukan admin, filter hanya user dengan role 'guru'
                 $query->whereHas('roles', function ($q) {
                     $q->where('name', 'user');

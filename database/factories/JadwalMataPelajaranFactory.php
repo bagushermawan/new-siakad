@@ -24,7 +24,7 @@ class JadwalMataPelajaranFactory extends Factory
             'kelas_id' => $kelasId,
             'mata_pelajaran_id' => $mataPelajaranId,
             'hari' => $this->faker->randomElement(['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat']),
-            'jam' => $this->faker->time('H:i'),
+            'jam' => $this->faker->dateTimeBetween('07:00', '13:00')->format('H:00'),
             'tahun_ajaran_id' => $tahunAjaranId,
         ];
     }

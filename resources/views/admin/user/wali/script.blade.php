@@ -1,24 +1,6 @@
 <script>
     $(document).ready(function() {
         var isAdmin = {{ $isAdmin ? 'true' : 'false' }};
-        var classes = ['1A', '1B', '2A', '2B', '3A', '3B', '4A', '4B', '5A', '5B', '6A', '6B'];
-        var selectKelas = document.getElementById('filterKelas');
-    // Mengisi opsi kelas
-    classes.forEach(function (kelas) {
-        var option = document.createElement('option');
-        option.value = kelas;
-        option.text = kelas;
-        selectKelas.add(option);
-    });
-
-    // Mendeteksi perubahan pada elemen <select>
-    $('#filterKelas').on('change', function () {
-        // Mendapatkan nilai kelas yang dipilih
-        var selectedKelas = $(this).val();
-
-        // Menyesuaikan permintaan Ajax dengan filter kelas
-        myTable.column(1).search(selectedKelas).draw();
-    });
         $('#myTable thead tr')
             .clone(true)
             .addClass('filters')
@@ -80,6 +62,88 @@
                         dt.ajax.reload();
                     }
                 },
+                {
+                    className: 'btn btn-outline-success',
+                    text: '<i class="fas fa-file-import"></i> Import Excel',
+                    titleAttr: 'Reload Data',
+                    action: function(e, dt, node, config) {
+                        Swal.fire({
+                            html: `
+                                    <input type="file" id="excel_file" class="swal2-file" accept=".xlsx, .xls, .csv">
+                                    <br><br><br>
+                                    <div class="accordion" id="accordionExample">
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header" id="headingOne">
+                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                                    data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                                    Contoh struktur kolom excell import siswa
+                                                </button>
+                                            </h2>
+                                            <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
+                                                data-bs-parent="#accordionExample" style="">
+                                                <div class="accordion-body">
+                                                    <img src="/storage/siswa.png">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                     `,
+                            showCancelButton: true,
+                            confirmButtonText: 'Import',
+                            cancelButtonText: 'Batal',
+                            footer: 'Download file sample excell <a href="/storage/siswa_import_sample.xlsx" download>disini</a>.',
+                            backdrop: `
+                                        rgba(60, 60, 60,0.3)
+                                        //url("/storage/faw.png")
+                                        top center
+                                        no-repeat
+                                      `,
+                            showClass: {
+                                popup: `animate__fadeInDown animate__animated animate__faster`
+                            },
+                            hideClass: {
+                                popup: `animate__animated animate__fadeOutDown animate__faster`
+                            },
+                            preConfirm: () => {
+                                const excelFile = document.getElementById(
+                                    'excel_file').files[0];
+                                if (!excelFile) {
+                                    Swal.showValidationMessage(
+                                        'Silahkan upload file terlebih dahulu');
+                                }
+                                return {
+                                    excelFile: excelFile
+                                };
+                            }
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                // Handle import here, you can use AJAX to send the file
+                                const formData = new FormData();
+                                formData.append('excel_file', result.value.excelFile);
+
+                                $.ajax({
+                                    url: '{{ route('import.siswa') }}',
+                                    method: 'POST',
+                                    data: formData,
+                                    processData: false,
+                                    contentType: false,
+                                    success: function(response) {
+                                        $('#myTable').DataTable().ajax
+                                            .reload();
+                                        Swal.fire('Sukses!',
+                                            'Berhasil import data siswa.',
+                                            'success');
+                                    },
+                                    error: function(error) {
+                                        Swal.fire('Gagal!',
+                                            'Gagal import data siswa.',
+                                            'error');
+                                    }
+                                });
+                            }
+                        });
+                    }
+                },
             ],
             initComplete: function() {
                 var api = this.api();
@@ -94,7 +158,7 @@
                         );
                         var title = $(cell).text();
                         // Tambahkan kondisi untuk mengecek apakah kolom No
-                        if (colIdx === 0 || colIdx === 7 || colIdx === 6) {
+                        if (colIdx === 0 || colIdx === 7 || colIdx === 8) {
                             // Jika kolom No, tidak tambahkan input filter
                             $(cell).html('');
                         } else {
@@ -139,7 +203,7 @@
                             });
                     });
             },
-            ajax: "{{ url('/qwe/jadwalmatapelajaranAjax') }}",
+            ajax: "{{ url('/qwe/siswaAjax') }}",
             columns: [{
                     data: 'DT_RowIndex',
                     name: 'DT_RowIndex',
@@ -152,57 +216,65 @@
                         return meta.row + 1;
                     }
                 },
-                {data: 'kelas_id',
-                name: 'kelas_id',
-                render: function(data, type, row) {
-                        if (type === 'display') {
-                            return data ? data :
-                                '<a style="color:#6c757d;">Tidak tersedia</a>';
-                        }
-                        return data;
-                    }},
                 {
-                    data: 'mata_pelajaran_id',
-                    name: 'Mata Pelajaran',
-                    render: function(data, type, row) {
-                        if (type === 'display') {
-                            return data ? data :
-                                '<a style="color:#6c757d;">Data Mata Pelajaran tidak tersedia</a>';
-                        }
-                        return data;
-                    }
+                    data: 'nisn',
+                    name: 'nisn'
                 },
-                {data: 'hari',name: 'Hari'},
-                {data: 'jam',name: 'Jam'},
-                {data: 'tahun_ajaran_id',name: 'Tahun Ajaran',},
                 {
-                    data: 'created_at',
-                    name: 'created_at',
+                    data: 'name',
+                    name: 'Nama'
+                },
+                {
+                    data: 'username',
+                    name: 'Username'
+                },
+                {
+                    data: 'kelas_name',
+                    name: 'kelas_name'
+                },
+                {
+                    data: 'email',
+                    name: 'Email'
+                },
+                {
+                    data: 'nohp',
+                    name: 'No Hp'
+                },
+                {
+                    data: 'roles',
+                    name: 'Status',
                     render: function(data, type, row) {
-                        // Mengubah format tanggal dan waktu
-                        var date = new Date(data);
-                        var formattedDate = date
-                            .toLocaleString(); // Sesuaikan format sesuai kebutuhan
+                        if (isAdmin) {
+                            if (Array.isArray(data) && data.length > 0) {
+                                // Capitalize the first letter of each role
+                                var formattedRoles = data.map(function(role) {
+                                    return role.name.charAt(0).toUpperCase() + role.name
+                                        .slice(1);
+                                }).join(', ');
 
-                        return formattedDate;
+                                return formattedRoles;
+                            }
+
+                            return 'No roles assigned';
+                        }
+                        return '';
                     }
                 },
                 {
                     data: 'aksi',
-                    name: 'Action',
-                    orderable: false,
-                    searchable: false,
+                    name: 'Aksi',
                     visible: isAdmin
                 }
             ],
             columnDefs: [{
-                targets: -1,
-                visible: isAdmin
-            }, ],
-            "order": [
-            [3, 'desc'],  // Kemudian urutkan berdasarkan hari secara ascending
-            [4, 'asc']   // Terakhir, urutkan berdasarkan jam secara ascending
-        ],
+                    targets: -1,
+                    visible: isAdmin
+                },
+                {
+                    targets: -2,
+                    visible: isAdmin
+                } // Menyembunyikan/menampilkan kolom 'Roles' berdasarkan isAdmin
+            ]
         });
         // Fungsi untuk memberi warna pada pagination
         const setTableColor = () => {
@@ -229,50 +301,14 @@
     $('body').on('click', '.tombol-tambah', function(e) {
         e.preventDefault();
         $('#exampleModal').modal('show');
-        // Hancurkan Choices.js sebelum inisialisasi jika sudah ada
         if (typeof kelasSelect !== 'undefined') {
-            kelasSelect.destroy();
-        }
-
-        // Hancurkan Choices.js sebelum inisialisasi jika sudah ada
-        if (typeof matpelSelect !== 'undefined') {
-            matpelSelect.destroy();
-        }
-
-        // Hancurkan Choices.js sebelum inisialisasi jika sudah ada
-        if (typeof hariSelect !== 'undefined') {
-            hariSelect.destroy();
-        }
-
-        // Hancurkan Choices.js sebelum inisialisasi jika sudah ada
-        if (typeof tahunajaranSelect !== 'undefined') {
-            tahunajaranSelect.destroy();
-        }
-        // Inisialisasi Choices.js
+                    kelasSelect.destroy();
+                }
         kelasSelect = new Choices('#kelas_id', {
-            searchEnabled: true,
-            itemSelectText: '',
-            allowHTML: true,
-        });
-
-        matpelSelect = new Choices('#mata_pelajaran_id', {
-            searchEnabled: true,
-            itemSelectText: '',
-            allowHTML: true,
-        });
-
-        hariSelect = new Choices('#hari', {
-            searchEnabled: true,
-            itemSelectText: '',
-            shouldSort: false,
-            allowHTML: true,
-        });
-
-        tahunajaranSelect = new Choices('#tahun_ajaran_id', {
-            searchEnabled: true,
-            itemSelectText: '',
-            allowHTML: true,
-        });
+                    searchEnabled: true,
+                    itemSelectText: '',
+                    allowHTML: true,
+                });
         $('.tombol-simpan').off('click').on('click', function() {
             simpan();
         });
@@ -281,63 +317,33 @@
     // 03_PROSES EDIT
     $('body').on('click', '.tombol-edit', function(e) {
         var id = $(this).data('id');
-
-        // Hancurkan Choices.js sebelum inisialisasi jika sudah ada
-        if (typeof kelasSelect !== 'undefined') {
-            kelasSelect.destroy();
-        }
-
-        // Hancurkan Choices.js sebelum inisialisasi jika sudah ada
-        if (typeof matpelSelect !== 'undefined') {
-            matpelSelect.destroy();
-        }
-
-        // Hancurkan Choices.js sebelum inisialisasi jika sudah ada
-        if (typeof hariSelect !== 'undefined') {
-            hariSelect.destroy();
-        }
-
-        // Hancurkan Choices.js sebelum inisialisasi jika sudah ada
-        if (typeof tahunajaranSelect !== 'undefined') {
-            tahunajaranSelect.destroy();
-        }
-
         $.ajax({
-            url: 'jadwalmatapelajaran/' + id + '/edit',
+            url: 'userAjax/' + id + '/edit',
             type: 'GET',
             success: function(response) {
                 $('#exampleModal').modal('show');
+                $('#nisn').val(response.result.nisn);
+                $('#name').val(response.result.name);
+                $('#username').val(response.result.username);
+
+                // Hapus objek Choices.js sebelum membuat yang baru
+                if (typeof kelasSelect !== 'undefined') {
+                    kelasSelect.destroy();
+                }
+
                 $('#kelas_id').val(response.result.kelas_id);
-                $('#mata_pelajaran_id').val(response.result.mata_pelajaran_id);
-                $('#hari').val(response.result.hari);
-                $('#jam').val(response.result.jam);
-                $('#tahun_ajaran_id').val(response.result.tahun_ajaran_id);
+                $('#email').val(response.result.email);
+                $('#nohp').val(response.result.nohp);
+                $('#role').val(response.result.role);
+                $('#password').val(response.result.password);
                 console.log(response.result);
+                console.log('Roles yang dimiliki:', response.role);
                 $('.tombol-simpan').off('click').on('click', function() {
                     simpan(id);
                 });
 
-                // Inisialisasi Choices.js
+                // Inisialisasi objek Choices.js baru
                 kelasSelect = new Choices('#kelas_id', {
-                    searchEnabled: true,
-                    itemSelectText: '',
-                    allowHTML: true,
-                });
-
-                matpelSelect = new Choices('#mata_pelajaran_id', {
-                    searchEnabled: true,
-                    itemSelectText: '',
-                    allowHTML: true,
-                });
-
-                hariSelect = new Choices('#hari', {
-                    searchEnabled: true,
-                    itemSelectText: '',
-                    shouldSort: false,
-                    allowHTML: true,
-                });
-
-                tahunajaranSelect = new Choices('#tahun_ajaran_id', {
                     searchEnabled: true,
                     itemSelectText: '',
                     allowHTML: true,
@@ -364,7 +370,7 @@
             if (result.isConfirmed) {
                 // Jika pengguna menekan tombol "Hapus", kirim permintaan DELETE
                 $.ajax({
-                    url: 'jadwalmatapelajaran/' + id,
+                    url: 'userAjax/' + id,
                     type: 'DELETE',
                     success: function(response) {
                         $('#myTable').DataTable().ajax.reload();
@@ -379,85 +385,36 @@
         });
     });
 
-
-    // Proses Delete All
-    $("#deleteAllButton").on("click", function () {
-    // Tampilkan SweetAlert untuk konfirmasi pengguna
-    Swal.fire({
-      title: "Apa kamu yakin?",
-      text: "Data yang sudah dihapus tidak bisa dikembalikan!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#d33",
-      cancelButtonColor: "#3085d6",
-      confirmButtonText: "Ya, Hapus Semua!",
-      cancelButtonText: "Batal",
-    }).then((result) => {
-      // Jika pengguna mengkonfirmasi
-      if (result.isConfirmed) {
-        // Kirim permintaan AJAX ke backend untuk menghapus data
-        $.ajax({
-          url: "/delete-all-jadwal", // Ganti dengan URL backend Anda
-          method: "DELETE", // Sesuaikan dengan metode yang digunakan di backend
-          success: function (response) {
-            // Jika penghapusan dari database berhasil
-            if (response.success) {
-              // Hapus semua data dari DataTables
-              $('#myTable').DataTable().ajax.reload();
-              Swal.fire("Deleted!", "Your data has been deleted.", "success");
-            } else {
-              Swal.fire(
-                "Error!",
-                "Failed to delete data from database.",
-                "error"
-              );
-            }
-          },
-          error: function (error) {
-            console.error("Error deleting data:", error);
-            Swal.fire(
-              "Error!",
-              "Failed to delete data from database.",
-              "error"
-            );
-          },
-        });
-      }
-    });
-  });
-
     // fungsi simpan dan update
     function simpan(id = '') {
         let var_url, var_type, successMessage;
 
         if (id === '') {
-            var_url = 'jadwalmatapelajaran';
+            var_url = 'userAjax';
             var_type = 'POST';
-            successMessage = 'Berhasil tambah tahunajaran.';
+            successMessage = 'Berhasil tambah user.';
         } else {
-            var_url = 'jadwalmatapelajaran/' + id;
+            var_url = 'userAjax/' + id;
             var_type = 'PUT';
-            successMessage = 'Berhasil update tahunajaran.';
+            successMessage = 'Berhasil update user.';
         }
 
         $.ajax({
             url: var_url,
             type: var_type,
             data: {
-                kelas_id: $('#kelas_id').val(),
-                mata_pelajaran_id: $('#mata_pelajaran_id').val(),
-                hari: $('#hari').val(),
-                jam: $('#jam').val(),
-                tahun_ajaran_id: $('#tahun_ajaran_id').val(),
+                nisn: $('#nisn').val(),
+                name: $('#name').val(),
+                username: $('#username').val(),
+                kelas_id: $('#kelas_id').val() || null,
+                email: $('#email').val(),
+                nohp: $('#nohp').val(),
+                role: $('#role').val(),
+                password: $('#password').val()
             },
             success: function(response) {
                 if (response.errors) {
                     console.log(response.errors);
-                    console.log('kelas_id:', $('#kelas_id').val());
-                    console.log('mata_pelajaran_id:', $('#mata_pelajaran_id').val());
-                    console.log('hari:', $('#hari').val());
-                    console.log('jam:', $('#jam').val());
-                    console.log('tahun_ajaran_id:', $('#tahun_ajaran_id').val());
                     $('.alert-danger').removeClass('d-none');
                     $('.alert-danger').html("<ul>");
                     $.each(response.errors, function(key, value) {
@@ -467,18 +424,22 @@
                 } else {
                     $('.alert-success').removeClass('d-none');
                     $('.alert-success').html(response.success);
-                    console.log(response.result);
-                    Swal.fire('Sukses!', successMessage, 'success');
                     $('#myTable').DataTable().ajax.reload();
+                    Swal.fire('Sukses!', successMessage, 'success');
                 }
             }
         });
     }
 
     $('#exampleModal').on('hidden.bs.modal', function() {
+        $('#nisn').val('');
         $('#name').val('');
-        $('#semester').val('');
-
+        $('#username').val('');
+        $('#kelas_id').val('');
+        $('#email').val('');
+        $('#nohp').val('');
+        $('#role').val('');
+        $('#password').val('');
 
         $('.alert-danger').addClass('d-none');
         $('.alert-danger').html('');

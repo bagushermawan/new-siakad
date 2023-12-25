@@ -73,7 +73,12 @@
                                     <a href="{{ route('guru.index') }}" class="submenu-link">Guru</a>
                                 </li>
                                 <li class="submenu-item  {{ request()->routeIs('siswa.index') ? 'active' : '' }}">
-                                    <a href="{{ route('siswa.index') }}" class="submenu-link">Siswa</a>
+                                    <a href="{{ route('siswa.index') }}" class="submenu-link">Santri</a>
+                                </li>
+                                @endif
+                                @if(auth()->user()->hasRole('admin'))
+                                <li class="submenu-item  {{ request()->routeIs('siswa.index') ? 'active' : '' }}">
+                                    <a href="{{ route('siswa.index') }}" class="submenu-link">Wali Santri</a>
                                 </li>
                                 @endif
                             </ul>

@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\DB;
 
 class JadwalMataPelajaranAjaxController extends Controller
 {
@@ -25,6 +26,7 @@ class JadwalMataPelajaranAjaxController extends Controller
         $kelas = Kelas::all();
         $matpel = MataPelajaran::all();
         $tahunajaran = TahunAjaran::all();
+        $total_jadwal = JadwalMataPelajaran::count();
 
         return view('admin.jadwalmatapelajaran.index', [
             'roles' => $roles,
@@ -32,6 +34,7 @@ class JadwalMataPelajaranAjaxController extends Controller
             'kelas' => $kelas,
             'matpel' => $matpel,
             'tahunajaran' => $tahunajaran,
+            'total_jadwal' => $total_jadwal,
         ]);
     }
 
@@ -50,16 +53,23 @@ class JadwalMataPelajaranAjaxController extends Controller
                 return view('admin.matapelajaran.tombol', ['data' => $data, 'isAdmin' => $isAdmin]);
             })
             ->addColumn('kelas_id', function ($data) {
-                return $data->kelas->name;
+                return optional ($data->kelas)->name;
             })
             ->addColumn('mata_pelajaran_id', function ($data) {
-                return optional($data->mataPelajaran)->name;
+                return optional ($data->mataPelajaran)->name;
             })
             ->addColumn('tahun_ajaran_id', function ($data) {
             $tahunAjaran = $data->tahunAjaran;
-            return $tahunAjaran->name . ' (' . $tahunAjaran->semester.')';
+            return optional ($tahunAjaran)->name . ' (' . $tahunAjaran->semester.')';
             })
             ->make(true);
+    }
+
+    public function getKelasData()
+    {
+        $kelas = Kelas::all();
+
+        return response()->json(['data' => $kelas]);
     }
 
     public function store(Request $request)
@@ -125,5 +135,19 @@ class JadwalMataPelajaranAjaxController extends Controller
     public function destroy(string $id)
     {
         JadwalMataPelajaran::where('id', $id)->delete();
+    }
+
+    public function deleteAll()
+    {
+        try {
+            // Tambahkan logika penghapusan data di sini
+            // Contoh: Hapus semua data dari tabel 'users'
+            DB::table('jadwal_mata_pelajarans')->delete();
+
+            return response()->json(['success' => true, 'message' => 'All data deleted successfully.']);
+        } catch (\Exception $e) {
+            // Tangani kesalahan jika terjadi
+            return response()->json(['success' => false, 'message' => 'Failed to delete data: ' . $e->getMessage()]);
+        }
     }
 }

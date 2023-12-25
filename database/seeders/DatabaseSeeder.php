@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
         // $this->call(JadwalMataPelajaranSeeder::class);
 
 
-        // User::factory(111)->create();
-        User::factory(10)->create();
+        User::factory(111)->create();
+        // User::factory(10)->create();
     }
 }

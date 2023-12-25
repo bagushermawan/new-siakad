@@ -36,28 +36,28 @@ class UserFactory extends Factory
         $user = User::create([
             'name' => $name,
             'username' => $username,
-            // 'nisn' => $nisn,
-            'nuptk' => $nuptk,
+            'nisn' => $nisn,
+            // 'nuptk' => $nuptk,
             'nohp' => $nohp,
             'email' => $email,
-            // 'kelas_id' => $kelas_id,
+            'kelas_id' => $kelas_id,
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('123'),
             'remember_token' => Str::random(10),
         ]);
 
         // Ganti role disini
-        $user->assignRole('guru');
+        $user->assignRole('user');
 
         return [
             'name' => $user->name,
             'username' => $user->username,
-            // 'nisn' => $user->nisn,
-            'nuptk' => $user->nuptk,
+            'nisn' => $user->nisn,
+            // 'nuptk' => $user->nuptk,
             'nohp' => $user->nohp,
             'username' => $user->username,
             'email' => $user->email,
-            // 'kelas_id' => $user->kelas_id,
+            'kelas_id' => $user->kelas_id,
             'email_verified_at' => $user->email_verified_at,
             'password' => $user->password,
             'remember_token' => $user->remember_token,

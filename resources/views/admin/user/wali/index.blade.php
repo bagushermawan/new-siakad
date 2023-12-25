@@ -1,22 +1,19 @@
 @extends('admin.layouts.master')
-@section('title', 'Jadwal Mata Pelajaran')
+@section('title', 'Siswa')
 @push('page-css')
     <link rel="stylesheet" href="{{ asset('extensions/datatables.net-bs5/css/dataTables.bootstrap5.min.css') }}">
 
 
     <link rel="stylesheet" href="{{ asset('compiled/css/table-datatable-jquery.css') }}">
     <link rel="stylesheet" href="{{ asset('/extensions/choices.js/public/assets/styles/choices.css') }}">
-    <link rel="stylesheet" href="{{ asset('/extensions/flatpickr/flatpickr.min.css') }}">
     <link rel="stylesheet" href="{{ asset('/extensions/@fortawesome/fontawesome-free/css/all.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('/extensions/moment/moment.min.js') }}">
-    {{-- <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.4.2/css/buttons.dataTables.min.css" /> --}}
 @endpush
 @section('content')
     <div class="page-heading">
         <div class="page-title">
             <div class="row">
                 <div class="col-12 col-md-6 order-md-1 order-last">
-                    <h3>Data Jadwal Mata Pelajaran</h3>
+                    <h3>Data Siswa</h3>
                     <p class="text-subtitle text-muted">A sortable, searchable, paginated table without dependencies thanks
                         to simple-datatables.</p>
                 </div>
@@ -35,10 +32,10 @@
             <div class="card">
                 <div class="card-header">
                     <h5 class="card-title">
-                        CRUD Datatables
+                        Ajax CRUD Datatables
                     </h5>
                     @if (auth()->user()->hasRole('admin'))
-                        <h6 style="float: left;">
+                        <h6>
                             <a href="#" class="btn icon icon-left btn-success tombol-tambah"><svg
                                     xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -47,39 +44,23 @@
                                     <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
                                 </svg> Tambah Data</a>
                         </h6>
-                        <h6 style="float: right;">
-                            <a href="#" id="deleteAllButton" class="btn icon icon-left btn-danger">
-                                <i class="bi bi-info-circle"></i> Delete All<span
-                                    class="badge bg-transparent">{{ $total_jadwal }}</span>
-                            </a>
-                        </h6>
                     @endif
                 </div>
                 <div class="card-body">
-                    <div class="row">
-                        <div class="col-sm-4 mb-1">
-                            <div class="input-group mb-3">
-                                <label class="input-group-text" for="filterKelas">Kelas</label>
-                                <select class="form-select" id="filterKelas">
-                                    <option value="">Semua Kelas</option>
-                                    <!-- Opsi kelas akan diisi secara dinamis menggunakan JavaScript atau server-side rendering -->
-                                </select>
-                            </div>
-                        </div>
-                    </div>
                     <div class="table-responsive">
                         <table class="table table-striped" id="myTable">
                             <thead>
                                 <tr>
-                                    <th class="col-md-1">
-                                        <center>No</center>
+                                    <th>No</th>
+                                    <th>NISN</th>
+                                    <th>Name</th>
+                                    <th>Username</th>
+                                    <th>Kelas</th>
+                                    <th>Email</th>
+                                    <th>No Hp</th>
+                                    <th>
+                                        <center>Status</center>
                                     </th>
-                                    <th class="col-md-1">Kelas</th>
-                                    <th>Mata Pelajaran</th>
-                                    <th>Hari</th>
-                                    <th>Jam</th>
-                                    <th>Tahun Ajaran</th>
-                                    <th>Created at</th>
                                     <th>
                                         <center>Action</center>
                                     </th>
@@ -90,12 +71,15 @@
                 </div>
             </div>
 
+
+
+
         </section>
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title" id="myModalLabel33">Form Tambah Jadwal Mata Pelajaran </h4>
+                        <h4 class="modal-title" id="myModalLabel33">Form Tambah Data User </h4>
                         <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -108,57 +92,52 @@
                     <div class="modal-body">
                         <div class="alert alert-danger d-none"></div>
                         {{-- <div class="alert alert-success d-none"></div> --}}
+                        <label>NISN: </label>
+                        <div class="form-group">
+                            <input id="nisn" type="text" name="nisn" class="form-control" autofocus>
+                        </div>
+                        <label>Nama: </label>
+                        <div class="form-group">
+                            <input id="name" type="text" name="name" class="form-control" autofocus>
+                        </div>
+                        <label>Username: </label>
+                        <div class="form-group">
+                            <input id="username" type="text" name="username" class="form-control">
+                        </div>
                         <label>Kelas: </label>
                         <div class="form-group">
-                            <select id="kelas_id" name="kelas_id" class="form-control">
+                            <select class="form-control" id="kelas_id" name="kelas_id" name="kelas_id" required>
+                                {{-- <input type="hidden" id="old_kelas_id" name="old_kelas_id" value="{{ $users->kelas_id }}"> --}}
                                 <option value="">Pilih Kelas</option>
-                                @foreach ($kelas as $a)
-                                    <option value="{{ $a->id }}">{{ $a->name }}</option>
+                                @foreach ($kelasOptions as $kelas)
+                                    <option value="{{ $kelas->id }}">{{ $kelas->name }}</option>
                                 @endforeach
                             </select>
                         </div>
-
-                        <label>Mata Pelajaran: </label>
+                        <label>Email: </label>
                         <div class="form-group">
-                            <select id="mata_pelajaran_id" name="mata_pelajaran_id" class="form-control">
-                                <option value="">Pilih Mata Pelajaran</option>
-                                @foreach ($matpel as $a)
-                                    <option value="{{ $a->id }}">{{ $a->name }}</option>
-                                @endforeach
-                            </select>
+                            <input id="email" type="text" name="email" class="form-control">
+                        </div>
+                        <label>No HP: </label>
+                        <div class="form-group">
+                            <input id="nohp" type="text" name="nohp" class="form-control">
                         </div>
 
-
-                        <label>Hari: </label>
+                        <label>Roles: </label>
                         <div class="form-group">
-                            <select id="hari" name="hari" class="form-control">
-                                <option value="">Pilih Hari</option>
-                                <option value="Senin">Senin</option>
-                                <option value="Selasa">Selasa</option>
-                                <option value="Rabu">Rabu</option>
-                                <option value="Kamis">Kamis</option>
-                                <option value="Jumat">Jumat</option>
-                            </select>
-                        </div>
-
-                        <label>Jam: </label>
-                        <div class="form-group">
-                            <input id="jam" type="text" name="jam"
-                                class="form-control flatpickr-time-picker-24h flatpickr-input mb-2" autocomplete="off">
-                        </div>
-
-                        <label>Tahun Ajaran: </label>
-                        <div class="form-group">
-                            <select id="tahun_ajaran_id" name="tahun_ajaran_id" class="form-control">
-                                <option value="">Pilih Tahun Ajaran</option>
-                                @foreach ($tahunajaran as $a)
-                                    <option value="{{ $a->id }}">{{ $a->name }} - {{ $a->semester }}
+                            <select id="role" name="role" class="form-control">
+                                {{-- <option value="">Pilih Role</option> --}}
+                                @if (count($roless) >= 2)
+                                    <option value="{{ $roless[2]->name }}" selected>{{ ucfirst($roless[2]->name) }}
                                     </option>
-                                @endforeach
+                                @endif
                             </select>
                         </div>
 
-
+                        <label>Password: </label>
+                        <div class="form-group">
+                            <input id="password" type="password" name="password" class="form-control">
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-light-secondary" data-bs-dismiss="modal">
@@ -187,15 +166,14 @@
     <script src="{{ asset('extensions/datatables.net/js/buttons.html5.min.js') }}"></script>
     <script src="{{ asset('extensions/datatables.net/js/buttons.print.min.js') }}"></script>
 
-    @include('admin.jadwalmatapelajaran.script')
+    @include('admin.user.siswa.script')
     <script src="{{ asset('/extensions/choices.js/public/assets/scripts/choices.min.js') }}"></script>
-    <script src="{{ asset('/extensions/flatpickr/flatpickr.min.js') }}"></script>
-    <script type="text/javascript">
-        flatpickr('.flatpickr-time-picker-24h', {
-            enableTime: true,
-            noCalendar: true,
-            dateFormat: "H:i",
-            inline: true
-        })
+    <script>
+        // Inisialisasi objek Choices.js baru
+        var roleSelect = new Choices('#role', {
+            searchEnabled: false,
+            itemSelectText: '',
+            allowHTML: true,
+        });
     </script>
 @endpush
