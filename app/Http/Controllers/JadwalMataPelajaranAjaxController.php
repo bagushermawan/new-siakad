@@ -23,7 +23,7 @@ class JadwalMataPelajaranAjaxController extends Controller
 
     public function getTahunAjaranOptions()
     {
-        $tahunAjaranOptions = TahunAjaran::all(['id', 'name']);
+        $tahunAjaranOptions = TahunAjaran::all(['id', 'name', 'semester']);
         return response()->json($tahunAjaranOptions);
     }
     public function index()

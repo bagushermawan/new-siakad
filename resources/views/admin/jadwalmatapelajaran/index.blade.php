@@ -57,12 +57,13 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-sm-2 mb-1">
+                        <div class="col-sm-3 mb-1">
                             <div class="input-group mb-3">
                                 <label class="input-group-text" for="filterKelas">Kelas</label>
                                 <select class="form-select" id="filterKelas">
                                     <option value="">Semua Kelas</option>
                                 </select>
+                                <button class="input-group-text" id="clearFilterKelas" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Hapus filter Kelas">x</button>
                             </div>
                         </div>
 
@@ -72,6 +73,7 @@
                                 <select class="form-select" id="filterTahunAjaran">
                                     <option value="">Semua Tahun Ajaran</option>
                                 </select>
+                                <button class="input-group-text" id="clearFilterTahunAjaran" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Hapus filter Tahun Ajaran">x</button>
                             </div>
                         </div>
                     </div>

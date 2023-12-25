@@ -26,8 +26,8 @@
 
                 tahunAjaranOptions.forEach(function(tahunAjaran) {
                     var option = document.createElement('option');
-                    option.value = tahunAjaran.name;
-                    option.text = tahunAjaran.name;
+                    option.value = tahunAjaran.name + ' (' + tahunAjaran.semester + ')';
+                    option.text = tahunAjaran.name + ' (' + tahunAjaran.semester + ')';
                     selectTahunAjaran.add(option);
                 });
             }
@@ -43,6 +43,25 @@
         $('#filterTahunAjaran').on('change', function() {
             var selectedTahunAjaranId = $(this).val();
             myTable.column(5).search(selectedTahunAjaranId).draw();
+        });
+
+        $('#clearFilterKelas').on('click', function() {
+            // Menghapus nilai filter kelas
+            $('#filterKelas').val('').trigger('change');
+
+            // Jika ada filter tahun ajaran, tambahkan kode untuk menghapusnya di sini
+
+            // Menggambar ulang DataTable setelah menghapus filter
+            myTable.draw();
+        });
+        $('#clearFilterTahunAjaran').on('click', function() {
+            // Menghapus nilai filter tahun ajaran
+            $('#filterTahunAjaran').val('').trigger('change');
+
+            // Jika ada filter tahun ajaran, tambahkan kode untuk menghapusnya di sini
+
+            // Menggambar ulang DataTable setelah menghapus filter
+            myTable.draw();
         });
 
 
