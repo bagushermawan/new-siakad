@@ -3,7 +3,7 @@
         var isAdmin = {{ $isAdmin ? 'true' : 'false' }};
         // Mengambil data kelas dari server
         $.ajax({
-            url: "{{ url('/get_kelas_options') }}", // Gantilah dengan URL yang sesuai di server Anda
+            url: "{{ url('/get_kelas_options') }}",
             method: 'GET',
             success: function(kelasOptions) {
                 var selectKelas = document.getElementById('filterKelas');
@@ -19,7 +19,7 @@
 
         // Mengambil data tahun ajaran dari server
         $.ajax({
-            url: "{{ url('/get_tahunajaran_options') }}", // Gantilah dengan URL yang sesuai di server Anda
+            url: "{{ url('/get_tahunajaran_options') }}",
             method: 'GET',
             success: function(tahunAjaranOptions) {
                 var selectTahunAjaran = document.getElementById('filterTahunAjaran');
@@ -45,22 +45,13 @@
             myTable.column(5).search(selectedTahunAjaranId).draw();
         });
 
+        // Clear filter
         $('#clearFilterKelas').on('click', function() {
-            // Menghapus nilai filter kelas
             $('#filterKelas').val('').trigger('change');
-
-            // Jika ada filter tahun ajaran, tambahkan kode untuk menghapusnya di sini
-
-            // Menggambar ulang DataTable setelah menghapus filter
             myTable.draw();
         });
         $('#clearFilterTahunAjaran').on('click', function() {
-            // Menghapus nilai filter tahun ajaran
             $('#filterTahunAjaran').val('').trigger('change');
-
-            // Jika ada filter tahun ajaran, tambahkan kode untuk menghapusnya di sini
-
-            // Menggambar ulang DataTable setelah menghapus filter
             myTable.draw();
         });
 
