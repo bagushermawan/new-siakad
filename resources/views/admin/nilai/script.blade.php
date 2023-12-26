@@ -139,7 +139,7 @@
                         );
                         var title = $(cell).text();
                         // Tambahkan kondisi untuk mengecek apakah kolom No
-                        if (colIdx === 0 || colIdx === 7 || colIdx === 6) {
+                        if (colIdx === 0 || colIdx === 7 || colIdx === 5 || colIdx === 6) {
                             // Jika kolom No, tidak tambahkan input filter
                             $(cell).html('');
                         } else {
