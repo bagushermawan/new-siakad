@@ -1,7 +1,7 @@
 <script>
     $(document).ready(function() {
         var isAdmin = {{ $isAdmin ? 'true' : 'false' }};
-         $('#myTable thead tr')
+        $('#myTable thead tr')
             .clone(true)
             .addClass('filters')
             .appendTo('#myTable thead');
@@ -72,7 +72,7 @@
                         console.log(totalTahunajaran);
 
                         if (totalTahunajaran > 0) {
-                        // Tambahkan kondisi JavaScript berdasarkan nilai total_prestasi
+                            // Tambahkan kondisi JavaScript berdasarkan nilai total_prestasi
                             Swal.fire({
                                 title: 'Apa kamu yakin?',
                                 text: 'Data yang sudah dihapus tidak bisa dikembalikan!',
@@ -221,13 +221,14 @@
                         );
                         var title = $(cell).text();
                         // Tambahkan kondisi untuk mengecek apakah kolom No
-                        if (colIdx === 0 || colIdx === 4 || colIdx === 5|| colIdx === 6) {
+                        if (colIdx === 0 || colIdx === 4 || colIdx === 5 || colIdx === 6) {
                             // Jika kolom No, tidak tambahkan input filter
                             $(cell).html('');
                         } else {
                             // Jika bukan kolom No, tambahkan input filter seperti biasa
                             $(cell).html(
-                                '<input type="text" class="form-control" placeholder="' +title + '" />');
+                                '<input type="text" class="form-control" placeholder="' +
+                                title + '" />');
                         }
                         // On every keypress in this input
                         $(
@@ -302,7 +303,10 @@
                 },
                 {
                     data: 'status',
-                    name: 'Status'
+                    name: 'Status',
+                    render: function(data, type, row) {
+                        return data.charAt(0).toUpperCase() + data.slice(1);
+                    }
                 },
                 {
                     data: 'created_at',

@@ -123,19 +123,22 @@
                             </select>
                         </div>
 
-                        <label>Tahun Ajaran: </label>
+                        <label>Tahun Ajaran:</label>
                         <div class="form-group">
                             <select id="tahun_ajaran_id" name="tahun_ajaran_id" class="form-control">
                                 <option value="">Pilih Tahun Ajaran</option>
                                 @foreach ($tahunajaran as $a)
-                                    <option value="{{ $a->id }}">{{ $a->name }} - {{ $a->semester }}</option>
+                                    <option value="{{ $a->id }}" @if ($a->status != 'aktif') disabled @endif>
+                                        {{ $a->name }} - {{ $a->semester }} - {{ $a->status }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
 
                         <label>Nilai: </label>
                         <div class="form-group">
-                            <input id="nilai" type="number" step="0.1" name="nilai" class="form-control" autofocus>
+                            <input id="nilai" type="number" step="0.1" name="nilai" class="form-control"
+                                autofocus>
                         </div>
 
 
