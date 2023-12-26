@@ -32,7 +32,7 @@ class UserAjaxController extends Controller
         return DataTables::of($data)
             ->addIndexColumn()
             ->addColumn('aksi', function ($data) use ($isAdmin) {
-                return view('admin.user.tombol', ['data' => $data, 'isAdmin' => $isAdmin]);
+                return view('admin.tombol', ['data' => $data, 'isAdmin' => $isAdmin]);
             })
             ->make(true);
     }
@@ -55,7 +55,7 @@ class UserAjaxController extends Controller
         return DataTables::of($data)
             ->addIndexColumn()
             ->addColumn('aksi', function ($data) use ($isAdmin) {
-                return view('admin.user.tombol', ['data' => $data, 'isAdmin' => $isAdmin]);
+                return view('admin.tombol', ['data' => $data, 'isAdmin' => $isAdmin]);
             })
             ->make(true);
     }
@@ -82,7 +82,7 @@ class UserAjaxController extends Controller
                 return $data->kelas->name ?? ''; // Pastikan menangani kasus jika tidak ada kelas terkait
             })
             ->addColumn('aksi', function ($data) use ($isAdmin) {
-                return view('admin.user.tombol', ['data' => $data, 'isAdmin' => $isAdmin]);
+                return view('admin.tombol', ['data' => $data, 'isAdmin' => $isAdmin]);
             })
             ->make(true);
     }

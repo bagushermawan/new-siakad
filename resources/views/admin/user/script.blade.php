@@ -353,9 +353,10 @@
     // 04_PROSES Delete
     $('body').on('click', '.tombol-del', function(e) {
         var id = $(this).data('id');
+        var name = $(this).data('name');
 
         Swal.fire({
-            title: 'Yakin mau hapus data ini?',
+            title: `Yakin mau hapus <b>${name}</b>?`,
             text: "Anda tidak akan dapat mengembalikan data ini!",
             icon: 'warning',
             showCancelButton: true,

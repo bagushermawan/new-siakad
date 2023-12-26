@@ -5,6 +5,7 @@
 
 
     <link rel="stylesheet" href="{{ asset('compiled/css/table-datatable-jquery.css') }}">
+    <link rel="stylesheet" href="{{ asset('/extensions/@fortawesome/fontawesome-free/css/all.min.css') }}">
     <script></script>
 @endpush
 @section('content')
@@ -43,12 +44,7 @@
                                     <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
                                 </svg> Tambah Data</a>
                         </h6>
-                        <h6 style="float: right;">
-                            <a href="#" id="deleteAllButton" class="btn icon icon-left btn-danger">
-                                <i class="bi bi-info-circle"></i> Delete All<span
-                                    class="badge bg-transparent">{{ $total_matpel }}</span>
-                            </a>
-                        </h6>
+                        <div id="totalMatpel" data-total="{{ $total_matpel }}"></div>
                     @endif
                 </div>
                 <div class="card-body">
@@ -113,5 +109,12 @@
     <script src="{{ asset('extensions/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('extensions/datatables.net/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('extensions/datatables.net-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
+
+    <script src="{{ asset('extensions/datatables.net/js/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('extensions/datatables.net/js/jszip.min.js') }}"></script>
+    <script src="{{ asset('extensions/datatables.net/js/pdfmake.min.js') }}"></script>
+    <script src="{{ asset('extensions/datatables.net/js/vfs_fonts.js') }}"></script>
+    <script src="{{ asset('extensions/datatables.net/js/buttons.html5.min.js') }}"></script>
+    <script src="{{ asset('extensions/datatables.net/js/buttons.print.min.js') }}"></script>
     @include('admin.matapelajaran.script')
 @endpush

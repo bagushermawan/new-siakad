@@ -64,14 +64,25 @@ class JadwalMataPelajaranAjaxController extends Controller
                 return view('admin.matapelajaran.tombol', ['data' => $data, 'isAdmin' => $isAdmin]);
             })
             ->addColumn('kelas_id', function ($data) {
-                return optional ($data->kelas)->name;
+                // Pastikan properti yang diakses benar-benar ada sebelum mengaksesnya
+                return optional($data->kelas)->name ?? 'Kelas tidak tersedia';
             })
             ->addColumn('mata_pelajaran_id', function ($data) {
-                return optional ($data->mataPelajaran)->name;
+                // Pastikan properti yang diakses benar-benar ada sebelum mengaksesnya
+                return optional($data->mataPelajaran)->name ?? 'Mata Pelajaran tidak tersedia';
             })
             ->addColumn('tahun_ajaran_id', function ($data) {
-            $tahunAjaran = $data->tahunAjaran;
-            return optional ($tahunAjaran)->name . ' (' . $tahunAjaran->semester.')';
+                $tahunAjaran = $data->tahunAjaran;
+
+                if ($tahunAjaran) {
+                    // Pastikan properti yang diakses benar-benar ada sebelum mengaksesnya
+                    $namaTahunAjaran = optional($tahunAjaran)->name ?? 'Tidak Ada Nama Tahun Ajaran';
+                    $semester = optional($tahunAjaran)->semester ?? 'Tidak Ada Semester';
+
+                    return $namaTahunAjaran . ' (' . $semester . ')';
+                } else {
+                    return 'Tahun Ajaran tidak tersedia';
+                }
             })
             ->make(true);
     }

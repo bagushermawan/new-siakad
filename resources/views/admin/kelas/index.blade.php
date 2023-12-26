@@ -44,12 +44,7 @@
                                     <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
                                 </svg> Tambah Data</a>
                         </h6>
-                        <h6 style="float: right;">
-                            <a href="#" id="deleteAllButton" class="btn icon icon-left btn-danger">
-                                <i class="bi bi-info-circle"></i> Delete All<span
-                                    class="badge bg-transparent">{{ $total_kelas }}</span>
-                            </a>
-                        </h6>
+                        <div id="totalKelas" data-total="{{ $total_kelas }}"></div>
                     @endif
                 </div>
                 <div class="card-body">

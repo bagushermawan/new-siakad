@@ -38,7 +38,7 @@ class EkskulAjaxController extends Controller
         return DataTables::of($data)
             ->addIndexColumn()
             ->addColumn('aksi', function ($data) use ($isAdmin) {
-                return view('admin.ekskul.tombol', ['data' => $data, 'isAdmin' => $isAdmin]);
+                return view('admin.tombol', ['data' => $data, 'isAdmin' => $isAdmin]);
             })
             ->make(true);
     }

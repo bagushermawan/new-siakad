@@ -88,6 +88,7 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('/qwe/tahunajaranAjax', TahunAjaranAjaxController::class);
     Route::resource('/qwe/tahunajaran', TahunAjaranController::class);
+    Route::delete('/delete-all-tahunajaran', [TahunAjaranAjaxController::class, 'deleteAll'])->name('delete.all.tahunajaran');
 
     Route::resource('/qwe/userAjax', UserAjaxController::class);
     Route::resource('/qwe/role', RoleController::class)->middleware('role:admin');

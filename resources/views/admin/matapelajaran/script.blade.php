@@ -1,9 +1,271 @@
 <script>
     $(document).ready(function() {
         var isAdmin = {{ $isAdmin ? 'true' : 'false' }};
+        $('#myTable thead tr')
+            .clone(true)
+            .addClass('filters')
+            .appendTo('#myTable thead');
         var myTable = $('#myTable').DataTable({
+            orderCellsTop: true,
             processing: true,
             serverside: true,
+            dom: 'Bfrtipl',
+            buttons: [{
+                    extend: 'copy',
+                    className: 'btn btn-outline-secondary',
+                    text: '<i class="fas fa-copy"></i> Copy to clipboard',
+                    exportOptions: {
+                        columns: [0, 1]
+                    },
+                },
+                {
+                    extend: 'csv',
+                    className: 'btn btn-outline-success',
+                    text: '<i class="fas fa-file-csv"></i>',
+                    titleAttr: 'Download CSV',
+                    exportOptions: {
+                        columns: [0, 1, 2]
+                    },
+                },
+                {
+                    extend: 'excel',
+                    className: 'btn btn-outline-success',
+                    text: '<i class="far fa-file-excel"></i>',
+                    titleAttr: 'Download Excel',
+                    exportOptions: {
+                        columns: [0, 1, 2]
+                    },
+                },
+                {
+                    extend: 'pdf',
+                    className: 'btn btn-outline-danger',
+                    text: '<i class="far fa-file-pdf"></i>',
+                    titleAttr: 'Download PDF',
+                    exportOptions: {
+                        columns: [0, 1, 2]
+                    },
+                },
+                {
+                    extend: 'print',
+                    className: 'btn btn-outline-info',
+                    text: '<i class="fas fa-print"></i>',
+                    titleAttr: 'Print Data',
+                    exportOptions: {
+                        columns: [0, 1, 2]
+                    },
+                },
+                {
+                    className: 'btn btn-outline-secondary',
+                    text: '<i class="fas fa-sync-alt"></i>',
+                    titleAttr: 'Reload Data',
+                    action: function(e, dt, node, config) {
+                        dt.ajax.reload();
+                    }
+                },
+                {
+                    className: 'btn btn-outline-danger',
+                    text: '<i class="fas fa-trash"></i>',
+                    titleAttr: 'Delete All',
+                    action: function(e, dt, node, config) {
+                        // Dapatkan nilai total_prestasi dari elemen HTML
+                        var totalMatpel = parseInt($('#totalMatpel').data('total'));
+                        console.log(totalMatpel);
+
+                        if (totalMatpel > 0) {
+                        // Tambahkan kondisi JavaScript berdasarkan nilai total_prestasi
+                            Swal.fire({
+                                title: 'Apa kamu yakin?',
+                                text: 'Data yang sudah dihapus tidak bisa dikembalikan!',
+                                icon: 'warning',
+                                showCancelButton: true,
+                                confirmButtonColor: '#d33',
+                                cancelButtonColor: '#3085d6',
+                                confirmButtonText: 'Ya, Hapus!',
+                                cancelButtonText: 'Batal'
+                            }).then((result) => {
+                                // Jika pengguna mengkonfirmasi
+                                if (result.isConfirmed) {
+                                    // Kirim permintaan AJAX ke backend untuk menghapus data
+                                    $.ajax({
+                                        url: "/delete-all-matpel", // Ganti dengan URL backend Anda
+                                        method: "DELETE", // Sesuaikan dengan metode yang digunakan di backend
+                                        success: function(response) {
+                                            // Jika penghapusan dari database berhasil
+                                            if (response.success) {
+                                                // Hapus semua data dari DataTables
+                                                $('#myTable').DataTable()
+                                                    .ajax.reload();
+                                                Swal.fire("Deleted!",
+                                                    "Your data has been deleted.",
+                                                    "success");
+                                            } else {
+                                                Swal.fire(
+                                                    "Error!",
+                                                    "Failed to delete data from database.",
+                                                    "error"
+                                                );
+                                            }
+                                        },
+                                        error: function(error) {
+                                            console.error(
+                                                "Error deleting data:",
+                                                error);
+                                            Swal.fire(
+                                                "Error!",
+                                                "Failed to delete data from database.",
+                                                "error"
+                                            );
+                                        },
+                                    });
+                                }
+                            });
+                        } else {
+                            // Tampilkan pesan jika tidak ada data untuk dihapus
+                            Swal.fire("Info", "Tidak ada data untuk dihapus.", "info");
+                        }
+                    },
+                },
+                {
+                    className: 'btn btn-outline-success',
+                    text: '<i class="fas fa-file-import"></i> Import Excel',
+                    titleAttr: 'Import Data',
+                    action: function(e, dt, node, config) {
+                        Swal.fire({
+                            html: `
+                                    <input type="file" id="excel_file" class="swal2-file" accept=".xlsx, .xls, .csv">
+                                    <br><br><br>
+                                    <div class="accordion" id="accordionExample">
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header" id="headingOne">
+                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                                    data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                                    Contoh struktur kolom excell import ekstrakulikuler
+                                                </button>
+                                            </h2>
+                                            <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
+                                                data-bs-parent="#accordionExample" style="">
+                                                <div class="accordion-body">
+                                                    <img src="/storage/ekskul.png">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                     `,
+                            showCancelButton: true,
+                            confirmButtonText: 'Import',
+                            cancelButtonText: 'Batal',
+                            footer: 'Download file sample excell <a href="/storage/ekskul_import_sample.xlsx" download>disini</a>.',
+                            backdrop: `
+                                        rgba(60, 60, 60,0.3)
+                                        //url("/storage/faw.png")
+                                        top center
+                                        no-repeat
+                                      `,
+                            showClass: {
+                                popup: `animate__fadeInDown animate__animated animate__faster`
+                            },
+                            hideClass: {
+                                popup: `animate__animated animate__fadeOutDown animate__faster`
+                            },
+                            preConfirm: () => {
+                                const excelFile = document.getElementById(
+                                    'excel_file').files[0];
+                                if (!excelFile) {
+                                    Swal.showValidationMessage(
+                                        'Silahkan upload file terlebih dahulu');
+                                }
+                                return {
+                                    excelFile: excelFile
+                                };
+                            }
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                // Handle import here, you can use AJAX to send the file
+                                const formData = new FormData();
+                                formData.append('excel_file', result.value.excelFile);
+
+                                $.ajax({
+                                    url: '{{ route('import.ekskul') }}',
+                                    method: 'POST',
+                                    data: formData,
+                                    processData: false,
+                                    contentType: false,
+                                    success: function(response) {
+                                        $('#myTable').DataTable().ajax
+                                            .reload();
+                                        Swal.fire('Sukses!',
+                                            'Berhasil import data ekskul.',
+                                            'success');
+                                    },
+                                    error: function(error) {
+                                        Swal.fire('Gagal!',
+                                            'Gagal import data ekskul.',
+                                            'error');
+                                    }
+                                });
+                            }
+                        });
+                    }
+                },
+            ],
+            initComplete: function() {
+                var api = this.api();
+                // For each column
+                api
+                    .columns()
+                    .eq(0)
+                    .each(function(colIdx) {
+                        // Set the header cell to contain the input element
+                        var cell = $('.filters th').eq(
+                            $(api.column(colIdx).header()).index()
+                        );
+                        var title = $(cell).text();
+                        // Tambahkan kondisi untuk mengecek apakah kolom No
+                        if (colIdx === 0 || colIdx === 2 || colIdx === 3) {
+                            // Jika kolom No, tidak tambahkan input filter
+                            $(cell).html('');
+                        } else {
+                            // Jika bukan kolom No, tambahkan input filter seperti biasa
+                            $(cell).html(
+                                '<input type="text" class="form-control" placeholder="' +
+                                title + '" />');
+                        }
+                        // On every keypress in this input
+                        $(
+                                'input',
+                                $('.filters th').eq($(api.column(colIdx).header()).index())
+                            )
+                            .off('keyup change')
+                            .on('change', function(e) {
+                                // Get the search value
+                                $(this).attr('title', $(this).val());
+                                var regexr =
+                                    '({search})'; //$(this).parents('th').find('select').val();
+
+                                cursorPosition = this.selectionStart;
+                                // Search the column for that value
+                                api
+                                    .column(colIdx)
+                                    .search(
+                                        this.value != '' ?
+                                        regexr.replace('{search}', '(((' + this.value +
+                                            ')))') :
+                                        '',
+                                        this.value != '',
+                                        this.value == ''
+                                    )
+                                    .draw();
+                            })
+                            .on('keyup', function(e) {
+                                e.stopPropagation();
+
+                                $(this).trigger('change');
+                                $(this)
+                                    .focus()[0]
+                                    .setSelectionRange(cursorPosition, cursorPosition);
+                            });
+                    });
+            },
             ajax: "{{ url('/qwe/matapelajaranAjax') }}",
             columns: [{
                     data: 'DT_RowIndex',
@@ -92,9 +354,10 @@
     // 04_PROSES Delete
     $('body').on('click', '.tombol-del', function(e) {
         var id = $(this).data('id');
+        var name = $(this).data('name');
 
         Swal.fire({
-            title: 'Yakin mau hapus data ini?',
+            title: `Yakin mau hapus <b>${name}</b>?`,
             text: "Anda tidak akan dapat mengembalikan data ini!",
             icon: 'warning',
             showCancelButton: true,

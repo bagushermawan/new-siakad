@@ -39,7 +39,7 @@ class MataPelajaranAjaxController extends Controller
         return DataTables::of($data)
             ->addIndexColumn()
             ->addColumn('aksi', function ($data) use ($isAdmin) {
-                return view('admin.matapelajaran.tombol', ['data' => $data, 'isAdmin' => $isAdmin]);
+                return view('admin.tombol', ['data' => $data, 'isAdmin' => $isAdmin]);
             })
             ->make(true);
     }

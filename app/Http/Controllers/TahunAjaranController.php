@@ -19,8 +19,9 @@ class TahunAjaranController extends Controller
         // Mendapatkan daftar user
         // Menentukan apakah user adalah admin
         $isAdmin = $user->hasRole('admin');
+        $total_tahunajaran = TahunAjaran::count();
 
-        return view('admin.tahunajaran.index', ['roles' => $roles, 'isAdmin' => $isAdmin]);
+        return view('admin.tahunajaran.index', ['roles' => $roles, 'isAdmin' => $isAdmin, 'total_tahunajaran' => $total_tahunajaran]);
     }
 
     /**

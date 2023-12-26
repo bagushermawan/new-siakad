@@ -68,7 +68,7 @@ class KelasAjaxController extends Controller
                 return optional($data->walikelas)->name;
             })
             ->addColumn('aksi', function ($data) use ($isAdmin) {
-                return view('admin.kelas.tombol', ['data' => $data, 'isAdmin' => $isAdmin]);
+                return view('admin.tombol', ['data' => $data, 'isAdmin' => $isAdmin]);
             })
             ->make(true);
     }

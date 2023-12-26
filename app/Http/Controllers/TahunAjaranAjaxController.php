@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\DB;
 
 class TahunAjaranAjaxController extends Controller
 {
@@ -135,5 +136,19 @@ class TahunAjaranAjaxController extends Controller
     public function destroy(string $id)
     {
         TahunAjaran::where('id', $id)->delete();
+    }
+
+    public function deleteAll()
+    {
+        try {
+            // Tambahkan logika penghapusan data di sini
+            // Contoh: Hapus semua data dari tabel 'users'
+            DB::table('tahun_ajarans')->delete();
+
+            return response()->json(['success' => true, 'message' => 'All data deleted successfully.']);
+        } catch (\Exception $e) {
+            // Tangani kesalahan jika terjadi
+            return response()->json(['success' => false, 'message' => 'Failed to delete data: ' . $e->getMessage()]);
+        }
     }
 }
