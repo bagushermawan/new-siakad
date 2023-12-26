@@ -301,6 +301,10 @@
                     }
                 },
                 {
+                    data: 'status',
+                    name: 'Status'
+                },
+                {
                     data: 'created_at',
                     name: 'created_at',
                     render: function(data, type, row) {
@@ -382,6 +386,8 @@
                 var dateRangeValue = response.result.mulai + ' to ' + response.result.selesai;
                 $('#daterange').val(dateRangeValue);
 
+                $('#status').val(response.result.status);
+
                 console.log(dateRangeValue);
                 console.log(response.result);
                 $('.tombol-simpan').off('click').on('click', function() {
@@ -454,6 +460,7 @@
                 name: $('#name').val(),
                 semester: $('#semester').val(),
                 dateRange: $('#dateRange').val(),
+                status: $('#status').val(),
             },
             success: function(response) {
                 if (response.errors) {
@@ -461,6 +468,7 @@
                     console.log('tahun ajaran:', $('#name').val());
                     console.log('semester:', $('#semester').val());
                     console.log('dateRange:', $('#dateRange').val());
+                    console.log('status:', $('#status').val());
                     $('.alert-danger').removeClass('d-none');
                     $('.alert-danger').html("<ul>");
                     $.each(response.errors, function(key, value) {
@@ -473,6 +481,7 @@
                     console.log('tahun ajaran:', $('#name').val());
                     console.log('semester:', $('#semester').val());
                     console.log('dateRange:', $('#dateRange').val());
+                    console.log('status:', $('#status').val());
                     Swal.fire('Sukses!', successMessage, 'success');
                     $('#myTable').DataTable().ajax.reload();
                 }

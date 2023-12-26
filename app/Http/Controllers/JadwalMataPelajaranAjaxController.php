@@ -61,7 +61,7 @@ class JadwalMataPelajaranAjaxController extends Controller
         return DataTables::of($data)
             ->addIndexColumn()
             ->addColumn('aksi', function ($data) use ($isAdmin) {
-                return view('admin.matapelajaran.tombol', ['data' => $data, 'isAdmin' => $isAdmin]);
+                return view('admin.jadwalmatapelajaran.tombol', ['data' => $data, 'isAdmin' => $isAdmin]);
             })
             ->addColumn('kelas_id', function ($data) {
                 // Pastikan properti yang diakses benar-benar ada sebelum mengaksesnya

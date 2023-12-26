@@ -48,6 +48,7 @@ class UserFactory extends Factory
 
         // Ganti role disini
         $user->assignRole('user');
+        // $user->assignRole('guru');
 
         return [
             'name' => $user->name,

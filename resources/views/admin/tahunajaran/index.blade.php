@@ -62,6 +62,7 @@
                                     <th>Semester</th>
                                     <th>Mulai</th>
                                     <th>Selesai</th>
+                                    <th>Status</th>
                                     <th>Created at</th>
                                     <th>
                                         <center>Action</center>
@@ -110,6 +111,15 @@
                                 class="form-control flatpickr-range mb-3 flatpickr-input" autocomplete="off">
                         </div>
 
+                        <label>Semester: </label>
+                        <div class="form-group">
+                            <select id="status" name="status" class="form-control">
+                                <option value="">Pilih Status</option>
+                                <option value="aktif">Aktif</option>
+                                <option value="tidak aktif">Tidak aktif</option>
+                            </select>
+                        </div>
+
 
                     </div>
                     <div class="modal-footer">
@@ -138,7 +148,7 @@
     <script src="{{ asset('extensions/datatables.net/js/vfs_fonts.js') }}"></script>
     <script src="{{ asset('extensions/datatables.net/js/buttons.html5.min.js') }}"></script>
     <script src="{{ asset('extensions/datatables.net/js/buttons.print.min.js') }}"></script>
-    
+
     @include('admin.tahunajaran.script')
     <script src="{{ asset('/extensions/cleave/cleave.min.js') }}"></script>
     <script src="{{ asset('/extensions/choices.js/public/assets/scripts/choices.min.js') }}"></script>

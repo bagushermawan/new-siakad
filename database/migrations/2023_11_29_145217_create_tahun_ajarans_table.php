@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('semester');
             $table->date('mulai');
             $table->date('selesai');
+            $table->string('status')->default('tidak aktif');
             $table->timestamps();
         });
     }

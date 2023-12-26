@@ -50,11 +50,13 @@ class TahunAjaranAjaxController extends Controller
                 'name' => ['required', 'string', 'max:255'],
                 'semester' => ['required', 'string', 'max:255'],
                 'dateRange' => ['required', 'string'], // Validasi untuk input dateRange
+                'status' => ['required', 'string', 'max:255'],
             ],
             [
                 'name.required' => 'Tahun ajaran wajib diisi',
                 'semester.required' => 'Semester wajib diisi',
                 'dateRange.required' => 'Rentang tanggal wajib diisi',
+                'status.required' => 'Status wajib diisi',
             ],
         );
 
@@ -77,6 +79,7 @@ class TahunAjaranAjaxController extends Controller
                     'semester' => $request->semester,
                     'mulai' => $mulai,
                     'selesai' => $selesai,
+                    'status' => $status,
                 ];
 
                 // Membuat tahun ajaran baru
@@ -106,6 +109,7 @@ class TahunAjaranAjaxController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'semester' => ['required', 'string', 'max:255'],
             'dateRange' => ['required', 'string'],
+            'status' => ['required', 'string', 'max:255'],
         ];
         $dateRangeArray = explode(' to ', $request->dateRange);
 
@@ -122,6 +126,7 @@ class TahunAjaranAjaxController extends Controller
                 'semester' => $request->semester,
                 'mulai' => $mulai,
                 'selesai' => $selesai,
+                'status' => $request->status,
             ];
 
             // Membuat tahun ajaran baru
