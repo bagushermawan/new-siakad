@@ -1,6 +1,61 @@
 <script>
     $(document).ready(function() {
         var isAdmin = {{ $isAdmin ? 'true' : 'false' }};
+        // Mengambil data kelas dari server
+        $.ajax({
+            url: "{{ url('/get_kelas_options') }}",
+            method: 'GET',
+            success: function(kelasOptions) {
+                var selectKelas = document.getElementById('filterKelas');
+
+                kelasOptions.forEach(function(kelas) {
+                    var option = document.createElement('option');
+                    option.value = kelas.name;
+                    option.text = kelas.name;
+                    selectKelas.add(option);
+                });
+            }
+        });
+
+        // Mengambil data tahun ajaran dari server
+        $.ajax({
+            url: "{{ url('/get_matpel_options') }}",
+            method: 'GET',
+            success: function(matpelOptions) {
+                var selectmatpel = document.getElementById('filterMataPelajaran');
+
+                matpelOptions.forEach(function(matpel) {
+                    var option = document.createElement('option');
+                    option.value = matpel.name;
+                    option.text = matpel.name;
+                    selectmatpel.add(option);
+                });
+            }
+        });
+
+        // Mendeteksi perubahan pada elemen <select> kelas
+        $('#filterKelas').on('change', function() {
+            var selectedKelasId = $(this).val();
+            myTable.column(3).search(selectedKelasId).draw();
+        });
+
+        // Mendeteksi perubahan pada elemen <select> tahun ajaran
+        $('#filterMataPelajaran').on('change', function() {
+            var selectedMataPelajaranId = $(this).val();
+            myTable.column(2).search(selectedMataPelajaranId).draw();
+        });
+
+        // Clear filter
+        $('#clearFilterKelas').on('click', function() {
+            $('#filterKelas').val('').trigger('change');
+            myTable.draw();
+        });
+        $('#clearFilterMataPelajaran').on('click', function() {
+            $('#filterMataPelajaran').val('').trigger('change');
+            myTable.draw();
+        });
+
+
         $('#myTable thead tr')
             .clone(true)
             .addClass('filters')

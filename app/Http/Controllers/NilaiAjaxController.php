@@ -16,6 +16,13 @@ use Illuminate\Support\Facades\DB;
 
 class NilaiAjaxController extends Controller
 {
+
+    public function getMatpelOptions()
+    {
+        $matpelOptions = MataPelajaran::all(['id', 'name']);
+        return response()->json($matpelOptions);
+    }
+
     public function index()
     {
         $user = Auth::user();

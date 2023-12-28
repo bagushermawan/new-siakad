@@ -84,6 +84,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('/qwe/nilai', NilaiAjaxController::class);
     Route::get('/qwe/nilaiAjax', [NilaiAjaxController::class, 'indexNilai']);
     Route::delete('/delete-all-nilai', [NilaiAjaxController::class, 'deleteAll'])->name('delete.all.nilai');
+    Route::get('/get_matpel_options', [NilaiAjaxController::class, 'getMatpelOptions']);
 
 
     Route::resource('/qwe/tahunajaranAjax', TahunAjaranAjaxController::class);
