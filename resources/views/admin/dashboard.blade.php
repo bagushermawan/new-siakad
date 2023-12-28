@@ -148,7 +148,7 @@
                         <div class="col-12 col-lg-3">
                             <div class="card">
                                 <div class="card-header">
-                                    <h4>Total Users</h4>
+                                    <h4>Total Users <span class="badge bg-info">{{ $total_all }}</span></h4>
                                 </div>
                                 <div class="card-body">
                                     <div id="chart-visitors-profile" style="min-height: 317.7px;">

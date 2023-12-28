@@ -127,11 +127,13 @@ class UserAjaxController extends Controller
         $adminCount = User::role('admin')->count();
         $guruCount = User::role('guru')->count();
         $userCount = User::role('user')->count();
+        $waliCount = WaliSantri::count();
 
         return response()->json([
             'admin' => $adminCount,
             'guru' => $guruCount,
             'user' => $userCount,
+            'wali' => $waliCount,
         ]);
     }
 

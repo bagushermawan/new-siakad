@@ -19,18 +19,20 @@
             var roleDistributionChart = new Chart(ctx, {
                 type: 'doughnut',
                 data: {
-                    labels: ['Admin', 'Guru', 'Siswa'],
+                    labels: ['Admin', 'Guru', 'Santri', 'Wali Santri'],
                     datasets: [{
                         data: Object.values(userData),
                         backgroundColor: [
                             'rgba(255, 99, 132, 0.8)',
                             'rgba(54, 162, 235, 0.8)',
-                            'rgba(180, 180, 180, 0.8)'
+                            'rgba(180, 180, 180, 0.8)',
+                            'rgba(240, 162, 235, 0.8)',
                         ],
                         borderColor: [
                             'rgba(179, 255, 255, 0.8)',
                             'rgba(179, 255, 255, 0.8)',
-                            'rgba(179, 255, 255, 0.8)'
+                            'rgba(179, 255, 255, 0.8)',
+                            'rgba(179, 255, 255, 0.8)',
                         ],
                         hoverOffset: 10,
                         // hoverBackgroundColor: 'red'
