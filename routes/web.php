@@ -53,6 +53,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/qwe/import-alluser', [UserAjaxController::class, 'importAlluser'])->name('import.alluser');
     Route::post('/qwe/import-guru', [UserAjaxController::class, 'importGuru'])->name('import.guru');
     Route::post('/qwe/import-siswa', [UserAjaxController::class, 'importSiswa'])->name('import.siswa');
+    Route::get('/get_santri_options', [UserAjaxController::class, 'getSantriOptions']);
 
 
     Route::resource('/qwe/ekskul', EkskulAjaxController::class);

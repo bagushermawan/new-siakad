@@ -1,7 +1,23 @@
 <script>
     $(document).ready(function() {
         var isAdmin = {{ $isAdmin ? 'true' : 'false' }};
-        // Mengambil data kelas dari server
+        //Santri
+        $.ajax({
+            url: "{{ url('/get_santri_options') }}",
+            method: 'GET',
+            success: function(santriOptions) {
+                var selectKelas = document.getElementById('filterSantri');
+
+                santriOptions.forEach(function(santri) {
+                    var option = document.createElement('option');
+                    option.value = santri.name;
+                    option.text = santri.name;
+                    selectKelas.add(option);
+                });
+            }
+        });
+
+        //Kelas
         $.ajax({
             url: "{{ url('/get_kelas_options') }}",
             method: 'GET',
@@ -17,7 +33,7 @@
             }
         });
 
-        // Mengambil data tahun ajaran dari server
+        //Matpel
         $.ajax({
             url: "{{ url('/get_matpel_options') }}",
             method: 'GET',
@@ -33,13 +49,19 @@
             }
         });
 
-        // Mendeteksi perubahan pada elemen <select> kelas
+        //Santri
+        $('#filterSantri').on('change', function() {
+            var selectedSantriId = $(this).val();
+            myTable.column(1).search(selectedSantriId).draw();
+        });
+
+        //Kelas
         $('#filterKelas').on('change', function() {
             var selectedKelasId = $(this).val();
             myTable.column(3).search(selectedKelasId).draw();
         });
 
-        // Mendeteksi perubahan pada elemen <select> tahun ajaran
+        //Matpel
         $('#filterMataPelajaran').on('change', function() {
             var selectedMataPelajaranId = $(this).val();
             myTable.column(2).search(selectedMataPelajaranId).draw();
@@ -48,6 +70,10 @@
         // Clear filter
         $('#clearFilterKelas').on('click', function() {
             $('#filterKelas').val('').trigger('change');
+            myTable.draw();
+        });
+        $('#clearFilterSantri').on('click', function() {
+            $('#filterSantri').val('').trigger('change');
             myTable.draw();
         });
         $('#clearFilterMataPelajaran').on('click', function() {

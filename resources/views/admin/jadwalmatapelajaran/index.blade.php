@@ -52,6 +52,8 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
+                        <h6>Filter</h6>
+                        <p>Pilih filter berdasarkan <code>Kelas</code> atau <code>Tahun Ajaran</code></p>
                         <div class="col-sm-3 mb-1">
                             <div class="input-group mb-3">
                                 <label class="input-group-text" for="filterKelas">Kelas</label>

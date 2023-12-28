@@ -51,7 +51,20 @@
                     @endif
                 </div>
                 <div class="card-body">
+                    {{-- Filter --}}
                     <div class="row">
+                        <h6>Filter</h6>
+                        <p>Pilih filter berdasarkan <code>Santri</code>, <code>Kelas</code> atau <code>Mata Pelajaran</code></p>
+                        <div class="col-sm-3 mb-1">
+                            <div class="input-group mb-3">
+                                <label class="input-group-text" for="filterSantri">Santri</label>
+                                <select class="form-select" id="filterSantri">
+                                    <option value="">Semua Santri</option>
+                                </select>
+                                <button class="input-group-text" id="clearFilterSantri" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Hapus filter Santri">x</button>
+                            </div>
+                        </div>
+
                         <div class="col-sm-3 mb-1">
                             <div class="input-group mb-3">
                                 <label class="input-group-text" for="filterKelas">Kelas</label>
@@ -62,9 +75,9 @@
                             </div>
                         </div>
 
-                        <div class="col-sm-3 mb-1">
+                        <div class="col-sm-5 mb-1">
                             <div class="input-group mb-3">
-                                <label class="input-group-text" for="filterMataPelajaran">Tahun Ajaran</label>
+                                <label class="input-group-text" for="filterMataPelajaran">Mata Pelajaran</label>
                                 <select class="form-select" id="filterMataPelajaran">
                                     <option value="">Semua Mata Pelajaran</option>
                                 </select>

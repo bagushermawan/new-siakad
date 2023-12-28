@@ -18,7 +18,6 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\UserImport;
 use Illuminate\Support\Facades\Storage;
 
-
 class UserAjaxController extends Controller
 {
     public function index()
@@ -60,16 +59,27 @@ class UserAjaxController extends Controller
             ->make(true);
     }
 
+    public function getSantriOptions()
+    {
+        $santriOptions = User::with(['roles'])
+        ->whereHas('roles', function ($q) {
+            $q->where('name', 'user');
+        })
+            ->orderBy('name', 'asc')
+            ->get(['id', 'name']);
+
+        return response()->json($santriOptions);
+    }
+
     public function indexSiswa()
     {
         $user = Auth::user();
         $roles = $user->getRoleNames();
         $isAdmin = $user->hasRole('admin');
 
-
-        $data = User::with(['roles', 'kelas'])->orderBy('name', 'asc')
+        $data = User::with(['roles', 'kelas'])
+            ->orderBy('name', 'asc')
             ->when(function ($query) {
-                // Jika bukan admin, filter hanya user dengan role 'guru'
                 $query->whereHas('roles', function ($q) {
                     $q->where('name', 'user');
                 });
@@ -100,12 +110,10 @@ class UserAjaxController extends Controller
         ]);
     }
 
-
     public function create()
     {
         //
     }
-
 
     public function store(Request $request)
     {
@@ -124,7 +132,7 @@ class UserAjaxController extends Controller
                 'email.required' => 'Email wajib diisi',
                 'password.required' => 'Password wajib diisi',
                 'kelas_id.exists' => 'Kelas tidak valid',
-            ]
+            ],
         );
 
         if ($validasi->fails()) {
@@ -153,20 +161,17 @@ class UserAjaxController extends Controller
         }
     }
 
-
     public function show(string $id)
     {
         //
     }
 
-
     public function edit(string $id)
     {
         $data = User::where('id', $id)->first();
         $role = $data->getRoleNames();
-        return response()->json(['result' =>$data, 'role' => $role]);
+        return response()->json(['result' => $data, 'role' => $role]);
     }
-
 
     public function update(Request $request, string $id)
     {
@@ -227,20 +232,26 @@ class UserAjaxController extends Controller
 
             try {
                 // Impor data menggunakan UserImport
-                Excel::import(new UserImport, storage_path("app/Import User/{$filename}"));
+                Excel::import(new UserImport(), storage_path("app/Import User/{$filename}"));
 
                 // Hapus file setelah diimpor
                 // Storage::disk('local')->delete("Import User/{$filename}");
 
-                return redirect()->back()->with('success', 'Data imported successfully.');
+                return redirect()
+                    ->back()
+                    ->with('success', 'Data imported successfully.');
             } catch (\Exception $e) {
                 // Jika terjadi kesalahan saat impor, tangani kesalahan di sini
                 Storage::disk('local')->delete("Import User/{$filename}"); // Hapus file jika impor gagal
-                return redirect()->back()->with('error', 'Error during import: ' . $e->getMessage());
+                return redirect()
+                    ->back()
+                    ->with('error', 'Error during import: ' . $e->getMessage());
             }
         }
 
-        return redirect()->back()->with('error', 'No file selected.');
+        return redirect()
+            ->back()
+            ->with('error', 'No file selected.');
     }
 
     public function importGuru()
@@ -263,20 +274,26 @@ class UserAjaxController extends Controller
 
             try {
                 // Impor data menggunakan UserImport
-                Excel::import(new GuruImport, storage_path("app/Import Guru/{$filename}"));
+                Excel::import(new GuruImport(), storage_path("app/Import Guru/{$filename}"));
 
                 // Hapus file setelah diimpor
                 // Storage::disk('local')->delete("Import User/{$filename}");
 
-                return redirect()->back()->with('success', 'Data imported successfully.');
+                return redirect()
+                    ->back()
+                    ->with('success', 'Data imported successfully.');
             } catch (\Exception $e) {
                 // Jika terjadi kesalahan saat impor, tangani kesalahan di sini
                 Storage::disk('local')->delete("Import Guru/{$filename}"); // Hapus file jika impor gagal
-                return redirect()->back()->with('error', 'Error during import: ' . $e->getMessage());
+                return redirect()
+                    ->back()
+                    ->with('error', 'Error during import: ' . $e->getMessage());
             }
         }
 
-        return redirect()->back()->with('error', 'No file selected.');
+        return redirect()
+            ->back()
+            ->with('error', 'No file selected.');
     }
 
     public function importSiswa()
@@ -299,20 +316,25 @@ class UserAjaxController extends Controller
 
             try {
                 // Impor data menggunakan UserImport
-                Excel::import(new SiswaImport, storage_path("app/Import Siswa/{$filename}"));
+                Excel::import(new SiswaImport(), storage_path("app/Import Siswa/{$filename}"));
 
                 // Hapus file setelah diimpor
                 // Storage::disk('local')->delete("Import User/{$filename}");
 
-                return redirect()->back()->with('success', 'Data imported successfully.');
+                return redirect()
+                    ->back()
+                    ->with('success', 'Data imported successfully.');
             } catch (\Exception $e) {
                 // Jika terjadi kesalahan saat impor, tangani kesalahan di sini
                 Storage::disk('local')->delete("Import Siswa/{$filename}"); // Hapus file jika impor gagal
-                return redirect()->back()->with('error', 'Error during import: ' . $e->getMessage());
+                return redirect()
+                    ->back()
+                    ->with('error', 'Error during import: ' . $e->getMessage());
             }
         }
 
-        return redirect()->back()->with('error', 'No file selected.');
+        return redirect()
+            ->back()
+            ->with('error', 'No file selected.');
     }
-
 }

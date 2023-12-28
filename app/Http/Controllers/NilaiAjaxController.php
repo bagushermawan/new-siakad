@@ -19,7 +19,7 @@ class NilaiAjaxController extends Controller
 
     public function getMatpelOptions()
     {
-        $matpelOptions = MataPelajaran::all(['id', 'name']);
+        $matpelOptions = MataPelajaran::orderBy('name', 'asc')->get(['id', 'name']);
         return response()->json($matpelOptions);
     }
 
