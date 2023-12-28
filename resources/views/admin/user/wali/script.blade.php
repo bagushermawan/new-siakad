@@ -158,7 +158,7 @@
                         );
                         var title = $(cell).text();
                         // Tambahkan kondisi untuk mengecek apakah kolom No
-                        if (colIdx === 0 || colIdx === 7 || colIdx === 8) {
+                        if (colIdx === 0 || colIdx === 6 || colIdx === 7) {
                             // Jika kolom No, tidak tambahkan input filter
                             $(cell).html('');
                         } else {
@@ -203,7 +203,7 @@
                             });
                     });
             },
-            ajax: "{{ url('/qwe/siswaAjax') }}",
+            ajax: "{{ url('/qwe/waliAjax') }}",
             columns: [{
                     data: 'DT_RowIndex',
                     name: 'DT_RowIndex',
@@ -217,20 +217,23 @@
                     }
                 },
                 {
-                    data: 'nisn',
-                    name: 'nisn'
-                },
-                {
                     data: 'name',
                     name: 'Nama'
                 },
                 {
-                    data: 'username',
-                    name: 'Username'
+                    data: 'santri_name',
+                    name: 'Nama Santri',
+                    render: function(data, type, row) {
+                        if (type === 'display') {
+                            return data ? data :
+                                '<a style="color:#6c757d;">Santri tidak tersedia</a>';
+                        }
+                        return data;
+                    }
                 },
                 {
-                    data: 'kelas_name',
-                    name: 'kelas_name'
+                    data: 'username',
+                    name: 'Username'
                 },
                 {
                     data: 'email',
@@ -301,14 +304,22 @@
     $('body').on('click', '.tombol-tambah', function(e) {
         e.preventDefault();
         $('#exampleModal').modal('show');
-        if (typeof kelasSelect !== 'undefined') {
-                    kelasSelect.destroy();
-                }
-        kelasSelect = new Choices('#kelas_id', {
-                    searchEnabled: true,
-                    itemSelectText: '',
-                    allowHTML: true,
-                });
+        if (typeof santriSelect !== 'undefined') {
+            santriSelect.destroy();
+        }
+        santriSelect = new Choices('#santri_id', {
+            searchEnabled: true,
+            itemSelectText: '',
+            allowHTML: true,
+        });
+        if (typeof roleSelect !== 'undefined') {
+            roleSelect.destroy();
+        }
+        roleSelect = new Choices('#role', {
+            searchEnabled: false,
+            itemSelectText: '',
+            allowHTML: true,
+        });
         $('.tombol-simpan').off('click').on('click', function() {
             simpan();
         });
@@ -318,20 +329,17 @@
     $('body').on('click', '.tombol-edit', function(e) {
         var id = $(this).data('id');
         $.ajax({
-            url: 'userAjax/' + id + '/edit',
+            url: 'wali/' + id + '/edit',
             type: 'GET',
             success: function(response) {
                 $('#exampleModal').modal('show');
-                $('#nisn').val(response.result.nisn);
                 $('#name').val(response.result.name);
                 $('#username').val(response.result.username);
-
                 // Hapus objek Choices.js sebelum membuat yang baru
-                if (typeof kelasSelect !== 'undefined') {
-                    kelasSelect.destroy();
+                if (typeof santriSelect !== 'undefined') {
+                    santriSelect.destroy();
                 }
-
-                $('#kelas_id').val(response.result.kelas_id);
+                $('#santri_id').val(response.result.santri_id);
                 $('#email').val(response.result.email);
                 $('#nohp').val(response.result.nohp);
                 $('#role').val(response.result.role);
@@ -343,7 +351,7 @@
                 });
 
                 // Inisialisasi objek Choices.js baru
-                kelasSelect = new Choices('#kelas_id', {
+                santriSelect = new Choices('#santri_id', {
                     searchEnabled: true,
                     itemSelectText: '',
                     allowHTML: true,
@@ -371,14 +379,14 @@
             if (result.isConfirmed) {
                 // Jika pengguna menekan tombol "Hapus", kirim permintaan DELETE
                 $.ajax({
-                    url: 'userAjax/' + id,
+                    url: 'wali/' + id,
                     type: 'DELETE',
                     success: function(response) {
                         $('#myTable').DataTable().ajax.reload();
-                        Swal.fire('Sukses!', 'Berhasil hapus prestasi.', 'info');
+                        Swal.fire('Sukses!', 'Berhasil hapus wali santri.', 'info');
                     },
                     error: function(response) {
-                        Swal.fire('Gagal!', 'Terjadi kesalahan saat menghapus prestasi.',
+                        Swal.fire('Gagal!', 'Terjadi kesalahan saat menghapus wali santri.',
                             'error');
                     }
                 });
@@ -391,23 +399,22 @@
         let var_url, var_type, successMessage;
 
         if (id === '') {
-            var_url = 'userAjax';
+            var_url = 'wali';
             var_type = 'POST';
-            successMessage = 'Berhasil tambah user.';
+            successMessage = 'Berhasil tambah wali santri.';
         } else {
-            var_url = 'userAjax/' + id;
+            var_url = 'wali/' + id;
             var_type = 'PUT';
-            successMessage = 'Berhasil update user.';
+            successMessage = 'Berhasil update wali santri.';
         }
 
         $.ajax({
             url: var_url,
             type: var_type,
             data: {
-                nisn: $('#nisn').val(),
                 name: $('#name').val(),
                 username: $('#username').val(),
-                kelas_id: $('#kelas_id').val() || null,
+                santri_id: $('#santri_id').val() || null,
                 email: $('#email').val(),
                 nohp: $('#nohp').val(),
                 role: $('#role').val(),
@@ -416,6 +423,7 @@
             success: function(response) {
                 if (response.errors) {
                     console.log(response.errors);
+                    console.log(response.result);
                     $('.alert-danger').removeClass('d-none');
                     $('.alert-danger').html("<ul>");
                     $.each(response.errors, function(key, value) {
@@ -433,10 +441,9 @@
     }
 
     $('#exampleModal').on('hidden.bs.modal', function() {
-        $('#nisn').val('');
         $('#name').val('');
         $('#username').val('');
-        $('#kelas_id').val('');
+        $('#santri_id').val('');
         $('#email').val('');
         $('#nohp').val('');
         $('#role').val('');

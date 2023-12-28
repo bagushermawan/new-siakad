@@ -18,6 +18,7 @@ use App\Http\Controllers\TahunAjaranAjaxController;
 use App\Http\Controllers\TahunAjaranController;
 use App\Http\Controllers\UserAjaxController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WaliSantriAjaxController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -54,6 +55,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/qwe/import-guru', [UserAjaxController::class, 'importGuru'])->name('import.guru');
     Route::post('/qwe/import-siswa', [UserAjaxController::class, 'importSiswa'])->name('import.siswa');
     Route::get('/get_santri_options', [UserAjaxController::class, 'getSantriOptions']);
+
+    Route::resource('/qwe/wali', WaliSantriAjaxController::class);
+    Route::get('/qwe/waliAjax', [WaliSantriAjaxController::class, 'indexWali']);
 
 
     Route::resource('/qwe/ekskul', EkskulAjaxController::class);

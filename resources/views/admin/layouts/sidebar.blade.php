@@ -57,7 +57,7 @@
 
 
                         @if(auth()->user()->hasAnyRole(['admin', 'guru']))
-                        <li class="sidebar-item  {{ request()->routeIs('admin.user.index*', 'guru.*', 'siswa.*') ? 'active' : '' }} has-sub">
+                        <li class="sidebar-item  {{ request()->routeIs('admin.user.index*', 'guru.*', 'siswa.*', 'wali*') ? 'active' : '' }} has-sub">
                             <a href="#" class='sidebar-link'>
                                 <i class="bi bi-people-fill"></i>
                                 <span>Users</span>
@@ -77,8 +77,8 @@
                                 </li>
                                 @endif
                                 @if(auth()->user()->hasRole('admin'))
-                                <li class="submenu-item  {{ request()->routeIs('siswa.index') ? 'active' : '' }}">
-                                    <a href="{{ route('siswa.index') }}" class="submenu-link">Wali Santri</a>
+                                <li class="submenu-item  {{ request()->routeIs('wali.index') ? 'active' : '' }}">
+                                    <a href="{{ route('wali.index') }}" class="submenu-link">Wali Santri</a>
                                 </li>
                                 @endif
                             </ul>

@@ -230,7 +230,14 @@
                 },
                 {
                     data: 'kelas_name',
-                    name: 'kelas_name'
+                    name: 'kelas_name',
+                    render: function(data, type, row) {
+                        if (type === 'display') {
+                            return data ? data :
+                                '<a style="color:#6c757d;">Kelas tidak tersedia</a>';
+                        }
+                        return data;
+                    }
                 },
                 {
                     data: 'email',

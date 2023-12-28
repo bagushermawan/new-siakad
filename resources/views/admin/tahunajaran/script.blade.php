@@ -2,9 +2,9 @@
     $(document).ready(function() {
         var isAdmin = {{ $isAdmin ? 'true' : 'false' }};
         $('#myTable thead tr')
-            .clone(true)
-            .addClass('filters')
-            .appendTo('#myTable thead');
+            // .clone(true)
+            // .addClass('filters')
+            // .appendTo('#myTable thead');
         var myTable = $('#myTable').DataTable({
             orderCellsTop: true,
             processing: true,
@@ -208,64 +208,6 @@
                     }
                 },
             ],
-            initComplete: function() {
-                var api = this.api();
-                // For each column
-                api
-                    .columns()
-                    .eq(0)
-                    .each(function(colIdx) {
-                        // Set the header cell to contain the input element
-                        var cell = $('.filters th').eq(
-                            $(api.column(colIdx).header()).index()
-                        );
-                        var title = $(cell).text();
-                        // Tambahkan kondisi untuk mengecek apakah kolom No
-                        if (colIdx === 0 || colIdx === 4 || colIdx === 5 || colIdx === 6) {
-                            // Jika kolom No, tidak tambahkan input filter
-                            $(cell).html('');
-                        } else {
-                            // Jika bukan kolom No, tambahkan input filter seperti biasa
-                            $(cell).html(
-                                '<input type="text" class="form-control" placeholder="' +
-                                title + '" />');
-                        }
-                        // On every keypress in this input
-                        $(
-                                'input',
-                                $('.filters th').eq($(api.column(colIdx).header()).index())
-                            )
-                            .off('keyup change')
-                            .on('change', function(e) {
-                                // Get the search value
-                                $(this).attr('title', $(this).val());
-                                var regexr =
-                                    '({search})'; //$(this).parents('th').find('select').val();
-
-                                cursorPosition = this.selectionStart;
-                                // Search the column for that value
-                                api
-                                    .column(colIdx)
-                                    .search(
-                                        this.value != '' ?
-                                        regexr.replace('{search}', '(((' + this.value +
-                                            ')))') :
-                                        '',
-                                        this.value != '',
-                                        this.value == ''
-                                    )
-                                    .draw();
-                            })
-                            .on('keyup', function(e) {
-                                e.stopPropagation();
-
-                                $(this).trigger('change');
-                                $(this)
-                                    .focus()[0]
-                                    .setSelectionRange(cursorPosition, cursorPosition);
-                            });
-                    });
-            },
             ajax: "{{ url('/qwe/tahunajaranAjax') }}",
             columns: [{
                     data: 'DT_RowIndex',
@@ -360,7 +302,15 @@
             semesterSelect.destroy();
         }
         semesterSelect = new Choices('#semester', {
-            searchEnabled: true,
+            searchEnabled: false,
+            itemSelectText: '',
+            allowHTML: true,
+        });
+        if (typeof statusSelect !== 'undefined') {
+            statusSelect.destroy();
+        }
+        statusSelect = new Choices('#status', {
+            searchEnabled: false,
             itemSelectText: '',
             allowHTML: true,
         });
@@ -378,8 +328,6 @@
             success: function(response) {
                 $('#exampleModal').modal('show');
                 $('#name').val(response.result.name);
-
-
                 // Hapus objek Choices.js sebelum membuat yang baru
                 if (typeof semesterSelect !== 'undefined') {
                     semesterSelect.destroy();
@@ -390,6 +338,9 @@
                 var dateRangeValue = response.result.mulai + ' to ' + response.result.selesai;
                 $('#daterange').val(dateRangeValue);
 
+                if (typeof statusSelect !== 'undefined') {
+                    statusSelect.destroy();
+                }
                 $('#status').val(response.result.status);
 
                 console.log(dateRangeValue);
@@ -400,7 +351,12 @@
 
                 // Inisialisasi objek Choices.js baru
                 semesterSelect = new Choices('#semester', {
-                    searchEnabled: true,
+                    searchEnabled: false,
+                    itemSelectText: '',
+                    allowHTML: true,
+                });
+                statusSelect = new Choices('#status', {
+                    searchEnabled: false,
                     itemSelectText: '',
                     allowHTML: true,
                 });

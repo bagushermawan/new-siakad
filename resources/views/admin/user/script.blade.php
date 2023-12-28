@@ -244,20 +244,19 @@
                     data: 'roles',
                     name: 'Status',
                     render: function(data, type, row) {
-                        if (isAdmin) {
+                        if (type === 'display') {
                             if (Array.isArray(data) && data.length > 0) {
-                                // Capitalize the first letter of each role
-                                var formattedRoles = data.map(function(role) {
-                                    return role.name.charAt(0).toUpperCase() + role.name
-                                        .slice(1);
-                                }).join(', ');
-
-                                return formattedRoles;
+                                // Assuming data is an array of strings
+                                return data.map(role => role.charAt(0).toUpperCase() + role
+                                    .slice(1)).join(', ');
+                            } else if (typeof data === 'string') {
+                                // If it's a single role string
+                                return data.charAt(0).toUpperCase() + data.slice(1);
+                            } else {
+                                return '<a style="color:#6c757d;">Role tidak tersedia</a>';
                             }
-
-                            return 'No roles assigned';
                         }
-                        return '';
+                        return data;
                     }
                 },
                 {

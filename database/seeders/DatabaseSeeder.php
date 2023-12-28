@@ -16,14 +16,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // $this->call(TahunAjaranSeeder::class);
-        // $this->call(KelasSeeder::class);
-        // $this->call(RolePermissionSeeder::class);
-        // $this->call(MataPelajaranSeeder::class);
-        // $this->call(JadwalMataPelajaranSeeder::class);
+        $this->call(TahunAjaranSeeder::class);
+        $this->call(KelasSeeder::class);
+        $this->call(RolePermissionSeeder::class);
+        $this->call(MataPelajaranSeeder::class);
+        $this->call(JadwalMataPelajaranSeeder::class);
 
 
-        User::factory(111)->create();
+        // User::factory(111)->create();
         // User::factory(15)->create();
     }
 }

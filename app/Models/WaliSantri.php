@@ -4,42 +4,33 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable implements MustVerifyEmail
+class WaliSantri extends Model
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
-    public $table = "users";
+    protected $table = 'wali_santris';
+    protected $guard_name = "web";
+
     protected $fillable = [
+        'santri_id',
         'name',
-        'nisn',
-        'nuptk',
-        'nohp',
         'username',
+        'nohp',
         'email',
         'password',
-        'kelas_id',
-        'email_verified_at',
     ];
 
-    public function kelas()
+    public function santri()
     {
-        return $this->belongsTo(Kelas::class, 'kelas_id');
+        return $this->belongsTo(User::class, 'santri_id');
     }
 
-    public function nilai()
-    {
-        return $this->hasMany(Nilai::class);
-    }
-
-    public function waliSantri()
-    {
-        return $this->hasOne(WaliSantri::class, 'santri_id');
-    }
 
     protected $hidden = [
         'password',

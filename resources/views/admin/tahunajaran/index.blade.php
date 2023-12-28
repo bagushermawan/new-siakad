@@ -111,7 +111,7 @@
                                 class="form-control flatpickr-range mb-3 flatpickr-input" autocomplete="off">
                         </div>
 
-                        <label>Semester: </label>
+                        <label>Status: </label>
                         <div class="form-group">
                             <select id="status" name="status" class="form-control">
                                 <option value="">Pilih Status</option>

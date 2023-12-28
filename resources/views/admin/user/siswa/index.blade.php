@@ -128,7 +128,7 @@
                             <select id="role" name="role" class="form-control">
                                 {{-- <option value="">Pilih Role</option> --}}
                                 @if (count($roless) >= 2)
-                                    <option value="{{ $roless[2]->name }}" selected>{{ ucfirst($roless[2]->name) }}
+                                    <option value="{{ $roless[3]->name }}" selected>{{ ucfirst($roless[3]->name) }}
                                     </option>
                                 @endif
                             </select>

@@ -13,7 +13,7 @@
         <div class="page-title">
             <div class="row">
                 <div class="col-12 col-md-6 order-md-1 order-last">
-                    <h3>Data Siswa</h3>
+                    <h3>Data Wali Santri</h3>
                     <p class="text-subtitle text-muted">A sortable, searchable, paginated table without dependencies thanks
                         to simple-datatables.</p>
                 </div>
@@ -52,10 +52,9 @@
                             <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th>NISN</th>
-                                    <th>Name</th>
+                                    <th>Nama Wali Santri</th>
+                                    <th>Nama Santri</th>
                                     <th>Username</th>
-                                    <th>Kelas</th>
                                     <th>Email</th>
                                     <th>No Hp</th>
                                     <th>
@@ -92,27 +91,22 @@
                     <div class="modal-body">
                         <div class="alert alert-danger d-none"></div>
                         {{-- <div class="alert alert-success d-none"></div> --}}
-                        <label>NISN: </label>
-                        <div class="form-group">
-                            <input id="nisn" type="text" name="nisn" class="form-control" autofocus>
-                        </div>
-                        <label>Nama: </label>
+                        <label>Nama Wali Santri: </label>
                         <div class="form-group">
                             <input id="name" type="text" name="name" class="form-control" autofocus>
+                        </div>
+                        <label>Santri: </label>
+                        <div class="form-group">
+                            <select id="santri_id" name="santri_id" class="form-control">
+                                <option value="">Pilih Santri</option>
+                                @foreach ($santri as $a)
+                                    <option value="{{ $a->id }}">{{ $a->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <label>Username: </label>
                         <div class="form-group">
                             <input id="username" type="text" name="username" class="form-control">
-                        </div>
-                        <label>Kelas: </label>
-                        <div class="form-group">
-                            <select class="form-control" id="kelas_id" name="kelas_id" name="kelas_id" required>
-                                {{-- <input type="hidden" id="old_kelas_id" name="old_kelas_id" value="{{ $users->kelas_id }}"> --}}
-                                <option value="">Pilih Kelas</option>
-                                @foreach ($kelasOptions as $kelas)
-                                    <option value="{{ $kelas->id }}">{{ $kelas->name }}</option>
-                                @endforeach
-                            </select>
                         </div>
                         <label>Email: </label>
                         <div class="form-group">
@@ -128,7 +122,7 @@
                             <select id="role" name="role" class="form-control">
                                 {{-- <option value="">Pilih Role</option> --}}
                                 @if (count($roless) >= 2)
-                                    <option value="{{ $roless[2]->name }}" selected>{{ ucfirst($roless[2]->name) }}
+                                    <option value="{{ $roless[4]->name }}" selected>{{ ucfirst($roless[4]->name) }}
                                     </option>
                                 @endif
                             </select>
@@ -166,7 +160,7 @@
     <script src="{{ asset('extensions/datatables.net/js/buttons.html5.min.js') }}"></script>
     <script src="{{ asset('extensions/datatables.net/js/buttons.print.min.js') }}"></script>
 
-    @include('admin.user.siswa.script')
+    @include('admin.user.wali.script')
     <script src="{{ asset('/extensions/choices.js/public/assets/scripts/choices.min.js') }}"></script>
     <script>
         // Inisialisasi objek Choices.js baru

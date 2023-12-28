@@ -17,16 +17,30 @@ use Spatie\Permission\Models\Role;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\UserImport;
 use Illuminate\Support\Facades\Storage;
+use App\Models\WaliSantri;
+use Illuminate\Support\Facades\DB;
 
 class UserAjaxController extends Controller
 {
     public function index()
     {
         $user = Auth::user();
-        // Mendapatkan roles dari user
-        $roles = $user->getRoleNames();
-        $data = User::with('roles')->orderBy('name', 'asc');
         $isAdmin = $user->hasRole('admin');
+
+        $userData = User::select('id', 'name', 'username', 'email', 'nohp', 'created_at');
+        $waliSantriData = WaliSantri::select('id', 'name', 'username', 'email', 'nohp', 'created_at');
+
+        $unionData = $userData->unionAll($waliSantriData);
+
+        $data = DB::table(DB::raw("({$unionData->toSql()}) as union_data"))
+            ->mergeBindings($unionData->getQuery())
+            ->leftJoin('model_has_roles', 'union_data.id', '=', 'model_has_roles.model_id')
+            ->leftJoin('roles', 'model_has_roles.role_id', '=', 'roles.id')
+            ->select('union_data.id', 'union_data.name', 'union_data.username', 'union_data.email', 'union_data.nohp', 'union_data.created_at')
+            ->addSelect(DB::raw('GROUP_CONCAT(DISTINCT roles.name) as roles'))
+            ->groupBy('union_data.id', 'union_data.name', 'union_data.username', 'union_data.email', 'union_data.nohp', 'union_data.created_at')
+            ->orderBy('union_data.name', 'asc')
+            ->get();
 
         return DataTables::of($data)
             ->addIndexColumn()
