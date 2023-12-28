@@ -32,14 +32,25 @@ class UserAjaxController extends Controller
 
         $unionData = $userData->unionAll($waliSantriData);
 
+        // asc name
+        // $data = DB::table(DB::raw("({$unionData->toSql()}) as union_data"))
+        //     ->mergeBindings($unionData->getQuery())
+        //     ->leftJoin('model_has_roles', 'union_data.id', '=', 'model_has_roles.model_id')
+        //     ->leftJoin('roles', 'model_has_roles.role_id', '=', 'roles.id')
+        //     ->select('union_data.id', 'union_data.name', 'union_data.username', 'union_data.email', 'union_data.nohp', 'union_data.created_at')
+        //     ->addSelect(DB::raw('GROUP_CONCAT(DISTINCT roles.name) as role'))
+        //     ->groupBy('union_data.id', 'union_data.name', 'union_data.username', 'union_data.email', 'union_data.nohp', 'union_data.created_at')
+        //     ->orderBy('union_data.name', 'asc')
+        //     ->get();
+
+        // acs role name
         $data = DB::table(DB::raw("({$unionData->toSql()}) as union_data"))
-            ->mergeBindings($unionData->getQuery())
-            ->leftJoin('model_has_roles', 'union_data.id', '=', 'model_has_roles.model_id')
-            ->leftJoin('roles', 'model_has_roles.role_id', '=', 'roles.id')
-            ->select('union_data.id', 'union_data.name', 'union_data.username', 'union_data.email', 'union_data.nohp', 'union_data.created_at')
-            ->addSelect(DB::raw('GROUP_CONCAT(DISTINCT roles.name) as role'))
-            ->groupBy('union_data.id', 'union_data.name', 'union_data.username', 'union_data.email', 'union_data.nohp', 'union_data.created_at')
-            ->orderBy('union_data.name', 'asc')
+        ->mergeBindings($unionData->getQuery())
+        ->leftJoin('model_has_roles', 'union_data.id', '=', 'model_has_roles.model_id')
+        ->leftJoin('roles', 'model_has_roles.role_id', '=', 'roles.id')
+        ->select('union_data.id', 'union_data.name', 'union_data.username', 'union_data.email', 'union_data.nohp', 'union_data.created_at', 'roles.name as role')
+        ->groupBy('union_data.id', 'union_data.name', 'union_data.username', 'union_data.email', 'union_data.nohp', 'union_data.created_at', 'roles.name') // Sertakan 'roles.name' dalam GROUP BY
+        ->orderBy('roles.name', 'asc')  // Urutkan berdasarkan 'roles.name' secara ascending
             ->get();
 
         return DataTables::of($data)
