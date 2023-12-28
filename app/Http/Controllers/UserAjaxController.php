@@ -37,7 +37,7 @@ class UserAjaxController extends Controller
             ->leftJoin('model_has_roles', 'union_data.id', '=', 'model_has_roles.model_id')
             ->leftJoin('roles', 'model_has_roles.role_id', '=', 'roles.id')
             ->select('union_data.id', 'union_data.name', 'union_data.username', 'union_data.email', 'union_data.nohp', 'union_data.created_at')
-            ->addSelect(DB::raw('GROUP_CONCAT(DISTINCT roles.name) as roles'))
+            ->addSelect(DB::raw('GROUP_CONCAT(DISTINCT roles.name) as role'))
             ->groupBy('union_data.id', 'union_data.name', 'union_data.username', 'union_data.email', 'union_data.nohp', 'union_data.created_at')
             ->orderBy('union_data.name', 'asc')
             ->get();

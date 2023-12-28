@@ -241,7 +241,7 @@
                     }
                 },
                 {
-                    data: 'roles',
+                    data: 'role',
                     name: 'Status',
                     render: function(data, type, row) {
                         if (type === 'display') {
