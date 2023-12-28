@@ -92,6 +92,7 @@ class WaliSantriAjaxController extends Controller
         $waliSantri->username = $request->input('username');
         $waliSantri->email = $request->input('email');
         $waliSantri->nohp = $request->input('nohp');
+        $waliSantri->password = Hash::make($request->password);
 
         // Menetapkan santri_id (user_id) dari user yang ditemukan
         $waliSantri->santri_id = $santriUser->id;

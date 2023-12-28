@@ -38,7 +38,7 @@
                         @csrf
                         <div class="form-group position-relative has-icon-left mb-4">
                             <input type="text" class="form-control form-control-xl" id="id_user"
-                                placeholder="Username or Email" name="id_user" value="{{ old('email') }}{{ old('username') }}" required
+                                placeholder="Username or Email" name="id_user" value="{{ old('id_user') }}" required
                                 autofocus autocomplete="id_user">
                             <div class="form-control-icon">
                                 <i class="bi bi-person"></i>
