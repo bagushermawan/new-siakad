@@ -72,19 +72,17 @@ class WaliSantriAjaxController extends Controller
             'email' => 'required|email|unique:wali_santris',
             'nohp' => 'nullable|string',
             'role' => 'required|string',
+            'santri_id' => 'nullable|exists:users,id', // Tambahkan validasi untuk santri_id
         ]);
 
-        // Cari user dengan peran 'user'
-        $santriUser = User::whereHas('roles', function ($q) {
+        // Cari user dengan peran 'user' jika santri_id disediakan
+        $santriUser = $request->filled('santri_id') ?
+        User::whereHas('roles', function ($q) {
             $q->where('name', 'user');
         })
             ->where('id', $request->input('santri_id'))
-            ->first();
-
-        // Pastikan user dengan peran 'user' dan ID yang diberikan ditemukan
-        if (!$santriUser) {
-            return response()->json(['error' => 'User santri tidak valid.'], 400);
-        }
+            ->first() :
+            null;
 
         // Buat instansi model WaliSantri
         $waliSantri = new WaliSantri;
@@ -94,8 +92,10 @@ class WaliSantriAjaxController extends Controller
         $waliSantri->nohp = $request->input('nohp');
         $waliSantri->password = Hash::make($request->password);
 
-        // Menetapkan santri_id (user_id) dari user yang ditemukan
-        $waliSantri->santri_id = $santriUser->id;
+        // Tetapkan santri_id (user_id) dari user yang ditemukan, jika ada
+        if ($santriUser) {
+            $waliSantri->santri_id = $santriUser->id;
+        }
 
         // Simpan ke dalam database
         $waliSantri->save();
