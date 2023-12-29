@@ -308,6 +308,22 @@
             itemSelectText: '',
             allowHTML: true,
         });
+        if (typeof kelasSelect !== 'undefined') {
+            kelasSelect.destroy();
+        }
+        kelasSelect = new Choices('#kelas_id', {
+            searchEnabled: true,
+            itemSelectText: '',
+            allowHTML: true,
+        });
+        if (typeof santriSelect !== 'undefined') {
+            santriSelect.destroy();
+        }
+        santriSelect = new Choices('#santri_id', {
+            searchEnabled: true,
+            itemSelectText: '',
+            allowHTML: true,
+        });
         $('#exampleModal').modal('show');
         $('.tombol-simpan').off('click').on('click', function() {
             simpan();
@@ -317,37 +333,84 @@
     // 03_PROSES EDIT
     $('body').on('click', '.tombol-edit', function(e) {
         var id = $(this).data('id');
+        var userType = $(this).data('user-type'); // Tambahkan atribut data-user-type pada tombol-edit
+
         $.ajax({
-            url: 'userAjax/' + id + '/edit',
+            url: userType === 'wali_santris' ? 'wali/' + id + '/edit' : 'userAjax/' + id + '/edit',
             type: 'GET',
             success: function(response) {
                 $('#exampleModal').modal('show');
-                $('#nisn').val(response.result.nisn);
-                $('#nuptk').val(response.result.nuptk);
+
+                // Common fields
                 $('#name').val(response.result.name);
                 $('#username').val(response.result.username);
+                // Hapus objek Choices.js sebelum membuat yang baru
+                destroyChoicesObjects();
+
+                $('#kelas_id').val(response.result.kelas_id);
                 $('#email').val(response.result.email);
                 $('#nohp').val(response.result.nohp);
-                if (typeof roleSelect !== 'undefined') {
-                    roleSelect.destroy();
-                }
                 $('#role').val(response.result.role);
                 $('#password').val(response.result.password);
+
+                // Additional fields based on user type
+                switch (userType) {
+                    case 'user':
+                        $('#nisn').val(response.result.nisn);
+                        $('#nuptk').val(response.result.nuptk);
+                        break;
+                    case 'wali_santris':
+                        $('#santri_id').val(response.result.santri_id);
+                        // ... other specific fields for wali_santris
+                        initSantriChoices();
+                        break;
+                }
+
                 console.log(response.result);
                 console.log('Roles yang dimiliki:', response.role);
+                console.log(userType);
+
                 $('.tombol-simpan').off('click').on('click', function() {
-                    simpan(id);
+                    simpan(id, userType);
                 });
                 // Inisialisasi objek Choices.js baru
-                roleSelect = new Choices('#role', {
-                    searchEnabled: true,
-                    itemSelectText: '',
-                    allowHTML: true,
-                });
+                initChoices();
             }
         });
-
     });
+
+    function initChoices() {
+        roleSelect = new Choices('#role', {
+            searchEnabled: true,
+            itemSelectText: '',
+            allowHTML: true,
+        });
+        kelasSelect = new Choices('#kelas_id', {
+            searchEnabled: true,
+            itemSelectText: '',
+            allowHTML: true,
+        });
+    }
+
+    function initSantriChoices() {
+        santriSelect = new Choices('#santri_id', {
+            searchEnabled: true,
+            itemSelectText: '',
+            allowHTML: true,
+        });
+    }
+
+    function destroyChoicesObjects() {
+        if (typeof roleSelect !== 'undefined') {
+            roleSelect.destroy();
+        }
+        if (typeof kelasSelect !== 'undefined') {
+            kelasSelect.destroy();
+        }
+        if (typeof santriSelect !== 'undefined') {
+            santriSelect.destroy();
+        }
+    }
 
     // 04_PROSES Delete
     $('body').on('click', '.tombol-del', function(e) {
@@ -383,35 +446,51 @@
     });
 
     // fungsi simpan dan update
-    function simpan(id = '') {
+    function simpan(id = '', userType = 'user') {
+        // Validasi userType
+        if (userType !== 'user' && userType !== 'wali_santris') {
+            console.error('Invalid userType:', userType);
+            return;
+        }
+
         let var_url, var_type, successMessage;
 
         if (id === '') {
-            var_url = 'userAjax';
+            var_url = userType === 'wali_santris' ? 'wali' : 'userAjax';
             var_type = 'POST';
-            successMessage = 'Berhasil tambah user.';
+            successMessage = userType === 'wali_santris' ? 'Berhasil tambah wali santri.' : 'Berhasil tambah user.';
         } else {
-            var_url = 'userAjax/' + id;
+            var_url = userType === 'wali_santris' ? 'wali/' + id : 'userAjax/' + id;
             var_type = 'PUT';
-            successMessage = 'Berhasil update user.';
+            successMessage = userType === 'wali_santris' ? 'Berhasil update wali santri.' : 'Berhasil update user.';
+        }
+
+        let data = {
+            name: $('#name').val(),
+            username: $('#username').val(),
+            email: $('#email').val(),
+            nohp: $('#nohp').val(),
+            role: $('#role').val(),
+            password: $('#password').val() // Pastikan penanganan password di sisi server aman
+        };
+
+        // Tambahkan properti khusus untuk 'user' dan 'wali_santris'
+        if (userType === 'user') {
+            data.kelas_id = $('#kelas_id').val() || null;
+            data.nuptk = $('#nuptk').val();
+            data.nisn = $('#nisn').val();
+        } else if (userType === 'wali_santris') {
+            data.santri_id = $('#santri_id').val() || null;
         }
 
         $.ajax({
             url: var_url,
             type: var_type,
-            data: {
-                nohp: $('#nohp').val(),
-                nuptk: $('#nuptk').val(),
-                nisn: $('#nisn').val(),
-                name: $('#name').val(),
-                username: $('#username').val(),
-                email: $('#email').val(),
-                password: $('#password').val(),
-                role: $('#role').val(),
-            },
+            data: data,
             success: function(response) {
                 if (response.errors) {
                     console.log(response.errors);
+                    console.log(response.result);
                     $('.alert-danger').removeClass('d-none');
                     $('.alert-danger').html("<ul>");
                     $.each(response.errors, function(key, value) {
@@ -434,6 +513,8 @@
         $('#nuptk').val('');
         $('#name').val('');
         $('#username').val('');
+        $('#kelas_id').val('');
+        $('#santri_id').val('');
         $('#email').val('');
         $('#password').val('');
         $('#role').val('');

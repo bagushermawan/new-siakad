@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use App\Models\User;
+use App\Models\WaliSantri;
 use App\Models\Kelas;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
@@ -25,11 +26,31 @@ class UserController extends Controller
         $daftar_user = User::get();
         // Menentukan apakah user adalah admin
         $isAdmin = $user->hasRole('admin');
+        $kelasOptions = Kelas::all();
+        $userType = $user->user_type;
+        $santri = User::whereHas('roles', function ($query) {
+            $query->where('name', 'user');
+        })->get();
 
         // Mengambil daftar guru
         $roless = Role::get();
 
-        return view('admin.user.index', ['roles' => $roles, 'daftar_user' => $daftar_user, 'isAdmin' => $isAdmin, 'roless'=>$roless]);
+        // Mengambil daftar wali santri
+        $wali = WaliSantri::get();
+
+        // Mendapatkan user_type dari setiap wali santri
+        $waliTypes = $wali->pluck('user_type');
+
+        return view('admin.user.index', [
+            'roles' => $roles,
+            'daftar_user' => $daftar_user,
+            'isAdmin' => $isAdmin,
+            'roless' => $roless,
+            'kelasOptions' => $kelasOptions,
+            'userType' => $userType,
+            'waliTypes' => $waliTypes,
+            'santri' => $santri,
+        ]);
     }
 
 

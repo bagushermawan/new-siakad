@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('password')->default(bcrypt('123'));
             $table->rememberToken();
             $table->timestamps();
+            $table->string('user_type')->default('wali_santris');
         });
     }
 

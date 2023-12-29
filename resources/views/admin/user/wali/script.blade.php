@@ -339,6 +339,9 @@
                 if (typeof santriSelect !== 'undefined') {
                     santriSelect.destroy();
                 }
+                if (typeof roleSelect !== 'undefined') {
+                    roleSelect.destroy();
+                }
                 $('#santri_id').val(response.result.santri_id);
                 $('#email').val(response.result.email);
                 $('#nohp').val(response.result.nohp);
@@ -352,6 +355,11 @@
 
                 // Inisialisasi objek Choices.js baru
                 santriSelect = new Choices('#santri_id', {
+                    searchEnabled: true,
+                    itemSelectText: '',
+                    allowHTML: true,
+                });
+                roleSelect = new Choices('#role', {
                     searchEnabled: true,
                     itemSelectText: '',
                     allowHTML: true,

@@ -14,6 +14,7 @@ class User extends Authenticatable implements MustVerifyEmail
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
     public $table = "users";
+    protected $user_type;
     protected $fillable = [
         'name',
         'nisn',

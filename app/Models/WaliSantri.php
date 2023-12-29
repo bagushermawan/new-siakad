@@ -15,6 +15,7 @@ class WaliSantri extends Authenticatable
 
     protected $table = 'wali_santris';
     protected $guard_name = "web";
+    protected $user_type;
 
     protected $fillable = [
         'santri_id',

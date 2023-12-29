@@ -99,10 +99,33 @@
                         <div class="form-group">
                             <input id="name" type="text" name="name" class="form-control" autofocus>
                         </div>
+
+                        <label>Santri: </label>
+                        <div class="form-group">
+                            <select id="santri_id" name="santri_id" class="form-control">
+                                <option value="">Pilih Santri</option>
+                                @foreach ($santri as $a)
+                                    <option value="{{ $a->id }}">{{ $a->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        
                         <label>Username: </label>
                         <div class="form-group">
                             <input id="username" type="text" name="username" class="form-control">
                         </div>
+
+                        <label>Kelas: </label>
+                        <div class="form-group">
+                            <select class="form-control" id="kelas_id" name="kelas_id" name="kelas_id" required>
+                                {{-- <input type="hidden" id="old_kelas_id" name="old_kelas_id" value="{{ $users->kelas_id }}"> --}}
+                                <option value="">Pilih Kelas</option>
+                                @foreach ($kelasOptions as $kelas)
+                                    <option value="{{ $kelas->id }}">{{ $kelas->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
                         <label>Email: </label>
                         <div class="form-group">
                             <input id="email" type="text" name="email" class="form-control">
