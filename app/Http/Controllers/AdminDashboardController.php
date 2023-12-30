@@ -32,6 +32,7 @@ class AdminDashboardController extends Controller
         // $role = $user->getRoleNames()->first();
 
         return view('admin.dashboard', [
+            'user' => $user,
             'roles' => $roles,
             'total_user' => $total_user,
             'total_role' => $total_role,

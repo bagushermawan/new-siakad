@@ -45,8 +45,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/qwe/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
     Route::get('/user-role-count', [UserAjaxController::class, 'getUserRoleCountChartjs']);
 
-
-
     Route::resource('/qwe/guru', GuruController::class);
     Route::resource('/qwe/siswa', SiswaController::class);
     Route::get('/qwe/guruAjax', [UserAjaxController::class, 'indexGuru'])->name('admin.user.guru.ajax');
@@ -59,12 +57,10 @@ Route::middleware('auth')->group(function () {
     Route::resource('/qwe/wali', WaliSantriAjaxController::class);
     Route::get('/qwe/waliAjax', [WaliSantriAjaxController::class, 'indexWali']);
 
-
     Route::resource('/qwe/ekskul', EkskulAjaxController::class);
     Route::get('/qwe/ekskulAjax', [EkskulAjaxController::class, 'indexEkskul']);
     Route::post('/qwe/import-ekskul', [EkskulAjaxController::class, 'importEkskul'])->name('import.ekskul');
     Route::delete('/delete-all-ekskul', [EkskulAjaxController::class, 'deleteAll'])->name('delete.all.ekskul');
-
 
     Route::resource('/qwe/prestasiAjax', PrestasiAjaxController::class);
     Route::resource('/qwe/prestasi', PrestasiController::class);
@@ -91,7 +87,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/delete-all-nilai', [NilaiAjaxController::class, 'deleteAll'])->name('delete.all.nilai');
     Route::get('/get_matpel_options', [NilaiAjaxController::class, 'getMatpelOptions']);
 
-
     Route::resource('/qwe/tahunajaranAjax', TahunAjaranAjaxController::class);
     Route::resource('/qwe/tahunajaran', TahunAjaranController::class);
     Route::delete('/delete-all-tahunajaran', [TahunAjaranAjaxController::class, 'deleteAll'])->name('delete.all.tahunajaran');
@@ -101,12 +96,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/role/{id}', [RoleController::class, 'destroy'])->name('role.destroyy');
     Route::resource('/qwe/permission', PermissionController::class)->middleware('role:admin');
 
-
     Route::get('/qwe/user', [UserController::class, 'index'])->name('admin.user.index');
     Route::get('/data', [UserController::class, 'getDataForDataTables'])->name('admin.user.ajax');
-    Route::get('/qwe/user/edit/{id}', [UserController::class, 'edit'])->name('admin.user.edit')->middleware('role:admin');
+    Route::get('/qwe/user/edit/{id}', [UserController::class, 'edit'])
+        ->name('admin.user.edit')
+        ->middleware('role:admin');
     Route::put('/qwe/user/{id}', [UserController::class, 'update'])->name('admin.user.update');
-    Route::get('/qwe/user/destroy/{id}', [UserController::class, 'destroy'])->name('admin.user.destroy')->middleware('role:admin');
+    Route::get('/qwe/user/destroy/{id}', [UserController::class, 'destroy'])
+        ->name('admin.user.destroy')
+        ->middleware('role:admin');
 
     Route::get('/qwe/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::get('/profile', [ProfileController::class, 'editt'])->name('profile.editt');
@@ -114,14 +112,37 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-
 Route::get('admin', function () {
-    return '<h1>Hello Admin</h1>';
-})->middleware(['auth', 'verified', 'role:admin']);
+    // dd(auth()->user()->name);
+    // dd(session()->all());
+    // ...
+
+    // Tampilkan sesi menggunakan var_dump
+    echo '<pre>';
+    var_dump(session()->all());
+    var_dump(Auth::getDefaultDriver());
+    echo '</pre>';
+
+    return '
+        <h1>Hello <h5 class="font-bold">' .
+        ucfirst(auth()->user()->name) .
+        '</h5><br></h1>
+
+        <!-- Tombol Logout -->
+        <form action="' .
+        route('logout') .
+        '" method="POST">
+            ' .
+        csrf_field() .
+        '
+            <button type="submit">Logout</button>
+        </form>
+    ';
+})->middleware(['auth:web,wali','role:admin|user|wali santri']);
 
 Route::get('penulis', function () {
     return '<h1>Hello penulis</h1>';
-})->middleware(['auth', 'verified', 'role:penulis|admin']);
+})->middleware(['auth', 'verified', 'role:user']);
 
 Route::get('kelas', function () {
     return view('kelas');
@@ -131,7 +152,6 @@ Route::get('coba', function () {
     return view('auth.forgotpw');
 });
 
-
 Route::get('user', function () {
     $user = Auth::user();
     // Mendapatkan roles dari user
@@ -139,7 +159,6 @@ Route::get('user', function () {
 
     return view('admin.user.tes', ['roles' => $roles]);
 })->middleware(['auth', 'verified', 'role:admin']);
-
 
 Route::get('/test500', function () {
     abort(500, 'Internal Server Error');

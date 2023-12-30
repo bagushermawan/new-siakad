@@ -29,29 +29,48 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        // redirect sesuai role
-        // if (Auth::user()->hasRole('admin')) {
-        //     return redirect()->to('admin');
-        // }
+        // Tambahkan logika untuk menentukan guard yang berhasil login
+        $guard = $this->getGuard($request);
 
-        // if (Auth::user()->hasRole('penulis')) {
-        //     return redirect()->to('penulis');
-        // }
-
-        return redirect()->intended(RouteServiceProvider::HOME);
+        return redirect()->intended($this->redirectPath($guard));
     }
 
-    /**
-     * Destroy an authenticated session.
-     */
+    protected function getGuard(LoginRequest $request): string
+    {
+        // Tentukan guard yang berhasil login berdasarkan kondisi tertentu
+        if (Auth::guard('web')->check()) {
+            return 'web';
+        } elseif (Auth::guard('wali')->check()) {
+            return 'wali';
+        }
+
+        // Default guard jika tidak ada guard yang berhasil login
+        return 'web';
+    }
+
+    protected function redirectPath(string $guard): string
+    {
+        // Tambahkan logika untuk menentukan redirect path berdasarkan guard
+        if ($guard === 'wali') {
+            return RouteServiceProvider::WALI_HOME;
+        }
+
+        return RouteServiceProvider::HOME;
+    }
+
     public function destroy(Request $request): RedirectResponse
     {
-        Auth::guard('web')->logout();
+        if (Auth::guard('web')->check()) {
+            Auth::guard('web')->logout();
+            // dd('Logout from web guard');
+        } elseif (Auth::guard('wali')->check()) {
+            Auth::guard('wali')->logout();
+            // dd('Logout from wali guard');
+        }
 
         $request->session()->invalidate();
-
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect('login');
     }
 }

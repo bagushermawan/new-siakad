@@ -132,7 +132,28 @@
                                         </div>
                                         <div class="ms-3 name">
                                             <h5 class="font-bold">{{ ucfirst(auth()->user()->name) }}</h5>
-                                            <h6 class="text-muted mb-0">{{ ucfirst(implode(', ', $roles->all())) }}</h6>
+                                            <h6 class="text-muted mb-0">{{ ucfirst(implode(', ', $roles->all())) }}
+                                            </h6>
+                                            <form id="send-verification" method="post"
+                                                action="{{ route('verification.send') }}">
+                                                @csrf
+                                            </form>
+
+                                            @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && !$user->hasVerifiedEmail())
+                                                <div>
+                                                    <p class="text-sm mt-2 text-gray-800 dark:text-gray-200">
+                                                        <code>Email anda belum diverifikasi.</code>
+                                                        <button id="send-verification-btn"
+                                                            class="btn btn-sm btn-outline-secondary">
+                                                            {{ __('Klik disini untuk mengirim email verifikasi.') }}
+                                                        </button>
+                                                    </p>
+                                                    <p
+                                                        class="mt-2 font-medium text-sm text-green-600 dark:text-green-400">
+                                                        <code id="success-message" style="color:#198754;"></code>
+                                                    </p>
+                                                </div>
+                                            @endif
                                             <form method="POST" action="{{ route('logout') }}">
                                                 @csrf
                                                 <a href="" class="card-link d-flex justify-content-end"
@@ -168,11 +189,38 @@
                 @include('admin.layouts.footer')
             </div>
         </div>
+        <script src="{{ asset('extensions/jquery/jquery.min.js') }}"></script>
         <script src="{{ asset('static/js/components/dark.js') }}"></script>
         <script src="{{ asset('extensions/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
         <script src="{{ asset('compiled/js/app.js') }}"></script>
         <script src="{{ asset('/extensions/sweetalert2/sweetalert2.all.min.js') }}"></script>
         @include('admin.script')
+        <script>
+            $(document).ready(function() {
+                $('#send-verification-btn').on('click', function(e) {
+                    e.preventDefault();
+
+                    $.ajax({
+                        type: 'POST',
+                        url: $('#send-verification').attr('action'),
+                        data: $('#send-verification').serialize(),
+                        success: function(response) {
+                            console.log('Sukses mengirim email verifikasi')
+                            // Tampilkan pesan sukses di dalam elemen dengan ID tertentu
+                            $('#success-message').text(
+                                'Tautan verifikasi baru telah dikirimkan ke alamat email Anda.');
+                        },
+                        error: function(error) {
+                            // Tambahkan logika atau tindakan yang sesuai dengan kesalahan
+                            console.error(error);
+
+                            // Misalnya, tampilkan pesan kesalahan
+                            alert('Terjadi kesalahan saat mengirim email verifikasi.');
+                        }
+                    });
+                });
+            });
+        </script>
 </body>
 
 </html>
