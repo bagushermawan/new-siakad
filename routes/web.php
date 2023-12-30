@@ -12,6 +12,7 @@ use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\PrestasiAjaxController;
 use App\Http\Controllers\PrestasiController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProfilePondokAjaxController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\TahunAjaranAjaxController;
@@ -110,6 +111,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'editt'])->name('profile.editt');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::resource('/qwe/profilepondok', ProfilePondokAjaxController::class);
 });
 
 Route::get('admin', function () {

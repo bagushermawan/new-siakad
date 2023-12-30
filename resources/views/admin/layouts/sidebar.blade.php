@@ -135,6 +135,12 @@
 
                         @if(auth()->user()->hasRole('admin'))
                         <li class="sidebar-title">Administrator</li>
+                        <li class="sidebar-item {{ request()->routeIs('profilepondok.*') ? 'active' : '' }}">
+                            <a href="{{ route('profilepondok.index') }}" class='sidebar-link'>
+                                <i class="fas fa-school"></i>
+                                <span>Profile Pondok</span>
+                            </a>
+                        </li>
                         <li class="sidebar-item  {{ request()->routeIs('role.*', 'permission.*') ? 'active' : '' }} has-sub">
                             <a href="#" class='sidebar-link'>
                                 <i class="bi bi-key-fill"></i>
