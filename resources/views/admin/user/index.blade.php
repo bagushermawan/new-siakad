@@ -110,7 +110,7 @@
                             <input id="name" type="text" name="name" class="form-control" autofocus>
                         </div>
 
-                        <label>Santri: </label>
+                        <label id="santri">Santri: </label>
                         <div class="form-group">
                             <select id="santri_id" name="santri_id" class="form-control">
                                 <option value="">Pilih Santri</option>
@@ -125,7 +125,7 @@
                             <input id="username" type="text" name="username" class="form-control">
                         </div>
 
-                        <label>Kelas: </label>
+                        <label id="kelas">Kelas: </label>
                         <div class="form-group">
                             <select class="form-control" id="kelas_id" name="kelas_id" name="kelas_id" required>
                                 {{-- <input type="hidden" id="old_kelas_id" name="old_kelas_id" value="{{ $users->kelas_id }}"> --}}
@@ -140,6 +140,7 @@
                         <div class="form-group">
                             <input id="email" type="text" name="email" class="form-control">
                         </div>
+
                         <label>No HP: </label>
                         <div class="form-group">
                             <input id="nohp" type="text" name="nohp" class="form-control">
@@ -204,18 +205,49 @@
         $(document).ready(function() {
             // Ketika terjadi perubahan pada select dengan id 'role'
             $('#role').change(function() {
+                // Reset semua elemen yang mungkin disembunyikan sebelumnya
+                resetAllElements();
+
                 var selectedRole = $(this).val()
-            .toLowerCase(); // Mengambil nilai peran yang dipilih dan mengonversi ke huruf kecil
+                    .toLowerCase(); // Mengambil nilai peran yang dipilih dan mengonversi ke huruf kecil
+
+                // Sembunyikan elemen-elemen terkait berdasarkan peran yang dipilih
                 if (selectedRole === 'wali santri') {
-                    // Jika peran yang dipilih adalah 'Wali Santri', sembunyikan input NUPTK dan NISN
-                    $('#nuptk, #nisn').closest('.form-group').hide();
-                    $('#nuptk, #nisn').hide();
+                    hideElements(['#nisn', '#nuptk', '#kelas_id', '#kelas']);
+                    showElements(['#santri_id', '#santri']);
+                } else if (selectedRole === 'guru') {
+                    hideElements(['#nisn', '#kelas_id', '#kelas', '#santri_id', '#santri']);
+                    showElements(['#nuptk']);
+                } else if (selectedRole === 'wali kelas') {
+                    hideElements(['#nisn', '#santri_id', '#santri']);
+                    showElements(['#nuptk', '#kelas_id', '#kelas']);
+                } else if (selectedRole === 'user') {
+                    hideElements(['#nuptk', '#santri_id', '#santri']);
+                    showElements(['#nisn']);
+                } else if (selectedRole === 'admin') {
+                    hideElements(['#nuptk', '#nisn', '#santri_id', '#santri', '#kelas_id', '#kelas']);
                 } else {
-                    // Jika peran yang dipilih bukan 'Wali Santri', tampilkan kembali input NUPTK dan NISN
-                    $('#nuptk, #nisn').closest('.form-group').show();
-                    $('#nuptk, #nisn').show();
+                    showElements(['#nuptk', '#nisn', '#kelas_id', '#kelas', '#santri_id', '#santri']);
                 }
             });
+
+            // Fungsi untuk menyembunyikan elemen-elemen
+            function hideElements(elements) {
+                $(elements.join(', ')).closest('.form-group').slideUp(500);
+                $(elements.join(', ')).slideUp(500);
+            }
+
+            // Fungsi untuk menampilkan kembali elemen-elemen
+            function showElements(elements) {
+                $(elements.join(', ')).closest('.form-group').slideDown(500);
+                $(elements.join(', ')).slideDown(500);
+            }
+
+            // Fungsi untuk mereset semua elemen yang mungkin disembunyikan sebelumnya
+            function resetAllElements() {
+                $('#nisn, #nuptk, #kelas_id, #kelas, #santri_id, #santri').closest('.form-group').slideDown(500);
+                $('#nisn, #nuptk, #kelas_id, #kelas, #santri_id, #santri').slideDown(500);
+            }
         });
     </script>
 @endpush
