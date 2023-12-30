@@ -368,7 +368,7 @@
 
                 console.log(response.result);
                 console.log('Roles yang dimiliki:', response.role);
-                console.log(userType);
+                console.log('User type:', userType);
 
                 $('.tombol-simpan').off('click').on('click', function() {
                     simpan(id, userType);
@@ -434,10 +434,10 @@
                     type: 'DELETE',
                     success: function(response) {
                         $('#myTable').DataTable().ajax.reload();
-                        Swal.fire('Sukses!', 'Berhasil hapus prestasi.', 'info');
+                        Swal.fire('Sukses!', 'Berhasil hapus user.', 'info');
                     },
                     error: function(response) {
-                        Swal.fire('Gagal!', 'Terjadi kesalahan saat menghapus prestasi.',
+                        Swal.fire('Gagal!', 'Terjadi kesalahan saat menghapus user.',
                             'error');
                     }
                 });
@@ -481,6 +481,14 @@
             data.nisn = $('#nisn').val();
         } else if (userType === 'wali_santris') {
             data.santri_id = $('#santri_id').val() || null;
+        }
+
+        // Mendapatkan nilai dari elemen dengan id 'role'
+        var selectedRole = $('#role').val();
+
+        // Mengecek apakah nilai 'Wali santri' ada dalam data-value (case-insensitive)
+        if (selectedRole && selectedRole.toLowerCase() === 'wali santri') {
+            var_url = 'wali';
         }
 
         $.ajax({

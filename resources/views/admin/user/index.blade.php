@@ -7,6 +7,15 @@
     <link rel="stylesheet" href="{{ asset('compiled/css/table-datatable-jquery.css') }}">
     <link rel="stylesheet" href="{{ asset('/extensions/choices.js/public/assets/styles/choices.css') }}">
     <link rel="stylesheet" href="{{ asset('/extensions/@fortawesome/fontawesome-free/css/all.min.css') }}">
+    <style>
+        .wajib {
+            color: #dc3545;
+        }
+
+        .form-control.pw::placeholder {
+            color: #495057 !important;
+        }
+    </style>
 @endpush
 @section('content')
     <div class="page-heading">
@@ -87,15 +96,16 @@
                     <div class="modal-body">
                         <div class="alert alert-danger d-none"></div>
                         {{-- <div class="alert alert-success d-none"></div> --}}
-                        <label>NUPTK: </label>
+                        <label id="nuptk">NUPTK: </label>
                         <div class="form-group">
                             <input id="nuptk" type="text" name="nuptk" class="form-control" autofocus>
                         </div>
-                        <label>NISN: </label>
+                        <label id="nisn">NISN: </label>
                         <div class="form-group">
                             <input id="nisn" type="text" name="nisn" class="form-control" autofocus>
                         </div>
-                        <label>Nama: </label>
+
+                        <label>Nama<span class="wajib">*</span>: </label>
                         <div class="form-group">
                             <input id="name" type="text" name="name" class="form-control" autofocus>
                         </div>
@@ -109,8 +119,8 @@
                                 @endforeach
                             </select>
                         </div>
-                        
-                        <label>Username: </label>
+
+                        <label>Username<span class="wajib">*</span>: </label>
                         <div class="form-group">
                             <input id="username" type="text" name="username" class="form-control">
                         </div>
@@ -126,7 +136,7 @@
                             </select>
                         </div>
 
-                        <label>Email: </label>
+                        <label>Email<span class="wajib">*</span>: </label>
                         <div class="form-group">
                             <input id="email" type="text" name="email" class="form-control">
                         </div>
@@ -136,7 +146,7 @@
                         </div>
 
 
-                        <label>Roles: </label>
+                        <label>Roles<span class="wajib">*</span>: </label>
                         <div class="form-group">
                             <select id="role" name="role" class="form-control">
                                 <option value="">Pilih Role</option>
@@ -147,9 +157,10 @@
                         </div>
 
 
-                        <label>Password: </label>
+                        <label>Password<span class="wajib">*</span>: </label>
                         <div class="form-group">
-                            <input id="password" type="password" name="password" class="form-control">
+                            <input id="password" type="password" name="password" class="form-control pw"
+                                placeholder="Biarkan kosong jika tidak ingin diganti">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -187,6 +198,24 @@
             searchEnabled: false,
             itemSelectText: '',
             allowHTML: true,
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            // Ketika terjadi perubahan pada select dengan id 'role'
+            $('#role').change(function() {
+                var selectedRole = $(this).val()
+            .toLowerCase(); // Mengambil nilai peran yang dipilih dan mengonversi ke huruf kecil
+                if (selectedRole === 'wali santri') {
+                    // Jika peran yang dipilih adalah 'Wali Santri', sembunyikan input NUPTK dan NISN
+                    $('#nuptk, #nisn').closest('.form-group').hide();
+                    $('#nuptk, #nisn').hide();
+                } else {
+                    // Jika peran yang dipilih bukan 'Wali Santri', tampilkan kembali input NUPTK dan NISN
+                    $('#nuptk, #nisn').closest('.form-group').show();
+                    $('#nuptk, #nisn').show();
+                }
+            });
         });
     </script>
 @endpush
