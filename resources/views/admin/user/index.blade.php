@@ -96,10 +96,21 @@
                     <div class="modal-body">
                         <div class="alert alert-danger d-none"></div>
                         {{-- <div class="alert alert-success d-none"></div> --}}
+                        <label>Roles<span class="wajib">*</span>: </label>
+                        <div class="form-group">
+                            <select id="role" name="role" class="form-control">
+                                <option value="">Pilih Role</option>
+                                @foreach ($roless as $a)
+                                    <option value="{{ ucfirst($a->name) }}">{{ ucfirst($a->name) }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        
                         <label id="nuptk">NUPTK: </label>
                         <div class="form-group">
                             <input id="nuptk" type="text" name="nuptk" class="form-control" autofocus>
                         </div>
+
                         <label id="nisn">NISN: </label>
                         <div class="form-group">
                             <input id="nisn" type="text" name="nisn" class="form-control" autofocus>
@@ -145,18 +156,6 @@
                         <div class="form-group">
                             <input id="nohp" type="text" name="nohp" class="form-control">
                         </div>
-
-
-                        <label>Roles<span class="wajib">*</span>: </label>
-                        <div class="form-group">
-                            <select id="role" name="role" class="form-control">
-                                <option value="">Pilih Role</option>
-                                @foreach ($roless as $a)
-                                    <option value="{{ ucfirst($a->name) }}">{{ ucfirst($a->name) }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-
 
                         <label>Password<span class="wajib">*</span>: </label>
                         <div class="form-group">
@@ -245,8 +244,8 @@
 
             // Fungsi untuk mereset semua elemen yang mungkin disembunyikan sebelumnya
             function resetAllElements() {
-                $('#nisn, #nuptk, #kelas_id, #kelas, #santri_id, #santri').closest('.form-group').slideDown(500);
-                $('#nisn, #nuptk, #kelas_id, #kelas, #santri_id, #santri').slideDown(500);
+                $('#nisn, #nuptk, #kelas_id, #kelas, #santri_id, #santri').closest('.form-group').slideDown(10);
+                $('#nisn, #nuptk, #kelas_id, #kelas, #santri_id, #santri').slideDown(10);
             }
         });
     </script>
