@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="{{ asset('/extensions/filepond-plugin-image-preview/filepond-plugin-image-preview.css') }}">
     <style>
         .profilepp {
+            user-select: none;
             font-size: 1.5rem;
             margin-top: 0;
             margin-bottom: 0.5rem;
