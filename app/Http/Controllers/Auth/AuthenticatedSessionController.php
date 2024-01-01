@@ -17,8 +17,21 @@ class AuthenticatedSessionController extends Controller
     /**
      * Display the login view.
      */
-    public function create(): View
+    public function create()
     {
+        // Jika pengguna sudah login dengan guard 'web'
+        if (Auth::guard('web')->check()) {
+            // Redirect ke rute dashboard untuk guard 'web'
+            return redirect('/qwe/dashboard'); // Ganti 'web.dashboard' dengan rute yang sesuai
+        }
+
+        // Jika pengguna sudah login dengan guard 'wali'
+        if (Auth::guard('wali')->check()) {
+            // Redirect ke rute '/' untuk guard 'wali'
+            return redirect('/');
+        }
+
+        // Jika belum login, tampilkan halaman login
         return view('auth.login');
     }
 
