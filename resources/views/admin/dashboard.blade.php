@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="{{ asset('/extensions/sweetalert2/sweetalert2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('/compiled/css/iconly.css') }}">
     <link rel="stylesheet" href="{{ asset('/extensions/@fortawesome/fontawesome-free/css/all.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('/extensions/animate/animate.min.css') }}">
     <style>
         .riwayat {
             /* color: red; */

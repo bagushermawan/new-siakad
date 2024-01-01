@@ -24,6 +24,7 @@
         });
     });
 </script>
+
 <script>
     $(document).ready(function() {
         // Inisialisasi Perfect Scrollbar
@@ -36,24 +37,37 @@
         // Simpan tinggi kartu dalam variabel
         var originalHeight = $('#cardi').height();
 
-        // Fungsi untuk meminimalkan dan memaksimalkan kartu
+        // Fungsi untuk meminimalkan dan memaksimalkan kartu dengan animasi
         $('#minimizeBtn').on('click', function() {
             $('#cardi').toggleClass('minimized');
 
-            // Jika kartu diminimalkan, atur tinggi kartu ke tinggi card-header
+            // Jika kartu diminimalkan, atur tinggi kartu ke tinggi card-header dengan animasi
             if ($('#cardi').hasClass('minimized')) {
-                $('#cardi').height($('#cardi .card-header').outerHeight());
+                $('#cardi').animate({
+                    height: $('#cardi .card-header').outerHeight(),
+                }, 500); // Sesuaikan durasi animasi
             } else {
-                // Jika kartu tidak diminimalkan, kembalikan ke tinggi aslinya
-                $('#cardi').height(originalHeight);
+                // Jika kartu tidak diminimalkan, kembalikan ke tinggi aslinya dengan animasi
+                $('#cardi').animate({
+                    height: originalHeight,
+                }, 500); // Sesuaikan durasi animasi
             }
 
-            ps.update(); // Perbarui Perfect Scrollbar setelah perubahan tinggi
+            // Perbarui Perfect Scrollbar setelah animasi selesai
+            setTimeout(function() {
+                ps.update();
+            }, 500); // Sesuaikan dengan durasi animasi
         });
 
         // Fungsi untuk menutup elemen
         $('#closeBtn').on('click', function() {
-            $('#cardi').remove();
+            // Animasi CSS dari Animate.css
+            $('#cardi').addClass('animate__animated animate__slideOutUp');
+
+            // Sembunyikan kartu setelah animasi selesai
+            setTimeout(function() {
+                $('#cardi').hide();
+            }, 500); // Sesuaikan dengan durasi animasi
         });
     });
 </script>
