@@ -24,13 +24,11 @@ class AuthenticatedSessionController extends Controller
             // Redirect ke rute dashboard untuk guard 'web'
             return redirect('/qwe/dashboard'); // Ganti 'web.dashboard' dengan rute yang sesuai
         }
-
         // Jika pengguna sudah login dengan guard 'wali'
         if (Auth::guard('wali')->check()) {
             // Redirect ke rute '/' untuk guard 'wali'
             return redirect('/');
         }
-
         // Jika belum login, tampilkan halaman login
         return view('auth.login');
     }
@@ -41,25 +39,9 @@ class AuthenticatedSessionController extends Controller
     public function store(LoginRequest $request): RedirectResponse
     {
         $request->authenticate();
-
         $request->session()->regenerate();
-
         // Tambahkan logika untuk menentukan guard yang berhasil login
         $guard = $this->getGuard($request);
-        // Periksa apakah pengguna yang diotentikasi ada dan memiliki peran 'user'
-        if (
-            auth()
-                ->guard($guard)
-                ->check() &&
-            auth()
-                ->guard($guard)
-                ->user()
-                ->hasRole('user')
-        ) {
-            return redirect()->to('/');
-        } else {
-            return redirect()->intended($this->redirectPath($guard));
-        }
 
         // Panggil event UserLoggedIn
         // event(new UserLoggedIn(auth()->user()));
@@ -118,7 +100,7 @@ class AuthenticatedSessionController extends Controller
     protected function redirectPath(string $guard): string
     {
         // Tambahkan logika untuk menentukan redirect path berdasarkan guard
-        if ($guard === 'wali') {
+        if ($guard === 'wali' || $guard === 'web' && auth()->guard($guard)->user()->hasRole('user')) {
             return RouteServiceProvider::WALI_HOME;
         }
 
@@ -132,8 +114,8 @@ class AuthenticatedSessionController extends Controller
 
         if (
             auth()
-                ->guard('web')
-                ->check()
+            ->guard('web')
+            ->check()
         ) {
             $guard = 'web';
             $userId = auth()
@@ -144,8 +126,8 @@ class AuthenticatedSessionController extends Controller
                 ->logout();
         } elseif (
             auth()
-                ->guard('wali')
-                ->check()
+            ->guard('wali')
+            ->check()
         ) {
             $guard = 'wali';
             $userId = auth()
