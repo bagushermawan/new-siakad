@@ -47,7 +47,15 @@ class AuthenticatedSessionController extends Controller
         // Tambahkan logika untuk menentukan guard yang berhasil login
         $guard = $this->getGuard($request);
         // Periksa apakah pengguna yang diotentikasi ada dan memiliki peran 'user'
-        if (auth()->guard($guard)->check() && auth()->guard($guard)->user()->hasRole('user')) {
+        if (
+            auth()
+                ->guard($guard)
+                ->check() &&
+            auth()
+                ->guard($guard)
+                ->user()
+                ->hasRole('user')
+        ) {
             return redirect()->to('/');
         } else {
             return redirect()->intended($this->redirectPath($guard));
@@ -57,7 +65,9 @@ class AuthenticatedSessionController extends Controller
         // event(new UserLoggedIn(auth()->user()));
 
         // Riwayat Login
-        $userId = auth()->guard($guard)->id();
+        $userId = auth()
+            ->guard($guard)
+            ->id();
         $waliSantriId = null;
 
         if ($guard === 'web') {
@@ -66,7 +76,7 @@ class AuthenticatedSessionController extends Controller
             if (is_null($cekRiwayat)) {
                 $riwayatLogin = new RiwayatLogin([
                     'user_id' => $userId,
-                    'status_login' => true
+                    'status_login' => true,
                 ]);
                 $riwayatLogin->save();
             } else {
@@ -81,7 +91,7 @@ class AuthenticatedSessionController extends Controller
             if (is_null($cekRiwayat)) {
                 $riwayatLogin = new RiwayatLogin([
                     'wali_santri_id' => $waliSantriId,
-                    'status_login' => true
+                    'status_login' => true,
                 ]);
                 $riwayatLogin->save();
             } else {
@@ -120,14 +130,30 @@ class AuthenticatedSessionController extends Controller
         $guard = null;
         $userId = null;
 
-        if (auth()->guard('web')->check()) {
+        if (
+            auth()
+                ->guard('web')
+                ->check()
+        ) {
             $guard = 'web';
-            $userId = auth()->guard('web')->id();
-            auth()->guard('web')->logout();
-        } elseif (auth()->guard('wali')->check()) {
+            $userId = auth()
+                ->guard('web')
+                ->id();
+            auth()
+                ->guard('web')
+                ->logout();
+        } elseif (
+            auth()
+                ->guard('wali')
+                ->check()
+        ) {
             $guard = 'wali';
-            $userId = auth()->guard('wali')->id();
-            auth()->guard('wali')->logout();
+            $userId = auth()
+                ->guard('wali')
+                ->id();
+            auth()
+                ->guard('wali')
+                ->logout();
         }
 
         $request->session()->invalidate();
@@ -137,11 +163,11 @@ class AuthenticatedSessionController extends Controller
         if ($guard && isset($userId)) {
             if ($guard === 'web') {
                 RiwayatLogin::where('user_id', $userId)->update([
-                    'status_login' => false
+                    'status_login' => false,
                 ]);
             } elseif ($guard === 'wali') {
                 RiwayatLogin::where('wali_santri_id', $userId)->update([
-                    'status_login' => false
+                    'status_login' => false,
                 ]);
             }
         }
