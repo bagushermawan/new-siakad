@@ -25,6 +25,12 @@
             display: flex;
             align-items: baseline;
         }
+
+
+
+        .buttonsi {
+            margin-left: auto;
+        }
     </style>
 </head>
 
@@ -191,8 +197,13 @@
 
                         <div class="col-12 col-lg-3">
                             <div class="card" style="max-height: 425px; overflow-y: auto;" id="cardi">
-                                <div class="card-header">
+                                <div class="card-header d-flex justify-content-between align-items-center">
                                     <h4>Riwayat Login</h4>
+                                    <div class="buttonsi">
+                                        <button class="btn icon" id="minimizeBtn"><i
+                                                class="fas fa-minus"></i></button>
+                                        <button class="btn icon" id="closeBtn"><i class="fas fa-times"></i></button>
+                                    </div>
                                 </div>
                                 <!-- Menampilkan riwayat login dari users -->
                                 @foreach ($data_riwayat_login_users as $riwayat_login)
@@ -272,40 +283,6 @@
         <script src="{{ asset('extensions/chart.js/chart.umd.min.js') }}"></script>
         <script src="{{ asset('extensions/chart.js/chartjs-plugin-datalabels.min.js') }}"></script>
         @include('admin.script')
-        <script>
-            $(document).ready(function() {
-                $('#send-verification-btn').on('click', function(e) {
-                    e.preventDefault();
-
-                    $.ajax({
-                        type: 'POST',
-                        url: $('#send-verification').attr('action'),
-                        data: $('#send-verification').serialize(),
-                        success: function(response) {
-                            console.log('Sukses mengirim email verifikasi')
-                            // Tampilkan pesan sukses di dalam elemen dengan ID tertentu
-                            $('#success-message').text(
-                                'Tautan verifikasi baru telah dikirimkan ke alamat email Anda.');
-                        },
-                        error: function(error) {
-                            // Tambahkan logika atau tindakan yang sesuai dengan kesalahan
-                            console.error(error);
-
-                            // Misalnya, tampilkan pesan kesalahan
-                            alert('Terjadi kesalahan saat mengirim email verifikasi.');
-                        }
-                    });
-                });
-            });
-        </script>
-        <script>
-            const ps = new
-            PerfectScrollbar('#cardi', {
-                wheelSpeed: 1,
-                wheelPropagation: false,
-                minScrollbarLength: 20
-            });
-        </script>
 </body>
 
 </html>
