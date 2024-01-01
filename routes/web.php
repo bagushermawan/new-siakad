@@ -17,6 +17,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\TahunAjaranAjaxController;
 use App\Http\Controllers\TahunAjaranController;
+use App\Http\Controllers\User\UserDashboardController;
 use App\Http\Controllers\UserAjaxController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WaliSantriAjaxController;
@@ -34,17 +35,22 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::get('/', function () {
+Route::get('/welcome', function () {
     return view('welcome');
 });
 
 // Route::get('/dashboard', function () {
 //     return view('dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');
+Route::middleware('auth:web,wali')->group(function () {
+    Route::get('/user-role-count', [UserAjaxController::class, 'getUserRoleCountChartjs']);
+    Route::get('/', [UserDashboardController::class, 'index'])->name('user.dashboard');
+    Route::resource('/a', UserDashboardController::class);
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/qwe/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
-    Route::get('/user-role-count', [UserAjaxController::class, 'getUserRoleCountChartjs']);
+    // Route::get('/user-role-count', [UserAjaxController::class, 'getUserRoleCountChartjs']);
 
     Route::resource('/qwe/guru', GuruController::class);
     Route::resource('/qwe/siswa', SiswaController::class);
@@ -115,7 +121,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('/qwe/profilepondok', ProfilePondokAjaxController::class);
 });
 
-Route::get('admin', function () {
+Route::get('cekguard', function () {
     // dd(auth()->user()->name);
     // dd(session()->all());
     // ...
@@ -141,7 +147,7 @@ Route::get('admin', function () {
             <button type="submit">Logout</button>
         </form>
     ';
-})->middleware(['auth:web,wali','role:admin|user|wali santri']);
+})->middleware(['auth:web,wali', 'role:admin|user|wali santri']);
 
 Route::get('penulis', function () {
     return '<h1>Hello penulis</h1>';

@@ -18,7 +18,7 @@ class RouteServiceProvider extends ServiceProvider
      * @var string
      */
     public const HOME = '/qwe/dashboard';
-    public const WALI_HOME = '/admin';
+    public const WALI_HOME = '/';
 
     /**
      * Define your route model bindings, pattern filters, and other route configuration.
