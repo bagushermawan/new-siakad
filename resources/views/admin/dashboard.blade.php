@@ -17,9 +17,15 @@
     <link rel="stylesheet" href="{{ asset('compiled/css/app-dark.css') }}">
     <link rel="stylesheet" href="{{ asset('/extensions/sweetalert2/sweetalert2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('/compiled/css/iconly.css') }}">
-    <!-- Include Chart.js -->
-    <script src="{{ asset('extensions/chart.js/chart.umd.min.js') }}"></script>
-    <script src="{{ asset('extensions/chart.js/chartjs-plugin-datalabels.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('/extensions/@fortawesome/fontawesome-free/css/all.min.css') }}">
+    <style>
+        .riwayat {
+            /* color: red; */
+            /* font-size: 70%; */
+            display: flex;
+            align-items: baseline;
+        }
+    </style>
 </head>
 
 <body>
@@ -183,6 +189,74 @@
                             </div>
                         </div>
 
+                        <div class="col-12 col-lg-3">
+                            <div class="card" style="max-height: 425px; overflow-y: auto;" id="cardi">
+                                <div class="card-header">
+                                    <h4>Riwayat Login</h4>
+                                </div>
+                                <!-- Menampilkan riwayat login dari users -->
+                                @foreach ($data_riwayat_login_users as $riwayat_login)
+                                    <div class="card-content pb-4">
+                                        <div class="recent-message d-flex px-4 py-3">
+                                            <div class="avatar avatar-xl">
+                                                <img src="{{ asset('/compiled/jpg/1.jpg') }}" alt=""
+                                                    srcset="">
+                                                @if ($riwayat_login->status_login == true)
+                                                    <span class="avatar-status bg-success"></span>
+                                                @else
+                                                    <span class="avatar-status bg-danger"></span>
+                                                @endif
+                                            </div>
+                                            <div class="name ms-4">
+                                                <h5 class="mb-1">{{ $riwayat_login->user->name }}
+                                                    <code>({{ $riwayat_login->user->roles->first()->name }})</code>
+                                                </h5>
+                                                <h6 class="text-muted mb-0">{{ $riwayat_login->user->email }}</h6>
+                                                @if ($riwayat_login->status_login == false)
+                                                    <span class="riwayat"><i class="far fa-clock"></i>&nbsp;
+                                                        {{ $riwayat_login->updated_at->diffForHumans() }}</span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+
+                                <!-- Menampilkan riwayat login dari wali_santris -->
+                                @foreach ($data_riwayat_login_walis as $riwayat_login)
+                                    <div class="card-content pb-4">
+                                        <div class="recent-message d-flex px-4 py-3">
+                                            <div class="avatar avatar-xl">
+                                                <!-- Gantilah sesuai dengan atribut foto pada wali_santris -->
+                                                <img src="{{ asset('/compiled/jpg/1.jpg') }}" alt=""
+                                                    srcset="">
+                                                @if ($riwayat_login->status_login == true)
+                                                    <span class="avatar-status bg-success"></span>
+                                                @else
+                                                    <span class="avatar-status bg-danger"></span>
+                                                @endif
+                                            </div>
+                                            <div class="name ms-4">
+                                                <h5 class="mb-1">{{ $riwayat_login->waliSantri->name }}
+                                                    <code>({{ $riwayat_login->waliSantri->roles->first()->name }})</code>
+                                                </h5>
+                                                <!-- Sesuaikan dengan atribut pada wali_santris yang ingin ditampilkan -->
+                                                <h6 class="text-muted mb-0">{{ $riwayat_login->waliSantri->email }}
+                                                </h6>
+                                                @if ($riwayat_login->status_login == true)
+                                                    <h6 class="text-muted mb-0" style="color:green !important;">Online
+                                                    </h6>
+                                                @endif
+                                                @if ($riwayat_login->status_login == false)
+                                                    <span class="riwayat"><i class="far fa-clock"></i>&nbsp;
+                                                        {{ $riwayat_login->updated_at->diffForHumans() }}</span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+
 
                     </section>
                 </div>
@@ -194,6 +268,9 @@
         <script src="{{ asset('extensions/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
         <script src="{{ asset('compiled/js/app.js') }}"></script>
         <script src="{{ asset('/extensions/sweetalert2/sweetalert2.all.min.js') }}"></script>
+        <!-- Include Chart.js -->
+        <script src="{{ asset('extensions/chart.js/chart.umd.min.js') }}"></script>
+        <script src="{{ asset('extensions/chart.js/chartjs-plugin-datalabels.min.js') }}"></script>
         @include('admin.script')
         <script>
             $(document).ready(function() {
@@ -219,6 +296,14 @@
                         }
                     });
                 });
+            });
+        </script>
+        <script>
+            const ps = new
+            PerfectScrollbar('#cardi', {
+                wheelSpeed: 1,
+                wheelPropagation: false,
+                minScrollbarLength: 20
             });
         </script>
 </body>

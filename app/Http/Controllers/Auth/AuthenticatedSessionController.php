@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\LoginRequest;
-use App\Providers\RouteServiceProvider;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
+use App\Events\UserLoggedIn;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
+use App\Providers\RouteServiceProvider;
+use App\Http\Requests\Auth\LoginRequest;
+use App\Models\RiwayatLogin;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -31,6 +33,42 @@ class AuthenticatedSessionController extends Controller
 
         // Tambahkan logika untuk menentukan guard yang berhasil login
         $guard = $this->getGuard($request);
+
+        // Panggil event UserLoggedIn
+        // event(new UserLoggedIn(auth()->user()));
+
+        // Riwayat Login
+        $userId = auth()->guard($guard)->id();
+        $waliSantriId = null;
+
+        if ($guard === 'web') {
+            $cekRiwayat = RiwayatLogin::where('user_id', $userId)->first();
+
+            if (is_null($cekRiwayat)) {
+                $riwayatLogin = new RiwayatLogin([
+                    'user_id' => $userId,
+                    'status_login' => true
+                ]);
+                $riwayatLogin->save();
+            } else {
+                $cekRiwayat->update(['status_login' => true]);
+            }
+        } elseif ($guard === 'wali') {
+            // Jika yang login adalah wali santri
+            $waliSantriId = $userId;
+
+            $cekRiwayat = RiwayatLogin::where('wali_santri_id', $waliSantriId)->first();
+
+            if (is_null($cekRiwayat)) {
+                $riwayatLogin = new RiwayatLogin([
+                    'wali_santri_id' => $waliSantriId,
+                    'status_login' => true
+                ]);
+                $riwayatLogin->save();
+            } else {
+                $cekRiwayat->update(['status_login' => true]);
+            }
+        }
 
         return redirect()->intended($this->redirectPath($guard));
     }
@@ -60,16 +98,34 @@ class AuthenticatedSessionController extends Controller
 
     public function destroy(Request $request): RedirectResponse
     {
-        if (Auth::guard('web')->check()) {
-            Auth::guard('web')->logout();
-            // dd('Logout from web guard');
-        } elseif (Auth::guard('wali')->check()) {
-            Auth::guard('wali')->logout();
-            // dd('Logout from wali guard');
+        $guard = null;
+        $userId = null;
+
+        if (auth()->guard('web')->check()) {
+            $guard = 'web';
+            $userId = auth()->guard('web')->id();
+            auth()->guard('web')->logout();
+        } elseif (auth()->guard('wali')->check()) {
+            $guard = 'wali';
+            $userId = auth()->guard('wali')->id();
+            auth()->guard('wali')->logout();
         }
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+
+        // Update status login
+        if ($guard && isset($userId)) {
+            if ($guard === 'web') {
+                RiwayatLogin::where('user_id', $userId)->update([
+                    'status_login' => false
+                ]);
+            } elseif ($guard === 'wali') {
+                RiwayatLogin::where('wali_santri_id', $userId)->update([
+                    'status_login' => false
+                ]);
+            }
+        }
 
         return redirect('login');
     }

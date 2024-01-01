@@ -24,11 +24,17 @@ class WaliSantri extends Authenticatable implements MustVerifyEmail
         'nohp',
         'email',
         'password',
+        'last_login',
     ];
 
     public function santri()
     {
         return $this->belongsTo(User::class, 'santri_id');
+    }
+
+    public function riwayatLogins()
+    {
+        return $this->hasMany(RiwayatLogin::class);
     }
 
 

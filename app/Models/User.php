@@ -25,6 +25,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'password',
         'kelas_id',
         'email_verified_at',
+        'last_login',
     ];
 
     public function kelas()
@@ -40,6 +41,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function waliSantri()
     {
         return $this->hasOne(WaliSantri::class, 'santri_id');
+    }
+
+    public function riwayatLogins()
+    {
+        return $this->hasMany(RiwayatLogin::class);
     }
 
     protected $hidden = [
