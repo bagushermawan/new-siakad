@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Spatie\Permission\Exceptions\UnauthorizedException;
+use App\Exceptions\ForbiddenException; // Tambahkan use statement
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
@@ -29,21 +30,22 @@ class Handler extends ExceptionHandler
     public function render($request, Throwable $e)
     {
         // view untuk user doesnt have roles/permission
-        if ($e instanceof UnauthorizedException) {
+        if ($e instanceof UnauthorizedException || $e instanceof ForbiddenException) {
             return response()->view('errors.403', ['exception' => $e->getMessage()], 403);
         }
-        return parent::render($request, $e);
-
         // view untuk 404 error
-        if ($e instanceof NotFoundHttpException) {
+        elseif ($e instanceof NotFoundHttpException) {
             return response()->view('errors.404');
         }
-
         // view untuk 500 error
-        if ($this->isHttpException($e)) {
+        elseif ($this->isHttpException($e)) {
             return $this->renderHttpException($e);
-        } elseif ($e instanceof \ErrorException) {
+        }
+        // view untuk \ErrorException
+        elseif ($e instanceof \ErrorException) {
             return response()->view('errors.500', [], 500);
         }
+
+        return parent::render($request, $e);
     }
 }

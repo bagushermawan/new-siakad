@@ -33,6 +33,12 @@ class AuthenticatedSessionController extends Controller
 
         // Tambahkan logika untuk menentukan guard yang berhasil login
         $guard = $this->getGuard($request);
+        // Periksa apakah pengguna yang diotentikasi ada dan memiliki peran 'user'
+        if (auth()->guard($guard)->check() && auth()->guard($guard)->user()->hasRole('user')) {
+            return redirect()->to('/');
+        } else {
+            return redirect()->intended($this->redirectPath($guard));
+        }
 
         // Panggil event UserLoggedIn
         // event(new UserLoggedIn(auth()->user()));
