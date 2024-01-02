@@ -1,28 +1,29 @@
 <?php
 
-use App\Http\Controllers\AdminDashboardController;
-use App\Http\Controllers\EkskulAjaxController;
-use App\Http\Controllers\GuruController;
-use App\Http\Controllers\JadwalMataPelajaranAjaxController;
-use App\Http\Controllers\JadwalMataPelajaranController;
-use App\Http\Controllers\KelasAjaxController;
-use App\Http\Controllers\MataPelajaranAjaxController;
-use App\Http\Controllers\NilaiAjaxController;
-use App\Http\Controllers\PermissionController;
-use App\Http\Controllers\PrestasiAjaxController;
-use App\Http\Controllers\PrestasiController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\ProfilePondokAjaxController;
-use App\Http\Controllers\RoleController;
-use App\Http\Controllers\SiswaController;
-use App\Http\Controllers\TahunAjaranAjaxController;
-use App\Http\Controllers\TahunAjaranController;
-use App\Http\Controllers\User\UserDashboardController;
-use App\Http\Controllers\UserAjaxController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\WaliSantriAjaxController;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\GuruController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\SiswaController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PrestasiController;
+use App\Http\Controllers\UserAjaxController;
+use App\Http\Controllers\ErrorTestController;
+use App\Http\Controllers\KelasAjaxController;
+use App\Http\Controllers\NilaiAjaxController;
+use App\Http\Controllers\EkskulAjaxController;
+use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\TahunAjaranController;
+use App\Http\Controllers\PrestasiAjaxController;
+use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\WaliSantriAjaxController;
+use App\Http\Controllers\TahunAjaranAjaxController;
+use App\Http\Controllers\MataPelajaranAjaxController;
+use App\Http\Controllers\ProfilePondokAjaxController;
+use App\Http\Controllers\User\UserDashboardController;
+use App\Http\Controllers\JadwalMataPelajaranController;
+use App\Http\Controllers\JadwalMataPelajaranAjaxController;
 
 /*
 |--------------------------------------------------------------------------
@@ -172,5 +173,11 @@ Route::get('user', function () {
 Route::get('/test500', function () {
     abort(500, 'Internal Server Error');
 });
+
+
+Route::get('/error404', [ErrorTestController::class, 'show404']);
+Route::get('/error419', [ErrorTestController::class, 'show419']);
+Route::get('/error500', [ErrorTestController::class, 'show500']);
+Route::get('/error403', [ErrorTestController::class, 'show403']);
 
 require __DIR__ . '/auth.php';

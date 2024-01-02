@@ -37,6 +37,10 @@ class Handler extends ExceptionHandler
         elseif ($e instanceof NotFoundHttpException) {
             return response()->view('errors.404');
         }
+        // view untuk 419 error (Page Expired)
+        elseif ($this->isHttpException($e) && $e->getStatusCode() == 419) {
+            return response()->view('errors.419', [], 419);
+        }
         // view untuk 500 error
         elseif ($this->isHttpException($e)) {
             return $this->renderHttpException($e);
