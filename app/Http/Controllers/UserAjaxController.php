@@ -130,10 +130,8 @@ class UserAjaxController extends Controller
         $waliCount = WaliSantri::count();
 
         return response()->json([
-            'admin' => $adminCount,
-            'guru' => $guruCount,
-            'user' => $userCount,
-            'wali' => $waliCount,
+            'series' => [$guruCount, $userCount, $waliCount, $adminCount],
+            'labels' => ['Admin', 'Guru', 'User', 'Wali'],
         ]);
     }
 

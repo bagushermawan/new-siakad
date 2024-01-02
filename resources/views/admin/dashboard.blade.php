@@ -185,12 +185,7 @@
                                     <h4>Total Users <span class="badge bg-info">{{ $total_all }}</span></h4>
                                 </div>
                                 <div class="card-body">
-                                    <div id="chart-visitors-profile" style="min-height: 317.7px;">
-                                        <canvas id="roleDistributionChart"
-                                            class="apexcharts-canvas apexcharts09ft04es apexcharts-theme-light"
-                                            style="width: 319px; height: 317.7px;">
-
-                                        </canvas>
+                                    <div id="chart-visitors-profile">
                                     </div>
                                 </div>
                             </div>
@@ -281,8 +276,8 @@
         <script src="{{ asset('compiled/js/app.js') }}"></script>
         <script src="{{ asset('/extensions/sweetalert2/sweetalert2.all.min.js') }}"></script>
         <!-- Include Chart.js -->
-        <script src="{{ asset('extensions/chart.js/chart.umd.min.js') }}"></script>
-        <script src="{{ asset('extensions/chart.js/chartjs-plugin-datalabels.min.js') }}"></script>
+        <script src="{{ asset('extensions/apexcharts/apexcharts.min.js') }}"></script>
+        {{-- <script src="{{ asset('extensions/chart.js/chartjs-plugin-datalabels.min.js') }}"></script> --}}
         @include('admin.script')
 </body>
 

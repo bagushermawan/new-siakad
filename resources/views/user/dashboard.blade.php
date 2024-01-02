@@ -1,11 +1,11 @@
 @extends('user.layouts.master')
 @section('title', 'Dashboard')
 @push('user-css')
-<style>
-    html[data-bs-theme=dark] .text-sm{
-        font-size: .775rem;
-    }
-</style>
+    <style>
+        html[data-bs-theme=dark] .text-sm {
+            font-size: .775rem;
+        }
+    </style>
 @endpush
 @section('content')
     <div class="content-wrapper container">
@@ -130,21 +130,14 @@
                         </div>
                     </div>
                 </div>
-
-
+                
                 <div class="col-12 col-lg-3">
                     <div class="card">
                         <div class="card-header">
-                            <h4>Total Users <span class="badge bg-info">{{ $total_all }}</span></h4>
+                            <h4>Visitors Profile</h4>
                         </div>
                         <div class="card-body">
-                            <div id="chart-visitors-profile" style="min-height: 317.7px;">
-                                <canvas id="roleDistributionChart"
-                                    class="apexcharts-canvas apexcharts09ft04es apexcharts-theme-light"
-                                    style="width: 319px; height: 317.7px;">
-
-                                </canvas>
-                            </div>
+                            <div id="chart-visitors-profilee"></div>
                         </div>
                     </div>
                 </div>
@@ -226,5 +219,6 @@
     <!-- Include Chart.js -->
     <script src="{{ asset('extensions/chart.js/chart.umd.min.js') }}"></script>
     <script src="{{ asset('extensions/chart.js/chartjs-plugin-datalabels.min.js') }}"></script>
-    @include('admin.script')
+    <script src="{{ asset('extensions/apexcharts/apexcharts.min.js') }}"></script>
+    @include('user.script')
 @endpush

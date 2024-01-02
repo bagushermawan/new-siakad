@@ -62,6 +62,18 @@ class UserDashboardController extends Controller
         ]);
     }
 
+    public function getUserRoleCountChartjs()
+    {
+        $guruCount = User::role('guru')->count();
+        $userCount = User::role('user')->count();
+        $waliCount = WaliSantri::count();
+
+        return response()->json([
+            'series' => [$guruCount, $userCount, $waliCount],
+            'labels' => ['Guru', 'User', 'Wali'],
+        ]);
+    }
+
     /**
      * Show the form for creating a new resource.
      */

@@ -73,69 +73,46 @@
 </script>
 
 <script>
-    // Fetch data user role count dari endpoint '/userd-role-count'
-    fetch('/user-role-count')
-        .then(response => response.json())
-        .then(userData => {
-            // Gunakan data yang diperoleh untuk mengupdate series dan labels
-            optionsVisitorsProfile.series = userData.series;
-            optionsVisitorsProfile.labels = userData.labels;
+// Fetch data user role count dari endpoint '/userd-role-count'
+fetch('/userd-role-count')
+    .then(response => response.json())
+    .then(userData => {
+        // Gunakan data yang diperoleh untuk mengupdate series dan labels
+        optionsVisitorsProfile.series = userData.series;
+        optionsVisitorsProfile.labels = userData.labels;
 
-            // Buat instance chart baru dengan data yang diperbarui
-            var chartVisitorsProfile = new ApexCharts(
-                document.getElementById("chart-visitors-profile"),
-                optionsVisitorsProfile
-            );
+        // Buat instance chart baru dengan data yang diperbarui
+        var chartVisitorsProfile = new ApexCharts(
+            document.getElementById("chart-visitors-profilee"),
+            optionsVisitorsProfile
+        );
 
-            // Render chart
-            chartVisitorsProfile.render();
-            console.log('Success fetching user Total Users');
-        })
-        .catch(error => {
-            console.error('Error fetching user role count:', error);
-        });
-
-    // Options awal untuk chart (akan diperbarui setelah mendapatkan data)
-    let optionsVisitorsProfile = {
-        series: [70, 30], // Data awal, dapat diubah
-        labels: ["Admin", "Guru", "User", "Wali"], // Label awal, dapat diubah
-        colors: ["#219EBC", "#023047", "#FFB703", "#FB8500"],
-        chart: {
-            type: "donut",
-            width: "100%",
-            height: "350px",
-        },
-        legend: {
-            position: "bottom",
-        },
-        plotOptions: {
-            pie: {
-                donut: {
-                    size: "30%",
-                },
-            },
-        }
-    };
-</script>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        var dataRiwayatLoginUsers =
-        {!! $data_riwayat_login_users->toJson() !!};
-
-        var dataRiwayatLoginWalis =
-        {!! $data_riwayat_login_walis->toJson() !!};
-
-        if (dataRiwayatLoginUsers && dataRiwayatLoginUsers.length > 0) {
-            console.log("Riwayat login users berhasil dimuat.");
-        } else {
-            console.log("Data riwayat login users kosong atau tidak berhasil dimuat.");
-        }
-
-        if (dataRiwayatLoginWalis && dataRiwayatLoginWalis.length > 0) {
-            console.log("Riwayat login walis berhasil dimuat.");
-        } else {
-            console.log("Data riwayat login walis kosong atau tidak berhasil dimuat.");
-        }
+        // Render chart
+        chartVisitorsProfile.render();
+    })
+    .catch(error => {
+        console.error('Error fetching user role count:', error);
     });
+
+// Options awal untuk chart (akan diperbarui setelah mendapatkan data)
+let optionsVisitorsProfile = {
+    series: [70, 30],  // Data awal, dapat diubah
+    labels: ["Guru", "User", "Wali"],  // Label awal, dapat diubah
+    colors: ["#219EBC", "#023047", "#FFB703"],
+    chart: {
+        type: "donut",
+        width: "100%",
+        height: "350px",
+    },
+    legend: {
+        position: "bottom",
+    },
+    plotOptions: {
+        pie: {
+            donut: {
+                size: "30%",
+            },
+        },
+    }
+};
 </script>
