@@ -27,10 +27,86 @@
             align-items: baseline;
         }
 
-
-
         .buttonsi {
             margin-left: auto;
+        }
+    </style>
+    <style>
+        .custom-card--wrapper {
+            color: #404b55;
+            display: grid;
+            gap: 10px;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .custom-card--wrapper .custom-card {
+            border-radius: 4px;
+            display: flex;
+            height: 118px;
+            min-width: 237px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .custom-card--wrapper .custom-card__img {
+            align-self: flex-end;
+            margin-bottom: -1px;
+            width: 90px;
+            z-index: 1;
+        }
+
+        .custom-card--wrapper .custom-card__body {
+            align-self: center;
+            display: flex;
+            flex-flow: column;
+            padding-left: 28px;
+            text-transform: capitalize;
+        }
+
+
+
+        .custom-card--wrapper .custom-card.bg-skul--gradient__2:before {
+            background-color: #ffa87b;
+        }
+
+        .custom-card--wrapper .custom-card.bg-skul--gradient__3:before {
+            background-color: #71e9d5;
+        }
+
+        .custom-card--wrapper .custom-card.bg-skul--gradient__4:before {
+            background-color: #72d1ed;
+        }
+
+        .custom-card--wrapper .custom-card:before {
+            border-radius: 100%;
+            bottom: -40px;
+            content: "";
+            height: 135px;
+            left: -30px;
+            position: absolute;
+            width: 135px;
+        }
+
+        .custom-card--wrapper .custom-card__body h5 {
+            color: #fff;
+            margin-bottom: 0;
+        }
+
+        .custom-card--wrapper .custom-card__body h4 {
+            color: #fff;
+            margin-bottom: 0;
+        }
+
+        .bg-skul--gradient__2 {
+            background: linear-gradient(260.53deg, #ef6187, #fb8c4e);
+        }
+
+        .bg-skul--gradient__3 {
+            background: linear-gradient(260.53deg, #64daa1, #5cd7c8);
+        }
+
+        .bg-skul--gradient__4 {
+            background: linear-gradient(260.53deg, #86d0d5, #66c1e1);
         }
     </style>
 </head>
@@ -59,208 +135,162 @@
                 </div>
                 <div class="page-content">
                     <section class="row">
-                        <div class="col-12 col-lg-9">
-                            <div class="row">
-                                <div class="col-6 col-lg-3 col-md-6">
-                                    <div class="card">
-                                        <div class="card-body px-4 py-4-5">
-                                            <div class="row">
-                                                <div
-                                                    class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start ">
-                                                    <div class="stats-icon purple mb-2">
-                                                        <i class="iconly-boldProfile"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
-                                                    <h6 class="text-muted font-semibold">Totaawrl Users</h6>
-                                                    <h6 class="font-extrabold mb-0">{{ $total_user }}</h6>
-                                                </div>
-                                            </div>
+                        <div class="row">
+                            <div class="col-12 col-lg-9">
+                                <div class="custom-card--wrapper">
+                                    <div class="custom-card bg-skul--gradient__2"><img
+                                            src="{{ asset('/compiled/svg/siswa.svg') }}" class="custom-card__img">
+                                        <div class="custom-card__body">
+                                            <h5 class="font-bold">Santri</h5>
+                                            <h4>{{ $total_santri }}</h4>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-6 col-lg-3 col-md-6">
-                                    <div class="card">
-                                        <div class="card-body px-4 py-4-5">
-                                            <div class="row">
-                                                <div
-                                                    class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start ">
-                                                    <div class="stats-icon blue mb-2">
-                                                        <i class="iconly-boldShow"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
-                                                    <h6 class="text-muted font-semibold">Total Roles</h6>
-                                                    <h6 class="font-extrabold mb-0">{{ $total_role }}</h6>
-                                                </div>
-                                            </div>
+                                    <div class="custom-card bg-skul--gradient__3"><img
+                                            src="{{ asset('/compiled/svg/guru.svg') }}" class="custom-card__img">
+                                        <div class="custom-card__body">
+                                            <h5 class="font-bold">Guru</h5>
+                                            <h4>{{ $total_guru }}</h4>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-6 col-lg-3 col-md-6">
-                                    <div class="card">
-                                        <div class="card-body px-4 py-4-5">
-                                            <div class="row">
-                                                <div
-                                                    class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start ">
-                                                    <div class="stats-icon green mb-2">
-                                                        <i class="iconly-boldAdd-User"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
-                                                    <h6 class="text-muted font-semibold">Total Permissions</h6>
-                                                    <h6 class="font-extrabold mb-0">{{ $total_permission }}</h6>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-6 col-lg-3 col-md-6">
-                                    <div class="card">
-                                        <div class="card-body px-4 py-4-5">
-                                            <div class="row">
-                                                <div
-                                                    class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start ">
-                                                    <div class="stats-icon red mb-2">
-                                                        <i class="iconly-boldBookmark"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
-                                                    <h6 class="text-muted font-semibold">Total Mata Pelajaran</h6>
-                                                    <h6 class="font-extrabold mb-0">{{ $total_matapelajaran }}</h6>
-                                                </div>
-                                            </div>
+                                    <div class="custom-card bg-skul--gradient__4"><img
+                                            src="{{ asset('/compiled/svg/wali.svg') }}" class="custom-card__img">
+                                        <div class="custom-card__body">
+                                            <h5 class="font-bold">Orang Tua</h5>
+                                            <h4>{{ $total_wali }}</h4>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                        </div>
-                        <div class="col-6 col-lg-3 col-md-6">
-                            <div class="card">
-                                <div class="card-body px-4 py-4-5">
-                                    <div class="d-flex align-items-center">
-                                        <div class="avatar avatar-xl">
-                                            <img src="{{ asset('/compiled/jpg/1.jpg') }}" alt="Face 1">
-                                        </div>
-                                        <div class="ms-3 name">
-                                            <h5 class="font-bold">{{ ucfirst(auth()->user()->name) }}</h5>
-                                            <h6 class="text-muted mb-0">{{ ucfirst(implode(', ', $roles->all())) }}
-                                            </h6>
-                                            <form id="send-verification" method="post"
-                                                action="{{ route('verification.send') }}">
-                                                @csrf
-                                            </form>
-
-                                            @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && !$user->hasVerifiedEmail())
-                                                <div>
-                                                    <p class="text-sm mt-2 text-gray-800 dark:text-gray-200">
-                                                        <code>Email anda belum diverifikasi.</code>
-                                                        <button id="send-verification-btn"
-                                                            class="btn btn-sm btn-outline-secondary">
-                                                            {{ __('Klik disini untuk mengirim email verifikasi.') }}
-                                                        </button>
-                                                    </p>
-                                                    <p
-                                                        class="mt-2 font-medium text-sm text-green-600 dark:text-green-400">
-                                                        <code id="success-message" style="color:#198754;"></code>
-                                                    </p>
-                                                </div>
-                                            @endif
-                                            <form method="POST" action="{{ route('logout') }}">
-                                                @csrf
-                                                <a href="" class="card-link d-flex justify-content-end"
-                                                    onclick="event.preventDefault(); this.closest('form').submit();">Logout</a>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <div class="col-12 col-lg-3">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h4>Total Users <span class="badge bg-info">{{ $total_all }}</span></h4>
-                                </div>
-                                <div class="card-body">
-                                    <div id="chart-visitors-profile">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-12 col-lg-3">
-                            <div class="card" style="max-height: 425px; overflow-y: auto;" id="cardi">
-                                <div class="card-header d-flex justify-content-between align-items-center">
-                                    <h4>Riwayat Login</h4>
-                                    <div class="buttonsi">
-                                        <button class="btn icon" id="minimizeBtn"><i
-                                                class="fas fa-minus"></i></button>
-                                        <button class="btn icon" id="closeBtn"><i class="fas fa-times"></i></button>
-                                    </div>
-                                </div>
-                                <!-- Menampilkan riwayat login dari users -->
-                                @foreach ($data_riwayat_login_users as $riwayat_login)
-                                    <div class="card-content pb-4">
-                                        <div class="recent-message d-flex px-4 py-3">
+                            <div class="col-6 col-lg-3 col-md-6">
+                                <div class="card">
+                                    <div class="card-body px-4 py-4-5">
+                                        <div class="d-flex align-items-center">
                                             <div class="avatar avatar-xl">
-                                                <img src="{{ asset('/compiled/jpg/1.jpg') }}" alt=""
-                                                    srcset="">
-                                                @if ($riwayat_login->status_login == true)
-                                                    <span class="avatar-status bg-success"></span>
-                                                @else
-                                                    <span class="avatar-status bg-danger"></span>
-                                                @endif
+                                                <img src="{{ asset('/compiled/jpg/1.jpg') }}" alt="Face 1">
                                             </div>
-                                            <div class="name ms-4">
-                                                <h5 class="mb-1">{{ $riwayat_login->user->name }}
-                                                    <code>({{ $riwayat_login->user->roles->first()->name }})</code>
-                                                </h5>
-                                                <h6 class="text-muted mb-0">{{ $riwayat_login->user->email }}</h6>
-                                                @if ($riwayat_login->status_login == false)
-                                                    <span class="riwayat"><i class="far fa-clock"></i>&nbsp;
-                                                        {{ $riwayat_login->updated_at->diffForHumans() }}</span>
-                                                @endif
-                                            </div>
-                                        </div>
-                                    </div>
-                                @endforeach
-
-                                <!-- Menampilkan riwayat login dari wali_santris -->
-                                @foreach ($data_riwayat_login_walis as $riwayat_login)
-                                    <div class="card-content pb-4">
-                                        <div class="recent-message d-flex px-4 py-3">
-                                            <div class="avatar avatar-xl">
-                                                <!-- Gantilah sesuai dengan atribut foto pada wali_santris -->
-                                                <img src="{{ asset('/compiled/jpg/1.jpg') }}" alt=""
-                                                    srcset="">
-                                                @if ($riwayat_login->status_login == true)
-                                                    <span class="avatar-status bg-success"></span>
-                                                @else
-                                                    <span class="avatar-status bg-danger"></span>
-                                                @endif
-                                            </div>
-                                            <div class="name ms-4">
-                                                <h5 class="mb-1">{{ $riwayat_login->waliSantri->name }}
-                                                    <code>({{ $riwayat_login->waliSantri->roles->first()->name }})</code>
-                                                </h5>
-                                                <!-- Sesuaikan dengan atribut pada wali_santris yang ingin ditampilkan -->
-                                                <h6 class="text-muted mb-0">{{ $riwayat_login->waliSantri->email }}
+                                            <div class="ms-3 name">
+                                                <h5 class="font-bold">{{ ucfirst(auth()->user()->name) }}</h5>
+                                                <h6 class="text-muted mb-0">{{ ucfirst(implode(', ', $roles->all())) }}
                                                 </h6>
-                                                @if ($riwayat_login->status_login == true)
-                                                    <h6 class="text-muted mb-0" style="color:green !important;">Online
-                                                    </h6>
+                                                <form id="send-verification" method="post"
+                                                    action="{{ route('verification.send') }}">
+                                                    @csrf
+                                                </form>
+
+                                                @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && !$user->hasVerifiedEmail())
+                                                    <div>
+                                                        <p class="text-sm mt-2 text-gray-800 dark:text-gray-200">
+                                                            <code>Email anda belum diverifikasi.</code>
+                                                            <button id="send-verification-btn"
+                                                                class="btn btn-sm btn-outline-secondary">
+                                                                {{ __('Klik disini untuk mengirim email verifikasi.') }}
+                                                            </button>
+                                                        </p>
+                                                        <p
+                                                            class="mt-2 font-medium text-sm text-green-600 dark:text-green-400">
+                                                            <code id="success-message" style="color:#198754;"></code>
+                                                        </p>
+                                                    </div>
                                                 @endif
-                                                @if ($riwayat_login->status_login == false)
-                                                    <span class="riwayat"><i class="far fa-clock"></i>&nbsp;
-                                                        {{ $riwayat_login->updated_at->diffForHumans() }}</span>
-                                                @endif
+                                                <form method="POST" action="{{ route('logout') }}">
+                                                    @csrf
+                                                    <a href="" class="card-link d-flex justify-content-end"
+                                                        onclick="event.preventDefault(); this.closest('form').submit();">Logout</a>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
-                                @endforeach
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12 col-lg-3">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h4>Total Users <span class="badge bg-info">{{ $total_all }}</span></h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="chart-visitors-profile">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-lg-3">
+                                <div class="card" style="max-height: 425px; overflow-y: auto;" id="cardi">
+                                    <div class="card-header d-flex justify-content-between align-items-center">
+                                        <h4>Riwayat Login</h4>
+                                        <div class="buttonsi">
+                                            <button class="btn icon" id="minimizeBtn"><i
+                                                    class="fas fa-minus"></i></button>
+                                            <button class="btn icon" id="closeBtn"><i
+                                                    class="fas fa-times"></i></button>
+                                        </div>
+                                    </div>
+                                    <!-- Menampilkan riwayat login dari users -->
+                                    @foreach ($data_riwayat_login_users as $riwayat_login)
+                                        <div class="card-content pb-4">
+                                            <div class="recent-message d-flex px-4 py-3">
+                                                <div class="avatar avatar-xl">
+                                                    <img src="{{ asset('/compiled/jpg/1.jpg') }}" alt=""
+                                                        srcset="">
+                                                    @if ($riwayat_login->status_login == true)
+                                                        <span class="avatar-status bg-success"></span>
+                                                    @else
+                                                        <span class="avatar-status bg-danger"></span>
+                                                    @endif
+                                                </div>
+                                                <div class="name ms-4">
+                                                    <h5 class="mb-1">{{ $riwayat_login->user->name }}
+                                                        <code>({{ $riwayat_login->user->roles->first()->name }})</code>
+                                                    </h5>
+                                                    <h6 class="text-muted mb-0">{{ $riwayat_login->user->email }}</h6>
+                                                    @if ($riwayat_login->status_login == false)
+                                                        <span class="riwayat"><i class="far fa-clock"></i>&nbsp;
+                                                            {{ $riwayat_login->updated_at->diffForHumans() }}</span>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                    <!-- Menampilkan riwayat login dari wali_santris -->
+                                    @foreach ($data_riwayat_login_walis as $riwayat_login)
+                                        <div class="card-content pb-4">
+                                            <div class="recent-message d-flex px-4 py-3">
+                                                <div class="avatar avatar-xl">
+                                                    <!-- Gantilah sesuai dengan atribut foto pada wali_santris -->
+                                                    <img src="{{ asset('/compiled/jpg/1.jpg') }}" alt=""
+                                                        srcset="">
+                                                    @if ($riwayat_login->status_login == true)
+                                                        <span class="avatar-status bg-success"></span>
+                                                    @else
+                                                        <span class="avatar-status bg-danger"></span>
+                                                    @endif
+                                                </div>
+                                                <div class="name ms-4">
+                                                    <h5 class="mb-1">{{ $riwayat_login->waliSantri->name }}
+                                                        <code>({{ $riwayat_login->waliSantri->roles->first()->name }})</code>
+                                                    </h5>
+                                                    <!-- Sesuaikan dengan atribut pada wali_santris yang ingin ditampilkan -->
+                                                    <h6 class="text-muted mb-0">
+                                                        {{ $riwayat_login->waliSantri->email }}
+                                                    </h6>
+                                                    @if ($riwayat_login->status_login == true)
+                                                        <h6 class="text-muted mb-0" style="color:green !important;">
+                                                            Online
+                                                        </h6>
+                                                    @endif
+                                                    @if ($riwayat_login->status_login == false)
+                                                        <span class="riwayat"><i class="far fa-clock"></i>&nbsp;
+                                                            {{ $riwayat_login->updated_at->diffForHumans() }}</span>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
                             </div>
                         </div>
 

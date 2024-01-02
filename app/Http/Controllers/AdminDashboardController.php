@@ -27,6 +27,8 @@ class AdminDashboardController extends Controller
         $total_user = User::count();
         $total_wali = WaliSantri::count();
         $total_all = $total_user + $total_wali;
+        $total_santri = User::role('user')->count();
+        $total_guru = User::role('guru')->count();
         $total_role = Role::count();
         $total_permission = Permission::count();
         $total_matapelajaran = MataPelajaran::count();
@@ -52,6 +54,9 @@ class AdminDashboardController extends Controller
             'user' => $user,
             'roles' => $roles,
             'total_user' => $total_user,
+            'total_santri' => $total_santri,
+            'total_guru' => $total_guru,
+            'total_wali' => $total_wali,
             'total_role' => $total_role,
             'total_permission' => $total_permission,
             'total_matapelajaran' => $total_matapelajaran,
