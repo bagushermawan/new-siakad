@@ -5,6 +5,16 @@
         html[data-bs-theme=dark] .text-sm {
             font-size: .775rem;
         }
+
+        .profilepp {
+            user-select: none;
+            font-size: 1.5rem;
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+            line-height: 1.2;
+            color: var(--bs-heading-color);
+        }
     </style>
 @endpush
 @section('content')
@@ -12,136 +22,86 @@
         <div class="page-title">
             <div class="row">
                 <div class="col-12 col-md-6 order-md-1 order-last">
-                    <h3>Dashboard User</h3>
-                    <p class="text-subtitle text-muted">aweaw</p>
+                    <h3>Dashboard {{ ucfirst(implode(', ', $roles->all())) }}</h3>
+                    {{-- <p class="text-subtitle text-muted">#</p> --}}
                 </div>
             </div>
         </div>
         <div class="page-content">
+            <div class="row">
+                <div class="card col-6">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <h4>Informasi Data Santri Anda</h4>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-center align-items-center flex-column">
+                                <div class="avatar avatar-3xl">
+                                    <img src="" alt="Avatar" id="fotoPondok">
+                                </div>
+                            </div>
+                    <div class="table-responsive" style="margin-top: 3rem;">
+                        <table class="table table-borderless table-lg">
+                            <tbody>
+                                <tr>
+                                    <td class="col-5">
+                                        <div class="d-flex align-items-center">
+                                            <p class="font-bold h6 mb-0">NISN</p>
+                                        </div>
+                                    </td>
+                                    <td class="col-auto">
+                                        <p class=" mb-0"><span class="profilepp"
+                                                style="margin-left: 1rem">
+                                                : {{ $nisnSantri }}
+                                            </span>
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-5">
+                                        <div class="d-flex align-items-center">
+                                            <p class="font-bold h6 mb-0">Nama Santri</p>
+                                        </div>
+                                    </td>
+                                    <td class="col-auto">
+                                        <p class=" mb-0">
+                                            <span class="profilepp"
+                                            style="margin-left: 1rem">
+                                            : {{ $namaSantri }}
+                                            </span>
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-5">
+                                        <div class="d-flex align-items-center">
+                                            <p class="font-bold h6 mb-0">Telepon Santri</p>
+                                        </div>
+                                    </td>
+                                    <td class="col-auto">
+                                        <p class=" mb-0"><span class="profilepp"
+                                                style="margin-left: 1rem">: {{ $nohpSantri }}</span>
+                                        </p>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-5">
+                                        <div class="d-flex align-items-center">
+                                            <p class="font-bold h6 mb-0">Email Santri</p>
+                                        </div>
+                                    </td>
+                                    <td class="col-auto">
+                                        <p class=" mb-0"><span class="profilepp"
+                                                style="margin-left: 1rem">: {{ $emailSantri }}</span>
+                                        </p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
             <section class="row">
-                <div class="col-12 col-lg-9">
-                    <div class="row">
-                        <div class="col-6 col-lg-3 col-md-6">
-                            <div class="card">
-                                <div class="card-body px-4 py-4-5">
-                                    <div class="row">
-                                        <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start ">
-                                            <div class="stats-icon purple mb-2">
-                                                <i class="iconly-boldProfile"></i>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
-                                            <h6 class="text-muted font-semibold">Total Users</h6>
-                                            <h6 class="font-extrabold mb-0">{{ $total_user }}</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-6 col-lg-3 col-md-6">
-                            <div class="card">
-                                <div class="card-body px-4 py-4-5">
-                                    <div class="row">
-                                        <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start ">
-                                            <div class="stats-icon blue mb-2">
-                                                <i class="iconly-boldShow"></i>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
-                                            <h6 class="text-muted font-semibold">Total Roles</h6>
-                                            <h6 class="font-extrabold mb-0">{{ $total_role }}</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-6 col-lg-3 col-md-6">
-                            <div class="card">
-                                <div class="card-body px-4 py-4-5">
-                                    <div class="row">
-                                        <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start ">
-                                            <div class="stats-icon green mb-2">
-                                                <i class="iconly-boldAdd-User"></i>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
-                                            <h6 class="text-muted font-semibold">Total Permissions</h6>
-                                            <h6 class="font-extrabold mb-0">{{ $total_permission }}</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-6 col-lg-3 col-md-6">
-                            <div class="card">
-                                <div class="card-body px-4 py-4-5">
-                                    <div class="row">
-                                        <div class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start ">
-                                            <div class="stats-icon red mb-2">
-                                                <i class="iconly-boldBookmark"></i>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
-                                            <h6 class="text-muted font-semibold">Total Mata Pelajaran</h6>
-                                            <h6 class="font-extrabold mb-0">{{ $total_matapelajaran }}</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="col-6 col-lg-3 col-md-6">
-                    <div class="card">
-                        <div class="card-body px-4 py-4-5">
-                            <div class="d-flex align-items-center">
-                                <div class="avatar avatar-xl">
-                                    <img src="{{ asset('/compiled/jpg/1.jpg') }}" alt="Face 1">
-                                </div>
-                                <div class="ms-3 name">
-                                    <h5 class="font-bold">{{ ucfirst(auth()->user()->name) }}</h5>
-                                    <h6 class="text-muted mb-0">{{ ucfirst(implode(', ', $roles->all())) }}
-                                    </h6>
-                                    <form id="send-verification" method="post" action="{{ route('verification.send') }}">
-                                        @csrf
-                                    </form>
-
-                                    @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && !$user->hasVerifiedEmail())
-                                        <div>
-                                            <p class="text-sm mt-2 text-gray-800 dark:text-gray-200">
-                                                <code>Email anda belum diverifikasi.</code>
-                                                <button id="send-verification-btn" class="btn btn-sm btn-outline-secondary">
-                                                    {{ __('Klik disini untuk mengirim email verifikasi.') }}
-                                                </button>
-                                            </p>
-                                            <p class="mt-2 font-medium text-sm text-green-600 dark:text-green-400">
-                                                <code id="success-message" style="color:#198754;"></code>
-                                            </p>
-                                        </div>
-                                    @endif
-                                    <form method="POST" action="{{ route('logout') }}">
-                                        @csrf
-                                        <a href="" class="card-link d-flex justify-content-end"
-                                            onclick="event.preventDefault(); this.closest('form').submit();">Logout</a>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-12 col-lg-3">
-                    <div class="card">
-                        <div class="card-header">
-                            <h4>Visitors Profile</h4>
-                        </div>
-                        <div class="card-body">
-                            <div id="chart-visitors-profilee"></div>
-                        </div>
-                    </div>
-                </div>
-
                 <div class="col-12 col-lg-3">
                     <div class="card" style="max-height: 425px; overflow-y: auto;" id="cardi">
                         <div class="card-header d-flex justify-content-between align-items-center">

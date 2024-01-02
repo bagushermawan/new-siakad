@@ -124,7 +124,6 @@
                                 <div class="avatar avatar-3xl">
                                     <img src="{{ asset('storage/' .$a->first()->foto_pondok) }}" alt="Avatar" id="fotoPondok">
                                 </div>
-
                             </div>
                             <div class="table-responsive" style="margin-top: 3rem;">
                                 <table class="table table-borderless table-lg">

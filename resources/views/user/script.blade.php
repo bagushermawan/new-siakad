@@ -72,7 +72,7 @@
     });
 </script>
 
-<script>
+{{-- <script>
 // Fetch data user role count dari endpoint '/userd-role-count'
 fetch('/userd-role-count')
     .then(response => response.json())
@@ -115,4 +115,4 @@ let optionsVisitorsProfile = {
         },
     }
 };
-</script>
+</script> --}}

@@ -55,14 +55,9 @@
                         </a>
                     </li>
                     <li class="menu-item">
-                        <a href="index.html" class='menu-link'>
-                            <span><i class="bi bi-grid-fill"></i> Dashboard</span>
-                        </a>
-                    </li>
-                    <li class="menu-item">
-                        <a href="index.html" class='menu-link'>
-                            <span><i class="bi bi-grid-fill"></i> Dashboard</span>
-                        </a>
+                        <div class="menu-link" style="pointer-events: none;">
+                            <span><i class="fas fa-calendar-day"></i> {{ $waktu_sekarang }}</span>
+                            </div>
                     </li>
                 </ul>
                 <div class="checkbox-container">

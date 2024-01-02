@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Models\MataPelajaran;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Permission;
 
@@ -22,24 +23,43 @@ class UserDashboardController extends Controller
     {
         // Mendapatkan instance dari user yang sedang login
         $user = Auth::user();
-
         // Mendapatkan roles dari user
         $roles = $user->getRoleNames();
-        $total_user = User::count();
-        $total_wali = WaliSantri::count();
-        $total_all = $total_user + $total_wali;
-        $total_role = Role::count();
-        $total_permission = Permission::count();
-        $total_matapelajaran = MataPelajaran::count();
+
+        $loggedInUserId = Auth::user()->id;
+        // dd($loggedInUserId);
+
+        // Contoh penggunaan di controller atau di mana pun Anda membutuhkannya
+        $waliSantri = WaliSantri::with(['santri' => function ($query) {
+            $query->select('id', 'nisn', 'name', 'nohp', 'email');
+        }])->find($loggedInUserId);
+        // Mendapatkan data santri
+        if ($waliSantri && $waliSantri->santri) {
+            $santriData = $waliSantri->santri;
+
+            $nisnSantri = $santriData->nisn ?? 'NISN Tidak Tersedia';
+            $nohpSantri = $santriData->nohp ?? 'No HP Tidak Tersedia';
+            $emailSantri = $santriData->email ?? 'Email Tidak Tersedia';
+            $namaSantri = $santriData->name ?? 'Nama Santri Tidak Tersedia';
+        } else {
+            $nisnSantri = 'NISN Tidak Tersedia';
+            $nohpSantri = 'No HP Tidak Tersedia';
+            $emailSantri = 'Email Tidak Tersedia';
+            $namaSantri = 'Nama Santri Tidak Tersedia';
+        }
+
+        $waktu_sekarang = Carbon::now();
+        Carbon::setLocale('id');
+        $format_lengkap = $waktu_sekarang->translatedFormat('l, d F Y');
 
         // Mendapatkan data riwayat login dari users dan wali_santris
-        $data_riwayat_login_users = RiwayatLogin::where('user_id', '!=', Auth::user()->id)
+        $data_riwayat_login_users = RiwayatLogin::where('user_id', '!=', $loggedInUserId)
             ->where('wali_santri_id', null)
             ->orderBy('status_login', 'DESC')
             ->orderBy('updated_at', 'DESC')
             ->get();
 
-        $data_riwayat_login_walis = RiwayatLogin::where('wali_santri_id', '!=', Auth::user()->id)
+        $data_riwayat_login_walis = RiwayatLogin::where('wali_santri_id', '!=', $loggedInUserId)
             ->orderBy('status_login', 'DESC')
             ->orderBy('updated_at', 'DESC')
             ->get();
@@ -50,13 +70,14 @@ class UserDashboardController extends Controller
         return view('user.dashboard', [
             'user' => $user,
             'roles' => $roles,
-            'total_user' => $total_user,
-            'total_role' => $total_role,
-            'total_permission' => $total_permission,
-            'total_matapelajaran' => $total_matapelajaran,
-            'total_all' => $total_all,
+            'waliSantri' => $waliSantri,
+            'namaSantri' => $namaSantri,
+            'nisnSantri' => $nisnSantri,
+            'nohpSantri' => $nohpSantri,
+            'emailSantri' => $emailSantri,
             'data_riwayat_login_users' => $data_riwayat_login_users,
             'data_riwayat_login_walis' => $data_riwayat_login_walis,
+            'waktu_sekarang' => $format_lengkap,
         ]);
     }
 
