@@ -69,6 +69,9 @@
                                         <center>Status</center>
                                     </th>
                                     <th>
+                                        Foto User
+                                    </th>
+                                    <th>
                                         <center>Action</center>
                                     </th>
                                 </tr>
@@ -105,7 +108,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        
+
                         <label id="nuptk">NUPTK: </label>
                         <div class="form-group">
                             <input id="nuptk" type="text" name="nuptk" class="form-control" autofocus>

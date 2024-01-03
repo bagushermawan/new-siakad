@@ -1,5 +1,9 @@
 @extends('admin.layouts.master')
 @section('title', 'Profile')
+@push('page-css')
+    <link rel="stylesheet" href="{{ asset('/extensions/filepond/filepond.css') }}">
+    <link rel="stylesheet" href="{{ asset('/extensions/filepond-plugin-image-preview/filepond-plugin-image-preview.css') }}">
+@endpush
 @section('content')
     <div class="page-heading">
         <div class="page-title">
@@ -26,9 +30,12 @@
                         <div class="card-body">
                             <div class="d-flex justify-content-center align-items-center flex-column">
                                 <div class="avatar avatar-2xl">
-                                    <img src="{{ asset('compiled/jpg/2.jpg') }}" alt="Avatar">
+                                    @if (auth()->user()->foto_user)
+                                        <img src="{{ asset('storage/' . auth()->user()->foto_user) }}" alt="Avatar">
+                                    @else
+                                        <img src="{{ asset('compiled/jpg/1.jpg') }}" alt="Avatar">
+                                    @endif
                                 </div>
-
                                 <h3 class="mt-3">{{ ucfirst(auth()->user()->name) }}</h3>
                                 <p class="text-small">{{ ucfirst(implode(', ', $roles->all())) }}</p>
                             </div>
@@ -47,21 +54,24 @@
                             @csrf
                         </form>
                         <div class="card-body">
-                            <form method="post" action="{{ route('admin.user.update', ['id' => $user->id]) }}" class="mt-6 space-y-6">
+                            <form method="post" action="{{ route('admin.user.update', ['id' => $user->id]) }}"
+                                class="mt-6 space-y-6" enctype="multipart/form-data">
                                 @csrf
                                 {{ method_field('put') }}
                                 <div class="form-group">
                                     <label for="name" class="form-label">Name</label>
                                     <input type="text" name="name" id="name" class="form-control" required
-                                        autofocus value="{{$user->name}}">
+                                        autofocus value="{{ $user->name }}">
                                 </div>
                                 <div class="form-group">
                                     <label for="username" class="form-label">Username</label>
-                                    <input type="text" name="username" id="username" class="form-control" required value="{{$user->username}}">
+                                    <input type="text" name="username" id="username" class="form-control" required
+                                        value="{{ $user->username }}">
                                 </div>
                                 <div class="form-group">
                                     <label for="email" class="form-label">Email</label>
-                                    <input type="text" name="email" id="email" class="form-control" required value="{{$user->email}}">
+                                    <input type="text" name="email" id="email" class="form-control" required
+                                        value="{{ $user->email }}">
                                     @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && !$user->hasVerifiedEmail())
                                         <div>
                                             <p class="text-sm mt-2 text-gray-800 dark:text-gray-200">
@@ -79,6 +89,11 @@
                                             @endif
                                         </div>
                                     @endif
+                                </div>
+                                <div class="form-groupp">
+                                    <p class="card-text">Foto.
+                                    </p>
+                                    <input type="file" class="image-exif-filepond" name="foto_user">
                                 </div>
                                 <div class="form-group">
                                     <button type="submit" class="btn btn-primary">Save Changes</button>
@@ -166,8 +181,8 @@
                         </p>
 
                         <div class="form-group">
-                            <button class="btn btn-danger"
-                                onclick="openConfirmUserDeletionModal()">DELETE ACCOUNT</button>
+                            <button class="btn btn-danger" onclick="openConfirmUserDeletionModal()">DELETE
+                                ACCOUNT</button>
                         </div>
                         <div id="confirm-user-deletion" class="modal fade" tabindex="-1">
                             <div class="modal-dialog">
@@ -248,4 +263,18 @@
             window.closeConfirmUserDeletionModal = closeConfirmUserDeletionModal;
         });
     </script>
+    <script src="{{ asset('/extensions/filepond-plugin-file-validate-size/filepond-plugin-file-validate-size.min.js') }}">
+    </script>
+    <script src="{{ asset('/extensions/filepond-plugin-file-validate-type/filepond-plugin-file-validate-type.min.js') }}">
+    </script>
+    <script src="{{ asset('/extensions/filepond-plugin-image-crop/filepond-plugin-image-crop.min.js') }}"></script>
+    <script
+        src="{{ asset('/extensions/filepond-plugin-image-exif-orientation/filepond-plugin-image-exif-orientation.min.js') }}">
+    </script>
+    <script src="{{ asset('/extensions/filepond-plugin-image-filter/filepond-plugin-image-filter.min.js') }}"></script>
+    <script src="{{ asset('/extensions/filepond-plugin-image-preview/filepond-plugin-image-preview.min.js') }}"></script>
+    <script src="{{ asset('/extensions/filepond-plugin-image-resize/filepond-plugin-image-resize.min.js') }}"></script>
+    <script src="{{ asset('/extensions/filepond/filepond.js') }}"></script>
+    {{-- <script src="{{ asset('/extensions/toastify-js/src/toastify.js') }}"></script> --}}
+    <script src="{{ asset('/static/js/pages/filepond.js') }}"></script>
 @endpush

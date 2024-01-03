@@ -25,6 +25,7 @@ return new class extends Migration
             $table->rememberToken();
             $table->timestamps();
             $table->string('user_type')->default('wali_santris');
+            $table->string('foto_user')->nullable();
         });
     }
 

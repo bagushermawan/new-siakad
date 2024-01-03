@@ -13,6 +13,7 @@ use App\Models\WaliSantri;
 use App\Models\Kelas;
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -90,6 +91,13 @@ class UserController extends Controller
         $user->email = $request->get('email');
         if ($request->has('password')) {
             $user->password = bcrypt($request->get('password'));
+        }
+
+        // Proses gambar jika diunggah
+        if ($request->hasFile('foto_user')) {
+            // Simpan gambar baru
+            $fotoPath = $request->file('foto_user')->store('foto_user', 'public');
+            $user->update(['foto_user' => $fotoPath]);
         }
 
         $user->save();

@@ -27,8 +27,8 @@ class UserAjaxController extends Controller
         $user = Auth::user();
         $isAdmin = $user->hasRole('admin');
 
-        $userData = User::select('id', 'name', 'username', 'email', 'nohp', 'created_at','user_type');
-        $waliSantriData = WaliSantri::select('id', 'name', 'username', 'email', 'nohp', 'created_at','user_type');
+        $userData = User::select('id', 'name', 'username', 'email', 'nohp', 'created_at','user_type', 'foto_user');
+        $waliSantriData = WaliSantri::select('id', 'name', 'username', 'email', 'nohp', 'created_at','user_type', 'foto_user');
 
         $unionData = $userData->unionAll($waliSantriData);
 
@@ -48,8 +48,8 @@ class UserAjaxController extends Controller
             ->mergeBindings($unionData->getQuery())
             ->leftJoin('model_has_roles', 'union_data.id', '=', 'model_has_roles.model_id')
             ->leftJoin('roles', 'model_has_roles.role_id', '=', 'roles.id')
-            ->select('union_data.id', 'union_data.name', 'union_data.username', 'union_data.email', 'union_data.nohp', 'union_data.created_at','union_data.user_type', 'roles.name as role')
-            ->groupBy('union_data.id', 'union_data.name', 'union_data.username', 'union_data.email', 'union_data.nohp', 'union_data.created_at','union_data.user_type', 'roles.name') // Sertakan 'roles.name' dalam GROUP BY
+            ->select('union_data.id', 'union_data.name', 'union_data.username', 'union_data.email', 'union_data.nohp', 'union_data.created_at','union_data.user_type','union_data.foto_user', 'roles.name as role')
+            ->groupBy('union_data.id', 'union_data.name', 'union_data.username', 'union_data.email', 'union_data.nohp', 'union_data.created_at','union_data.user_type','union_data.foto_user', 'roles.name') // Sertakan 'roles.name' dalam GROUP BY
             ->orderBy('roles.name', 'asc') // Urutkan berdasarkan 'roles.name' secara ascending
             ->get();
 
@@ -130,8 +130,8 @@ class UserAjaxController extends Controller
         $waliCount = WaliSantri::count();
 
         return response()->json([
-            'series' => [$guruCount, $userCount, $waliCount, $adminCount],
-            'labels' => ['Admin', 'Guru', 'User', 'Wali'],
+            'series' => [$adminCount, $guruCount, $userCount, $waliCount],
+            'labels' => ['Admin','Guru', 'User', 'Wali'],
         ]);
     }
 

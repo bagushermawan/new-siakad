@@ -22,7 +22,11 @@
                             </div>
                             <div class="user-img d-flex align-items-center">
                                 <div class="avatar avatar-md">
-                                    <img src="{{ asset('compiled/jpg/1.jpg') }}">
+                                    @if (auth()->user()->foto_user)
+                                        <img src="{{ asset('storage/' . auth()->user()->foto_user) }}" alt="Avatar">
+                                    @else
+                                        <img src="{{ asset('compiled/jpg/1.jpg') }}" alt="Avatar">
+                                    @endif
                                 </div>
                             </div>
                         </div>

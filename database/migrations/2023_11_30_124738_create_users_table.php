@@ -28,6 +28,7 @@ return new class extends Migration
             $table->rememberToken();
             $table->timestamps();
             $table->string('user_type')->default('user');
+            $table->string('foto_user')->nullable();
         });
 
         // Mengubah nilai default id menjadi genap

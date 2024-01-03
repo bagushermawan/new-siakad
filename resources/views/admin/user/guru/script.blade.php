@@ -218,7 +218,14 @@
                 },
                 {
                     data: 'nuptk',
-                    name: 'nuptk'
+                    name: 'nuptk',
+                    render: function(data, type, row) {
+                        if (type === 'display') {
+                            return data ? data :
+                                '<a style="color:#6c757d;">NUPTK tidak tersedia</a>';
+                        }
+                        return data;
+                    }
                 },
                 {
                     data: 'name',
@@ -234,7 +241,14 @@
                 },
                 {
                     data: 'nohp',
-                    name: 'No Hp'
+                    name: 'No Hp',
+                    render: function(data, type, row) {
+                        if (type === 'display') {
+                            return data ? data :
+                                '<a style="color:#6c757d;">No HP tidak tersedia</a>';
+                        }
+                        return data;
+                    }
                 },
                 {
                     data: 'roles',

@@ -1,5 +1,14 @@
 <script>
+    function showSwal() {
+        Swal.fire({
+            icon: 'info',
+            title: 'Informasi',
+            text: 'Foto tidak tersedia',
+            confirmButtonText: 'OK'
+        });
+    }
     $(document).ready(function() {
+        const baseUrl = "{{ asset('storage/') }}";
         var isAdmin = {{ $isAdmin ? 'true' : 'false' }};
         $('#myTable thead tr')
             .clone(true)
@@ -254,6 +263,23 @@
                                 return data.charAt(0).toUpperCase() + data.slice(1);
                             } else {
                                 return '<a style="color:#6c757d;">Role tidak tersedia</a>';
+                            }
+                        }
+                        return data;
+                    }
+                },
+                {
+                    data: 'foto_user',
+                    name: 'Foto user',
+                    render: function(data, type, row) {
+                        if (type === 'display') {
+                            if (data) {
+                                return '<div class="avatar avatar-xl"><img src="' + baseUrl +
+                                    '/' +
+                                    data + '" alt="Foto Pengguna"></div>';
+                            } else {
+                                // Tambahkan event handler untuk menampilkan swal saat foto tidak tersedia di klik
+                                return '<a style="color:#6c757d; cursor: pointer;" onclick="showSwal()">Foto tidak tersedia</a>';
                             }
                         }
                         return data;

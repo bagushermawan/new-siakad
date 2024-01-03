@@ -26,6 +26,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'kelas_id',
         'email_verified_at',
         'last_login',
+        'foto_user',
     ];
 
     public function kelas()
