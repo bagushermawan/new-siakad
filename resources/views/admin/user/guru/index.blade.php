@@ -61,6 +61,9 @@
                                         <center>Status</center>
                                     </th>
                                     <th>
+                                        Foto User
+                                    </th>
+                                    <th>
                                         <center>Action</center>
                                     </th>
                                 </tr>

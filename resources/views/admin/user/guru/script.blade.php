@@ -1,5 +1,14 @@
 <script>
+    function showSwal() {
+        Swal.fire({
+            icon: 'info',
+            title: 'Foto tidak tersedia',
+            text: 'Silahkan login, lalu setting manual di akun terkait',
+            confirmButtonText: 'Tutup'
+        });
+    }
     $(document).ready(function() {
+        const baseUrl = "{{ asset('storage/') }}";
         var isAdmin = {{ $isAdmin ? 'true' : 'false' }};
         $('#myTable thead tr')
             .clone(true)
@@ -158,7 +167,7 @@
                         );
                         var title = $(cell).text();
                         // Tambahkan kondisi untuk mengecek apakah kolom No
-                        if (colIdx === 0 || colIdx === 6 || colIdx === 7) {
+                        if (colIdx === 0 || colIdx === 6 || colIdx === 7 || colIdx === 8) {
                             // Jika kolom No, tidak tambahkan input filter
                             $(cell).html('');
                         } else {
@@ -268,6 +277,23 @@
                             return 'No roles assigned';
                         }
                         return '';
+                    }
+                },
+                {
+                    data: 'foto_user',
+                    name: 'Foto user',
+                    render: function(data, type, row) {
+                        if (type === 'display') {
+                            if (data) {
+                                return '<div class="avatar avatar-xl"><img src="' + baseUrl +
+                                    '/' +
+                                    data + '" alt="Foto Pengguna"></div>';
+                            } else {
+                                // Tambahkan event handler untuk menampilkan swal saat foto tidak tersedia di klik
+                                return '<a style="color:#6c757d; cursor: pointer;" onclick="showSwal()">Foto tidak tersedia</a>';
+                            }
+                        }
+                        return data;
                     }
                 },
                 {
