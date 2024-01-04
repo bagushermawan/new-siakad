@@ -3,7 +3,8 @@
     <div class="header-top">
         <div class="container">
             <div class="logo">
-                <a href="{{ route('user.dashboard') }}"><img src="{{ asset('/compiled/svg/logo.svg') }}" alt="Logo"></a>
+                <a href="{{ route('user.dashboard') }}"><img src="{{ asset('/compiled/svg/logo.svg') }}"
+                        alt="Logo"></a>
             </div>
             <div class="header-top-right">
 
@@ -12,7 +13,11 @@
                         class="user-dropdown d-flex align-items-center dropend dropdown-toggle "
                         data-bs-toggle="dropdown" aria-expanded="false">
                         <div class="avatar avatar-md2">
-                            <img src="{{ asset('/compiled/jpg/1.jpg') }}" alt="Avatar">
+                            @if (auth()->user()->foto_user)
+                                <img src="{{ asset('storage/' . auth()->user()->foto_user) }}" alt="Avatar">
+                            @else
+                                <img src="{{ asset('compiled/jpg/1.jpg') }}" alt="Avatar">
+                            @endif
                         </div>
                         <div class="text">
                             <h6 class="user-dropdown-name">{{ ucfirst(auth()->user()->name) }}</h6>
@@ -57,7 +62,7 @@
                     <li class="menu-item">
                         <div class="menu-link" style="pointer-events: none;">
                             <span><i class="fas fa-calendar-day"></i> {{ $waktu_sekarang }}</span>
-                            </div>
+                        </div>
                     </li>
                 </ul>
                 <div class="checkbox-container">
