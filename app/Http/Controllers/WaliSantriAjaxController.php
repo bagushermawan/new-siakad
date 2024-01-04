@@ -73,6 +73,7 @@ class WaliSantriAjaxController extends Controller
             'nohp' => 'nullable|string',
             'role' => 'required|string',
             'santri_id' => 'nullable|exists:users,id', // Tambahkan validasi untuk santri_id
+            'password' => ['nullable', Rules\Password::defaults()],
         ]);
 
         // Cari user dengan peran 'user' jika santri_id disediakan
@@ -90,7 +91,7 @@ class WaliSantriAjaxController extends Controller
         $waliSantri->username = $request->input('username');
         $waliSantri->email = $request->input('email');
         $waliSantri->nohp = $request->input('nohp');
-        $waliSantri->password = Hash::make($request->password);
+        $waliSantri->password = $request->password ? Hash::make($request->password) : Hash::make($request->username);
 
         // Tetapkan santri_id (user_id) dari user yang ditemukan, jika ada
         if ($santriUser) {

@@ -348,6 +348,7 @@
     $('body').on('click', '.tombol-tambah', function(e) {
         e.preventDefault();
         $('#exampleModal').modal('show');
+        resetPasswordPlaceholder();
         if (typeof kelasSelect !== 'undefined') {
                     kelasSelect.destroy();
                 }
@@ -364,6 +365,7 @@
     // 03_PROSES EDIT
     $('body').on('click', '.tombol-edit', function(e) {
         var id = $(this).data('id');
+        resetPasswordPlaceholder();
         $.ajax({
             url: 'userAjax/' + id + '/edit',
             type: 'GET',
@@ -388,6 +390,9 @@
                 $('.tombol-simpan').off('click').on('click', function() {
                     simpan(id);
                 });
+
+                // Set placeholder for password field
+                setDynamicPasswordPlaceholder(id);
 
                 // Inisialisasi objek Choices.js baru
                 kelasSelect = new Choices('#kelas_id', {
@@ -477,6 +482,21 @@
                 }
             }
         });
+    }
+
+    // Fungsi untuk menetapkan placeholder dinamis pada input password
+    function setDynamicPasswordPlaceholder(id) {
+        const passwordInput = $('#password');
+
+        // Jika id tidak kosong (edit data), biarkan placeholder kosong
+        // Jika id kosong (tambah data), atur placeholder sama dengan nilai pada input username
+        passwordInput.attr('placeholder', id ? 'Biarkan kosong jika tidak ingin ganti password' : $('#username').val());
+    }
+
+    // Fungsi untuk mereset placeholder pada input password
+    function resetPasswordPlaceholder() {
+        const passwordInput = $('#password');
+        passwordInput.attr('placeholder', 'Password default sama dengan Username'); // Reset placeholder menjadi kosong
     }
 
     $('#exampleModal').on('hidden.bs.modal', function() {

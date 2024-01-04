@@ -133,7 +133,7 @@
 
                         <label>Password: </label>
                         <div class="form-group">
-                            <input id="password" type="password" name="password" class="form-control">
+                            <input id="password" type="password" name="password" class="form-control" placeholder="Password default sama dengan Username">
                         </div>
                     </div>
                     <div class="modal-footer">

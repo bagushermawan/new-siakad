@@ -444,37 +444,38 @@
     }
 
     // 04_PROSES Delete
-    $('body').on('click', '.tombol-del', function(e) {
-        var id = $(this).data('id');
-        var name = $(this).data('name');
+$('body').on('click', '.tombol-del', function(e) {
+    var id = $(this).data('id');
+    var userType = $(this).data('user-type');
+    var name = $(this).data('name');
 
-        Swal.fire({
-            title: `Yakin mau hapus <b>${name}</b>?`,
-            text: "Anda tidak akan dapat mengembalikan data ini!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'Hapus',
-            cancelButtonText: 'Batal',
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // Jika pengguna menekan tombol "Hapus", kirim permintaan DELETE
-                $.ajax({
-                    url: 'userAjax/' + id,
-                    type: 'DELETE',
-                    success: function(response) {
-                        $('#myTable').DataTable().ajax.reload();
-                        Swal.fire('Sukses!', 'Berhasil hapus user.', 'info');
-                    },
-                    error: function(response) {
-                        Swal.fire('Gagal!', 'Terjadi kesalahan saat menghapus user.',
-                            'error');
-                    }
-                });
-            }
-        });
+    Swal.fire({
+        title: `Yakin mau hapus <b>${name}</b>?`,
+        text: "Anda tidak akan dapat mengembalikan data ini!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Hapus',
+        cancelButtonText: 'Batal',
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Jika pengguna menekan tombol "Hapus", kirim permintaan DELETE
+            $.ajax({
+                url: userType === 'wali_santris' ? 'wali/' + id : 'userAjax/' + id,
+                type: 'DELETE',
+                success: function(response) {
+                    $('#myTable').DataTable().ajax.reload();
+                    Swal.fire('Sukses!', `Berhasil hapus data ${userType === 'wali_santris' ? 'wali santri' : 'user'}: <b>${name}</b>.`, 'info');
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                    Swal.fire('Gagal!', 'Terjadi kesalahan saat menghapus data.', 'error');
+                }
+            });
+        }
     });
+});
 
     // fungsi simpan dan update
     function simpan(id = '', userType = 'user') {
