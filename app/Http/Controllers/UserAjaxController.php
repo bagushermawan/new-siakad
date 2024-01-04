@@ -148,7 +148,7 @@ class UserAjaxController extends Controller
                 'name' => ['required', 'string', 'max:255'],
                 'username' => ['required', 'string', 'max:255', 'unique:users,username', 'alpha_num'],
                 'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
-                'password' => ['required', Rules\Password::defaults()],
+                'password' => ['nullable', Rules\Password::defaults()],
                 'kelas_id' => ['nullable', 'exists:kelas,id'],
             ],
             [
@@ -172,7 +172,7 @@ class UserAjaxController extends Controller
                 'email' => $request->email,
                 'kelas_id' => $request->kelas_id,
                 'role' => $request->role,
-                'password' => Hash::make($request->password),
+                'password' => $request->password ? Hash::make($request->password) : Hash::make($request->username),
                 'email_verified_at' => Carbon::now(),
             ];
 

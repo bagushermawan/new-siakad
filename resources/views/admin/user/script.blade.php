@@ -2,9 +2,9 @@
     function showSwal() {
         Swal.fire({
             icon: 'info',
-            title: 'Informasi',
-            text: 'Foto tidak tersedia',
-            confirmButtonText: 'OK'
+            title: 'Foto tidak tersedia',
+            text: 'Silahkan login, lalu setting manual di akun terkait',
+            confirmButtonText: 'Tutup'
         });
     }
     $(document).ready(function() {
@@ -351,6 +351,7 @@
             allowHTML: true,
         });
         $('#exampleModal').modal('show');
+        resetPasswordPlaceholder();
         $('.tombol-simpan').off('click').on('click', function() {
             simpan();
         });
@@ -360,6 +361,7 @@
     $('body').on('click', '.tombol-edit', function(e) {
         var id = $(this).data('id');
         var userType = $(this).data('user-type'); // Tambahkan atribut data-user-type pada tombol-edit
+        resetPasswordPlaceholder();
 
         $.ajax({
             url: userType === 'wali_santris' ? 'wali/' + id + '/edit' : 'userAjax/' + id + '/edit',
@@ -401,6 +403,9 @@
                 });
                 // Inisialisasi objek Choices.js baru
                 initChoices();
+
+                // Set placeholder for password field
+                setDynamicPasswordPlaceholder(id);
             }
         });
     });
@@ -539,6 +544,21 @@
                 }
             }
         });
+    }
+
+    // Fungsi untuk menetapkan placeholder dinamis pada input password
+    function setDynamicPasswordPlaceholder(id) {
+        const passwordInput = $('#password');
+
+        // Jika id tidak kosong (edit data), biarkan placeholder kosong
+        // Jika id kosong (tambah data), atur placeholder sama dengan nilai pada input username
+        passwordInput.attr('placeholder', id ? 'Biarkan kosong jika tidak ingin ganti password' : $('#username').val());
+    }
+
+    // Fungsi untuk mereset placeholder pada input password
+    function resetPasswordPlaceholder() {
+        const passwordInput = $('#password');
+        passwordInput.attr('placeholder', 'Password default sama dengan Username'); // Reset placeholder menjadi kosong
     }
 
     $('#exampleModal').on('hidden.bs.modal', function() {

@@ -163,7 +163,7 @@
                         <label>Password<span class="wajib">*</span>: </label>
                         <div class="form-group">
                             <input id="password" type="password" name="password" class="form-control pw"
-                                placeholder="Biarkan kosong jika tidak ingin diganti">
+                                placeholder="Password default sama dengan Username">
                         </div>
                     </div>
                     <div class="modal-footer">
