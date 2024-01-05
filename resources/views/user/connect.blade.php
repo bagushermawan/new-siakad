@@ -57,37 +57,28 @@
                             </div>
                             <div class="d-flex justify-content-center align-items-center flex-column">
                                 <div class="avatar avatar-3xl">
-                                    <img src="{{ asset('compiled/svg/addsantri.svg') }}" alt="Avatar" id="fotoPondok">
+                                    @if ($santri->foto_user != null)
+                                    <img src="{{ asset('storage/' . $santri->foto_user) }}" alt="Avatar" id="fotoPondok">
+                                    @endif
                                 </div>
                             </div>
                             <div class="card-body">
-                                <form method="post" action="{{ route('search-santri') }}">
+                                <div class="form-group">
+                                    <h6>Nama Santri: {{ $santri->name }}</h6>
+                                </div>
+                                <div class="form-group">
+                                    <h6>Username: {{ $santri->username }}</h6>
+                                </div>
+                                <div class="form-group">
+                                    <h6>Kelas: {{ optional($santri->kelas)->name }}</h6>
+                                </div>
+                                <div class="form-group">
+                                    <h6>No HP: {{ $santri->nohp }}</h6>
+                                </div>
+                                <form method="post" action="{{ route('hubungkan-santri', ['santriId' => $santri->id]) }}">
                                     @csrf
-                                    <h6>Username:</h6>
-                                    <div class="form-group position-relative has-icon-left">
-                                        <input type="text" class="form-control" name="username">
-                                        <div class="form-control-icon">
-                                            <i class="bi bi-person"></i>
-                                        </div>
-                                    </div>
-
-                                    <h6>No HP:</h6>
-                                    <div class="form-group position-relative has-icon-left">
-                                        <input type="number" class="form-control" name="nohp">
-                                        <div class="form-control-icon">
-                                            <i class="fas fa-mobile-alt"></i>
-                                        </div>
-                                    </div>
-                                    <code>Pastikan siswa sudah memiliki akun dan terhubung dengan sekolah</code>
-                                    @if (session('error'))
-                                        <div class="alert alert-danger alert-dismissible fade show">
-                                            {{ session('error') }}
-                                            <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                                aria-label="Close"></button>
-                                        </div>
-                                    @endif
                                     <div class="form-group position-relative">
-                                        <button class="form-control btn btn-primary" type="submit">SEARCH</button>
+                                        <button class="form-control btn btn-outline-success" type="submit">HUBUNGKAN</button>
                                     </div>
                                 </form>
                             </div>
@@ -103,11 +94,7 @@
                             </div>
                             <div class="d-flex justify-content-center align-items-center flex-column">
                                 <div class="avatar avatar-3xl">
-                                    @if ($fotoSantri != '')
-                                        <img src="{{ asset('storage/' . $fotoSantri) }}" alt="Avatar" id="fotoPondok">
-                                    @else
-                                        <img src="{{ asset('/compiled/jpg/1.jpg') }}" alt="Avatar">{{ $fotoSantri }}
-                                    @endif
+                                    <img src="{{ asset('storage/' . $fotoSantri) }}" alt="Avatar" id="fotoPondok">
                                 </div>
                             </div>
                             <div class="table-responsive" style="margin-top: 3rem;">
@@ -229,7 +216,8 @@
                 @endif
 
             </div>
-            <section class="row">
+
+            {{-- <section class="row">
                 <div class="col-12 col-lg-3">
                     <div class="card" style="max-height: 425px; overflow-y: auto;" id="cardi">
                         <div class="card-header d-flex justify-content-between align-items-center">
@@ -299,7 +287,8 @@
                         @endforeach
                     </div>
                 </div>
-            </section>
+            </section> --}}
+
         </div>
     </div>
 @endsection
@@ -312,5 +301,4 @@
     <script src="{{ asset('extensions/datatables.net/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('extensions/datatables.net-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
     @include('user.script')
-    @include('user.datatables')
 @endpush

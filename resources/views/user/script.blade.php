@@ -25,7 +25,7 @@
     });
 </script>
 
-<script>
+{{-- <script>
     $(document).ready(function() {
         // Inisialisasi Perfect Scrollbar
         const ps = new PerfectScrollbar('#cardi', {
@@ -70,7 +70,7 @@
             }, 500); // Sesuaikan dengan durasi animasi
         });
     });
-</script>
+</script> --}}
 
 {{-- <script>
 // Fetch data user role count dari endpoint '/userd-role-count'

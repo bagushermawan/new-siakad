@@ -52,6 +52,7 @@ Route::middleware('auth:web,wali')->group(function () {
     Route::get('/jadwalmatapelajaranUser', [UserDashboardController::class, 'dataJadwalPelajaranUser']);
     Route::get('/get_tahunajaran_optionss', [UserDashboardController::class, 'getTahunAjaranOptions']);
     Route::post('/search-santri', [UserDashboardController::class, 'searchSantri'])->name('search-santri');
+    Route::post('/hubungkan-santri/{santriId}', [UserDashboardController::class, 'hubungkanSantri'])->name('hubungkan-santri');
 });
 
 Route::middleware('auth')->group(function () {

@@ -1,3 +1,4 @@
+@if ($santriId != null)
 <script>
     $(document).ready(function() {
         // Mengambil data tahun ajaran dari server
@@ -80,10 +81,11 @@
 
     });
 </script>
+@endif
 
 <script>
 function refreshDataTable() {
-    var dataTable = $('#yourDataTableId').DataTable();
+    var dataTable = $('#myTable').DataTable();
     var refreshIcon = $('#refreshIcon');
     var refreshText = $('#refreshText');
 

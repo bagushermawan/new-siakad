@@ -44,7 +44,7 @@ class UserDashboardController extends Controller
             $emailSantri = $santriData->email ?? 'Email Tidak Tersedia';
             $namaSantri = $santriData->name ?? 'Nama Santri Tidak Tersedia';
             $usernameSantri = $santriData->username ?? 'Username Santri Tidak Tersedia';
-            $fotoSantri = $santriData->foto_user ?? 'Foto Santri Tidak Tersedia';
+            $fotoSantri = $santriData->foto_user ?? '';
             $kelasSantri = $santriData->kelas ? $santriData->kelas->name : 'Kelas Santri Tidak Tersedia';
         } else {
             $nisnSantri = 'NISN Tidak Tersedia';
@@ -52,7 +52,7 @@ class UserDashboardController extends Controller
             $emailSantri = 'Email Tidak Tersedia';
             $namaSantri = 'Nama Santri Tidak Tersedia';
             $usernameSantri = 'Username Santri Tidak Tersedia';
-            $fotoSantri = 'Foto Santri Tidak Tersedia';
+            // $fotoSantri = 'Foto Santri Tidak Tersedia';
             $kelasSantri = 'Kelas Santri Tidak Tersedia';
         }
 
@@ -206,6 +206,14 @@ class UserDashboardController extends Controller
 
     public function searchSantri(Request $request)
     {
+        $user = Auth::user();
+        $roles = $user->getRoleNames();
+        $loggedInUserId = Auth::user()->id;
+        $santriId = WaliSantri::where('id', $loggedInUserId)->value('santri_id');
+        $waktu_sekarang = Carbon::now();
+        Carbon::setLocale('id');
+        $format_lengkap = $waktu_sekarang->translatedFormat('l, d F Y');
+
         $username = $request->input('username');
         $noHp = $request->input('nohp');
 
@@ -217,10 +225,30 @@ class UserDashboardController extends Controller
 
         if ($santri) {
             // Santri ditemukan, lakukan tindakan yang sesuai, misalnya menghubungkan atau menampilkan informasi
-            return redirect()->route('user.dashboard')->with('success', 'Santri ditemukan');
+            // return redirect()->route('user.dashboard', ['santri' => $santri])->with('success', 'Santri ditemukan');
+            return view('user.connect', ['santri' => $santri, 'roles' => $roles, 'santriId' => $santriId,'waktu_sekarang' => $format_lengkap,'success' => 'Santri ditemukan']);
         } else {
             // Santri tidak ditemukan, berikan pesan kesalahan atau tindakan lainnya
             return redirect()->back()->with('error', 'Santri tidak ditemukan');
+        }
+    }
+
+    public function hubungkanSantri(Request $request, $santriId)
+    {
+        // Mendapatkan objek WaliSantri yang sesuai
+        $waliSantri = Auth::user()->id;
+        // $wali = WaliSantri::where('id', $waliSantri)->value('id');
+
+        // dd($waliSantri);
+        // Memastikan objek WaliSantri ditemukan
+        if ($waliSantri) {
+            // Mengupdate kolom santri_id
+            // $waliSantri->update(['santri_id' => $santriId]);
+            WaliSantri::where('id', $waliSantri)->update(['santri_id' => $santriId]);
+
+            return redirect()->route('user.dashboard')->with('success', 'Santri berhasil dihubungkan.');
+        } else {
+            return redirect()->route('user.dashboard')->with('error', 'Data WaliSantri tidak ditemukan.');
         }
     }
 
