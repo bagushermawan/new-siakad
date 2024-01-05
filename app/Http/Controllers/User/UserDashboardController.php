@@ -66,10 +66,15 @@ class UserDashboardController extends Controller
 
         // Mendapatkan data riwayat login dari users dan wali_santris
         $data_riwayat_login_users = RiwayatLogin::where('user_id', '!=', $loggedInUserId)
-            ->where('wali_santri_id', null)
-            ->orderBy('status_login', 'DESC')
-            ->orderBy('updated_at', 'DESC')
-            ->get();
+        ->where('wali_santri_id', null)
+        ->whereHas('user', function ($query) {
+            $query->whereHas('roles', function ($roleQuery) {
+                $roleQuery->where('name', 'user');
+            });
+        })
+        ->orderBy('status_login', 'DESC')
+        ->orderBy('updated_at', 'DESC')
+        ->get();
 
         $data_riwayat_login_walis = RiwayatLogin::where('wali_santri_id', '!=', $loggedInUserId)
             ->orderBy('status_login', 'DESC')
