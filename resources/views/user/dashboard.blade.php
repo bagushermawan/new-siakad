@@ -29,77 +29,101 @@
         </div>
         <div class="page-content">
             <div class="row">
-                <div class="card col-6">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <h4>Informasi Data Santri Anda</h4>
+                @if ($waliSantri && $waliSantri->santri_id === null)
+                    {{-- <h1>Tidak ada santri ID</h1> --}}
+                    <div class="card col-6">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <h4>Tidak ada santri ID</h4>
+                            </div>
                         </div>
                     </div>
-                    <div class="d-flex justify-content-center align-items-center flex-column">
-                                <div class="avatar avatar-3xl">
-                                    <img src="" alt="Avatar" id="fotoPondok">
-                                </div>
+                @else
+                    <div class="card col-8">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <h4>Informasi Data Santri Anda</h4>
                             </div>
-                    <div class="table-responsive" style="margin-top: 3rem;">
-                        <table class="table table-borderless table-lg">
-                            <tbody>
-                                <tr>
-                                    <td class="col-5">
-                                        <div class="d-flex align-items-center">
-                                            <p class="font-bold h6 mb-0">NISN</p>
-                                        </div>
-                                    </td>
-                                    <td class="col-auto">
-                                        <p class=" mb-0"><span class="profilepp"
-                                                style="margin-left: 1rem">
-                                                : {{ $nisnSantri }}
-                                            </span>
-                                        </p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="col-5">
-                                        <div class="d-flex align-items-center">
-                                            <p class="font-bold h6 mb-0">Nama Santri</p>
-                                        </div>
-                                    </td>
-                                    <td class="col-auto">
-                                        <p class=" mb-0">
-                                            <span class="profilepp"
-                                            style="margin-left: 1rem">
-                                            : {{ $namaSantri }}
-                                            </span>
-                                        </p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="col-5">
-                                        <div class="d-flex align-items-center">
-                                            <p class="font-bold h6 mb-0">Telepon Santri</p>
-                                        </div>
-                                    </td>
-                                    <td class="col-auto">
-                                        <p class=" mb-0"><span class="profilepp"
-                                                style="margin-left: 1rem">: {{ $nohpSantri }}</span>
-                                        </p>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="col-5">
-                                        <div class="d-flex align-items-center">
-                                            <p class="font-bold h6 mb-0">Email Santri</p>
-                                        </div>
-                                    </td>
-                                    <td class="col-auto">
-                                        <p class=" mb-0"><span class="profilepp"
-                                                style="margin-left: 1rem">: {{ $emailSantri }}</span>
-                                        </p>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        </div>
+                        <div class="d-flex justify-content-center align-items-center flex-column">
+                            <div class="avatar avatar-3xl">
+                                <img src="{{ asset('storage/' . $fotoSantri) }}" alt="Avatar" id="fotoPondok">
+                            </div>
+                        </div>
+                        <div class="table-responsive" style="margin-top: 3rem;">
+                            <table class="table table-borderless table-lg">
+                                <tbody>
+                                    <tr>
+                                        <td class="col-5">
+                                            <div class="d-flex align-items-center">
+                                                <p class="font-bold h6 mb-0">NISN</p>
+                                            </div>
+                                        </td>
+                                        <td class="col-auto">
+                                            <p class=" mb-0"><span class="profilepp" style="margin-left: 1rem">
+                                                    : {{ $nisnSantri }}
+                                                </span>
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="col-5">
+                                            <div class="d-flex align-items-center">
+                                                <p class="font-bold h6 mb-0">Nama Santri</p>
+                                            </div>
+                                        </td>
+                                        <td class="col-auto">
+                                            <p class=" mb-0">
+                                                <span class="profilepp" style="margin-left: 1rem">
+                                                    : {{ $namaSantri }}
+                                                </span>
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="col-5">
+                                            <div class="d-flex align-items-center">
+                                                <p class="font-bold h6 mb-0">Username Santri</p>
+                                            </div>
+                                        </td>
+                                        <td class="col-auto">
+                                            <p class=" mb-0">
+                                                <span class="profilepp" style="margin-left: 1rem">
+                                                    : {{ $usernameSantri }}
+                                                </span>
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="col-5">
+                                            <div class="d-flex align-items-center">
+                                                <p class="font-bold h6 mb-0">Telepon Santri</p>
+                                            </div>
+                                        </td>
+                                        <td class="col-auto">
+                                            <p class=" mb-0"><span class="profilepp" style="margin-left: 1rem">:
+                                                    {{ $nohpSantri }}</span>
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="col-5">
+                                            <div class="d-flex align-items-center">
+                                                <p class="font-bold h6 mb-0">Email Santri</p>
+                                            </div>
+                                        </td>
+                                        <td class="col-auto">
+                                            <p class=" mb-0"><span class="profilepp" style="margin-left: 1rem">:
+                                                    {{ $emailSantri }}</span>
+                                            </p>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                </div>
+                @endif
+
             </div>
             <section class="row">
                 <div class="col-12 col-lg-3">

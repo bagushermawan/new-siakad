@@ -31,7 +31,7 @@ class UserDashboardController extends Controller
 
         // Contoh penggunaan di controller atau di mana pun Anda membutuhkannya
         $waliSantri = WaliSantri::with(['santri' => function ($query) {
-            $query->select('id', 'nisn', 'name', 'nohp', 'email');
+            $query->select('id', 'nisn', 'name', 'username', 'nohp', 'email', 'foto_user');
         }])->find($loggedInUserId);
         // Mendapatkan data santri
         if ($waliSantri && $waliSantri->santri) {
@@ -41,11 +41,15 @@ class UserDashboardController extends Controller
             $nohpSantri = $santriData->nohp ?? 'No HP Tidak Tersedia';
             $emailSantri = $santriData->email ?? 'Email Tidak Tersedia';
             $namaSantri = $santriData->name ?? 'Nama Santri Tidak Tersedia';
+            $usernameSantri = $santriData->username ?? 'Username Santri Tidak Tersedia';
+            $fotoSantri = $santriData->foto_user ?? 'Foto Santri Tidak Tersedia';
         } else {
             $nisnSantri = 'NISN Tidak Tersedia';
             $nohpSantri = 'No HP Tidak Tersedia';
             $emailSantri = 'Email Tidak Tersedia';
             $namaSantri = 'Nama Santri Tidak Tersedia';
+            $usernameSantri = 'Username Santri Tidak Tersedia';
+            $fotoSantri = 'Foto Santri Tidak Tersedia';
         }
 
         $waktu_sekarang = Carbon::now();
@@ -72,9 +76,11 @@ class UserDashboardController extends Controller
             'roles' => $roles,
             'waliSantri' => $waliSantri,
             'namaSantri' => $namaSantri,
+            'usernameSantri' => $usernameSantri,
             'nisnSantri' => $nisnSantri,
             'nohpSantri' => $nohpSantri,
             'emailSantri' => $emailSantri,
+            'fotoSantri' => $fotoSantri,
             'data_riwayat_login_users' => $data_riwayat_login_users,
             'data_riwayat_login_walis' => $data_riwayat_login_walis,
             'waktu_sekarang' => $format_lengkap,
