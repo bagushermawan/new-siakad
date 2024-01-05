@@ -1,6 +1,9 @@
 @extends('user.layouts.master')
 @section('title', 'Dashboard')
 @push('user-css')
+    <link rel="stylesheet" href="{{ asset('extensions/datatables.net-bs5/css/dataTables.bootstrap5.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('compiled/css/table-datatable-jquery.css') }}">
+    <link rel="stylesheet" href="{{ asset('/extensions/moment/moment.min.js') }}">
     <style>
         html[data-bs-theme=dark] .text-sm {
             font-size: .775rem;
@@ -29,97 +32,137 @@
         </div>
         <div class="page-content">
             <div class="row">
-                @if ($waliSantri && $waliSantri->santri_id === null)
+                @if ($santriId == null)
                     {{-- <h1>Tidak ada santri ID</h1> --}}
                     <div class="card col-6">
                         <div class="card-header">
                             <div class="card-title">
-                                <h4>Tidak ada santri ID</h4>
+                                <h4>Tidak ada santri ID {{ $santriId }}</h4>
                             </div>
                         </div>
                     </div>
                 @else
-                    <div class="card col-8">
-                        <div class="card-header">
-                            <div class="card-title">
-                                <h4>Informasi Data Santri Anda</h4>
+                    <div class="col-5">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <h4>Informasi Data Santri Anda</h4>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-center align-items-center flex-column">
+                                <div class="avatar avatar-3xl">
+                                    <img src="{{ asset('storage/' . $fotoSantri) }}" alt="Avatar" id="fotoPondok">
+                                </div>
+                            </div>
+                            <div class="table-responsive" style="margin-top: 3rem;">
+                                <table class="table table-borderless table-lg">
+                                    <tbody>
+                                        <tr>
+                                            <td class="col-4">
+                                                <div class="d-flex align-items-center">
+                                                    <p class="font-bold h6 mb-0">NISN</p>
+                                                </div>
+                                            </td>
+                                            <td class="col-auto">
+                                                <p class=" mb-0"><span class="profilepp" style="margin-left: 1rem">
+                                                        : {{ $nisnSantri }}
+                                                    </span>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="col-4">
+                                                <div class="d-flex align-items-center">
+                                                    <p class="font-bold h6 mb-0">Nama Santri</p>
+                                                </div>
+                                            </td>
+                                            <td class="col-auto">
+                                                <p class=" mb-0">
+                                                    <span class="profilepp" style="margin-left: 1rem">
+                                                        : {{ $namaSantri }}
+                                                    </span>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="col-4">
+                                                <div class="d-flex align-items-center">
+                                                    <p class="font-bold h6 mb-0">Username Santri</p>
+                                                </div>
+                                            </td>
+                                            <td class="col-auto">
+                                                <p class=" mb-0">
+                                                    <span class="profilepp" style="margin-left: 1rem">
+                                                        : {{ $usernameSantri }}
+                                                    </span>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="col-4">
+                                                <div class="d-flex align-items-center">
+                                                    <p class="font-bold h6 mb-0">Kelas Santri</p>
+                                                </div>
+                                            </td>
+                                            <td class="col-auto">
+                                                <p class=" mb-0">
+                                                    <span class="profilepp" style="margin-left: 1rem">
+                                                        : {{ $kelasSantri }}
+                                                    </span>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="col-4">
+                                                <div class="d-flex align-items-center">
+                                                    <p class="font-bold h6 mb-0">Telepon Santri</p>
+                                                </div>
+                                            </td>
+                                            <td class="col-auto">
+                                                <p class=" mb-0"><span class="profilepp" style="margin-left: 1rem">:
+                                                        {{ $nohpSantri }}</span>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="col-4">
+                                                <div class="d-flex align-items-center">
+                                                    <p class="font-bold h6 mb-0">Email Santri</p>
+                                                </div>
+                                            </td>
+                                            <td class="col-auto">
+                                                <p class=" mb-0"><span class="profilepp" style="margin-left: 1rem">:
+                                                        {{ $emailSantri }}</span>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
-                        <div class="d-flex justify-content-center align-items-center flex-column">
-                            <div class="avatar avatar-3xl">
-                                <img src="{{ asset('storage/' . $fotoSantri) }}" alt="Avatar" id="fotoPondok">
+                    </div>
+
+                    <div class="col-7">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <h6 class="d-flex justify-content-between align-items-center">
+                                        <span>Tahun Ajaran: <b>{{ $thaktif->name }}</b></span>
+                                        <div class="ml-auto">Semester:
+                                            <select class="" id="filterTahunAjaran">
+                                                <option value="">Semester</option>
+                                            </select>
+                                        </div>
+
+                                    </h6>
+                                </div>
                             </div>
-                        </div>
-                        <div class="table-responsive" style="margin-top: 3rem;">
-                            <table class="table table-borderless table-lg">
-                                <tbody>
-                                    <tr>
-                                        <td class="col-5">
-                                            <div class="d-flex align-items-center">
-                                                <p class="font-bold h6 mb-0">NISN</p>
-                                            </div>
-                                        </td>
-                                        <td class="col-auto">
-                                            <p class=" mb-0"><span class="profilepp" style="margin-left: 1rem">
-                                                    : {{ $nisnSantri }}
-                                                </span>
-                                            </p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="col-5">
-                                            <div class="d-flex align-items-center">
-                                                <p class="font-bold h6 mb-0">Nama Santri</p>
-                                            </div>
-                                        </td>
-                                        <td class="col-auto">
-                                            <p class=" mb-0">
-                                                <span class="profilepp" style="margin-left: 1rem">
-                                                    : {{ $namaSantri }}
-                                                </span>
-                                            </p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="col-5">
-                                            <div class="d-flex align-items-center">
-                                                <p class="font-bold h6 mb-0">Username Santri</p>
-                                            </div>
-                                        </td>
-                                        <td class="col-auto">
-                                            <p class=" mb-0">
-                                                <span class="profilepp" style="margin-left: 1rem">
-                                                    : {{ $usernameSantri }}
-                                                </span>
-                                            </p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="col-5">
-                                            <div class="d-flex align-items-center">
-                                                <p class="font-bold h6 mb-0">Telepon Santri</p>
-                                            </div>
-                                        </td>
-                                        <td class="col-auto">
-                                            <p class=" mb-0"><span class="profilepp" style="margin-left: 1rem">:
-                                                    {{ $nohpSantri }}</span>
-                                            </p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="col-5">
-                                            <div class="d-flex align-items-center">
-                                                <p class="font-bold h6 mb-0">Email Santri</p>
-                                            </div>
-                                        </td>
-                                        <td class="col-auto">
-                                            <p class=" mb-0"><span class="profilepp" style="margin-left: 1rem">:
-                                                    {{ $emailSantri }}</span>
-                                            </p>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+
+                            <div class="table-responsive">
+                                <table class="table table-borderless" id="myTable">
+                                    {{-- isi jadwal mata pelajaran --}}
+                                </table>
+                            </div>
                         </div>
                     </div>
                 @endif
@@ -204,5 +247,9 @@
     <script src="{{ asset('extensions/chart.js/chart.umd.min.js') }}"></script>
     <script src="{{ asset('extensions/chart.js/chartjs-plugin-datalabels.min.js') }}"></script>
     <script src="{{ asset('extensions/apexcharts/apexcharts.min.js') }}"></script>
+
+    <script src="{{ asset('extensions/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('extensions/datatables.net-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
     @include('user.script')
+    @include('user.datatables')
 @endpush

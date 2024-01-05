@@ -10,9 +10,14 @@ use Illuminate\Http\Request;
 use App\Models\MataPelajaran;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
+use App\Models\JadwalMataPelajaran;
+use App\Models\Nilai;
+use App\Models\TahunAjaran;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Permission;
+use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\DB;
 
 class UserDashboardController extends Controller
 {
@@ -21,18 +26,15 @@ class UserDashboardController extends Controller
      */
     public function index()
     {
-        // Mendapatkan instance dari user yang sedang login
         $user = Auth::user();
-        // Mendapatkan roles dari user
         $roles = $user->getRoleNames();
 
         $loggedInUserId = Auth::user()->id;
-        // dd($loggedInUserId);
+        $santriId = WaliSantri::where('id', $loggedInUserId)->value('santri_id');
 
         // Contoh penggunaan di controller atau di mana pun Anda membutuhkannya
-        $waliSantri = WaliSantri::with(['santri' => function ($query) {
-            $query->select('id', 'nisn', 'name', 'username', 'nohp', 'email', 'foto_user');
-        }])->find($loggedInUserId);
+        $waliSantri = WaliSantri::with(['santri.kelas:id,name'])->find($loggedInUserId);
+
         // Mendapatkan data santri
         if ($waliSantri && $waliSantri->santri) {
             $santriData = $waliSantri->santri;
@@ -43,6 +45,7 @@ class UserDashboardController extends Controller
             $namaSantri = $santriData->name ?? 'Nama Santri Tidak Tersedia';
             $usernameSantri = $santriData->username ?? 'Username Santri Tidak Tersedia';
             $fotoSantri = $santriData->foto_user ?? 'Foto Santri Tidak Tersedia';
+            $kelasSantri = $santriData->kelas ? $santriData->kelas->name : 'Kelas Santri Tidak Tersedia';
         } else {
             $nisnSantri = 'NISN Tidak Tersedia';
             $nohpSantri = 'No HP Tidak Tersedia';
@@ -50,6 +53,7 @@ class UserDashboardController extends Controller
             $namaSantri = 'Nama Santri Tidak Tersedia';
             $usernameSantri = 'Username Santri Tidak Tersedia';
             $fotoSantri = 'Foto Santri Tidak Tersedia';
+            $kelasSantri = 'Kelas Santri Tidak Tersedia';
         }
 
         $waktu_sekarang = Carbon::now();
@@ -68,6 +72,8 @@ class UserDashboardController extends Controller
             ->orderBy('updated_at', 'DESC')
             ->get();
 
+        $thaktif = TahunAjaran::where('status', 'aktif')->first();
+
         // Alternatif: Mendapatkan role pertama dari user
         // $role = $user->getRoleNames()->first();
 
@@ -81,6 +87,9 @@ class UserDashboardController extends Controller
             'nohpSantri' => $nohpSantri,
             'emailSantri' => $emailSantri,
             'fotoSantri' => $fotoSantri,
+            'kelasSantri' => $kelasSantri,
+            'thaktif' => $thaktif,
+            'santriId' => $santriId,
             'data_riwayat_login_users' => $data_riwayat_login_users,
             'data_riwayat_login_walis' => $data_riwayat_login_walis,
             'waktu_sekarang' => $format_lengkap,
@@ -97,6 +106,102 @@ class UserDashboardController extends Controller
             'series' => [$guruCount, $userCount, $waliCount],
             'labels' => ['Guru', 'User', 'Wali'],
         ]);
+    }
+
+    public function dataNilaiSiswa()
+    {
+        $loggedInUserId = Auth::user()->id;
+
+        // Dapatkan ID Santri yang terkait dengan waliSantri yang sedang login
+        $santriId = WaliSantri::where('id', $loggedInUserId)->value('santri_id');
+
+        if ($santriId) {
+            // Dapatkan kelas dari Santri
+            $kelasSantri = User::where('id', $santriId)->value('kelas_id');
+
+            // Dapatkan tahun ajaran yang sedang aktif berdasarkan name
+            $tahunAjaranAktif = TahunAjaran::where('status', 'aktif')->first();
+            $tahunAjaranName = $tahunAjaranAktif->name;
+
+            // Gunakan ID Santri, kelas, dan name tahun ajaran untuk mengambil nilai
+            $dataNilai = Nilai::with(['user', 'kelas', 'mataPelajaran', 'tahunAjaran'])
+            ->where('user_id', $santriId)
+                ->where('kelas_id', $kelasSantri)
+                ->whereHas('tahunAjaran', function ($query) use ($tahunAjaranName) {
+                    $query->where('name', $tahunAjaranName);
+                })
+                ->orderBy('tahun_ajaran_id', 'asc')
+                ->get();
+
+            return DataTables::of($dataNilai)
+                ->addIndexColumn()
+                ->addColumn('user_id', function ($data) {
+                    return $data->user->name;
+                })
+                ->addColumn('kelas_id', function ($data) {
+                    return $data->kelas->name;
+                })
+                ->addColumn('mata_pelajaran_id', function ($data) {
+                    return optional($data->mataPelajaran)->name ?? 'Tidak Ada Mata Pelajaran';
+                })
+                ->addColumn('tahun_ajaran_id', function ($data) {
+                    $namaTahunAjaran = optional($data->tahunAjaran)->name ?? 'Tidak Ada Nama Tahun Ajaran';
+                    $semester = optional($data->tahunAjaran)->semester ?? 'Tidak Ada Semester';
+
+                    return $namaTahunAjaran . ' (' . $semester . ')';
+                })
+                ->make(true);
+        } else {
+            // Jika tidak ada ID Santri yang terkait, kembalikan response kosong atau sesuai kebutuhan Anda
+            return DataTables::of([])->make(true);
+        }
+    }
+
+    public function dataJadwalPelajaranUser()
+    {
+        $loggedInUserId = Auth::user()->id;
+        $thaktif = TahunAjaran::where('status', 'aktif')->first();
+        $waliSantri = WaliSantri::with(['santri.kelas:id'])->find($loggedInUserId);
+        $kelasSantri = optional($waliSantri->santri->kelas)->id;
+
+        $data = JadwalMataPelajaran::with(['kelas', 'mataPelajaran', 'tahunAjaran'])
+            ->where('kelas_id', $kelasSantri)
+            // ->where('tahun_ajaran_id', $thaktif->id)
+            ->orderBy('kelas_id', 'asc');
+        return DataTables::of($data)
+            ->addIndexColumn()
+            ->addColumn('kelas_id', function ($data) {
+                // Pastikan properti yang diakses benar-benar ada sebelum mengaksesnya
+                return optional($data->kelas)->name ?? 'Kelas tidak tersedia';
+            })
+            ->addColumn('mata_pelajaran_id', function ($data) {
+                // Pastikan properti yang diakses benar-benar ada sebelum mengaksesnya
+                return optional($data->mataPelajaran)->name ?? 'Mata Pelajaran tidak tersedia';
+            })
+            ->addColumn('tahun_ajaran_id', function ($data) {
+                $tahunAjaran = $data->tahunAjaran;
+
+                if ($tahunAjaran) {
+                    // Pastikan properti yang diakses benar-benar ada sebelum mengaksesnya
+                    $namaTahunAjaran = optional($tahunAjaran)->name ?? 'Tidak Ada Nama Tahun Ajaran';
+                    $semester = optional($tahunAjaran)->semester ?? 'Tidak Ada Semester';
+
+                    return $namaTahunAjaran . ' (' . $semester . ')';
+                } else {
+                    return 'Tahun Ajaran tidak tersedia';
+                }
+            })
+            ->make(true);
+    }
+
+    public function getTahunAjaranOptions()
+    {
+        $tahunAjaranAktif = TahunAjaran::where('status', 'aktif')->first();
+
+        // Mengambil semua data tahun ajaran yang memiliki tahun yang sama dengan yang aktif
+        $tahunAjaranOptions = TahunAjaran::where('name', $tahunAjaranAktif->name)->get(['id', 'name', 'semester']);
+
+        return response()->json($tahunAjaranOptions);
     }
 
     /**

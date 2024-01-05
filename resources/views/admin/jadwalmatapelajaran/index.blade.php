@@ -159,7 +159,8 @@
                             <select id="tahun_ajaran_id" name="tahun_ajaran_id" class="form-control">
                                 <option value="">Pilih Tahun Ajaran</option>
                                 @foreach ($tahunajaran as $a)
-                                    <option value="{{ $a->id }}">{{ $a->name }} - {{ $a->semester }}
+                                    <option value="{{ $a->id }}" @if ($a->status != 'aktif') disabled @endif>
+                                        {{ $a->name }} - {{ $a->semester }} - {{ $a->status }}
                                     </option>
                                 @endforeach
                             </select>
