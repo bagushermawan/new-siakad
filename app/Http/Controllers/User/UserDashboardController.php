@@ -52,7 +52,7 @@ class UserDashboardController extends Controller
             $emailSantri = 'Email Tidak Tersedia';
             $namaSantri = 'Nama Santri Tidak Tersedia';
             $usernameSantri = 'Username Santri Tidak Tersedia';
-            // $fotoSantri = 'Foto Santri Tidak Tersedia';
+            $fotoSantri = '';
             $kelasSantri = 'Kelas Santri Tidak Tersedia';
         }
 
