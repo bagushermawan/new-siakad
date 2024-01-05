@@ -125,7 +125,7 @@ class UserDashboardController extends Controller
 
             // Gunakan ID Santri, kelas, dan name tahun ajaran untuk mengambil nilai
             $dataNilai = Nilai::with(['user', 'kelas', 'mataPelajaran', 'tahunAjaran'])
-            ->where('user_id', $santriId)
+                ->where('user_id', $santriId)
                 ->where('kelas_id', $kelasSantri)
                 ->whereHas('tahunAjaran', function ($query) use ($tahunAjaranName) {
                     $query->where('name', $tahunAjaranName);
@@ -202,6 +202,26 @@ class UserDashboardController extends Controller
         $tahunAjaranOptions = TahunAjaran::where('name', $tahunAjaranAktif->name)->get(['id', 'name', 'semester']);
 
         return response()->json($tahunAjaranOptions);
+    }
+
+    public function searchSantri(Request $request)
+    {
+        $username = $request->input('username');
+        $noHp = $request->input('nohp');
+
+        // Lakukan pencarian berdasarkan username dan nomor HP
+        $santri = User::where('username', $username)
+            ->where('nohp', $noHp)
+            ->first();
+        // dd($santri);
+
+        if ($santri) {
+            // Santri ditemukan, lakukan tindakan yang sesuai, misalnya menghubungkan atau menampilkan informasi
+            return redirect()->route('user.dashboard')->with('success', 'Santri ditemukan');
+        } else {
+            // Santri tidak ditemukan, berikan pesan kesalahan atau tindakan lainnya
+            return redirect()->back()->with('error', 'Santri tidak ditemukan');
+        }
     }
 
     /**
