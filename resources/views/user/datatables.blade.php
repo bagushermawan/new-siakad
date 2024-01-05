@@ -8,11 +8,17 @@
             success: function(tahunAjaranOptions) {
                 var selectTahunAjaran = document.getElementById('filterTahunAjaran');
 
-                tahunAjaranOptions.forEach(function(tahunAjaran) {
+                tahunAjaranOptions.forEach(function(tahunAjaran, index) {
                     var option = document.createElement('option');
                     option.value = tahunAjaran.name + ' (' + tahunAjaran.semester + ')';
                     option.text = tahunAjaran.semester;
                     selectTahunAjaran.add(option);
+
+                    // Menandai option pertama sebagai yang terpilih
+                    if (index === 0) {
+                        option.selected = true;
+                        $(selectTahunAjaran).trigger('change');
+                    }
                 });
             },
             error: function(xhr, status, error) {
@@ -73,4 +79,25 @@
 
 
     });
+</script>
+
+<script>
+function refreshDataTable() {
+    var dataTable = $('#yourDataTableId').DataTable();
+    var refreshIcon = $('#refreshIcon');
+    var refreshText = $('#refreshText');
+
+    // Menampilkan ikon spinner dan menyembunyikan teks
+    refreshIcon.removeClass('d-none');
+    refreshText.addClass('d-none');
+
+    // Memuat ulang data DataTable setelah sedikit waktu (misalnya, 1 detik dalam contoh ini)
+    setTimeout(function() {
+        dataTable.ajax.reload();
+
+        // Sembunyikan ikon spinner dan menampilkan teks kembali setelah memuat ulang
+        refreshIcon.addClass('d-none');
+        refreshText.removeClass('d-none');
+    }, 1000);
+}
 </script>

@@ -18,6 +18,20 @@
             line-height: 1.2;
             color: var(--bs-heading-color);
         }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
     </style>
 @endpush
 @section('content')
@@ -160,8 +174,13 @@
 
                             <div class="table-responsive">
                                 <table class="table table-borderless" id="myTable">
-                                    {{-- isi jadwal mata pelajaran --}}
+                                    {{-- isi nilai santri --}}
                                 </table>
+                                <a onclick="refreshDataTable();"
+                                    class="btn icon icon-left d-flex justify-content-center align-items-center">
+                                    <span id="refreshText">REFRESH</span>
+                                    <i id="refreshIcon" class="fas fa-sync fa-spin d-none"></i>
+                                </a>
                             </div>
                         </div>
                     </div>
