@@ -65,15 +65,15 @@
                                     @csrf
                                     <h6>Username:</h6>
                                     <div class="form-group position-relative has-icon-left">
-                                        <input type="text" class="form-control" name="username">
+                                        <input type="text" class="form-control" name="username" placeholder="Masukkan Username Santri">
                                         <div class="form-control-icon">
-                                            <i class="bi bi-person"></i>
+                                            <i class="fas fa-at"></i>
                                         </div>
                                     </div>
 
                                     <h6>No HP:</h6>
                                     <div class="form-group position-relative has-icon-left">
-                                        <input type="number" class="form-control" name="nohp">
+                                        <input type="number" class="form-control" name="nohp" placeholder="Masukkan No.HP Santri">
                                         <div class="form-control-icon">
                                             <i class="fas fa-mobile-alt"></i>
                                         </div>
@@ -214,13 +214,13 @@
                                 </div>
                             </div>
 
-                            <div class="table-responsive">
+                            <div class="table-responsive" id="tebel">
                                 <table class="table table-borderless" id="myTable">
                                     {{-- isi nilai santri --}}
                                 </table>
                                 <a onclick="refreshDataTable();"
                                     class="btn icon icon-left d-flex justify-content-center align-items-center">
-                                    <span id="refreshText">REFRESH</span>
+                                    <span id="refreshText" style="color: rgb(142, 158, 216)">REFRESH</span>
                                     <i id="refreshIcon" class="fas fa-sync fa-spin d-none"></i>
                                 </a>
                             </div>
@@ -230,7 +230,7 @@
 
             </div>
             <section class="row">
-                <div class="col-12 col-lg-3">
+                <div class="col-12 col-lg-4">
                     <div class="card" style="max-height: 425px; overflow-y: auto;" id="cardi">
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <h4>Riwayat Login</h4>

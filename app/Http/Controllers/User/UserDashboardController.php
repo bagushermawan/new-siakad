@@ -18,6 +18,10 @@ use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Permission;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\DB;
+use Illuminate\View\View;
+use App\Http\Requests\ProfileUpdateRequest;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Redirect;
 
 class UserDashboardController extends Controller
 {
@@ -252,44 +256,56 @@ class UserDashboardController extends Controller
         }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         //
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(UserBiasa $userBiasa)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(UserBiasa $userBiasa)
+    public function edit(Request $request): View
     {
-        //
+        $user = Auth::user();
+        $roles = $user->getRoleNames();
+
+        $waktu_sekarang = Carbon::now();
+        Carbon::setLocale('id');
+        $format_lengkap = $waktu_sekarang->translatedFormat('l, d F Y');
+
+        return view('user.edit', [
+            'user' => $request->user(),
+            'roles' => $roles,
+            'waktu_sekarang' => $format_lengkap,
+        ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, UserBiasa $userBiasa)
+    public function update(Request $request, $id)
     {
-        //
+        $user = WaliSantri::find($id);
+        $user->name = $request->get('name');
+        $user->username = $request->get('username');
+        $user->email = $request->get('email');
+        if ($request->has('password')) {
+            $user->password = bcrypt($request->get('password'));
+        }
+
+        // Proses gambar jika diunggah
+        if ($request->hasFile('foto_user')) {
+            // Simpan gambar baru
+            $fotoPath = $request->file('foto_user')->store('foto_user', 'public');
+            $user->update(['foto_user' => $fotoPath]);
+        }
+
+        $user->save();
+        return redirect()->back()->with('status', 'profile-updated');
     }
 
     /**

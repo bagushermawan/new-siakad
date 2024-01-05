@@ -25,6 +25,7 @@ class WaliSantri extends Authenticatable implements MustVerifyEmail
         'email',
         'password',
         'last_login',
+        'foto_user',
     ];
 
     public function santri()

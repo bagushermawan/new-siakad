@@ -25,7 +25,7 @@
     });
 </script>
 
-{{-- <script>
+<script>
     $(document).ready(function() {
         // Inisialisasi Perfect Scrollbar
         const ps = new PerfectScrollbar('#cardi', {
@@ -70,7 +70,18 @@
             }, 500); // Sesuaikan dengan durasi animasi
         });
     });
-</script> --}}
+</script>
+
+<script>
+    $(document).ready(function() {
+        // Inisialisasi Perfect Scrollbar
+        const ps = new PerfectScrollbar('#tebel', {
+            wheelSpeed: 1,
+            wheelPropagation: false,
+            minScrollbarLength: 20,
+        });
+    });
+</script>
 
 {{-- <script>
 // Fetch data user role count dari endpoint '/userd-role-count'
