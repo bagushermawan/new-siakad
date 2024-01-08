@@ -102,7 +102,7 @@
                                 </div>
                             </div>
                             <div class="d-flex justify-content-center align-items-center flex-column">
-                                <div class="avatar avatar-3xl">
+                                <div class="avatar avatar-xl">
                                     @if ($fotoSantri != '')
                                         <img src="{{ asset('storage/' . $fotoSantri) }}" alt="Avatar" id="fotoPondok">
                                     @else
