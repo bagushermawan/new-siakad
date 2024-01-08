@@ -22,6 +22,7 @@ use Illuminate\View\View;
 use App\Http\Requests\ProfileUpdateRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
+use App\Models\Kelas;
 
 class UserDashboardController extends Controller
 {
@@ -324,10 +325,12 @@ class UserDashboardController extends Controller
         $waktu_sekarang = Carbon::now();
         Carbon::setLocale('id');
         $format_lengkap = $waktu_sekarang->translatedFormat('l, d F Y');
+        $kelasOptions = Kelas::all();
 
         return view('user.edit', [
             'user' => $request->user(),
             'roles' => $roles,
+            'kelasOptions' => $kelasOptions,
             'waktu_sekarang' => $format_lengkap,
         ]);
     }
@@ -342,6 +345,15 @@ class UserDashboardController extends Controller
 
         if ($request->has('password')) {
             $user->password = bcrypt($request->get('password'));
+        }
+        if ($request->has('kelas_id')) {
+            $user->kelas_id = $request->get('kelas_id');
+        }
+        if ($request->has('nisn')) {
+            $user->nisn = $request->get('nisn');
+        }
+        if ($request->has('nohp')) {
+            $user->nohp = $request->get('nohp');
         }
 
         // Proses gambar jika diunggah

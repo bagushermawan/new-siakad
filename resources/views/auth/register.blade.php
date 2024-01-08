@@ -40,24 +40,33 @@
                         @csrf
                         <div class="form-group position-relative has-icon-left mb-4">
                             <input type="text" class="form-control form-control-xl" placeholder="Name" id="name"
-                                name="name" :value="old('name')" autofocus>
+                                name="name" value="{{ old('name') }}" autofocus>
                             <div class="form-control-icon">
                                 <i class="bi bi-person"></i>
                             </div>
+                            @error('name')
+                                <div style="color:#F8719D;">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="form-group position-relative has-icon-left mb-4">
                             <input type="text" class="form-control form-control-xl" placeholder="Username"
-                                id="username" name="username" :value="old('username')">
+                                id="username" name="username" value="{{ old('username') }}">
                             <div class="form-control-icon">
                                 <i class="bi bi-person"></i>
                             </div>
+                            @error('username')
+                                <div style="color:#F8719D;">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="form-group position-relative has-icon-left mb-4">
                             <input type="email" class="form-control form-control-xl" placeholder="Email"
-                                id="email" name="email" :value="old('email')">
+                                id="email" name="email" value="{{ old('email') }}">
                             <div class="form-control-icon">
                                 <i class="bi bi-envelope"></i>
                             </div>
+                            @error('email')
+                                <div style="color:#F8719D;">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="form-group position-relative has-icon-left mb-4">
                             <input type="password" class="form-control form-control-xl" placeholder="Password"
@@ -65,6 +74,9 @@
                             <div class="form-control-icon">
                                 <i class="bi bi-shield-lock"></i>
                             </div>
+                            @error('password')
+                                <div style="color:#F8719D;">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="form-group position-relative has-icon-left mb-4">
                             <input type="password" class="form-control form-control-xl" placeholder="Confirm Password"
@@ -72,6 +84,9 @@
                             <div class="form-control-icon">
                                 <i class="bi bi-shield-lock"></i>
                             </div>
+                            @error('password_confirmation')
+                                <div style="color:#F8719D;">{{ $message }}</div>
+                            @enderror
                         </div>
                         <button class="btn btn-primary btn-block btn-lg shadow-lg mt-5">Sign Up</button>
                     </form>

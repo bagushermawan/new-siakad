@@ -30,6 +30,7 @@ class RegisteredUserController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        // dd('oke');
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'username' => ['required', 'string', 'max:255', 'unique:users,username', 'alpha_num'],
@@ -50,6 +51,6 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(RouteServiceProvider::HOME);
+        return redirect(RouteServiceProvider::WALI_HOME);
     }
 }

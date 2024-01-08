@@ -19,6 +19,16 @@
             color: var(--bs-heading-color);
         }
 
+        .profilepp2 {
+            user-select: none;
+            font-size: 1rem;
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+            line-height: 1.2;
+            color: var(--bs-secondary-color);
+        }
+
         @keyframes fadeIn {
             0% {
                 opacity: 0;
@@ -33,7 +43,7 @@
             animation: fadeIn 0.5s ease-in-out;
         }
 
-        #userTable tbody tr{
+        #userTable tbody tr {
             cursor: default;
         }
     </style>
@@ -111,7 +121,7 @@
                             </div>
                             <div class="d-flex justify-content-center align-items-center flex-column">
                                 <div class="avatar avatar-xl">
-                                    @if (auth()->user()->id != '')
+                                    @if (auth()->user()->foto_user != '')
                                         <img src="{{ asset('storage/' . auth()->user()->foto_user) }}" alt="Avatar"
                                             id="fotoPondok">
                                     @else
@@ -129,9 +139,16 @@
                                                 </div>
                                             </td>
                                             <td class="col-auto">
-                                                <p class=" mb-0"><span class="profilepp" style="margin-left: 1rem">
-                                                        : {{ auth()->user()->nisn }}
-                                                    </span>
+                                                <p class=" mb-0">
+                                                    @if (auth()->user()->nisn != null)
+                                                        <span class="profilepp" style="margin-left: 1rem">
+                                                            : {{ auth()->user()->nisn }}
+                                                        </span>
+                                                    @else
+                                                        <span class="profilepp2" style="margin-left: 1rem">
+                                                            : <i>Silahkan input nisn <a href="{{ route('user.edit') }}" class="href">disini</a></i>
+                                                        </span>
+                                                    @endif
                                                 </p>
                                             </td>
                                         </tr>
@@ -171,9 +188,15 @@
                                             </td>
                                             <td class="col-auto">
                                                 <p class=" mb-0">
-                                                    <span class="profilepp" style="margin-left: 1rem">
-                                                        : {{ auth()->user()->kelas->name }}
-                                                    </span>
+                                                    @if (auth()->user()->kelas != null)
+                                                        <span class="profilepp" style="margin-left: 1rem">
+                                                            : {{ auth()->user()->kelas->name }}
+                                                        </span>
+                                                    @else
+                                                        <span class="profilepp2" style="margin-left: 1rem">
+                                                            : <i>Silahkan input kelas <a href="{{ route('user.edit') }}" class="href">disini</a></i>
+                                                        </span>
+                                                    @endif
                                                 </p>
                                             </td>
                                         </tr>
@@ -184,8 +207,16 @@
                                                 </div>
                                             </td>
                                             <td class="col-auto">
-                                                <p class=" mb-0"><span class="profilepp" style="margin-left: 1rem">:
-                                                        {{ auth()->user()->nohp }}</span>
+                                                <p class=" mb-0">
+                                                    @if (auth()->user()->nohp != null)
+                                                        <span class="profilepp" style="margin-left: 1rem">
+                                                            : {{ auth()->user()->nohp }}
+                                                        </span>
+                                                    @else
+                                                        <span class="profilepp2" style="margin-left: 1rem">
+                                                            : <i>Silahkan input no HP <a href="{{ route('user.edit') }}" class="href">disini</a></i>
+                                                        </span>
+                                                    @endif
                                                 </p>
                                             </td>
                                         </tr>
