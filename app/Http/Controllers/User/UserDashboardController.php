@@ -117,7 +117,7 @@ class UserDashboardController extends Controller
         ]);
     }
 
-    public function dataNilaiSiswa()
+    public function dataNilaiForWali()
     {
         $loggedInUserId = Auth::user()->id;
 
@@ -164,6 +164,46 @@ class UserDashboardController extends Controller
             // Jika tidak ada ID Santri yang terkait, kembalikan response kosong atau sesuai kebutuhan Anda
             return DataTables::of([])->make(true);
         }
+    }
+
+    public function dataNilaiForSantri()
+    {
+        $loggedInUserId = Auth::user()->id;
+            // Dapatkan kelas dari Santri
+            $kelasSantri = User::where('id', $loggedInUserId)->value('kelas_id');
+
+            // Dapatkan tahun ajaran yang sedang aktif berdasarkan name
+            $tahunAjaranAktif = TahunAjaran::where('status', 'aktif')->first();
+            $tahunAjaranName = $tahunAjaranAktif->name;
+
+            // Gunakan ID Santri, kelas, dan name tahun ajaran untuk mengambil nilai
+            $dataNilai = Nilai::with(['user', 'kelas', 'mataPelajaran', 'tahunAjaran'])
+            ->where('user_id', $loggedInUserId)
+                ->where('kelas_id', $kelasSantri)
+                ->whereHas('tahunAjaran', function ($query) use ($tahunAjaranName) {
+                    $query->where('name', $tahunAjaranName);
+                })
+                ->orderBy('tahun_ajaran_id', 'asc')
+                ->get();
+
+            return DataTables::of($dataNilai)
+                ->addIndexColumn()
+                ->addColumn('user_id', function ($data) {
+                    return $data->user->name;
+                })
+                ->addColumn('kelas_id', function ($data) {
+                    return $data->kelas->name;
+                })
+                ->addColumn('mata_pelajaran_id', function ($data) {
+                    return optional($data->mataPelajaran)->name ?? 'Tidak Ada Mata Pelajaran';
+                })
+                ->addColumn('tahun_ajaran_id', function ($data) {
+                    $namaTahunAjaran = optional($data->tahunAjaran)->name ?? 'Tidak Ada Nama Tahun Ajaran';
+                    $semester = optional($data->tahunAjaran)->semester ?? 'Tidak Ada Semester';
+
+                    return $namaTahunAjaran . ' (' . $semester . ')';
+                })
+                ->make(true);
     }
 
     public function dataJadwalPelajaranUser()
@@ -292,12 +332,14 @@ class UserDashboardController extends Controller
         ]);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        $user = WaliSantri::find($id);
+        $user = Auth::user(); // Menggunakan user yang sedang login
+
         $user->name = $request->get('name');
         $user->username = $request->get('username');
         $user->email = $request->get('email');
+
         if ($request->has('password')) {
             $user->password = bcrypt($request->get('password'));
         }
@@ -310,6 +352,7 @@ class UserDashboardController extends Controller
         }
 
         $user->save();
+
         return redirect()->back()->with('status', 'profile-updated');
     }
 

@@ -48,7 +48,8 @@ Route::middleware('auth:web,wali')->group(function () {
     Route::get('/userd-role-count', [UserDashboardController::class, 'getUserRoleCountChartjs']);
     Route::get('/', [UserDashboardController::class, 'index'])->name('user.dashboard');
     Route::resource('/a', UserDashboardController::class);
-    Route::get('/dataNilaiSiswa', [UserDashboardController::class, 'dataNilaiSiswa']);
+    Route::get('/dataNilaiForWali', [UserDashboardController::class, 'dataNilaiForWali']);
+    Route::get('/dataNilaiForSantri', [UserDashboardController::class, 'dataNilaiForSantri']);
     Route::get('/jadwalmatapelajaranUser', [UserDashboardController::class, 'dataJadwalPelajaranUser']);
     Route::get('/get_tahunajaran_optionss', [UserDashboardController::class, 'getTahunAjaranOptions']);
     Route::post('/search-santri', [UserDashboardController::class, 'searchSantri'])->name('search-santri');

@@ -32,6 +32,10 @@
         .fade-in {
             animation: fadeIn 0.5s ease-in-out;
         }
+
+        #userTable tbody tr{
+            cursor: default;
+        }
     </style>
 @endpush
 @section('content')
@@ -46,7 +50,9 @@
         </div>
         <div class="page-content">
             <div class="row">
-                @if ($santriId == null)
+                @if (
+                    $santriId == null &&
+                        auth()->user()->hasRole('wali santri'))
                     {{-- <h1>Tidak ada santri ID</h1> --}}
                     <div class="col-7">
                         <div class="card">
@@ -65,7 +71,8 @@
                                     @csrf
                                     <h6>Username:</h6>
                                     <div class="form-group position-relative has-icon-left">
-                                        <input type="text" class="form-control" name="username" placeholder="Masukkan Username Santri">
+                                        <input type="text" class="form-control" name="username"
+                                            placeholder="Masukkan Username Santri">
                                         <div class="form-control-icon">
                                             <i class="fas fa-at"></i>
                                         </div>
@@ -73,7 +80,8 @@
 
                                     <h6>No HP:</h6>
                                     <div class="form-group position-relative has-icon-left">
-                                        <input type="number" class="form-control" name="nohp" placeholder="Masukkan No.HP Santri">
+                                        <input type="number" class="form-control" name="nohp"
+                                            placeholder="Masukkan No.HP Santri">
                                         <div class="form-control-icon">
                                             <i class="fas fa-mobile-alt"></i>
                                         </div>
@@ -90,6 +98,140 @@
                                         <button class="form-control btn btn-primary" type="submit">SEARCH</button>
                                     </div>
                                 </form>
+                            </div>
+                        </div>
+                    </div>
+                @elseif (auth()->user()->hasRole('user'))
+                    <div class="col-5">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <h4>Informasi Data Anda</h4>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-center align-items-center flex-column">
+                                <div class="avatar avatar-xl">
+                                    @if (auth()->user()->id != '')
+                                        <img src="{{ asset('storage/' . auth()->user()->foto_user) }}" alt="Avatar"
+                                            id="fotoPondok">
+                                    @else
+                                        <img src="{{ asset('/compiled/jpg/1.jpg') }}" alt="Avatar">
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="table-responsive" style="margin-top: 3rem;">
+                                <table class="table table-borderless table-lg">
+                                    <tbody>
+                                        <tr>
+                                            <td class="col-4">
+                                                <div class="d-flex align-items-center">
+                                                    <p class="font-bold h6 mb-0">NISN</p>
+                                                </div>
+                                            </td>
+                                            <td class="col-auto">
+                                                <p class=" mb-0"><span class="profilepp" style="margin-left: 1rem">
+                                                        : {{ auth()->user()->nisn }}
+                                                    </span>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="col-4">
+                                                <div class="d-flex align-items-center">
+                                                    <p class="font-bold h6 mb-0">Nama Santri</p>
+                                                </div>
+                                            </td>
+                                            <td class="col-auto">
+                                                <p class=" mb-0">
+                                                    <span class="profilepp" style="margin-left: 1rem">
+                                                        : {{ auth()->user()->name }}
+                                                    </span>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="col-4">
+                                                <div class="d-flex align-items-center">
+                                                    <p class="font-bold h6 mb-0">Username Santri</p>
+                                                </div>
+                                            </td>
+                                            <td class="col-auto">
+                                                <p class=" mb-0">
+                                                    <span class="profilepp" style="margin-left: 1rem">
+                                                        : {{ auth()->user()->username }}
+                                                    </span>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="col-4">
+                                                <div class="d-flex align-items-center">
+                                                    <p class="font-bold h6 mb-0">Kelas Santri</p>
+                                                </div>
+                                            </td>
+                                            <td class="col-auto">
+                                                <p class=" mb-0">
+                                                    <span class="profilepp" style="margin-left: 1rem">
+                                                        : {{ auth()->user()->kelas->name }}
+                                                    </span>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="col-4">
+                                                <div class="d-flex align-items-center">
+                                                    <p class="font-bold h6 mb-0">Telepon Santri</p>
+                                                </div>
+                                            </td>
+                                            <td class="col-auto">
+                                                <p class=" mb-0"><span class="profilepp" style="margin-left: 1rem">:
+                                                        {{ auth()->user()->nohp }}</span>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="col-4">
+                                                <div class="d-flex align-items-center">
+                                                    <p class="font-bold h6 mb-0">Email Santri</p>
+                                                </div>
+                                            </td>
+                                            <td class="col-auto">
+                                                <p class=" mb-0"><span class="profilepp" style="margin-left: 1rem">:
+                                                        {{ auth()->user()->email }}</span>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- nilai --}}
+                    <div class="col-7">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <h6 class="d-flex justify-content-between align-items-center">
+                                        <span>Tahun Ajaran: <b>{{ $thaktif->name }}</b></span>
+                                        <div class="ml-auto">Semester:
+                                            <select class="" id="filterTahunAjaran">
+                                                <option value="">Semester</option>
+                                            </select>
+                                        </div>
+
+                                    </h6>
+                                </div>
+                            </div>
+                            <div class="table-responsive" id="tebel">
+                                <table class="table table-hover" id="userTable">
+                                    {{-- isi nilai santri --}}
+                                </table>
+                                <a onclick="refreshDataTable();"
+                                    class="btn icon icon-left d-flex justify-content-center align-items-center">
+                                    <span id="refreshText" style="color: rgb(142, 158, 216)">REFRESH</span>
+                                    <i id="refreshIcon" class="fas fa-sync fa-spin d-none"></i>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -198,6 +340,7 @@
                         </div>
                     </div>
 
+                    {{-- nilai --}}
                     <div class="col-7">
                         <div class="card">
                             <div class="card-header">
@@ -213,7 +356,6 @@
                                     </h6>
                                 </div>
                             </div>
-
                             <div class="table-responsive" id="tebel">
                                 <table class="table table-borderless" id="myTable">
                                     {{-- isi nilai santri --}}
@@ -312,5 +454,6 @@
     <script src="{{ asset('extensions/datatables.net/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('extensions/datatables.net-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
     @include('user.script')
-    @include('user.datatables')
+    @include('user.datatables-wali')
+    @include('user.datatables-user')
 @endpush

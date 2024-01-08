@@ -1,4 +1,4 @@
-@if ($santriId != null)
+@if ((auth()->user()->hasRole('user')))
 <script>
     $(document).ready(function() {
         // Mengambil data tahun ajaran dari server
@@ -29,16 +29,16 @@
         // Mendeteksi perubahan pada elemen <select> tahun ajaran
         $('#filterTahunAjaran').on('change', function() {
             var selectedTahunAjaranId = $(this).val();
-            myTable.column(3).search(selectedTahunAjaranId).draw();
+            userTable.column(3).search(selectedTahunAjaranId).draw();
         });
-        $('#myTable')
-        var myTable = $('#myTable').DataTable({
+        $('#userTable')
+        var userTable = $('#userTable').DataTable({
             orderCellsTop: false,
             processing: true,
             serverside: true,
             ordering: false,
             sDom: 't',
-            ajax: "{{ url('/dataNilaiSiswa') }}",
+            ajax: "{{ url('/dataNilaiForSantri') }}",
             columns: [{
                     data: 'user_id',
                     name: 'Users',
@@ -76,7 +76,7 @@
         }
         // Memanggil fungsi setTableColor pada awal dan setiap kali DataTable digambar ulang
         setTableColor();
-        myTable.on('draw', setTableColor);
+        userTable.on('draw', setTableColor);
 
 
     });
@@ -85,7 +85,7 @@
 
 <script>
 function refreshDataTable() {
-    var dataTable = $('#myTable').DataTable();
+    var dataTable = $('#userTable').DataTable();
     var refreshIcon = $('#refreshIcon');
     var refreshText = $('#refreshText');
 
