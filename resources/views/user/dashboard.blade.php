@@ -46,6 +46,9 @@
         #userTable tbody tr {
             cursor: default;
         }
+        #myTable tbody tr {
+            cursor: default;
+        }
     </style>
 @endpush
 @section('content')
@@ -388,7 +391,7 @@
                                 </div>
                             </div>
                             <div class="table-responsive" id="tebel">
-                                <table class="table table-borderless" id="myTable">
+                                <table class="table table-hover" id="myTable">
                                     {{-- isi nilai santri --}}
                                 </table>
                                 <a onclick="refreshDataTable();"
