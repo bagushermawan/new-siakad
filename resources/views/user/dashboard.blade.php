@@ -250,7 +250,7 @@
                                         <span>Tahun Ajaran: <b>{{ $thaktif->name }}</b></span>
                                         <div class="ml-auto">Semester:
                                             <select class="" id="filterTahunAjaran">
-                                                <option value="">Semester</option>
+                                                <option value="">Semua</option>
                                             </select>
                                         </div>
 
@@ -383,7 +383,7 @@
                                         <span>Tahun Ajaran: <b>{{ $thaktif->name }}</b></span>
                                         <div class="ml-auto">Semester:
                                             <select class="" id="filterTahunAjaran">
-                                                <option value="">Semester</option>
+                                                <option value="">Semua</option>
                                             </select>
                                         </div>
 
