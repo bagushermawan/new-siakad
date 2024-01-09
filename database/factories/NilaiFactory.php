@@ -22,7 +22,9 @@ class NilaiFactory extends Factory
             ->first()->id;
         $mataPelajaranId = MataPelajaran::inRandomOrder()->first()->id;
         $kelas = Kelas::inRandomOrder()->first()->id;
-        $tahunajaran = TahunAjaran::inRandomOrder()->first()->id;
+        // $tahunajaran = TahunAjaran::inRandomOrder()->first()->id;
+        // Ambil tahun ajaran yang memiliki status aktif
+        $tahunajaran = TahunAjaran::where('status', 'aktif')->inRandomOrder()->first()->id;
 
         return [
             'user_id' => $user,
