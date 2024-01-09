@@ -56,6 +56,7 @@ Route::middleware('auth:web,wali')->group(function () {
     Route::post('/hubungkan-santri/{santriId}', [UserDashboardController::class, 'hubungkanSantri'])->name('hubungkan-santri');
     Route::get('/user/profile', [UserDashboardController::class, 'edit'])->name('user.edit');
     Route::put('/user/profile/{id}', [UserDashboardController::class, 'update'])->name('user.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
 Route::middleware('auth')->group(function () {
@@ -126,7 +127,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/qwe/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::get('/profile', [ProfileController::class, 'editt'])->name('profile.editt');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    // Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::resource('/qwe/profilepondok', ProfilePondokAjaxController::class);
 });

@@ -25,9 +25,8 @@
                     <div class="auth-logo">
                         <a href="index.html"><img src="{{ asset('/compiled/svg/logo.svg') }}" alt="Logo"></a>
                     </div>
-                    <h1 class="auth-title">Forgot Password?</h1>
-                    <p class="auth-subtitle mb-5">No problem. Just let us know your email address and we will email you
-                        a password reset link that will allow you to choose a new one.</p>
+                    <h1 class="auth-title">Lupa kata sandi?</h1>
+                    <p class="auth-subtitle mb-5">Tidak masalah. Cukup beri tahu kami alamat email Anda dan kami akan mengirimkan email berisi tautan pengaturan ulang kata sandi yang memungkinkan Anda memilih yang baru.</p>
 
                     <form method="POST" action="{{ route('password.email') }}">
                         @csrf
@@ -46,7 +45,7 @@
                                 {{ session('status') }}
                             </div>
                         @endif
-                        <button class="btn btn-primary btn-block btn-lg shadow-lg mt-5">Send</button>
+                        <button class="btn btn-primary btn-block btn-lg shadow-lg mt-5">Kirim</button>
                     </form>
                     <div class="text-center mt-5 text-lg fs-4">
                         <p class='text-gray-600'>Remember your account? <a href="{{ route('login') }}" class="font-bold">Log

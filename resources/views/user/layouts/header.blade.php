@@ -29,13 +29,13 @@
                         <li>
                             <h6 class="dropdown-header">Hello, {{ ucfirst(auth()->user()->name) }}!</h6>
                         </li>
-                        <li><a class="dropdown-item" href="{{ route('user.edit') }}"><i class="icon-mid bi bi-person me-2"></i> My Profile</a></li>
+                        <li><a class="dropdown-item" href="{{ route('user.edit') }}"><i class="icon-mid bi bi-person me-2"></i> Profile saya</a></li>
                         <li>
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf<a class="dropdown-item" href=""
                                     onclick="event.preventDefault();
                                                 this.closest('form').submit();"><i
-                                        class="icon-mid bi bi-box-arrow-left me-2"></i> Logout</a>
+                                        class="icon-mid bi bi-box-arrow-left me-2"></i> Keluar</a>
                         </li>
                         </form>
                     </ul>
@@ -54,7 +54,7 @@
                 <ul class="menu-list">
                     <li class="menu-item">
                         <a href="{{ route('user.dashboard') }}" class='menu-link'>
-                            <span><i class="bi bi-grid-fill"></i> Dashboard</span>
+                            <span><i class="bi bi-grid-fill"></i> Halaman utama</span>
                         </a>
                     </li>
                     <li class="menu-item">

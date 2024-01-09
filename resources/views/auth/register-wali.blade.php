@@ -36,7 +36,7 @@
                     <h1 class="auth-title">Daftar</h1>
                     <p class="auth-subtitle mb-5">Masukkan data Anda untuk mendaftar ke website MI Darunnajah Kabupaten Malang.</p>
 
-                    <form method="POST" action="{{ route('register') }}">
+                    <form method="POST" action="{{ route('register.wali') }}">
                         @csrf
                         <div class="form-group position-relative has-icon-left mb-4">
                             <input type="text" class="form-control form-control-xl" placeholder="Nama" id="name"

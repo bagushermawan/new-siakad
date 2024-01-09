@@ -26,8 +26,8 @@
                     <div class="auth-logo">
                         <a href="/"><img src="{{ asset('/compiled/svg/logo.svg') }}" alt="Logo"></a>
                     </div>
-                    <h1 class="auth-title">Log in.</h1>
-                    <p class="auth-subtitle mb-5">Log in with your data that you entered during registration.</p>
+                    <h1 class="auth-title">Masuk.</h1>
+                    <p class="auth-subtitle mb-5">Masuk dengan data Anda yang Anda masukkan saat pendaftaran.</p>
                     @if (session('status'))
                         <div class="auth-subtitle mb-5" style="color:#198754;">
                             {{ session('status') }}
@@ -38,7 +38,7 @@
                         @csrf
                         <div class="form-group position-relative has-icon-left mb-4">
                             <input type="text" class="form-control form-control-xl" id="id_user"
-                                placeholder="Username or Email" name="id_user" value="{{ old('id_user') }}" required
+                                placeholder="Username atau Email" name="id_user" value="{{ old('id_user') }}" required
                                 autofocus autocomplete="id_user">
                             <div class="form-control-icon">
                                 <i class="bi bi-person"></i>
@@ -51,7 +51,7 @@
 
                         <div class="form-group position-relative has-icon-left mb-4">
                             <input type="password" id="password" class="form-control form-control-xl"
-                                placeholder="Password" name="password" required autocomplete="current-password">
+                                placeholder="Kata Sandi" name="password" required autocomplete="current-password">
                             <div class="form-control-icon">
                                 <i class="bi bi-shield-lock"></i>
                             </div>
@@ -64,16 +64,15 @@
                             <input id="remember_me" class="form-check-input me-2" type="checkbox" name="remember"
                                 value="">
                             <label class="form-check-label text-gray-600" for="remember_me">
-                                Remember me
+                                Ingatkan saya
                             </label>
                         </div>
-                        <button type="submit" class="btn btn-primary btn-block btn-lg shadow-lg mt-5">Log in</button>
+                        <button type="submit" class="btn btn-primary btn-block btn-lg shadow-lg mt-5">Masuk</button>
                     </form>
                     <div class="text-center mt-5 text-lg fs-4">
-                        <p class="text-gray-600">Don't have an account? <a href="{{ route('register') }}"
-                                class="font-bold">Sign
-                                up</a>.</p>
-                        <p><a class="font-bold" href="{{ route('password.request') }}">Forgot password?</a>.</p>
+                        <p class="text-gray-600">Belum punya akun? <a href="{{ route('register') }}"
+                                class="font-bold">Daftar disini</a>.</p>
+                        <p><a class="font-bold" href="{{ route('password.request') }}">Lupa kata sandi?</a></p>
                     </div>
                 </div>
             </div>
