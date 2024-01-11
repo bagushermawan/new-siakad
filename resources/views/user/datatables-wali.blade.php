@@ -1,43 +1,102 @@
 @if ($santriId != null)
 <script>
     $(document).ready(function() {
-        // Mengambil data tahun ajaran dari server
         $.ajax({
-            url: "{{ url('/get_tahunajaran_optionss') }}",
-            method: 'GET',
-            dataType: 'json',
-            success: function(tahunAjaranOptions) {
-                var selectTahunAjaran = document.getElementById('filterTahunAjaran');
+                url: "{{ url('/get_alltahunajaran_options') }}",
+                method: 'GET',
+                dataType: 'json',
+                success: function(response) {
+                    var allTahunAjaranOptions = response.allTahunAjaranOptions;
+                    var tahunAjaranOptions = response.tahunAjaranOptions;
+                    var selectTahunAjaran = document.getElementById('filterAllTahunAjaran');
 
-                tahunAjaranOptions.forEach(function(tahunAjaran, index) {
-                    var option = document.createElement('option');
-                    option.value = tahunAjaran.name + ' (' + tahunAjaran.semester + ')';
-                    option.text = tahunAjaran.semester;
-                    selectTahunAjaran.add(option);
+                    allTahunAjaranOptions.forEach(function(tahunAjaran, index) {
+                        var option = document.createElement('option');
+                        option.value = tahunAjaran.name;
+                        option.text = tahunAjaran.name;
+                        selectTahunAjaran.add(option);
 
-                    // Menandai option pertama sebagai yang terpilih
-                    if (index === 0) {
-                        option.selected = true;
-                        $(selectTahunAjaran).trigger('change');
-                    }
-                });
-            },
-            error: function(xhr, status, error) {
-                console.error('Error fetching data:', error);
-            }
-        });
-        // Mendeteksi perubahan pada elemen <select> tahun ajaran
-        $('#filterTahunAjaran').on('change', function() {
-            var selectedTahunAjaranId = $(this).val();
-            myTable.column(3).search(selectedTahunAjaranId).draw();
-        });
-        $('#myTable')
+                        // Cek apakah kelas_id dari opsi sama dengan tahunAjaranOptions
+                        if (tahunAjaran.name === tahunAjaranOptions) {
+                            option.selected = true; // Set sebagai terpilih jika sesuai
+                            $(selectTahunAjaran).trigger('change');
+                        }
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching data:', error);
+                }
+            });
+            $.ajax({
+                url: "{{ url('/get_tahunajaranAktif_options') }}",
+                method: 'GET',
+                dataType: 'json',
+                success: function(tahunAjaranOptions) {
+                    var selectTahunAjaran = document.getElementById('filterSemester');
+
+                    tahunAjaranOptions.forEach(function(tahunAjaran, index) {
+                        var option = document.createElement('option');
+                        option.value = tahunAjaran.semester;
+                        option.text = tahunAjaran.semester;
+                        selectTahunAjaran.add(option);
+
+                        // Menandai option pertama sebagai yang terpilih
+                        if (index === 0) {
+                            option.selected = true;
+                            $(selectTahunAjaran).trigger('change');
+                        }
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching data:', error);
+                }
+            });
+            $.ajax({
+                url: "{{ url('/get_kelas_optionss') }}",
+                method: 'GET',
+                dataType: 'json',
+                success: function(response) {
+                    var kelasOptions = response.kelasOptions;
+                    var kelasSantri = response.kelasSantri;
+                    var selectKelas = document.getElementById('filterKelas');
+
+                    kelasOptions.forEach(function(kelas, index) {
+                        var option = document.createElement('option');
+                        option.value = kelas.name; // Gunakan ID kelas sebagai nilai
+                        option.text = kelas.name;
+                        selectKelas.add(option);
+
+                        // Cek apakah kelas_id dari opsi sama dengan kelasSantri
+                        if (kelas.id === kelasSantri) {
+                            option.selected = true; // Set sebagai terpilih jika sesuai
+                            $(selectKelas).trigger('change');
+                        }
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching data:', error);
+                }
+            });
+            $('#filterAllTahunAjaran').on('change', function() {
+                var selecterTAid = $(this).val();
+                // $('#filterSemester').val('').trigger('change');
+                $('#filterKelas').val('').trigger('change');
+                myTable.column(3).search(selecterTAid).draw();
+            });
+            $('#filterSemester').on('change', function() {
+                var selectedTahunAjaranId = $(this).val();
+                myTable.column(5).search(selectedTahunAjaranId).draw();
+            });
+            $('#filterKelas').on('change', function() {
+                var selectedKelasId = $(this).val();
+                myTable.column(2).search(selectedKelasId).draw();
+            });
         var myTable = $('#myTable').DataTable({
             orderCellsTop: false,
             processing: true,
             serverside: true,
             ordering: false,
-            sDom: 't',
+            sDom: 'tpi',
             ajax: "{{ url('/dataNilaiForWali') }}",
             columns: [{
                     data: 'user_id',
@@ -66,14 +125,30 @@
                     data: 'nilai',
                     name: 'Nilai',
                 },
+                {
+                    data: 'tahun_ajaran_semester',
+                    name: 'Tahun Ajaran Semester',
+                },
             ],
         });
         // Fungsi untuk memberi warna pada pagination
-        const setTableColor = () => {
-            document.querySelectorAll('.dataTables_paginate .pagination').forEach(dt => {
-                dt.classList.add('pagination-primary')
-            })
-        }
+            const setTableColor = () => {
+                document.querySelectorAll('.dataTables_paginate .pagination').forEach(dt => {
+                    dt.classList.add('pagination-primary')
+                })
+                document.querySelectorAll('.dataTables_info').forEach(dt => {
+                    // Dapatkan teks dari elemen .dataTables_info
+                    var infoText = dt.textContent.trim();
+
+                    // Buat elemen <code> dan tambahkan teks ke dalamnya
+                    var codeElement = document.createElement('code');
+                    codeElement.textContent = infoText;
+
+                    // Ganti elemen .dataTables_info dengan elemen <code>
+                    dt.innerHTML = '';
+                    dt.appendChild(codeElement);
+                });
+            }
         // Memanggil fungsi setTableColor pada awal dan setiap kali DataTable digambar ulang
         setTableColor();
         myTable.on('draw', setTableColor);

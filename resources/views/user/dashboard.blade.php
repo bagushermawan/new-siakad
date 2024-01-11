@@ -164,6 +164,11 @@
     <script src="{{ asset('extensions/datatables.net/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('extensions/datatables.net-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
     @include('user.script')
-    @include('user.datatables-wali')
+    @if ($santriId == null && auth()->user()->hasRole('wali santri'))
+
+    @elseif (auth()->user()->hasRole('user'))
     @include('user.datatables-user')
+    @else
+    @include('user.datatables-wali')
+    @endif
 @endpush

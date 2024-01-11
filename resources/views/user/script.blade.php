@@ -25,6 +25,9 @@
     });
 </script>
 
+@if(request()->routeIs('search-santri'))
+
+@else
 <script>
     $(document).ready(function() {
     // Inisialisasi Perfect Scrollbar
@@ -75,7 +78,6 @@
     });
 });
 </script>
-
 <script>
     $(document).ready(function() {
         // Inisialisasi Perfect Scrollbar
@@ -87,47 +89,4 @@
     });
 </script>
 
-{{-- <script>
-// Fetch data user role count dari endpoint '/userd-role-count'
-fetch('/userd-role-count')
-    .then(response => response.json())
-    .then(userData => {
-        // Gunakan data yang diperoleh untuk mengupdate series dan labels
-        optionsVisitorsProfile.series = userData.series;
-        optionsVisitorsProfile.labels = userData.labels;
-
-        // Buat instance chart baru dengan data yang diperbarui
-        var chartVisitorsProfile = new ApexCharts(
-            document.getElementById("chart-visitors-profilee"),
-            optionsVisitorsProfile
-        );
-
-        // Render chart
-        chartVisitorsProfile.render();
-    })
-    .catch(error => {
-        console.error('Error fetching user role count:', error);
-    });
-
-// Options awal untuk chart (akan diperbarui setelah mendapatkan data)
-let optionsVisitorsProfile = {
-    series: [70, 30],  // Data awal, dapat diubah
-    labels: ["Guru", "User", "Wali"],  // Label awal, dapat diubah
-    colors: ["#219EBC", "#023047", "#FFB703"],
-    chart: {
-        type: "donut",
-        width: "100%",
-        height: "350px",
-    },
-    legend: {
-        position: "bottom",
-    },
-    plotOptions: {
-        pie: {
-            donut: {
-                size: "30%",
-            },
-        },
-    }
-};
-</script> --}}
+@endif

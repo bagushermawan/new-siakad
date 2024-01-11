@@ -137,10 +137,10 @@ class UserDashboardController extends Controller
             // Gunakan ID Santri, kelas, dan name tahun ajaran untuk mengambil nilai
             $dataNilai = Nilai::with(['user', 'kelas', 'mataPelajaran', 'tahunAjaran'])
                 ->where('user_id', $santriId)
-                ->where('kelas_id', $kelasSantri)
-                ->whereHas('tahunAjaran', function ($query) use ($tahunAjaranName) {
-                    $query->where('name', $tahunAjaranName);
-                })
+                // ->where('kelas_id', $kelasSantri)
+                // ->whereHas('tahunAjaran', function ($query) use ($tahunAjaranName) {
+                //     $query->where('name', $tahunAjaranName);
+                // })
                 ->orderBy('tahun_ajaran_id', 'asc')
                 ->get();
 
@@ -160,6 +160,11 @@ class UserDashboardController extends Controller
                     $semester = optional($data->tahunAjaran)->semester ?? 'Tidak Ada Semester';
 
                     return $namaTahunAjaran . ' (' . $semester . ')';
+                })
+                ->addColumn('tahun_ajaran_semester', function ($data) {
+                    $semester = optional($data->tahunAjaran)->semester ?? 'Tidak Ada Semester';
+
+                    return $semester;
                 })
                 ->make(true);
         } else {
@@ -262,9 +267,22 @@ class UserDashboardController extends Controller
     public function getKelasOptions()
     {
         $loggedInUserId = Auth::user()->id;
-        // Dapatkan kelas dari Santri
-        $kelasSantri = User::where('id', $loggedInUserId)->value('kelas_id');
+
+        // Cek apakah pengguna memiliki peran Wali Santri
+        if (Auth::user()->hasRole('wali santri')) {
+            // Jika iya, dapatkan santri_id terkait dengan Wali Santri
+            $santriId = WaliSantri::where('id', $loggedInUserId)->value('santri_id');
+
+            // Dapatkan kelas dari Santri menggunakan santri_id
+            $kelasSantri = User::where('id', $santriId)->value('kelas_id');
+        } else {
+            // Jika tidak, dapatkan kelas dari Santri biasa
+            $kelasSantri = User::where('id', $loggedInUserId)->value('kelas_id');
+        }
+
+        // Dapatkan semua opsi kelas
         $kelasOptions = Kelas::all(['id', 'name']);
+
         return response()->json(['kelasOptions' => $kelasOptions, 'kelasSantri' => $kelasSantri]);
     }
 
