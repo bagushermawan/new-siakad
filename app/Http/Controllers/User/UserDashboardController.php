@@ -23,6 +23,7 @@ use App\Http\Requests\ProfileUpdateRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
 use App\Models\Kelas;
+use Illuminate\Validation\ValidationException;
 
 class UserDashboardController extends Controller
 {
@@ -282,32 +283,42 @@ class UserDashboardController extends Controller
 
     public function searchSantri(Request $request)
     {
-        $user = Auth::user();
-        $roles = $user->getRoleNames();
-        $loggedInUserId = Auth::user()->id;
-        $santriId = WaliSantri::where('id', $loggedInUserId)->value('santri_id');
-        $waktu_sekarang = Carbon::now();
-        Carbon::setLocale('id');
-        $format_lengkap = $waktu_sekarang->translatedFormat('l, d F Y');
+        try {
+            $user = Auth::user();
+            $roles = $user->getRoleNames();
+            $loggedInUserId = $user->id;
+            $santriId = WaliSantri::where('id', $loggedInUserId)->value('santri_id');
+            $waktu_sekarang = now()->translatedFormat('l, d F Y');
 
-        $username = $request->input('username');
-        $noHp = $request->input('nohp');
+            // Use the validate method directly
+            $request->validate([
+                'username' => 'required|string',
+                'nohp' => 'required|numeric',
+            ]);
 
-        // Lakukan pencarian berdasarkan username dan nomor HP
-        $santri = User::where('username', $username)
-            ->where('nohp', $noHp)
-            ->first();
-        // dd($santri);
+            $username = $request->input('username');
+            $noHp = $request->input('nohp');
 
-        if ($santri) {
-            // Santri ditemukan, lakukan tindakan yang sesuai, misalnya menghubungkan atau menampilkan informasi
-            // return redirect()->route('user.dashboard', ['santri' => $santri])->with('success', 'Santri ditemukan');
-            return view('user.connect', ['santri' => $santri, 'roles' => $roles, 'santriId' => $santriId, 'waktu_sekarang' => $format_lengkap, 'success' => 'Santri ditemukan']);
-        } else {
-            // Santri tidak ditemukan, berikan pesan kesalahan atau tindakan lainnya
+            // Perform the search based on username and phone number
+            $santri = User::where('username', $username)
+                ->where('nohp', $noHp)
+                ->first();
+
+            if ($santri) {
+                return view('user.connect', compact('santri', 'roles', 'santriId', 'waktu_sekarang'))
+                ->with('success', 'Santri ditemukan');
+            } else {
+                return redirect()
+                    ->back()
+                    ->withInput()
+                    ->withErrors(['error' => 'Santri tidak ditemukan']);
+            }
+        } catch (ValidationException $e) {
             return redirect()
                 ->back()
-                ->with('error', 'Santri tidak ditemukan');
+                ->withInput()
+                ->withErrors($e->validator->errors())
+                ->with('error', $e->getMessage());
         }
     }
 
