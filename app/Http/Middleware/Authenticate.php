@@ -8,16 +8,17 @@ use App\Exceptions\ForbiddenException;
 
 class Authenticate extends Middleware
 {
-    /**
-     * Get the path the user should be redirected to when they are not authenticated.
-     */
     protected $guard = 'wali';
 
     protected function redirectTo($request)
     {
         if (!$request->expectsJson()) {
-            // Use the custom ForbiddenException for error 403
-            throw new ForbiddenException();
+            // Cek apakah pengguna sedang login
+            if (auth()->guard($this->guard)->check()) {
+                throw new ForbiddenException('Anda tidak memiliki hak akses untuk halaman ini.');
+            } else {
+                throw new ForbiddenException('Maaf, sesi anda telah berakhir silahkan login terlebih dahulu.');
+            }
         }
 
         return null;

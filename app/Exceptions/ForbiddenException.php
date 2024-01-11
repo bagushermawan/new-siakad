@@ -7,9 +7,12 @@ use Throwable;
 
 class ForbiddenException extends Exception
 {
-
-    public function __construct($message = 'Maaf, akun anda tidak memiliki hak akses untuk halaman ini.', $code = 403, Throwable $previous = null)
+    public function __construct($message = '', $code = 403, Throwable $previous = null)
     {
+        if (empty($message)) {
+            $message = 'Maaf, Anda tidak memiliki hak akses untuk halaman ini.';
+        }
+
         parent::__construct($message, $code, $previous);
     }
 }

@@ -43,7 +43,7 @@
                 <div class="text-center">
                     <img class="img-error" src="{{ asset('/compiled/svg/error-403.svg') }}" alt="Forbidden">
                     <h1 class="error-title">Upss</h1>
-                    <p class="fs-5 text-gray-600">{{ __("$exception") }}.</p>
+                    <p class="fs-5 text-gray-600">{{ __("$exception") }}</p>
 
                     @if (Auth::guard('web')->check() || Auth::guard('wali')->check())
                         <!-- Jika sudah ada pengguna yang login dengan guard 'web' atau 'wali' -->
