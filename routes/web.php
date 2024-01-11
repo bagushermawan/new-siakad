@@ -51,7 +51,9 @@ Route::middleware('auth:web,wali')->group(function () {
     Route::get('/dataNilaiForWali', [UserDashboardController::class, 'dataNilaiForWali']);
     Route::get('/dataNilaiForSantri', [UserDashboardController::class, 'dataNilaiForSantri']);
     Route::get('/jadwalmatapelajaranUser', [UserDashboardController::class, 'dataJadwalPelajaranUser']);
-    Route::get('/get_tahunajaran_optionss', [UserDashboardController::class, 'getTahunAjaranOptions']);
+    Route::get('/get_tahunajaranAktif_options', [UserDashboardController::class, 'getTahunAjaranAktifOptions']);
+    Route::get('/get_alltahunajaran_options', [UserDashboardController::class, 'getTahunAjaranOptions']);
+    Route::get('/get_kelas_optionss', [UserDashboardController::class, 'getKelasOptions']);
     Route::post('/search-santri', [UserDashboardController::class, 'searchSantri'])->name('search-santri');
     Route::post('/hubungkan-santri/{santriId}', [UserDashboardController::class, 'hubungkanSantri'])->name('hubungkan-santri');
     Route::get('/user/profile', [UserDashboardController::class, 'edit'])->name('user.edit');

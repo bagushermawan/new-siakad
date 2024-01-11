@@ -50,6 +50,11 @@
         #myTable tbody tr {
             cursor: default;
         }
+
+        div.dataTables_wrapper div.dataTables_paginate ul.pagination{
+            justify-content: center;
+            margin: revert;
+        }
     </style>
 @endpush
 @section('content')
