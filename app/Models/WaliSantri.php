@@ -30,7 +30,7 @@ class WaliSantri extends Authenticatable implements MustVerifyEmail
 
     public function santri()
     {
-        return $this->belongsToMany(User::class, 'santri_id');
+        return $this->belongsTo(User::class, 'santri_id');
     }
 
     public function riwayatLogins()

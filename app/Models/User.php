@@ -41,7 +41,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function waliSantri()
     {
-        return $this->belongsToMany(WaliSantri::class, 'santri_id');
+        return $this->hasOne(WaliSantri::class, 'santri_id');
     }
 
     public function riwayatLogins()
