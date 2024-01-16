@@ -73,6 +73,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/qwe/import-guru', [UserAjaxController::class, 'importGuru'])->name('import.guru');
     Route::post('/qwe/import-siswa', [UserAjaxController::class, 'importSiswa'])->name('import.siswa');
     Route::get('/get_santri_options', [UserAjaxController::class, 'getSantriOptions']);
+    Route::get('/getSantriInfo/{id}', [UserAjaxController::class, 'getSantriInfo']);
 
     Route::resource('/qwe/wali', WaliSantriAjaxController::class);
     Route::get('/qwe/waliAjax', [WaliSantriAjaxController::class, 'indexWali']);

@@ -230,16 +230,21 @@
                     name: 'Nama'
                 },
                 {
-                    data: 'santri_name',
-                    name: 'Nama Santri',
-                    render: function(data, type, row) {
-                        if (type === 'display') {
-                            return data ? data :
-                                '<a style="color:#6c757d;">Santri tidak tersedia</a>';
-                        }
-                        return data;
-                    }
-                },
+    data: 'santri_name',
+    name: 'Nama Santri',
+    render: function(data, type, row) {
+        if (type === 'display') {
+            // Jika data tersedia, tampilkan sebagai link
+            if (data) {
+                return '<a href="#" class="santri-link" data-santri-id="' + row.santri_id + '">' + data + '</a>';
+            } else {
+                // Jika data tidak tersedia
+                return '<a style="color:#6c757d;">Santri tidak tersedia</a>';
+            }
+        }
+        return data;
+    }
+},
                 {
                     data: 'username',
                     name: 'Username'

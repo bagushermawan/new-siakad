@@ -133,7 +133,8 @@
 
                         <label>Password: </label>
                         <div class="form-group">
-                            <input id="password" type="password" name="password" class="form-control" placeholder="Password default sama dengan Username">
+                            <input id="password" type="password" name="password" class="form-control"
+                                placeholder="Password default sama dengan Username">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -149,6 +150,27 @@
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="santriModal" tabindex="-1" aria-labelledby="santriModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary">
+                        <h4 class="modal-title white" id="myModalLabel33">Informasi Data Santri </h4>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="feather feather-x">
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="santriInfoContent"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 @endsection
 @push('page-script')
@@ -171,6 +193,31 @@
             searchEnabled: false,
             itemSelectText: '',
             allowHTML: true,
+        });
+    </script>
+    <script>
+        $(document).on('click', '.santri-link', function() {
+            var santriId = $(this).data('santri-id');
+
+            $.ajax({
+                url: '/getSantriInfo/' + santriId,
+                method: 'GET',
+                dataType: 'json',
+                success: function(santriInfo) {
+                    // Menampilkan informasi santri di dalam modal
+                    $('#santriInfoContent').html(
+                        'Nama: ' + santriInfo.name +
+                        '<br>Username: ' + santriInfo.username +
+                        '<br>Email: ' + santriInfo.email +
+                        '<br>Kelas: ' + (santriInfo.kelas ? santriInfo.kelas.name : 'Belum input kelas') + // Memeriksa apakah ada informasi kelas
+                        '<br>No HP: ' + santriInfo.nohp
+                        );
+                    $('#santriModal').modal('show');
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error fetching santri info:', error);
+                }
+            });
         });
     </script>
 @endpush

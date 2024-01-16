@@ -96,6 +96,15 @@ class UserAjaxController extends Controller
         return response()->json($santriOptions);
     }
 
+    public function getSantriInfo($id)
+    // function for modal santri_id at wali
+    {
+        $santri = User::with('kelas')->findOrFail($id);
+
+        // Kembalikan informasi santri dalam format JSON
+        return response()->json($santri);
+    }
+
     public function indexSiswa()
     {
         $user = Auth::user();
