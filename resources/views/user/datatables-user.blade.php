@@ -99,6 +99,9 @@
                 ordering: false,
                 sDom: 'tpi',
                 ajax: "{{ url('/dataNilaiForSantri') }}",
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/id.json',
+                },
                 columns: [{
                         data: 'user_id',
                         name: 'Users',

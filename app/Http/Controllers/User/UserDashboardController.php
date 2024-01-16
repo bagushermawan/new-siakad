@@ -51,7 +51,7 @@ class UserDashboardController extends Controller
             $namaSantri = $santriData->name ?? 'Nama Santri Tidak Tersedia';
             $usernameSantri = $santriData->username ?? 'Username Santri Tidak Tersedia';
             $fotoSantri = $santriData->foto_user ?? '';
-            $kelasSantri = $santriData->kelas ? $santriData->kelas->name : 'Kelas Santri Tidak Tersedia';
+            $kelasSantri = $santriData->kelas ? $santriData->kelas->name : '';
         } else {
             $nisnSantri = 'NISN Tidak Tersedia';
             $nohpSantri = 'No HP Tidak Tersedia';
@@ -59,7 +59,7 @@ class UserDashboardController extends Controller
             $namaSantri = 'Nama Santri Tidak Tersedia';
             $usernameSantri = 'Username Santri Tidak Tersedia';
             $fotoSantri = '';
-            $kelasSantri = 'Kelas Santri Tidak Tersedia';
+            $kelasSantri = '';
         }
 
         $waktu_sekarang = Carbon::now();

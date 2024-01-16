@@ -1,7 +1,7 @@
 @if ($santriId != null)
-<script>
-    $(document).ready(function() {
-        $.ajax({
+    <script>
+        $(document).ready(function() {
+            $.ajax({
                 url: "{{ url('/get_alltahunajaran_options') }}",
                 method: 'GET',
                 dataType: 'json',
@@ -91,47 +91,50 @@
                 var selectedKelasId = $(this).val();
                 myTable.column(2).search(selectedKelasId).draw();
             });
-        var myTable = $('#myTable').DataTable({
-            orderCellsTop: false,
-            processing: true,
-            serverside: true,
-            ordering: false,
-            sDom: 'tpi',
-            ajax: "{{ url('/dataNilaiForWali') }}",
-            columns: [{
-                    data: 'user_id',
-                    name: 'Users',
+            var myTable = $('#myTable').DataTable({
+                orderCellsTop: false,
+                processing: true,
+                serverside: true,
+                ordering: false,
+                sDom: 'tpi',
+                ajax: "{{ url('/dataNilaiForWali') }}",
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.7/i18n/id.json',
                 },
-                {
-                    data: 'mata_pelajaran_id',
-                    name: 'Mata Pelajaran',
-                    render: function(data, type, row) {
-                        if (type === 'display') {
-                            return data ? data :
-                                '<a style="color:#6c757d;">Data Mata Pelajaran tidak tersedia</a>';
+                columns: [{
+                        data: 'user_id',
+                        name: 'Users',
+                    },
+                    {
+                        data: 'mata_pelajaran_id',
+                        name: 'Mata Pelajaran',
+                        render: function(data, type, row) {
+                            if (type === 'display') {
+                                return data ? data :
+                                    '<a style="color:#6c757d;">Data Mata Pelajaran tidak tersedia</a>';
+                            }
+                            return data;
                         }
-                        return data;
-                    }
-                },
-                {
-                    data: 'kelas_id',
-                    name: 'Kelas'
-                },
-                {
-                    data: 'tahun_ajaran_id',
-                    name: 'Tahun Ajaran',
-                },
-                {
-                    data: 'nilai',
-                    name: 'Nilai',
-                },
-                {
-                    data: 'tahun_ajaran_semester',
-                    name: 'Tahun Ajaran Semester',
-                },
-            ],
-        });
-        // Fungsi untuk memberi warna pada pagination
+                    },
+                    {
+                        data: 'kelas_id',
+                        name: 'Kelas'
+                    },
+                    {
+                        data: 'tahun_ajaran_id',
+                        name: 'Tahun Ajaran',
+                    },
+                    {
+                        data: 'nilai',
+                        name: 'Nilai',
+                    },
+                    {
+                        data: 'tahun_ajaran_semester',
+                        name: 'Tahun Ajaran Semester',
+                    },
+                ],
+            });
+            // Fungsi untuk memberi warna pada pagination
             const setTableColor = () => {
                 document.querySelectorAll('.dataTables_paginate .pagination').forEach(dt => {
                     dt.classList.add('pagination-primary')
@@ -149,32 +152,32 @@
                     dt.appendChild(codeElement);
                 });
             }
-        // Memanggil fungsi setTableColor pada awal dan setiap kali DataTable digambar ulang
-        setTableColor();
-        myTable.on('draw', setTableColor);
+            // Memanggil fungsi setTableColor pada awal dan setiap kali DataTable digambar ulang
+            setTableColor();
+            myTable.on('draw', setTableColor);
 
 
-    });
-</script>
+        });
+    </script>
 @endif
 
 <script>
-function refreshDataTable() {
-    var dataTable = $('#myTable').DataTable();
-    var refreshIcon = $('#refreshIcon');
-    var refreshText = $('#refreshText');
+    function refreshDataTable() {
+        var dataTable = $('#myTable').DataTable();
+        var refreshIcon = $('#refreshIcon');
+        var refreshText = $('#refreshText');
 
-    // Menampilkan ikon spinner dan menyembunyikan teks
-    refreshIcon.removeClass('d-none');
-    refreshText.addClass('d-none');
+        // Menampilkan ikon spinner dan menyembunyikan teks
+        refreshIcon.removeClass('d-none');
+        refreshText.addClass('d-none');
 
-    // Memuat ulang data DataTable setelah sedikit waktu (misalnya, 1 detik dalam contoh ini)
-    setTimeout(function() {
-        dataTable.ajax.reload();
+        // Memuat ulang data DataTable setelah sedikit waktu (misalnya, 1 detik dalam contoh ini)
+        setTimeout(function() {
+            dataTable.ajax.reload();
 
-        // Sembunyikan ikon spinner dan menampilkan teks kembali setelah memuat ulang
-        refreshIcon.addClass('d-none');
-        refreshText.removeClass('d-none');
-    }, 1000);
-}
+            // Sembunyikan ikon spinner dan menampilkan teks kembali setelah memuat ulang
+            refreshIcon.addClass('d-none');
+            refreshText.removeClass('d-none');
+        }, 1000);
+    }
 </script>

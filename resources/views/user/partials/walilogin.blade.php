@@ -24,9 +24,16 @@
                             </div>
                         </td>
                         <td class="col-auto">
-                            <p class=" mb-0"><span class="profilepp" style="margin-left: 1rem">
-                                    : {{ $nisnSantri }}
-                                </span>
+                            <p class=" mb-0">
+                                @if ($nisnSantri != null)
+                                    <span class="profilepp" style="margin-left: 1rem">
+                                        : {{ $nisnSantri }}
+                                    </span>
+                                @else
+                                    <span class="profilepp2" style="margin-left: 1rem">
+                                        : <i>Santri belum input NISN</i>
+                                    </span>
+                                @endif
                             </p>
                         </td>
                     </tr>
@@ -66,9 +73,15 @@
                         </td>
                         <td class="col-auto">
                             <p class=" mb-0">
-                                <span class="profilepp" style="margin-left: 1rem">
-                                    : {{ $kelasSantri }}
-                                </span>
+                                @if ($kelasSantri != null)
+                                    <span class="profilepp" style="margin-left: 1rem">
+                                        : {{ $kelasSantri }}
+                                    </span>
+                                @else
+                                    <span class="profilepp2" style="margin-left: 1rem">
+                                        : <i>Santri belum input kelas</i>
+                                    </span>
+                                @endif
                             </p>
                         </td>
                     </tr>
@@ -79,8 +92,16 @@
                             </div>
                         </td>
                         <td class="col-auto">
-                            <p class=" mb-0"><span class="profilepp" style="margin-left: 1rem">:
-                                    {{ $nohpSantri }}</span>
+                            <p class=" mb-0">
+                                @if ($nohpSantri != null)
+                                    <span class="profilepp" style="margin-left: 1rem">
+                                        : {{ $nohpSantri }}
+                                    </span>
+                                @else
+                                    <span class="profilepp2" style="margin-left: 1rem">
+                                        : <i>Santri belum input nomor HP</i>
+                                    </span>
+                                @endif
                             </p>
                         </td>
                     </tr>

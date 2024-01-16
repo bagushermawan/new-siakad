@@ -165,7 +165,6 @@
     <script src="{{ asset('extensions/datatables.net-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
     @include('user.script')
     @if ($santriId == null && auth()->user()->hasRole('wali santri'))
-
     @elseif (auth()->user()->hasRole('user'))
     @include('user.datatables-user')
     @else
