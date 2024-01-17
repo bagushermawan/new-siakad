@@ -48,7 +48,7 @@
             <div class="row">
                 @if ($santriId == null)
                     {{-- <h1>Tidak ada santri ID</h1> --}}
-                    <div class="col-7">
+                    <div class="col-12 col-lg-7">
                         <div class="card">
                             <div class="card-header">
                                 <div class="card-title">
@@ -56,13 +56,16 @@
                                 </div>
                             </div>
                             <div class="d-flex justify-content-center align-items-center flex-column">
-                                <div class="avatar avatar-3xl">
+                                <div class="avatar avatar-2xl">
                                     @if ($santri->foto_user != null)
-                                    <img src="{{ asset('storage/' . $santri->foto_user) }}" alt="Avatar" id="fotoPondok">
+                                        <img src="{{ asset('storage/' . $santri->foto_user) }}" alt="Avatar"
+                                            id="fotoPondok">
+                                    @else
+                                        <img src="{{ asset('/compiled/jpg/7.jpg') }}" alt="Avatar">
                                     @endif
                                 </div>
                             </div>
-                            <div class="card-body">
+                            <div class="card-body" style="margin-top: 3rem;">
                                 <div class="form-group">
                                     <h6>Nama Santri: {{ $santri->name }}</h6>
                                 </div>
@@ -78,7 +81,8 @@
                                 <form method="post" action="{{ route('hubungkan-santri', ['santriId' => $santri->id]) }}">
                                     @csrf
                                     <div class="form-group position-relative">
-                                        <button class="form-control btn btn-outline-success" type="submit">HUBUNGKAN</button>
+                                        <button class="form-control btn btn-outline-success"
+                                            type="submit">HUBUNGKAN</button>
                                     </div>
                                 </form>
                             </div>

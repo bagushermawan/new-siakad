@@ -51,9 +51,14 @@
             cursor: default;
         }
 
-        div.dataTables_wrapper div.dataTables_paginate ul.pagination{
+        div.dataTables_wrapper div.dataTables_paginate ul.pagination {
             justify-content: center;
             margin: revert;
+        }
+
+        div.dataTables_wrapper div.dataTables_info {
+            justify-content: center;
+            display: flex;
         }
     </style>
 @endpush
@@ -68,8 +73,10 @@
             </div>
         </div>
         <div class="page-content">
-            <div class="row">
-                @if ($santriId == null && auth()->user()->hasRole('wali santri'))
+            <section class="section">
+                @if (
+                    $santriId == null &&
+                        auth()->user()->hasRole('wali santri'))
                     {{-- Tidak ada santri ID --}}
                     @include('user.partials.nosantri')
                 @elseif (auth()->user()->hasRole('user'))
@@ -80,7 +87,7 @@
                     @include('user.partials.walilogin')
                 @endif
 
-            </div>
+            </section>
             <section class="row">
                 <div class="col-12 col-lg-4">
                     <div class="card" style="max-height: 425px; overflow-y: auto;" id="cardi">
@@ -164,10 +171,12 @@
     <script src="{{ asset('extensions/datatables.net/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('extensions/datatables.net-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
     @include('user.script')
-    @if ($santriId == null && auth()->user()->hasRole('wali santri'))
+    @if (
+        $santriId == null &&
+            auth()->user()->hasRole('wali santri'))
     @elseif (auth()->user()->hasRole('user'))
-    @include('user.datatables-user')
+        @include('user.datatables-user')
     @else
-    @include('user.datatables-wali')
+        @include('user.datatables-wali')
     @endif
 @endpush

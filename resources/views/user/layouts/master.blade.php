@@ -84,6 +84,7 @@
             @yield('content')
             @include('user.layouts.footer')
         </div>
+    </div>
         <script src="{{ asset('extensions/jquery/jquery.min.js') }}"></script>
         <script src="{{ asset('static/js/components/dark.js') }}"></script>
         <script src="{{ asset('/static/js/pages/horizontal-layout.js') }}"></script>
