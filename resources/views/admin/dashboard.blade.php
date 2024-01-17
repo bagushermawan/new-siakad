@@ -199,7 +199,7 @@
                                                         class="stats-icon transparent mb-2">
                                                 </div>
                                                 <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
-                                                    <h6 class="text-muted font-semibold">Orang Tua</h6>
+                                                    <h6 class="text-muted font-semibold">Total Orang Tua</h6>
                                                     <h6 class="font-extrabold mb-0">{{ $total_wali }}</h6>
                                                 </div>
                                             </div>
@@ -212,13 +212,12 @@
                                             <div class="row">
                                                 <div
                                                     class="col-md-4 col-lg-12 col-xl-12 col-xxl-5 d-flex justify-content-start ">
-                                                    <div class="stats-icon red mb-2">
-                                                        <i class="iconly-boldBookmark"></i>
-                                                    </div>
+                                                    <img src="{{ asset('/compiled/png/matpel.png') }}"
+                                                        class="stats-icon transparent mb-2">
                                                 </div>
                                                 <div class="col-md-8 col-lg-12 col-xl-12 col-xxl-7">
-                                                    <h6 class="text-muted font-semibold">Saved Post</h6>
-                                                    <h6 class="font-extrabold mb-0">112</h6>
+                                                    <h6 class="text-muted font-semibold">Total Mata Pelajaran</h6>
+                                                    <h6 class="font-extrabold mb-0">{{ $total_matapelajaran }}</h6>
                                                 </div>
                                             </div>
                                         </div>
@@ -229,7 +228,7 @@
                                 <div class="col-12 col-xl-4">
                                     <div class="card">
                                         <div class="card-header">
-                                            <h4>Total Users <span class="badge bg-info">{{ $total_all }}</span></h4>
+                                            <h4>Total Users <span class="badge bg-primary">{{ $total_all }}</span></h4>
                                         </div>
                                         <div class="card-body">
                                             <div id="chart-visitors-profile">
@@ -238,7 +237,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-12 col-xl-8">
+                                <div class="col-12 col-xl-4">
                                     <div class="card" style="max-height: 425px; overflow-y: auto;" id="cardi">
                                         <div class="card-header d-flex justify-content-between align-items-center">
                                             <h4>Riwayat Login</h4>
@@ -249,69 +248,46 @@
                                                         class="fas fa-times"></i></button>
                                             </div>
                                         </div>
-                                        <!-- Menampilkan riwayat login dari users -->
-                                        @foreach ($data_riwayat_login_users as $riwayat_login)
-                                            <div class="card-content pb-4">
-                                                <div class="recent-message d-flex px-4 py-3">
-                                                    <div class="avatar avatar-xl">
-                                                        <img src="{{ asset('/compiled/jpg/1.jpg') }}" alt=""
-                                                            srcset="">
-                                                        @if ($riwayat_login->status_login == true)
-                                                            <span class="avatar-status bg-success"></span>
-                                                        @else
-                                                            <span class="avatar-status bg-danger"></span>
-                                                        @endif
-                                                    </div>
-                                                    <div class="name ms-4">
-                                                        <h5 class="mb-1">{{ $riwayat_login->user->name }}
-                                                            <code>({{ $riwayat_login->user->roles->first()->name }})</code>
-                                                        </h5>
-                                                        <h6 class="text-muted mb-0">{{ $riwayat_login->user->email }}
-                                                        </h6>
-                                                        @if ($riwayat_login->status_login == false)
-                                                            <span class="riwayat"><i class="far fa-clock"></i>&nbsp;
-                                                                {{ $riwayat_login->updated_at->diffForHumans() }}</span>
-                                                        @endif
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        @endforeach
-                                        <!-- Menampilkan riwayat login dari wali_santris -->
-                                        @foreach ($data_riwayat_login_walis as $riwayat_login)
-                                            <div class="card-content pb-4">
-                                                <div class="recent-message d-flex px-4 py-3">
-                                                    <div class="avatar avatar-xl">
-                                                        <!-- Gantilah sesuai dengan atribut foto pada wali_santris -->
-                                                        <img src="{{ asset('/compiled/jpg/1.jpg') }}" alt=""
-                                                            srcset="">
-                                                        @if ($riwayat_login->status_login == true)
-                                                            <span class="avatar-status bg-success"></span>
-                                                        @else
-                                                            <span class="avatar-status bg-danger"></span>
-                                                        @endif
-                                                    </div>
-                                                    <div class="name ms-4">
-                                                        <h5 class="mb-1">{{ $riwayat_login->waliSantri->name }}
-                                                            <code>({{ $riwayat_login->waliSantri->roles->first()->name }})</code>
-                                                        </h5>
-                                                        <!-- Sesuaikan dengan atribut pada wali_santris yang ingin ditampilkan -->
-                                                        <h6 class="text-muted mb-0">
-                                                            {{ $riwayat_login->waliSantri->email }}
-                                                        </h6>
-                                                        @if ($riwayat_login->status_login == true)
-                                                            <h6 class="text-muted mb-0"
-                                                                style="color:green !important;">
-                                                                Online
-                                                            </h6>
-                                                        @endif
-                                                        @if ($riwayat_login->status_login == false)
-                                                            <span class="riwayat"><i class="far fa-clock"></i>&nbsp;
-                                                                {{ $riwayat_login->updated_at->diffForHumans() }}</span>
-                                                        @endif
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        @endforeach
+                                        <!-- Menampilkan riwayat login -->
+@foreach ($data_riwayat_login as $riwayat_login)
+    <div class="card-content pb-4">
+        <div class="recent-message d-flex px-4 py-3">
+            <div class="avatar avatar-xl">
+                <img src="{{ asset('/compiled/jpg/1.jpg') }}" alt="" srcset="">
+                @if ($riwayat_login->status_login == true)
+                    <span class="avatar-status bg-success"></span>
+                @else
+                    <span class="avatar-status bg-danger"></span>
+                @endif
+            </div>
+            <div class="name ms-4">
+                @if ($riwayat_login->user)
+                    <!-- Menampilkan data dari users -->
+                    <h5 class="mb-1">{{ $riwayat_login->user->name }}
+                        <code>({{ $riwayat_login->user->roles->first()->name }})</code>
+                    </h5>
+                    <h6 class="text-muted mb-0">{{ $riwayat_login->user->email }}</h6>
+                @elseif ($riwayat_login->waliSantri)
+                    <!-- Menampilkan data dari wali_santris -->
+                    <h5 class="mb-1">{{ $riwayat_login->waliSantri->name }}
+                        <code>({{ $riwayat_login->waliSantri->roles->first()->name }})</code>
+                    </h5>
+                    <h6 class="text-muted mb-0">{{ $riwayat_login->waliSantri->email }}</h6>
+                    @if ($riwayat_login->status_login == true)
+                        <h6 class="text-muted mb-0" style="color:green !important;">
+                            Online
+                        </h6>
+                    @endif
+                @endif
+                @if ($riwayat_login->status_login == false)
+                    <span class="riwayat"><i class="far fa-clock"></i>&nbsp;
+                        {{ $riwayat_login->updated_at->diffForHumans() }}
+                    </span>
+                @endif
+            </div>
+        </div>
+    </div>
+@endforeach
                                     </div>
                                 </div>
                             </div>

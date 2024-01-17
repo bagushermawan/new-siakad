@@ -33,19 +33,30 @@ class AdminDashboardController extends Controller
         $total_permission = Permission::count();
         $total_matapelajaran = MataPelajaran::count();
 
-        // Mendapatkan data riwayat login dari users dan wali_santris
-        $data_riwayat_login_users = RiwayatLogin::where('user_id', '!=', Auth::user()->id)
-            ->where('wali_santri_id', null)
-            // ->where('updated_at', '>=', Carbon::today())
-            ->orderBy('status_login', 'DESC')
-            ->orderBy('updated_at', 'DESC')
-            ->get();
+        Carbon::setLocale('id');
 
-        $data_riwayat_login_walis = RiwayatLogin::where('wali_santri_id', '!=', null)
-            // ->where('updated_at', '>=', Carbon::today())
-            ->orderBy('status_login', 'DESC')
-            ->orderBy('updated_at', 'DESC')
-            ->get();
+        // // Mendapatkan data riwayat login dari users dan wali_santris
+        // $data_riwayat_login_users = RiwayatLogin::where('user_id', '!=', Auth::user()->id)
+        //     ->where('wali_santri_id', null)
+        //     // ->where('updated_at', '>=', Carbon::today())
+        //     ->orderBy('status_login', 'DESC')
+        //     ->orderBy('updated_at', 'DESC')
+        //     ->get();
+
+        // $data_riwayat_login_walis = RiwayatLogin::where('wali_santri_id', '!=', null)
+        //     // ->where('updated_at', '>=', Carbon::today())
+        //     ->orderBy('status_login', 'DESC')
+        //     ->orderBy('updated_at', 'DESC')
+        //     ->get();
+
+        $data_riwayat_login = RiwayatLogin::where(function ($query) {
+            $query->where('user_id', '!=', Auth::user()->id)
+            ->where('wali_santri_id', null);
+        })->orWhere('wali_santri_id', '!=', null)
+        // ->where('updated_at', '>=', Carbon::today())
+        ->orderBy('status_login', 'DESC')
+        ->orderBy('updated_at', 'DESC')
+        ->get();
 
         // Alternatif: Mendapatkan role pertama dari user
         // $role = $user->getRoleNames()->first();
@@ -61,8 +72,9 @@ class AdminDashboardController extends Controller
             'total_permission' => $total_permission,
             'total_matapelajaran' => $total_matapelajaran,
             'total_all' => $total_all,
-            'data_riwayat_login_users' => $data_riwayat_login_users,
-            'data_riwayat_login_walis' => $data_riwayat_login_walis,
+            'data_riwayat_login' => $data_riwayat_login,
+            // 'data_riwayat_login_users' => $data_riwayat_login_users,
+            // 'data_riwayat_login_walis' => $data_riwayat_login_walis,
         ]);
     }
 

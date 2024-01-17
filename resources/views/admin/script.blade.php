@@ -120,22 +120,12 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        var dataRiwayatLoginUsers =
-        {!! $data_riwayat_login_users->toJson() !!};
+        var dataRiwayatLogin = {!! json_encode($data_riwayat_login) !!};
 
-        var dataRiwayatLoginWalis =
-        {!! $data_riwayat_login_walis->toJson() !!};
-
-        if (dataRiwayatLoginUsers && dataRiwayatLoginUsers.length > 0) {
-            console.log("Riwayat login users berhasil dimuat.");
+        if (Array.isArray(dataRiwayatLogin) && dataRiwayatLogin.length > 0) {
+            console.log("Riwayat login berhasil dimuat.");
         } else {
-            console.log("Data riwayat login users kosong atau tidak berhasil dimuat.");
-        }
-
-        if (dataRiwayatLoginWalis && dataRiwayatLoginWalis.length > 0) {
-            console.log("Riwayat login walis berhasil dimuat.");
-        } else {
-            console.log("Data riwayat login walis kosong atau tidak berhasil dimuat.");
+            console.log("Data riwayat login kosong atau tidak berhasil dimuat.");
         }
     });
 </script>
