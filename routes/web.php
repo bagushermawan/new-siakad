@@ -6,6 +6,7 @@ use App\Http\Controllers\GuruController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SiswaController;
+use App\Http\Controllers\LoginAsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PrestasiController;
 use App\Http\Controllers\UserAjaxController;
@@ -62,6 +63,9 @@ Route::middleware('auth:web,wali')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
+    Route::get('/user/{id}/login', [LoginAsController::class, 'loginAsUser']);
+    Route::get('/wali/{id}/login', [LoginAsController::class, 'loginAsWaliSantri']);
+
     Route::get('/qwe/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
     Route::get('/user-role-count', [UserAjaxController::class, 'getUserRoleCountChartjs']);
 

@@ -167,7 +167,8 @@
                         );
                         var title = $(cell).text();
                         // Tambahkan kondisi untuk mengecek apakah kolom No
-                        if (colIdx === 0 || colIdx === 4 || colIdx === 5 || colIdx === 6 || colIdx === 7) {
+                        if (colIdx === 0 || colIdx === 4 || colIdx === 5 || colIdx === 6 ||
+                            colIdx === 7) {
                             // Jika kolom No, tidak tambahkan input filter
                             $(cell).html('');
                         } else {
@@ -444,38 +445,66 @@
     }
 
     // 04_PROSES Delete
-$('body').on('click', '.tombol-del', function(e) {
-    var id = $(this).data('id');
-    var userType = $(this).data('user-type');
-    var name = $(this).data('name');
+    $('body').on('click', '.tombol-del', function(e) {
+        var id = $(this).data('id');
+        var userType = $(this).data('user-type');
+        var name = $(this).data('name');
 
-    Swal.fire({
-        title: `Yakin mau hapus <b>${name}</b>?`,
-        text: "Anda tidak akan dapat mengembalikan data ini!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#d33',
-        cancelButtonColor: '#3085d6',
-        confirmButtonText: 'Hapus',
-        cancelButtonText: 'Batal',
-    }).then((result) => {
-        if (result.isConfirmed) {
-            // Jika pengguna menekan tombol "Hapus", kirim permintaan DELETE
-            $.ajax({
-                url: userType === 'wali_santris' ? 'wali/' + id : 'userAjax/' + id,
-                type: 'DELETE',
-                success: function(response) {
-                    $('#myTable').DataTable().ajax.reload();
-                    Swal.fire('Sukses!', `Berhasil hapus data ${userType === 'wali_santris' ? 'wali santri' : 'user'}: <b>${name}</b>.`, 'info');
-                },
-                error: function(xhr, status, error) {
-                    console.error(xhr.responseText);
-                    Swal.fire('Gagal!', 'Terjadi kesalahan saat menghapus data.', 'error');
-                }
-            });
-        }
+        Swal.fire({
+            title: `Yakin mau hapus <b>${name}</b>?`,
+            text: "Anda tidak akan dapat mengembalikan data ini!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Hapus',
+            cancelButtonText: 'Batal',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Jika pengguna menekan tombol "Hapus", kirim permintaan DELETE
+                $.ajax({
+                    url: userType === 'wali_santris' ? 'wali/' + id : 'userAjax/' + id,
+                    type: 'DELETE',
+                    success: function(response) {
+                        $('#myTable').DataTable().ajax.reload();
+                        Swal.fire('Sukses!',
+                            `Berhasil hapus data ${userType === 'wali_santris' ? 'wali santri' : 'user'}: <b>${name}</b>.`,
+                            'info');
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(xhr.responseText);
+                        Swal.fire('Gagal!', 'Terjadi kesalahan saat menghapus data.',
+                            'error');
+                    }
+                });
+            }
+        });
     });
-});
+
+    // Tombol LOGIN
+    $('body').on('click', '.tombol-login', function(e) {
+        e.preventDefault();
+        var id = $(this).data('id');
+        var userType = $(this).data('user-type');
+        var name = $(this).data('name');
+
+        Swal.fire({
+            title: `Apa anda mau login sebagai: <b>${name}</b>?`,
+            text: "",
+            icon: 'info',
+            showCancelButton: true,
+            confirmButtonColor: '#198754',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Login',
+            cancelButtonText: 'Batal',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // console.log(userType);
+                window.location.href = userType === 'wali_santris' ? '/wali/' + id + '/login' :
+                    '/user/' + id + '/login';
+            }
+        });
+    });
 
     // fungsi simpan dan update
     function simpan(id = '', userType = 'user') {
