@@ -196,5 +196,6 @@ Route::get('/error404', [ErrorTestController::class, 'show404']);
 Route::get('/error419', [ErrorTestController::class, 'show419']);
 Route::get('/error500', [ErrorTestController::class, 'show500']);
 Route::get('/error403', [ErrorTestController::class, 'show403']);
+Route::get('/test', [ErrorTestController::class, 'test']);
 
 require __DIR__ . '/auth.php';

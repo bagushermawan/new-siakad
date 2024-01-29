@@ -22,9 +22,9 @@
             <div class="col-md-8 col-12 offset-md-2">
                 <div class="text-center">
                     <img class="img-error" src="{{ asset('/compiled/svg/error-404.svg') }}" alt="Not Found">
-                    <h1 class="error-title">Not Found</h1>
-                    <p class='fs-5 text-gray-600'>The page you are looking not found.</p>
-                    <a onclick="goBack()" class="btn btn-lg btn-outline-primary mt-3">Go Back</a>
+                    <h1 class="error-title">Tidak ditemukan</h1>
+                    <p class='fs-5 text-gray-600'>Halaman yang Anda cari tidak ditemukan.</p>
+                    <a onclick="goBack()" class="btn btn-lg btn-outline-primary mt-3">Kembali</a>
                 </div>
             </div>
         </div>

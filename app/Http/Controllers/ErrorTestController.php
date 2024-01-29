@@ -25,4 +25,9 @@ class ErrorTestController extends Controller
     {
         abort(403, 'Unauthorized action.');
     }
+
+    public function test()
+    {
+        return view('test.test6');
+    }
 }
