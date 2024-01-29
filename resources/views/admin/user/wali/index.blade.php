@@ -165,7 +165,16 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <div id="santriInfoContent"></div>
+                        <div class="row">
+                            <div class="col-6">
+                                <div id="santriInfoContent"></div>
+                            </div>
+                            <div class="col-6">
+                                <div class="avatar avatar-2xl" style="display: block;">
+                                    <img id="santriPhoto" src="" alt="Foto Santri">
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -196,7 +205,11 @@
         });
     </script>
     <script>
+        var scrollPosition;
+        var baseUrl = "{{ asset('storage/') }}";
         $(document).on('click', '.santri-link', function() {
+            // Simpan posisi scroll sebelum membuka modal
+            scrollPosition = $(window).scrollTop();
             var santriId = $(this).data('santri-id');
 
             $.ajax({
@@ -209,15 +222,23 @@
                         'Nama: ' + santriInfo.name +
                         '<br>Username: ' + santriInfo.username +
                         '<br>Email: ' + santriInfo.email +
-                        '<br>Kelas: ' + (santriInfo.kelas ? santriInfo.kelas.name : 'Belum input kelas') + // Memeriksa apakah ada informasi kelas
+                        '<br>Kelas: ' + (santriInfo.kelas ? santriInfo.kelas.name :
+                            'Belum input kelas') + // Memeriksa apakah ada informasi kelas
                         '<br>No HP: ' + santriInfo.nohp
-                        );
+                    );
+                    // Set nilai foto_user
+                    var fotoUser = santriInfo.foto_user ? baseUrl + '/' + santriInfo.foto_user : '{{ asset('compiled/jpg/1.jpg') }}';
+                    $('#santriPhoto').attr('src', fotoUser);
                     $('#santriModal').modal('show');
                 },
                 error: function(xhr, status, error) {
                     console.error('Error fetching santri info:', error);
                 }
             });
+        });
+        $('#santriModal').on('hidden.bs.modal', function() {
+            // Kembalikan posisi scroll setelah menutup modal
+            $(window).scrollTop(scrollPosition);
         });
     </script>
 @endpush
