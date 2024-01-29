@@ -134,6 +134,13 @@
                     },
                 ],
             });
+            // Menunggu inisialisasi DataTables selesai
+            myTable.on('init.dt', function() {
+                var currentPageData = myTable.rows({
+                    page: 'current'
+                }).data().toArray();
+                console.log('ini isinya', currentPageData);
+            }).draw();
             // Fungsi untuk memberi warna pada pagination
             const setTableColor = () => {
                 document.querySelectorAll('.dataTables_paginate .pagination').forEach(dt => {
