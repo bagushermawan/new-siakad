@@ -145,14 +145,18 @@ Route::get('cekguard', function () {
     // ...
 
     // Tampilkan sesi menggunakan var_dump
-    echo '<pre>';
-    var_dump(session()->all());
-    var_dump(Auth::getDefaultDriver());
-    echo '</pre>';
+    // echo '<pre>';
+    // var_dump(session()->all());
+    // var_dump(Auth::getDefaultDriver());
+    // echo '</pre>';
 
     return '
         <h1>Hello <h5 class="font-bold">' .
+        'Name:  ' .
         ucfirst(auth()->user()->name) .
+        '<br>' .
+        'Role:  ' .
+         ucfirst(implode(', ', Auth::user()->getRoleNames()->all())) .
         '</h5><br></h1>
 
         <!-- Tombol Logout -->
