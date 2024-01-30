@@ -128,6 +128,7 @@
     <div class="col-12 col-lg-7">
         <div class="card">
             <div class="card-header">
+                <button id="generateRaportButton" class="btn btn-primary">Generate Raport</button>
                 <div class="card-title">
                     <h6 class="d-flex justify-content-between align-items-center">
                         {{-- <span>Tahun Ajaran: <b>{{ $thaktif->name }}</b></span> --}}

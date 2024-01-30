@@ -16,6 +16,7 @@ use App\Http\Controllers\NilaiAjaxController;
 use App\Http\Controllers\EkskulAjaxController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\TahunAjaranController;
+use App\Http\Controllers\User\RaportController;
 use App\Http\Controllers\PrestasiAjaxController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\WaliSantriAjaxController;
@@ -60,6 +61,9 @@ Route::middleware('auth:web,wali')->group(function () {
     Route::get('/user/profile', [UserDashboardController::class, 'edit'])->name('user.edit');
     Route::put('/user/profile/{id}', [UserDashboardController::class, 'update'])->name('user.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::post('/generate-raport', [RaportController::class, 'generateRaport']);
+    Route::get('/show-raport', [RaportController::class, 'showRaport']);
 });
 
 Route::middleware('auth')->group(function () {

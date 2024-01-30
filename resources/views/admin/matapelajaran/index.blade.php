@@ -56,6 +56,7 @@
                                         <center>No</center>
                                     </th>
                                     <th class="col-md-6">Nama Mata Pelajaran</th>
+                                    <th>Kategori</th>
                                     <th>Created at</th>
                                     <th>
                                         <center>Action</center>

@@ -24,7 +24,7 @@
             <div class="col-lg-5 col-12">
                 <div id="auth-left">
                     <div class="auth-logo">
-                        <a href="/"><img src="{{ asset('/compiled/svg/logo.svg') }}" alt="Logo"></a>
+                        <a href="/"><img src="{{ asset('/compiled/png/logodarunnajah.png') }}" alt="Logo"></a>
                     </div>
                     <h1 class="auth-title">Masuk.</h1>
                     <p class="auth-subtitle mb-5">Masuk dengan data Anda yang Anda masukkan saat pendaftaran.</p>

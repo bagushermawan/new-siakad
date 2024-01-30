@@ -280,6 +280,7 @@
                     }
                 },
                 {data: 'name',name: 'Nama'},
+                {data: 'kategori',name: 'Kategori'},
                 {
                     data: 'created_at',
                     name: 'created_at',

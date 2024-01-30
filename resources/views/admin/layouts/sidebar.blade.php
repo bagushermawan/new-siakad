@@ -3,7 +3,7 @@
         <div class="sidebar-header position-relative">
             <div class="d-flex justify-content-between align-items-center">
                 <div class="logo">
-                    <a href="{{ route('admin.dashboard') }}"><img src="{{ asset('compiled/svg/logo.svg') }}" alt="Logo" srcset=""></a>
+                    <a href="{{ route('admin.dashboard') }}"><img src="{{ asset('compiled/png/logodarunnajah.png') }}" alt="Logo" srcset="" style="height: 3rem;"></a>
                 </div>
                 <div class="theme-toggle d-flex gap-2  align-items-center mt-2">
                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -82,14 +82,6 @@
                         </ul>
                     </li>
                 @endif
-
-                <li class="sidebar-item {{ request()->routeIs('ekskul.index') ? 'active' : '' }}">
-                    <a href="{{ route('ekskul.index') }}" class='sidebar-link'>
-                        <i class="bi bi-bookmark-plus"></i>
-                        <span>Ekskul</span>
-                    </a>
-                </li>
-
                 <li class="sidebar-item {{ request()->routeIs('prestasi.index') ? 'active' : '' }}">
                     <a href="{{ route('prestasi.index') }}" class='sidebar-link'>
                         <i class="bi bi-award-fill"></i>

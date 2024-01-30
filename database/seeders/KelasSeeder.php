@@ -13,17 +13,13 @@ class KelasSeeder extends Seeder
      */
     public function run(): void
     {
-        Kelas::create(['name' => '1A', 'event' => 'ini event kelas 1A']);
-        Kelas::create(['name' => '1B', 'event' => 'ini event kelas 1b']);
-        Kelas::create(['name' => '2A', 'event' => 'ini event kelas 2A']);
-        Kelas::create(['name' => '2B', 'event' => 'ini event kelas 2b']);
-        Kelas::create(['name' => '3A', 'event' => 'ini event kelas 3A']);
-        Kelas::create(['name' => '3B', 'event' => 'ini event kelas 3b']);
-        Kelas::create(['name' => '4A', 'event' => 'ini event kelas 4A']);
-        Kelas::create(['name' => '4B', 'event' => 'ini event kelas 4b']);
-        Kelas::create(['name' => '5A', 'event' => 'ini event kelas 5A']);
-        Kelas::create(['name' => '5B', 'event' => 'ini event kelas 5b']);
-        Kelas::create(['name' => '6A', 'event' => 'ini event kelas 6a']);
-        Kelas::create(['name' => '6B', 'event' => 'ini event kelas 6b']);
+        Kelas::create(['name' => 'MQS', 'event' => 'ini event kelas MQS']); //shifir baru belajar ngaji 0
+        Kelas::create(['name' => '1 Ula', 'event' => 'ini event kelas 1 Ula']); //bisa ngaji (kitab2)
+        Kelas::create(['name' => '2 Ula', 'event' => 'ini event kelas 2 Ula']);
+        Kelas::create(['name' => '3 Ula', 'event' => 'ini event kelas 3 Ula']);
+        Kelas::create(['name' => '4 Ula', 'event' => 'ini event kelas 4 Ula']);
+        Kelas::create(['name' => '5 Ula', 'event' => 'ini event kelas 5 Ula']);
+        Kelas::create(['name' => '1 Wustho', 'event' => 'ini event kelas 1 Wustho']); //kitab kuning
+        Kelas::create(['name' => '2 Wustho', 'event' => 'ini event kelas 2 Wustho']);
     }
 }

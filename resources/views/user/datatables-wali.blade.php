@@ -134,13 +134,31 @@
                     },
                 ],
             });
-            // Menunggu inisialisasi DataTables selesai
-            myTable.on('init.dt', function() {
-                var currentPageData = myTable.rows({
-                    page: 'current'
-                }).data().toArray();
-                console.log('ini isinya', currentPageData);
-            }).draw();
+            // Menyertakan token CSRF dalam setiap permintaan POST
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
+
+$('#generateRaportButton').on('click', function() {
+    var currentPageData = myTable.rows({ page: 'current' }).data().toArray();
+
+    console.log(currentPageData);
+    $.ajax({
+        url: '/generate-raport',
+        method: 'POST',
+        data:  {currentPageData: currentPageData},
+        success: function(response) {
+            // Redirect atau lakukan sesuatu dengan response jika perlu
+            console.log('Raport generated successfully');
+            window.location.href = '/show-raport'; // Menghilangkan komentar dari baris ini
+        },
+        error: function(xhr, status, error) {
+            console.error('Error generating raport:', error);
+        }
+    });
+});
             // Fungsi untuk memberi warna pada pagination
             const setTableColor = () => {
                 document.querySelectorAll('.dataTables_paginate .pagination').forEach(dt => {
