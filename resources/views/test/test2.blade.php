@@ -41,21 +41,32 @@
             text-align: center;
         }
     </style>
+    {{-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"> --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css">
 </head>
 <body>
     <div class="rapot">
         <div class="header">
-            <h1>Rapot Siswa</h1>
+            <h1>Rapot Santri</h1>
         </div>
 
         <div class="student-info">
-            <h2>Informasi Siswa</h2>
-            <p><strong>Nama:</strong> baher</p>
-            <p><strong>Kelas:</strong> 1A</p>
-            <!-- Tambahkan informasi lainnya sesuai kebutuhan -->
+            <h2>Informasi Santri</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <p><strong>NISN:</strong> awfawgp>
+                    <p><strong>Nama:</strong> awfawgp>
+                    <p><strong>No HP:</strong> awfawgp>
+                </div>
+                <div class="col-md-6">
+                    <p><strong>Tahun Ajaran:</strong> awfawg</p>
+                    <p><strong>Kelas:</strong> awfawgp>
+                    <p><strong>Semester:</strong> awfawg</p>
+                </div>
+            </div>
         </div>
 
-        <table class="subject-table">
+        <table class="table table-striped">
             <thead>
                 <tr>
                     <th>Mata Pelajaran</th>
@@ -63,12 +74,22 @@
                 </tr>
             </thead>
             <tbody>
-
                     <tr>
                         <td>math</td>
                         <td>55</td>
                     </tr>
-
+                    <tr>
+                        <td>math</td>
+                        <td>55</td>
+                    </tr>
+                    <tr>
+                        <td>math</td>
+                        <td>55</td>
+                    </tr>
+                    <tr>
+                        <td>math</td>
+                        <td>55</td>
+                    </tr>
             </tbody>
         </table>
 
