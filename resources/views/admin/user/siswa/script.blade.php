@@ -72,6 +72,69 @@
                     }
                 },
                 {
+                    className: 'btn btn-outline-danger',
+                    text: '<i class="fas fa-trash"></i>',
+                    titleAttr: 'Delete All',
+                    action: function(e, dt, node, config) {
+                        // Dapatkan nilai total_prestasi dari elemen HTML
+                        var totalSantri = parseInt($('#totalSantri').data('total'));
+                        console.log(totalSantri);
+
+                        if (totalSantri > 0) {
+                        // Tambahkan kondisi JavaScript berdasarkan nilai total_prestasi
+                            Swal.fire({
+                                title: 'Apa kamu yakin?',
+                                text: 'Data yang sudah dihapus tidak bisa dikembalikan!',
+                                icon: 'warning',
+                                showCancelButton: true,
+                                confirmButtonColor: '#d33',
+                                cancelButtonColor: '#3085d6',
+                                confirmButtonText: 'Ya, Hapus!',
+                                cancelButtonText: 'Batal'
+                            }).then((result) => {
+                                // Jika pengguna mengkonfirmasi
+                                if (result.isConfirmed) {
+                                    // Kirim permintaan AJAX ke backend untuk menghapus data
+                                    $.ajax({
+                                        url: "/delete-all-user", // Ganti dengan URL backend Anda
+                                        method: "DELETE", // Sesuaikan dengan metode yang digunakan di backend
+                                        success: function(response) {
+                                            // Jika penghapusan dari database berhasil
+                                            if (response.success) {
+                                                // Hapus semua data dari DataTables
+                                                $('#myTable').DataTable()
+                                                    .ajax.reload();
+                                                Swal.fire("Deleted!",
+                                                    "All users with role 'user' deleted successfully.",
+                                                    "success");
+                                            } else {
+                                                Swal.fire(
+                                                    "Error!",
+                                                    "Failed to delete data from database.",
+                                                    "error"
+                                                );
+                                            }
+                                        },
+                                        error: function(error) {
+                                            console.error(
+                                                "Error deleting data:",
+                                                error);
+                                            Swal.fire(
+                                                "Error!",
+                                                "Failed to delete data from database.",
+                                                "error"
+                                            );
+                                        },
+                                    });
+                                }
+                            });
+                        } else {
+                            // Tampilkan pesan jika tidak ada data untuk dihapus
+                            Swal.fire("Info", "Tidak ada data untuk dihapus.", "info");
+                        }
+                    },
+                },
+                {
                     className: 'btn btn-outline-success',
                     text: '<i class="fas fa-file-import"></i> Import Excel',
                     titleAttr: 'Reload Data',

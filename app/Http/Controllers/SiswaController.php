@@ -20,8 +20,18 @@ class SiswaController extends Controller
         $isAdmin = $user->hasRole('admin');
         $kelasOptions = Kelas::all();
         $roless = Role::get();
+        $totalSantri = User::whereHas('roles', function ($query) {
+            $query->where('name', 'user');
+        })->count();
         // dd($kelasOptions);
 
-        return view('admin.user.siswa.index', ['roles' => $roles, 'daftar_user' => $daftar_user, 'isAdmin' => $isAdmin, 'kelasOptions' =>$kelasOptions, 'roless' => $roless]);
+        return view('admin.user.siswa.index', [
+            'roles' => $roles,
+            'daftar_user' => $daftar_user,
+            'isAdmin' => $isAdmin,
+            'kelasOptions' => $kelasOptions,
+            'roless' => $roless,
+            'totalSantri' => $totalSantri,
+        ]);
     }
 }
