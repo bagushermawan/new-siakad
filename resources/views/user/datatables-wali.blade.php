@@ -135,32 +135,30 @@
                 ],
             });
             // Menyertakan token CSRF dalam setiap permintaan POST
-$.ajaxSetup({
-    headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    }
-});
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
 
-$('#generateRaportButton').on('click', function() {
-    var currentPageData = myTable.rows({ page: 'current' }).data().toArray();
+            $('#generateRaportButton').on('click', function() {
+                var currentPageData = myTable.rows({page: 'current'}).data().toArray();
 
-    console.log(currentPageData);
-    $.ajax({
-        url: '/generate-raport',
-        method: 'POST',
-        data: { currentPageData: currentPageData },
-        success: function(response) {
-            // Update konten pada halaman saat ini dengan hasil respons
-            $('#contentContainer').html(response);
-
-            // Tambahkan logika atau tindakan lainnya jika perlu
-            console.log('Raport generated successfully');
-        },
-        error: function(xhr, status, error) {
-            console.error('Error generating raport:', error);
-        }
-    });
-});
+                console.log(currentPageData);
+                $.ajax({
+                    url: '/generate-raport',
+                    method: 'POST',
+                    data: {currentPageData: currentPageData},
+                    success: function(response) {
+                        // Redirect ke URL PDF di tab baru
+                        window.open(response.pdfUrl, '_blank');
+                        console.log('Raport generated successfully');
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error generating raport:', error);
+                    }
+                });
+            });
             // Fungsi untuk memberi warna pada pagination
             const setTableColor = () => {
                 document.querySelectorAll('.dataTables_paginate .pagination').forEach(dt => {

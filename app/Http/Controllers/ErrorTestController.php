@@ -28,6 +28,6 @@ class ErrorTestController extends Controller
 
     public function test()
     {
-        return view('test.test6');
+        return view('test.test2');
     }
 }

@@ -63,7 +63,8 @@ Route::middleware('auth:web,wali')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::post('/generate-raport', [RaportController::class, 'generateRaport']);
-    Route::get('/show-raport', [RaportController::class, 'showRaport']);
+    Route::get('/storage/{pdf_path}', [RaportController::class, 'showPdf'])->name('show.pdf');
+
 });
 
 Route::middleware('auth')->group(function () {
