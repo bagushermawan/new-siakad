@@ -289,7 +289,7 @@
                                     data + '" alt="Foto Pengguna"></div>';
                             } else {
                                 // Tambahkan event handler untuk menampilkan swal saat foto tidak tersedia di klik
-                                return '<a style="color:#6c757d; cursor: pointer;" onclick="showSwal()">Foto tidak tersedia</a>';
+                                return '<a style="color:rgba(var(--bs-link-color-rgb),var(--bs-link-opacity, 1)); cursor: pointer;" onclick="showSwal()">Foto tidak tersedia</a>';
                             }
                         }
                         return data;

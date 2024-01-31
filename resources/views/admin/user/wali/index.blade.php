@@ -166,10 +166,10 @@
                     </div>
                     <div class="modal-body">
                         <div class="row">
-                            <div class="col-6">
+                            <div class="col-8">
                                 <div id="santriInfoContent"></div>
                             </div>
-                            <div class="col-6">
+                            <div class="col-4">
                                 <div class="avatar avatar-2xl" style="display: block;">
                                     <img id="santriPhoto" src="" alt="Foto Santri">
                                 </div>

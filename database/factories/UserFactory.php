@@ -56,7 +56,6 @@ class UserFactory extends Factory
             'nisn' => $user->nisn,
             // 'nuptk' => $user->nuptk,
             'nohp' => $user->nohp,
-            'username' => $user->username,
             'email' => $user->email,
             'kelas_id' => $user->kelas_id,
             'email_verified_at' => $user->email_verified_at,
