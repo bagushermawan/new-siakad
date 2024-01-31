@@ -148,11 +148,13 @@ $('#generateRaportButton').on('click', function() {
     $.ajax({
         url: '/generate-raport',
         method: 'POST',
-        data:  {currentPageData: currentPageData},
+        data: { currentPageData: currentPageData },
         success: function(response) {
-            // Redirect atau lakukan sesuatu dengan response jika perlu
+            // Update konten pada halaman saat ini dengan hasil respons
+            $('#contentContainer').html(response);
+
+            // Tambahkan logika atau tindakan lainnya jika perlu
             console.log('Raport generated successfully');
-            window.location.href = '/show-raport'; // Menghilangkan komentar dari baris ini
         },
         error: function(xhr, status, error) {
             console.error('Error generating raport:', error);

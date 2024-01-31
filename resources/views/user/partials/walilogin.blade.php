@@ -146,7 +146,7 @@
 
                     <h6 class="d-flex justify-content-between align-items-center">
                         <div class=""></div>
-                        <div class="ml-auto">Semester:
+                        <div class="ml-auto">Kelas:
                             <select class="" id="filterKelas">
                                 <option value="">Semua</option>
                             </select>
