@@ -31,12 +31,22 @@ class WaliSantriAjaxController extends Controller
         })->get();
 
         $data = WaliSantri::with(['roles', 'santri'])
-        ->orderBy('name', 'asc')->get();
+            ->orderBy('name', 'asc')
+            ->get();
 
         // Mengambil daftar guru
         $roless = Role::get();
+        $totalWali = WaliSantri::count();
 
-        return view('admin.user.wali.index', ['data' => $data, 'roles' => $roles, 'daftar_user' => $daftar_user, 'isAdmin' => $isAdmin, 'roless' => $roless, 'santri' => $santri]);
+        return view('admin.user.wali.index', [
+            'data' => $data,
+            'roles' => $roles,
+            'daftar_user' => $daftar_user,
+            'isAdmin' => $isAdmin,
+            'roless' => $roless,
+            'santri' => $santri,
+            'totalWali' => $totalWali,
+        ]);
     }
 
     public function indexWali()
@@ -45,7 +55,8 @@ class WaliSantriAjaxController extends Controller
         $isAdmin = $user->hasRole('admin');
 
         $data = WaliSantri::with(['roles', 'santri'])
-        ->orderBy('name', 'asc')->get();
+            ->orderBy('name', 'asc')
+            ->get();
 
         return DataTables::of($data)
             ->addIndexColumn()
@@ -77,16 +88,16 @@ class WaliSantriAjaxController extends Controller
         ]);
 
         // Cari user dengan peran 'user' jika santri_id disediakan
-        $santriUser = $request->filled('santri_id') ?
-        User::whereHas('roles', function ($q) {
-            $q->where('name', 'user');
-        })
-            ->where('id', $request->input('santri_id'))
-            ->first() :
-            null;
+        $santriUser = $request->filled('santri_id')
+            ? User::whereHas('roles', function ($q) {
+                $q->where('name', 'user');
+            })
+                ->where('id', $request->input('santri_id'))
+                ->first()
+            : null;
 
         // Buat instansi model WaliSantri
-        $waliSantri = new WaliSantri;
+        $waliSantri = new WaliSantri();
         $waliSantri->name = $request->input('name');
         $waliSantri->username = $request->input('username');
         $waliSantri->email = $request->input('email');
@@ -155,5 +166,19 @@ class WaliSantriAjaxController extends Controller
     public function destroy(string $id)
     {
         WaliSantri::where('id', $id)->delete();
+    }
+
+    public function deleteAllWaliSantri()
+    {
+        try {
+            // Tambahkan logika penghapusan data di sini
+            // Contoh: Hapus semua data dari tabel 'users'
+            DB::table('wali_santris')->delete();
+
+            return response()->json(['success' => true, 'message' => 'All data deleted successfully.']);
+        } catch (\Exception $e) {
+            // Tangani kesalahan jika terjadi
+            return response()->json(['success' => false, 'message' => 'Failed to delete data: ' . $e->getMessage()]);
+        }
     }
 }

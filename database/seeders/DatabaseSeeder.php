@@ -25,7 +25,7 @@ class DatabaseSeeder extends Seeder
         // $this->call(NilaiSeeder::class);
 
 
-        User::factory(5555)->create();
+        User::factory(66)->create();
         // User::factory(15)->create();
     }
 }

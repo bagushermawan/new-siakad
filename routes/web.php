@@ -86,6 +86,7 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('/qwe/wali', WaliSantriAjaxController::class);
     Route::get('/qwe/waliAjax', [WaliSantriAjaxController::class, 'indexWali']);
+    Route::delete('/delete-all-walisantri', [WaliSantriAjaxController::class, 'deleteAllWaliSantri'])->name('delete.all.walisantri');
 
     Route::resource('/qwe/ekskul', EkskulAjaxController::class);
     Route::get('/qwe/ekskulAjax', [EkskulAjaxController::class, 'indexEkskul']);
