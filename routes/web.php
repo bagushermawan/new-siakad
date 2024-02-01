@@ -83,6 +83,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/qwe/import-siswa', [UserAjaxController::class, 'importSiswa'])->name('import.siswa');
     Route::get('/get_santri_options', [UserAjaxController::class, 'getSantriOptions']);
     Route::get('/getSantriInfo/{id}', [UserAjaxController::class, 'getSantriInfo']);
+    Route::get('/getWaliKelasInfo/{id}', [UserAjaxController::class, 'getWaliKelasInfo']);
     Route::delete('/delete-all-user', [UserAjaxController::class, 'deleteAllUser'])->name('delete.all.user');
     Route::delete('/delete-all-guru', [UserAjaxController::class, 'deleteAllGuru'])->name('delete.all.guru');
 

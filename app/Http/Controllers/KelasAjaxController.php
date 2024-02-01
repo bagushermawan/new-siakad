@@ -46,7 +46,6 @@ class KelasAjaxController extends Controller
             ->orderBy('name', 'asc');
 
         if (!$isAdmin) {
-            // Jika bukan admin, tambahkan kondisi untuk siswa yang memiliki role 'guru'
             $data->where(function ($query) {
                 $query
                     ->whereHas('users', function ($subquery) {
@@ -54,7 +53,7 @@ class KelasAjaxController extends Controller
                             $rolesQuery->where('name', 'guru');
                         });
                     })
-                    ->orWhereNull('users.id'); // Siswa tanpa kelas juga akan ditampilkan
+                    ->orWhereNull('users.id');
             });
         }
 
@@ -63,9 +62,16 @@ class KelasAjaxController extends Controller
             ->addColumn('users_count', function ($data) {
                 return $data->users_count ?? 0;
             })
-            ->addColumn('walikelas_name', function ($data) {
-                // Mengambil nama dari ID wali kelas melalui relasi
-                return optional($data->walikelas)->name;
+            ->addColumn('walikelas_info', function ($data) {
+                $walikelas = $data->walikelas;
+
+                if ($walikelas) {
+                    // If "walikelas" is available, return both ID and name
+                    return ['id' => $walikelas->id, 'name' => $walikelas->name];
+                } else {
+                    // If "walikelas" is not available, return null
+                    return null;
+                }
             })
             ->addColumn('aksi', function ($data) use ($isAdmin) {
                 return view('admin.tombol', ['data' => $data, 'isAdmin' => $isAdmin]);

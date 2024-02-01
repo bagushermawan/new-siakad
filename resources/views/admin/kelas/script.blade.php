@@ -72,7 +72,7 @@
                         console.log(totalKelas);
 
                         if (totalKelas > 0) {
-                        // Tambahkan kondisi JavaScript berdasarkan nilai total_prestasi
+                            // Tambahkan kondisi JavaScript berdasarkan nilai total_prestasi
                             Swal.fire({
                                 title: 'Apa kamu yakin?',
                                 text: 'Data yang sudah dihapus tidak bisa dikembalikan!',
@@ -221,13 +221,14 @@
                         );
                         var title = $(cell).text();
                         // Tambahkan kondisi untuk mengecek apakah kolom No
-                        if (colIdx === 0 || colIdx === 4 || colIdx === 5|| colIdx === 6) {
+                        if (colIdx === 0 || colIdx === 4 || colIdx === 5 || colIdx === 6) {
                             // Jika kolom No, tidak tambahkan input filter
                             $(cell).html('');
                         } else {
                             // Jika bukan kolom No, tambahkan input filter seperti biasa
                             $(cell).html(
-                                '<input type="text" class="form-control" placeholder="' +title + '" />');
+                                '<input type="text" class="form-control" placeholder="' +
+                                title + '" />');
                         }
                         // On every keypress in this input
                         $(
@@ -283,12 +284,17 @@
                     name: 'Nama'
                 },
                 {
-                    data: 'walikelas_name',
-                    name: 'walikelas_name',
+                    data: 'walikelas_info',
+                    name: 'walikelas_info',
                     render: function(data, type, row) {
                         if (type === 'display') {
-                            return data ? data :
-                                '<a style="color:#6c757d;">Tidak tersedia</a>';
+                            if (data) {
+                                return '<a href="#" class="guru-link" data-guru-id="' + data
+                                    .id + '">' + data.name + '</a>';
+                            } else {
+                                return '<a href="#" class="open-unavailable-modal" data-toggle="modal" data-target="#exampleModal" data-id="' +
+                                    row.id + '">Tidak Tersedia</a>';
+                            }
                         }
                         return data;
                     }
@@ -375,6 +381,45 @@
         });
     });
 
+    //Proses tidak ada wali kelas
+    $('body').on('click', '.open-unavailable-modal', function(e) {
+        var id = $(this).data('id');
+        $.ajax({
+            url: 'kelas/' + id + '/edit',
+            type: 'GET',
+            success: function(response) {
+                console.log(id);
+                $('#exampleModal').modal('show');
+                $('#name').val(response.result.name);
+
+                // Hapus objek Choices.js sebelum membuat yang baru
+                if (typeof walikelasSelect !== 'undefined') {
+                    walikelasSelect.destroy();
+                }
+
+                if (response.result.walikelas_id !== null) {
+                    $('#walikelas_id').val(response.result.walikelas_id);
+                } else {
+                    // Reset nilai jika walikelas_id null
+                    $('#walikelas_id').val('');
+                }
+                $('#event').val(response.result.event);
+                console.log(response.result);
+                $('.tombol-simpan').off('click').on('click', function() {
+                    simpan(id);
+                });
+
+                // Inisialisasi objek Choices.js baru
+                walikelasSelect = new Choices('#walikelas_id', {
+                    searchEnabled: true,
+                    itemSelectText: '',
+                    allowHTML: true,
+                });
+            }
+        });
+    });
+
+
     // 03_PROSES EDIT
     $('body').on('click', '.tombol-edit', function(e) {
         var id = $(this).data('id');
@@ -447,50 +492,50 @@
     });
 
     // Proses Delete All
-    $("#deleteAllButton").on("click", function () {
-    // Tampilkan SweetAlert untuk konfirmasi pengguna
-    Swal.fire({
-      title: "Apa kamu yakin?",
-      text: "Data yang sudah dihapus tidak bisa dikembalikan!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#d33",
-      cancelButtonColor: "#3085d6",
-      confirmButtonText: "Ya, Hapus Semua!",
-      cancelButtonText: "Batal",
-    }).then((result) => {
-      // Jika pengguna mengkonfirmasi
-      if (result.isConfirmed) {
-        // Kirim permintaan AJAX ke backend untuk menghapus data
-        $.ajax({
-          url: "/delete-all-kelas", // Ganti dengan URL backend Anda
-          method: "DELETE", // Sesuaikan dengan metode yang digunakan di backend
-          success: function (response) {
-            // Jika penghapusan dari database berhasil
-            if (response.success) {
-              // Hapus semua data dari DataTables
-              $('#myTable').DataTable().ajax.reload();
-              Swal.fire("Deleted!", "Your data has been deleted.", "success");
-            } else {
-              Swal.fire(
-                "Error!",
-                "Failed to delete data from database.",
-                "error"
-              );
+    $("#deleteAllButton").on("click", function() {
+        // Tampilkan SweetAlert untuk konfirmasi pengguna
+        Swal.fire({
+            title: "Apa kamu yakin?",
+            text: "Data yang sudah dihapus tidak bisa dikembalikan!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Ya, Hapus Semua!",
+            cancelButtonText: "Batal",
+        }).then((result) => {
+            // Jika pengguna mengkonfirmasi
+            if (result.isConfirmed) {
+                // Kirim permintaan AJAX ke backend untuk menghapus data
+                $.ajax({
+                    url: "/delete-all-kelas", // Ganti dengan URL backend Anda
+                    method: "DELETE", // Sesuaikan dengan metode yang digunakan di backend
+                    success: function(response) {
+                        // Jika penghapusan dari database berhasil
+                        if (response.success) {
+                            // Hapus semua data dari DataTables
+                            $('#myTable').DataTable().ajax.reload();
+                            Swal.fire("Deleted!", "Your data has been deleted.", "success");
+                        } else {
+                            Swal.fire(
+                                "Error!",
+                                "Failed to delete data from database.",
+                                "error"
+                            );
+                        }
+                    },
+                    error: function(error) {
+                        console.error("Error deleting data:", error);
+                        Swal.fire(
+                            "Error!",
+                            "Failed to delete data from database.",
+                            "error"
+                        );
+                    },
+                });
             }
-          },
-          error: function (error) {
-            console.error("Error deleting data:", error);
-            Swal.fire(
-              "Error!",
-              "Failed to delete data from database.",
-              "error"
-            );
-          },
         });
-      }
     });
-  });
 
     // fungsi simpan dan update
     function simpan(id = '') {

@@ -123,6 +123,35 @@
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="santriModal" tabindex="-1" aria-labelledby="santriModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary">
+                        <h4 class="modal-title white" id="myModalLabel33">Informasi Data Santri </h4>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="feather feather-x">
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-8">
+                                <div id="santriInfoContent"></div>
+                            </div>
+                            <div class="col-4">
+                                <div class="avatar avatar-2xl" style="display: block;">
+                                    <img id="santriPhoto" src="" alt="Foto Santri">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection
 @push('page-script')
@@ -139,4 +168,40 @@
 
     @include('admin.kelas.script')
     <script src="{{ asset('/extensions/choices.js/public/assets/scripts/choices.min.js') }}"></script>
+    <script>
+    var scrollPosition;
+    var baseUrl = "{{ asset('storage/') }}";
+    $(document).on('click', '.guru-link', function() {
+        // Simpan posisi scroll sebelum membuka modal
+        scrollPosition = $(window).scrollTop();
+        var guruId = $(this).data('guru-id');
+
+        $.ajax({
+            url: '/getWaliKelasInfo/' + guruId, // Correct the URL to match the server-side route
+            method: 'GET',
+            dataType: 'json',
+            success: function(guruInfo) { // Correct the variable name to guruInfo
+                // Menampilkan informasi guru di dalam modal
+                $('#santriInfoContent').html(
+                    'NUPTK: ' + guruInfo.nuptk +
+                    '<br>Nama: ' + guruInfo.name +
+                    '<br>Username: ' + guruInfo.username +
+                    '<br>Email: ' + guruInfo.email +
+                    '<br>No HP: ' + guruInfo.nohp
+                );
+                // Set nilai foto_user
+                var fotoUser = guruInfo.foto_user ? baseUrl + '/' + guruInfo.foto_user : '{{ asset('compiled/jpg/1.jpg') }}';
+                $('#santriPhoto').attr('src', fotoUser);
+                $('#santriModal').modal('show');
+            },
+            error: function(xhr, status, error) {
+                console.error('Error fetching guru info:', error);
+            }
+        });
+    });
+    $('#santriModal').on('hidden.bs.modal', function() {
+        // Kembalikan posisi scroll setelah menutup modal
+        $(window).scrollTop(scrollPosition);
+    });
+</script>
 @endpush
