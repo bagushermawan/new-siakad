@@ -2,36 +2,61 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-use Carbon\Carbon;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Carbon;
+use Faker\Factory as Faker;
+use App\Models\User;
 
 class GuruSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
-    public function run(): void
+    protected $faker;
+
+    public function __construct()
     {
-        // $admin = User::create([
-        //     'name' => 'her',
-        //     'username' => 'her',
-        //     'email' => 'her@her.com',
-        //     'password' => bcrypt('her')
-        // ]);
-        // $admin->assignRole('admin');
+        $this->faker = Faker::create();
+    }
 
+    public function run()
+    {
+        $guruData = [
+            'Qoimuddin',
+            'Fatturozi S.PD.I',
+            'Haji Hamidin Numariz Al-Hafid',
+            'Muhammad Toyyib',
+            'Muhammad Mundir S.Si',
+            'Hasim Syafi\'i S.PD.I',
+            'Ikhwana S.PD.I',
+            'Muhammad Syahri S.PD.I',
+            'Jamil Fuadi S.Ag',
+            'Habib Syaiful Rohman Al-Hadad M.HI',
+            'Abdul Mujib S.Ei',
+            'Ustad Shofiuddin',
+            'Ustadzah Syarifah S.PD',
+            'Ustad Abdul Aziz',
+            'Ustadzah Dinah Fahiroh',
+            'Ustad Samsul Arifin S.PD',
+            'Ustad Khusairi',
+        ];
 
-        $guru = User::create([
-            'name' => 'guru',
-            'username' => 'guru',
-            'email' => 'guru@guru.com',
-            'password' => bcrypt('guru'),
-            'email_verified_at' => Carbon::now()
-        ]);
-        
+        foreach ($guruData as $namaGuru) {
+            $username = strtolower(str_replace(' ', '', $namaGuru));
+            $email = $username . '@gmail.com';
+            $nuptk = $this->faker->numerify('################');
+            $nohp = $this->faker->numerify('###########');
 
-        $guru->assignRole('guru');
+            $guru = User::create([
+                'nuptk' => $nuptk,
+                'name' => $namaGuru,
+                'username' => $username,
+                'nohp' => $nohp,
+                'email' => $email,
+                'password' => Hash::make('123'),
+                'email_verified_at' => Carbon::now(),
+            ]);
+
+            // Assuming you are using Spatie's Laravel Permission package
+            $guru->assignRole('guru');
+        }
     }
 }

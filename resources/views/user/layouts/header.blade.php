@@ -3,8 +3,8 @@
     <div class="header-top">
         <div class="container">
             <div class="logo">
-                <a href="{{ route('user.dashboard') }}"><img src="{{ asset('/compiled/svg/logo.svg') }}"
-                        alt="Logo"></a>
+                <a href="{{ route('user.dashboard') }}"><img src="{{ asset('/compiled/png/logodarunnajah.png') }}"
+                        alt="Logo" style="height: 4rem;"></a>
             </div>
             <div class="header-top-right">
 

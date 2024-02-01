@@ -388,12 +388,21 @@ class UserAjaxController extends Controller
     public function deleteAllUser()
     {
         try {
-            // Hapus semua pengguna dengan peran (role) 'user'
             User::role('user')->delete();
 
             return response()->json(['success' => true, 'message' => 'All users with role "user" deleted successfully.']);
         } catch (\Exception $e) {
-            // Tangani kesalahan jika terjadi
+            return response()->json(['success' => false, 'message' => 'Failed to delete users: ' . $e->getMessage()]);
+        }
+    }
+
+    public function deleteAllGuru()
+    {
+        try {
+            User::role('guru')->delete();
+
+            return response()->json(['success' => true, 'message' => 'All users with role "guru" deleted successfully.']);
+        } catch (\Exception $e) {
             return response()->json(['success' => false, 'message' => 'Failed to delete users: ' . $e->getMessage()]);
         }
     }

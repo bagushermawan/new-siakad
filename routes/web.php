@@ -84,6 +84,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/get_santri_options', [UserAjaxController::class, 'getSantriOptions']);
     Route::get('/getSantriInfo/{id}', [UserAjaxController::class, 'getSantriInfo']);
     Route::delete('/delete-all-user', [UserAjaxController::class, 'deleteAllUser'])->name('delete.all.user');
+    Route::delete('/delete-all-guru', [UserAjaxController::class, 'deleteAllGuru'])->name('delete.all.guru');
 
     Route::resource('/qwe/wali', WaliSantriAjaxController::class);
     Route::get('/qwe/waliAjax', [WaliSantriAjaxController::class, 'indexWali']);

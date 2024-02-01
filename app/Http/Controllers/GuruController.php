@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Spatie\Permission\Models\Role;
@@ -16,10 +15,19 @@ class GuruController extends Controller
         $roles = $user->getRoleNames();
         // Mendapatkan daftar user
         $daftar_user = User::get();
-        // Menentukan apakah user adalah admin
+    // Menentukan apakah user adalah admin
         $isAdmin = $user->hasRole('admin');
         $roless = Role::get();
+        $totalGuru = User::whereHas('roles', function ($query) {
+            $query->where('name', 'guru');
+        })->count();
 
-        return view('admin.user.guru.index', ['roles' => $roles, 'daftar_user' => $daftar_user, 'isAdmin' => $isAdmin, 'roless'=>$roless]);
+        return view('admin.user.guru.index', [
+            'roles' => $roles,
+            'daftar_user' => $daftar_user,
+            'isAdmin' => $isAdmin,
+            'roless' => $roless,
+            'totalGuru' => $totalGuru,
+        ]);
     }
 }
