@@ -7,28 +7,27 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use App\Models\Kelas;
+use Faker\Generator as FakerGenerator;
+use Faker\Factory as FakerFactory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
- */
 class UserFactory extends Factory
 {
-    protected static ?string $password;
-
-
+    protected $model = User::class;
 
     public function definition(): array
     {
+        $this->faker = FakerFactory::create('id_ID');
 
-        $name = $this->faker->name();
+        $firstName = $this->faker->firstName;
+        $lastName = $this->faker->lastName;
+        $name = "$firstName $lastName";
         $nisn = $this->faker->numerify('##########');
         $nuptk = $this->faker->numerify('################');
         $nohp = $this->faker->numerify('############');
         $nameParts = explode(' ', $name);
         $randomString = Str::random(1);
-        // $email = strtolower(str_replace(' ', '.', $name)) . '_' . $randomString . '@mail.com';
-        $email = $this->faker->unique()->safeEmail;
-        $username = $this->faker->unique()->name;
+        $email = strtolower(str_replace(' ', '.', $name)) . '@gmail.com';
+        $username = strtolower(str_replace(' ', '', $name));
         $kelas_ids = Kelas::pluck('id')->toArray();
         $kelas_id = $this->faker->randomElement($kelas_ids);
 
@@ -37,24 +36,21 @@ class UserFactory extends Factory
             'name' => $name,
             'username' => $username,
             'nisn' => $nisn,
-            // 'nuptk' => $nuptk,
             'nohp' => $nohp,
             'email' => $email,
             'kelas_id' => $kelas_id,
             'email_verified_at' => now(),
-            'password' => static::$password ??= Hash::make('123'),
+            'password' =>  Hash::make('123'),
             'remember_token' => Str::random(10),
         ]);
 
         // Ganti role disini
         $user->assignRole('user');
-        // $user->assignRole('guru');
 
         return [
             'name' => $user->name,
             'username' => $user->username,
             'nisn' => $user->nisn,
-            // 'nuptk' => $user->nuptk,
             'nohp' => $user->nohp,
             'email' => $user->email,
             'kelas_id' => $user->kelas_id,
@@ -63,7 +59,6 @@ class UserFactory extends Factory
             'remember_token' => $user->remember_token,
         ];
     }
-
 
     public function unverified(): static
     {

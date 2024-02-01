@@ -23,9 +23,9 @@ class DatabaseSeeder extends Seeder
         // $this->call(JadwalMataPelajaranSeeder::class);
         // $this->call(ProfilePondokSeeder::class);
         // $this->call(NilaiSeeder::class);
+        // $this->call(GuruSeeder::class);
 
 
-        User::factory(66)->create();
-        // User::factory(15)->create();
+        User::factory(601)->create();
     }
 }
