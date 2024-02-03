@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\KelasImport;
 use Illuminate\Support\Facades\Storage;
+use Spatie\Permission\Models\Role;
 
 class KelasAjaxController extends Controller
 {
@@ -24,7 +25,7 @@ class KelasAjaxController extends Controller
 
         // Mengambil daftar guru
         $walikelas = User::whereHas('roles', function ($query) {
-            $query->where('name', 'guru');
+            $query->whereIn('name', ['guru', 'wali kelas'])->orderBy('name', 'asc');
         })->get();
 
         return view('admin.kelas.index', [
@@ -106,10 +107,11 @@ class KelasAjaxController extends Controller
                 'walikelas_id' => $request->walikelas_id,
                 'event' => $request->event,
             ];
-            // Membuat user baru
+            $idWalikelas = $request->walikelas_id;
+            $walikelas = User::find($idWalikelas);
+            $walikelas->syncRoles('wali kelas');
             $kelas = Kelas::create($data);
 
-            // Memberikan role 'kelas' pada kelas yang baru dibuat
             return response()->json(['success' => 'Berhasil menyimpan data']);
         }
     }
@@ -133,7 +135,22 @@ class KelasAjaxController extends Controller
             'event' => $request->event,
         ];
 
+        $idWalikelasLama = Kelas::where('id', $id)->value('walikelas_id');
+
+        $walikelasLama = User::find($idWalikelasLama);
+
+        if ($walikelasLama) {
+            $walikelasLama->syncRoles('guru');
+        }
+
+        if ($request->has('walikelas_id') && $request->walikelas_id != $idWalikelasLama) {
+            $walikelasBaru = User::find($request->walikelas_id);
+
+            $walikelasBaru->syncRoles('wali kelas');
+        }
+
         Kelas::where('id', $id)->update($data);
+
         return response()->json(['success' => 'Berhasil melakukan update data']);
     }
 

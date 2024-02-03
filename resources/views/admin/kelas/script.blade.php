@@ -423,17 +423,16 @@
     // 03_PROSES EDIT
     $('body').on('click', '.tombol-edit', function(e) {
         var id = $(this).data('id');
+        // Hapus objek Choices.js sebelum membuat yang baru
+        if (typeof walikelasSelect !== 'undefined') {
+            walikelasSelect.destroy();
+        }
         $.ajax({
             url: 'kelas/' + id + '/edit',
             type: 'GET',
             success: function(response) {
                 $('#exampleModal').modal('show');
                 $('#name').val(response.result.name);
-
-                // Hapus objek Choices.js sebelum membuat yang baru
-                if (typeof walikelasSelect !== 'undefined') {
-                    walikelasSelect.destroy();
-                }
 
                 if (response.result.walikelas_id !== null) {
                     $('#walikelas_id').val(response.result.walikelas_id);
