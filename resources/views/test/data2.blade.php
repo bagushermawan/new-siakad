@@ -65,39 +65,41 @@
             clear: both;
             display: table;
         }
+
         /* Styling untuk .table */
-.table {
-    width: 100%;
-    max-width: 100%;
-    margin-bottom: 1rem;
-    background-color: transparent;
-    border-collapse: collapse;
-}
+        .table {
+            width: 100%;
+            max-width: 100%;
+            margin-bottom: 1rem;
+            background-color: transparent;
+            border-collapse: collapse;
+        }
 
-/* Styling untuk .table-striped */
-.table-striped tbody tr:nth-of-type(odd) {
-    background-color: rgba(0, 0, 0, 0.05);
-}
+        /* Styling untuk .table-striped */
+        .table-striped tbody tr:nth-of-type(odd) {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
 
-/* Styling untuk .table th dan .table td */
-.table th,
-.table td {
-    padding: 0.75rem;
-    vertical-align: top;
-    border-top: 1px solid #dee2e6;
-    text-align: left;
-}
+        /* Styling untuk .table th dan .table td */
+        .table th,
+        .table td {
+            padding: 0.75rem;
+            vertical-align: top;
+            border-top: 1px solid #dee2e6;
+            text-align: left;
+        }
 
-/* Styling untuk .table thead th */
-.table thead th {
-    vertical-align: bottom;
-    border-bottom: 2px solid #dee2e6;
-}
+        /* Styling untuk .table thead th */
+        .table thead th {
+            vertical-align: bottom;
+            border-bottom: 2px solid #dee2e6;
+        }
 
-/* Styling untuk .table tbody + tbody */
-.table tbody, .table tfoot {
-    border-top: 2px solid #dee2e6;
-}
+        /* Styling untuk .table tbody + tbody */
+        .table tbody,
+        .table tfoot {
+            border-top: 2px solid #dee2e6;
+        }
     </style>
 </head>
 
@@ -125,7 +127,7 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th>User ID</th>
+                    <th>Nama Santri</th>
                     <th>Mata Pelajaran</th>
                     <th>Kelas</th>
                     <th>Nilai</th>
