@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\DB;
+use Faker\Factory as Faker;
 
 class NilaiAjaxController extends Controller
 {
@@ -122,17 +123,12 @@ class NilaiAjaxController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
+
     public function edit(string $id)
     {
         $data = Nilai::where('id', $id)->first();
@@ -170,5 +166,23 @@ class NilaiAjaxController extends Controller
             // Tangani kesalahan jika terjadi
             return response()->json(['success' => false, 'message' => 'Failed to delete data: ' . $e->getMessage()]);
         }
+    }
+
+    public function duplicate(string $id)
+    {
+        $faker = Faker::create();
+        // Mengambil data nilai yang akan diduplikasi
+        $originalNilai = Nilai::where('id', $id)->first();
+
+        // Membuat salinan data nilai
+        $duplicateNilai = $originalNilai->replicate();
+
+        $duplicateNilai->mata_pelajaran_id = MataPelajaran::inRandomOrder()->first()->id;
+        $duplicateNilai->nilai = $faker->randomNumber(2, true);
+
+        // Melakukan penyimpanan data salinan
+        $duplicateNilai->save();
+
+        return response()->json(['success' => 'Berhasil menduplikasi data nilai']);
     }
 }

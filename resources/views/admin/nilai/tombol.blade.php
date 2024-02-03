@@ -7,6 +7,7 @@
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButtonIcon" style="">
                 <a class="dropdown-item tombol-edit" href="#" data-id="{{ $data->id }}">Edit</a>
+                <a class="dropdown-item tombol-duplicate" href="#" data-id="{{ $data->id }}">Duplicate</a>
                 <a class="dropdown-item tombol-del" href="#" data-id="{{ $data->id }}" data-name="{{ $data->name }}">Delete</a>
             </div>
         </div>

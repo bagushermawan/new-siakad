@@ -11,7 +11,7 @@ class NilaiSeeder extends Seeder
     public function run(): void
     {
         // Sesuaikan jumlah data yang ingin Anda hasilkan
-        $jumlahData = 606;
+        $jumlahData = 15;
 
         // Memanggil factory dan membuat data sebanyak $jumlahData
         Nilai::factory($jumlahData)->create();

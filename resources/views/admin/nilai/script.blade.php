@@ -153,7 +153,7 @@
                         console.log(totalNilai);
 
                         if (totalNilai > 0) {
-                        // Tambahkan kondisi JavaScript berdasarkan nilai total_prestasi
+                            // Tambahkan kondisi JavaScript berdasarkan nilai total_prestasi
                             Swal.fire({
                                 title: 'Apa kamu yakin?',
                                 text: 'Data yang sudah dihapus tidak bisa dikembalikan!',
@@ -495,50 +495,83 @@
     });
 
     // Proses Delete All
-    $("#deleteAllButton").on("click", function () {
-    // Tampilkan SweetAlert untuk konfirmasi pengguna
-    Swal.fire({
-      title: "Apa kamu yakin?",
-      text: "Data yang sudah dihapus tidak bisa dikembalikan!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#d33",
-      cancelButtonColor: "#3085d6",
-      confirmButtonText: "Ya, Hapus Semua!",
-      cancelButtonText: "Batal",
-    }).then((result) => {
-      // Jika pengguna mengkonfirmasi
-      if (result.isConfirmed) {
-        // Kirim permintaan AJAX ke backend untuk menghapus data
-        $.ajax({
-          url: "/delete-all-nilai", // Ganti dengan URL backend Anda
-          method: "DELETE", // Sesuaikan dengan metode yang digunakan di backend
-          success: function (response) {
-            // Jika penghapusan dari database berhasil
-            if (response.success) {
-              // Hapus semua data dari DataTables
-              $('#myTable').DataTable().ajax.reload();
-              Swal.fire("Deleted!", "Your data has been deleted.", "success");
-            } else {
-              Swal.fire(
-                "Error!",
-                "Failed to delete data from database.",
-                "error"
-              );
+    $("#deleteAllButton").on("click", function() {
+        // Tampilkan SweetAlert untuk konfirmasi pengguna
+        Swal.fire({
+            title: "Apa kamu yakin?",
+            text: "Data yang sudah dihapus tidak bisa dikembalikan!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Ya, Hapus Semua!",
+            cancelButtonText: "Batal",
+        }).then((result) => {
+            // Jika pengguna mengkonfirmasi
+            if (result.isConfirmed) {
+                // Kirim permintaan AJAX ke backend untuk menghapus data
+                $.ajax({
+                    url: "/delete-all-nilai", // Ganti dengan URL backend Anda
+                    method: "DELETE", // Sesuaikan dengan metode yang digunakan di backend
+                    success: function(response) {
+                        // Jika penghapusan dari database berhasil
+                        if (response.success) {
+                            // Hapus semua data dari DataTables
+                            $('#myTable').DataTable().ajax.reload();
+                            Swal.fire("Deleted!", "Your data has been deleted.", "success");
+                        } else {
+                            Swal.fire(
+                                "Error!",
+                                "Failed to delete data from database.",
+                                "error"
+                            );
+                        }
+                    },
+                    error: function(error) {
+                        console.error("Error deleting data:", error);
+                        Swal.fire(
+                            "Error!",
+                            "Failed to delete data from database.",
+                            "error"
+                        );
+                    },
+                });
             }
-          },
-          error: function (error) {
-            console.error("Error deleting data:", error);
-            Swal.fire(
-              "Error!",
-              "Failed to delete data from database.",
-              "error"
-            );
-          },
         });
-      }
     });
-  });
+
+    // 05_PROSES Duplicate
+$('body').on('click', '.tombol-duplicate', function(e) {
+    e.preventDefault();
+    var id = $(this).data('id');
+
+    Swal.fire({
+        title: 'Yakin mau duplikasi data ini?',
+        text: "Data yang diduplikasi akan menjadi salinan baru.",
+        icon: 'info',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Duplikasi',
+        cancelButtonText: 'Batal'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Jika pengguna menekan tombol "Duplikasi", kirim permintaan AJAX
+            $.ajax({
+                url: '/nilai/' + id + '/duplicate',
+                type: 'POST',
+                success: function(response) {
+                    $('#myTable').DataTable().ajax.reload();
+                    Swal.fire('Sukses!', 'Berhasil duplikasi data nilai.', 'success');
+                },
+                error: function(response) {
+                    Swal.fire('Gagal!', 'Terjadi kesalahan saat menduplikasi data nilai.',
+                        'error');
+                }
+            });
+        }
+    });
+});
 
     // fungsi simpan dan update
     function simpan(id = '') {

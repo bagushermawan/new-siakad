@@ -120,6 +120,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/qwe/nilaiAjax', [NilaiAjaxController::class, 'indexNilai']);
     Route::delete('/delete-all-nilai', [NilaiAjaxController::class, 'deleteAll'])->name('delete.all.nilai');
     Route::get('/get_matpel_options', [NilaiAjaxController::class, 'getMatpelOptions']);
+    Route::post('/nilai/{id}/duplicate', [NilaiAjaxController::class, 'duplicate']);
 
     Route::resource('/qwe/tahunajaranAjax', TahunAjaranAjaxController::class);
     Route::resource('/qwe/tahunajaran', TahunAjaranController::class);
