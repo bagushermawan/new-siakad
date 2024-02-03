@@ -44,7 +44,7 @@ class KelasAjaxController extends Controller
         $data = Kelas::select(['kelas.*', DB::raw('COUNT(users.id) as users_count')])
             ->leftJoin('users', 'kelas.id', '=', 'users.kelas_id')
             ->groupBy('kelas.id')
-            ->orderBy('name', 'asc');
+            ->orderBy('walikelas_id', 'desc');
 
         if (!$isAdmin) {
             $data->where(function ($query) {
