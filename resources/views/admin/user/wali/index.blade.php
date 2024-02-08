@@ -56,6 +56,7 @@
                                     <th>Nama Wali Santri</th>
                                     <th>Nama Santri</th>
                                     <th>Username</th>
+                                    <th style="width: 10%;">Tanggal Lahir</th>
                                     <th>Email</th>
                                     <th>No Hp</th>
                                     <th>

@@ -29,7 +29,8 @@
                         <li>
                             <h6 class="dropdown-header">Hello, {{ ucfirst(auth()->user()->name) }}!</h6>
                         </li>
-                        <li><a class="dropdown-item" href="{{ route('user.edit') }}"><i class="icon-mid bi bi-person me-2"></i> Profile saya</a></li>
+                        <li><a class="dropdown-item" href="{{ route('user.edit') }}"><i
+                                    class="icon-mid bi bi-person me-2"></i> Profile saya</a></li>
                         <li>
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf<a class="dropdown-item" href=""
@@ -61,6 +62,11 @@
                         <div class="menu-link" style="pointer-events: none;">
                             <span><i class="fas fa-calendar-day"></i> {{ $waktu_sekarang }}</span>
                         </div>
+                    </li>
+                    <li class="menu-item">
+                            <a href="{{ route('user.dashboard') }}" class='menu-link'>
+                                <span><i class="fas fa-list-alt"></i> Kelas Santri</span>
+                            </a>
                     </li>
                 </ul>
                 <div class="checkbox-container">

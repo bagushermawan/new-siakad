@@ -15,15 +15,16 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('username')->unique();
+            $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password')->default(bcrypt('123'));
+            $table->date('tanggal_lahir')->nullable();
             $table->string('nisn')->nullable();
             $table->string('nuptk')->nullable();
             $table->string('nohp')->nullable();
             $table->unsignedBigInteger('kelas_id')->nullable();
             $table->foreign('kelas_id')->references('id')->on('kelas')->onDelete('set null');
-            $table->string('username')->unique();
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password')->default(bcrypt('123'));
             $table->timestamp('last_login')->nullable();
             $table->rememberToken();
             $table->timestamps();

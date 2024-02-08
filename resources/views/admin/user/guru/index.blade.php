@@ -56,6 +56,7 @@
                                     <th>NUPTK</th>
                                     <th>Name</th>
                                     <th>Username</th>
+                                    <th>Tanggal Lahir</th>
                                     <th>Email</th>
                                     <th>No Hp</th>
                                     <th>
@@ -103,6 +104,10 @@
                         <label>Username: </label>
                         <div class="form-group">
                             <input id="username" type="text" name="username" class="form-control">
+                        </div>
+                        <label>Tanggal Lahir<span class="wajib">*</span>: </label>
+                        <div class="form-group">
+                            <input id="tanggal_lahir" type="date" name="tanggal_lahir" class="form-control">
                         </div>
                         <label>Email: </label>
                         <div class="form-group">

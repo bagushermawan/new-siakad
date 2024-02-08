@@ -16,16 +16,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // $this->call(TahunAjaranSeeder::class);
-        // $this->call(KelasSeeder::class);
-        // $this->call(RolePermissionSeeder::class);
-        // $this->call(MataPelajaranSeeder::class);
-        // $this->call(JadwalMataPelajaranSeeder::class);
-        // $this->call(ProfilePondokSeeder::class);
+        $this->call(TahunAjaranSeeder::class);
+        $this->call(KelasSeeder::class);
+        $this->call(RolePermissionSeeder::class);
+        $this->call(MataPelajaranSeeder::class);
+        $this->call(JadwalMataPelajaranSeeder::class);
+        $this->call(ProfilePondokSeeder::class);
+        $this->call(GuruSeeder::class);
+
+        // User::factory(601)->create();
         // $this->call(NilaiSeeder::class);
-        // $this->call(GuruSeeder::class);
 
-
-        User::factory(601)->create();
     }
 }

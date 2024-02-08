@@ -44,11 +44,13 @@ class GuruSeeder extends Seeder
             $email = $username . '@gmail.com';
             $nuptk = $this->faker->numerify('################');
             $nohp = $this->faker->numerify('###########');
+            $tanggal_lahir = $this->faker->dateTimeBetween('-80 years', '-42 years')->format('Y-m-d');
 
             $guru = User::create([
                 'nuptk' => $nuptk,
                 'name' => $namaGuru,
                 'username' => $username,
+                'tanggal_lahir' => $tanggal_lahir,
                 'nohp' => $nohp,
                 'email' => $email,
                 'password' => Hash::make('123'),

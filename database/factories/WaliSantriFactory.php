@@ -21,6 +21,7 @@ class WaliSantriFactory extends Factory
         $nohp = $this->faker->numerify('############');
         $email = $this->faker->unique()->safeEmail;
         $username = $this->faker->unique()->name;
+        $tanggal_lahir = $this->faker->dateTimeBetween('-80 years', '-42 years')->format('Y-m-d');
 
         // Membuat user baru
         $wali = WaliSantri::create([
@@ -29,6 +30,7 @@ class WaliSantriFactory extends Factory
             'nohp' => $nohp,
             'email' => $email,
             'username' => $username,
+            'tanggal_lahir' => $tanggal_lahir,
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('123'),
             'remember_token' => Str::random(10),
@@ -41,6 +43,7 @@ class WaliSantriFactory extends Factory
             'name' => $wali->name,
             'nohp' => $wali->nohp,
             'username' => $wali->username,
+            'tanggal_lahir' => $wali->tanggal_lahir,
             'email' => $wali->email,
             'email_verified_at' => $wali->email_verified_at,
             'password' => $wali->password,

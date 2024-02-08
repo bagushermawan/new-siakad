@@ -81,7 +81,7 @@
                         console.log(totalSantri);
 
                         if (totalSantri > 0) {
-                        // Tambahkan kondisi JavaScript berdasarkan nilai total_prestasi
+                            // Tambahkan kondisi JavaScript berdasarkan nilai total_prestasi
                             Swal.fire({
                                 title: 'Apa kamu yakin?',
                                 text: 'Data yang sudah dihapus tidak bisa dikembalikan!',
@@ -230,7 +230,7 @@
                         );
                         var title = $(cell).text();
                         // Tambahkan kondisi untuk mengecek apakah kolom No
-                        if (colIdx === 0 || colIdx === 7 || colIdx === 8 || colIdx === 9) {
+                        if (colIdx === 0 || colIdx === 7 || colIdx === 8 || colIdx === 9 || colIdx === 5 || colIdx === 6) {
                             // Jika kolom No, tidak tambahkan input filter
                             $(cell).html('');
                         } else {
@@ -308,6 +308,10 @@
                     name: 'Username'
                 },
                 {
+                    data: 'tanggal_lahir',
+                    name: 'Tanggal Lahir'
+                },
+                {
                     data: 'kelas_name',
                     name: 'kelas_name',
                     render: function(data, type, row) {
@@ -318,24 +322,24 @@
                         return data;
                     }
                 },
-                {
-                    data: 'email',
-                    name: 'Email'
-                },
-                {
-                    data: 'nohp',
-                    name: 'No Hp',
-                    render: function(data, type, row) {
-                        if (type === 'display') {
-                            return data ? data :
-                                '<a style="color:#6c757d;">No HP tidak tersedia</a>';
-                        }
-                        return data;
-                    }
-                },
+                // {
+                //     data: 'email',
+                //     name: 'Email'
+                // },
+                // {
+                //     data: 'nohp',
+                //     name: 'No Hp',
+                //     render: function(data, type, row) {
+                //         if (type === 'display') {
+                //             return data ? data :
+                //                 '<a style="color:#6c757d;">No HP tidak tersedia</a>';
+                //         }
+                //         return data;
+                //     }
+                // },
                 {
                     data: 'roles',
-                    name: 'Status',
+                    name: 'Roles',
                     render: function(data, type, row) {
                         if (isAdmin) {
                             if (Array.isArray(data) && data.length > 0) {
@@ -413,13 +417,13 @@
         $('#exampleModal').modal('show');
         resetPasswordPlaceholder();
         if (typeof kelasSelect !== 'undefined') {
-                    kelasSelect.destroy();
-                }
+            kelasSelect.destroy();
+        }
         kelasSelect = new Choices('#kelas_id', {
-                    searchEnabled: true,
-                    itemSelectText: '',
-                    allowHTML: true,
-                });
+            searchEnabled: true,
+            itemSelectText: '',
+            allowHTML: true,
+        });
         $('.tombol-simpan').off('click').on('click', function() {
             simpan();
         });
@@ -437,6 +441,7 @@
                 $('#nisn').val(response.result.nisn);
                 $('#name').val(response.result.name);
                 $('#username').val(response.result.username);
+                $('#tanggal_lahir').val(response.result.tanggal_lahir);
 
                 // Hapus objek Choices.js sebelum membuat yang baru
                 if (typeof kelasSelect !== 'undefined') {
@@ -522,6 +527,7 @@
                 nisn: $('#nisn').val(),
                 name: $('#name').val(),
                 username: $('#username').val(),
+                tanggal_lahir: $('#tanggal_lahir').val(),
                 kelas_id: $('#kelas_id').val() || null,
                 email: $('#email').val(),
                 nohp: $('#nohp').val(),
@@ -566,6 +572,7 @@
         $('#nisn').val('');
         $('#name').val('');
         $('#username').val('');
+        $('#tanggal_lahir').val('');
         $('#kelas_id').val('');
         $('#email').val('');
         $('#nohp').val('');

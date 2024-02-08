@@ -373,6 +373,7 @@
                 // Common fields
                 $('#name').val(response.result.name);
                 $('#username').val(response.result.username);
+                $('#tanggal_lahir').val(response.result.tanggal_lahir);
                 // Hapus objek Choices.js sebelum membuat yang baru
                 destroyChoicesObjects();
 
@@ -529,6 +530,7 @@
         let data = {
             name: $('#name').val(),
             username: $('#username').val(),
+            tanggal_lahir: $('#tanggal_lahir').val(),
             email: $('#email').val(),
             nohp: $('#nohp').val(),
             role: $('#role').val(),
@@ -569,6 +571,7 @@
                 } else {
                     $('.alert-success').removeClass('d-none');
                     $('.alert-success').html(response.success);
+                    console.log(response.result);
                     $('#myTable').DataTable().ajax.reload();
                     Swal.fire('Sukses!', successMessage, 'success');
                 }

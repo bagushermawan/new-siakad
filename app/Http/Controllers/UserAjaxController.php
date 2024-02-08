@@ -167,6 +167,7 @@ class UserAjaxController extends Controller
                 'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
                 'password' => ['nullable', Rules\Password::defaults()],
                 'kelas_id' => ['nullable', 'exists:kelas,id'],
+                'tanggal_lahir' => ['nullable', 'date'],
             ],
             [
                 'name.required' => 'Nama wajib diisi',
@@ -174,6 +175,7 @@ class UserAjaxController extends Controller
                 'email.required' => 'Email wajib diisi',
                 'password.required' => 'Password wajib diisi',
                 'kelas_id.exists' => 'Kelas tidak valid',
+                'tanggal_lahir.date' => 'Format tanggal_lahir tidak valid',
             ],
         );
 
@@ -186,6 +188,7 @@ class UserAjaxController extends Controller
                 'nuptk' => $request->nuptk,
                 'name' => $request->name,
                 'username' => $request->username,
+                'tanggal_lahir' => $request->tanggal_lahir,
                 'email' => $request->email,
                 'kelas_id' => $request->kelas_id,
                 'role' => $request->role,
@@ -236,6 +239,7 @@ class UserAjaxController extends Controller
             'nohp' => $request->nohp,
             'name' => $request->name,
             'username' => $request->username,
+            'tanggal_lahir' => $request->tanggal_lahir,
             'kelas_id' => $request->kelas_id,
             'email' => $request->email,
         ];

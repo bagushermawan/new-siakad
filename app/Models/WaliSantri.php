@@ -21,6 +21,7 @@ class WaliSantri extends Authenticatable implements MustVerifyEmail
         'santri_id',
         'name',
         'username',
+        'tanggal_lahir',
         'nohp',
         'email',
         'password',

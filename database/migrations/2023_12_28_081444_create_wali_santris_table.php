@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreign('santri_id')->references('id')->on('users')->onDelete('set null');
             $table->string('name');
             $table->string('username')->unique();
+            $table->date('tanggal_lahir')->nullable();
             $table->string('nohp')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
