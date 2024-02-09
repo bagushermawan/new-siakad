@@ -7,6 +7,15 @@
     <link rel="stylesheet" href="{{ asset('compiled/css/table-datatable-jquery.css') }}">
     <link rel="stylesheet" href="{{ asset('/extensions/choices.js/public/assets/styles/choices.css') }}">
     <link rel="stylesheet" href="{{ asset('/extensions/@fortawesome/fontawesome-free/css/all.min.css') }}">
+    <style>
+        .wajib {
+            color: #dc3545;
+        }
+
+        .form-control.pw::placeholder {
+            color: #495057 !important;
+        }
+    </style>
 @endpush
 @section('content')
     <div class="page-heading">

@@ -16,7 +16,7 @@ class SiswaImport implements ToModel
     {
         $user = new User([
             'nisn' => $row[0],
-            'nohp' => $row[1],
+            'tanggal_lahir' => $row[1],
             'name' => $row[2],
             'username' => $row[3],
             'email' => $row[4],
@@ -25,7 +25,7 @@ class SiswaImport implements ToModel
         // Simpan user
         $user->save();
 
-        // Setelah menyimpan user, berikan peran 'guru'
+        // Setelah menyimpan user, berikan peran 'user'
         $user->assignRole('user');
 
         return $user;

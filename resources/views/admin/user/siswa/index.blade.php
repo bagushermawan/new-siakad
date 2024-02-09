@@ -7,6 +7,15 @@
     <link rel="stylesheet" href="{{ asset('compiled/css/table-datatable-jquery.css') }}">
     <link rel="stylesheet" href="{{ asset('/extensions/choices.js/public/assets/styles/choices.css') }}">
     <link rel="stylesheet" href="{{ asset('/extensions/@fortawesome/fontawesome-free/css/all.min.css') }}">
+    <style>
+        .wajib {
+            color: #dc3545;
+        }
+
+        .form-control.pw::placeholder {
+            color: #495057 !important;
+        }
+    </style>
 @endpush
 @section('content')
     <div class="page-heading">
@@ -97,15 +106,15 @@
                     <div class="modal-body">
                         <div class="alert alert-danger d-none"></div>
                         {{-- <div class="alert alert-success d-none"></div> --}}
-                        <label>NISN: </label>
+                        <label>NISN<span class="wajib">*</span>: </label>
                         <div class="form-group">
                             <input id="nisn" type="text" name="nisn" class="form-control" autofocus>
                         </div>
-                        <label>Nama: </label>
+                        <label>Nama<span class="wajib">*</span>: </label>
                         <div class="form-group">
                             <input id="name" type="text" name="name" class="form-control" autofocus>
                         </div>
-                        <label>Username: </label>
+                        <label>Username<span class="wajib">*</span>: </label>
                         <div class="form-group">
                             <input id="username" type="text" name="username" class="form-control">
                         </div>
@@ -123,14 +132,14 @@
                                 @endforeach
                             </select>
                         </div>
-                        <label>Email: </label>
+                        <label>Email<span class="wajib">*</span>: </label>
                         <div class="form-group">
                             <input id="email" type="text" name="email" class="form-control">
                         </div>
-                        <label>No HP: </label>
+                        {{-- <label>No HP: </label>
                         <div class="form-group">
                             <input id="nohp" type="text" name="nohp" class="form-control">
-                        </div>
+                        </div> --}}
 
                         <label>Roles: </label>
                         <div class="form-group">
