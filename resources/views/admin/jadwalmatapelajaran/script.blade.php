@@ -42,7 +42,7 @@
         // Mendeteksi perubahan pada elemen <select> tahun ajaran
         $('#filterTahunAjaran').on('change', function() {
             var selectedTahunAjaranId = $(this).val();
-            myTable.column(5).search(selectedTahunAjaranId).draw();
+            myTable.column(6).search(selectedTahunAjaranId).draw();
         });
 
         // Clear filter
@@ -263,6 +263,17 @@
                         if (type === 'display') {
                             return data ? data :
                                 '<a style="color:#6c757d;">Data Mata Pelajaran tidak tersedia</a>';
+                        }
+                        return data;
+                    }
+                },
+                {
+                    data: 'ekskul_id',
+                    name: 'Ekstrakulikuler',
+                    render: function(data, type, row) {
+                        if (type === 'display') {
+                            return data ? data :
+                                '<a style="color:#6c757d;">Data Ekskul tidak tersedia</a>';
                         }
                         return data;
                     }

@@ -19,6 +19,7 @@ class WaliImport implements ToModel
             'alamat' => $row[4],
             'nohp' => $row[5],
             'email' => $row[6],
+            'santri_id' => $row[7],
         ]);
 
         // Simpan wali

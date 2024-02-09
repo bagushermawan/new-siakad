@@ -54,7 +54,7 @@ class JadwalMataPelajaranAjaxController extends Controller
         $user = Auth::user();
         // Mendapatkan roles dari user
         $roles = $user->getRoleNames();
-        $data = JadwalMataPelajaran::with(['kelas', 'mataPelajaran', 'tahunAjaran'])->orderBy('kelas_id', 'asc');
+        $data = JadwalMataPelajaran::with(['kelas', 'mataPelajaran', 'tahunAjaran', 'ekskul'])->orderBy('kelas_id', 'asc');
 
         $isAdmin = $user->hasRole('admin');
 
@@ -70,6 +70,10 @@ class JadwalMataPelajaranAjaxController extends Controller
             ->addColumn('mata_pelajaran_id', function ($data) {
                 // Pastikan properti yang diakses benar-benar ada sebelum mengaksesnya
                 return optional($data->mataPelajaran)->name ?? 'Mata Pelajaran tidak tersedia';
+            })
+            ->addColumn('ekskul_id', function ($data) {
+                // Pastikan properti yang diakses benar-benar ada sebelum mengaksesnya
+                return optional($data->ekskul)->name ?? 'Mata Pelajaran tidak tersedia';
             })
             ->addColumn('tahun_ajaran_id', function ($data) {
                 $tahunAjaran = $data->tahunAjaran;

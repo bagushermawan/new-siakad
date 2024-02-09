@@ -273,6 +273,10 @@
                         return meta.row + 1;
                     }
                 },
+                // {
+                //     data: 'id',
+                //     name: 'Nama'
+                // },
                 {
                     data: 'nisn',
                     name: 'nisn',

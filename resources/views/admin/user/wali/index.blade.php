@@ -62,7 +62,7 @@
                             <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th>NIK</th>
+                                    {{-- <th>NIK</th> --}}
                                     <th>Nama Wali Santri</th>
                                     <th>Nama Santri</th>
                                     <th>Username</th>

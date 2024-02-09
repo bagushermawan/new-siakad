@@ -13,6 +13,7 @@ class JadwalMataPelajaran extends Model
     protected $fillable = [
         'kelas_id',
         'mata_pelajaran_id',
+        'ekskul_id',
         'hari',
         'jam',
         'tahun_ajaran_id',
@@ -27,6 +28,11 @@ class JadwalMataPelajaran extends Model
     public function mataPelajaran()
     {
         return $this->belongsTo(MataPelajaran::class, 'mata_pelajaran_id');
+    }
+
+    public function ekskul()
+    {
+        return $this->belongsTo(Ekskul::class, 'ekskul_id');
     }
 
     public function tahunAjaran()

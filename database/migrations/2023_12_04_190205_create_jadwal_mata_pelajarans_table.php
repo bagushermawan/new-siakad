@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('kelas_id')->nullable()->constrained('kelas')->onDelete('set null');
             $table->foreignId('mata_pelajaran_id')->nullable()->constrained('mata_pelajarans')->onDelete('set null');
+            $table->foreignId('ekskul_id')->nullable()->constrained('ekskuls')->onDelete('set null');
             $table->string('hari');
             $table->string('jam');
             $table->foreignId('tahun_ajaran_id')->nullable()->constrained('tahun_ajarans')->onDelete('set null');

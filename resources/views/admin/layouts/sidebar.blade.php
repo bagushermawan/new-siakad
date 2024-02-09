@@ -97,12 +97,15 @@
                 </li>
 
                 <li
-                    class="sidebar-item  {{ request()->routeIs('tahunajaran.*', 'matapelajaran.*', 'jadwalmatapelajaran.*') ? 'active' : '' }} has-sub">
+                    class="sidebar-item  {{ request()->routeIs('tahunajaran.*', 'ekskul.*', 'matapelajaran.*', 'jadwalmatapelajaran.*') ? 'active' : '' }} has-sub">
                     <a href="#" class='sidebar-link'>
                         <i class="bi bi-book-half"></i>
                         <span>Pelajaran</span>
                     </a>
                     <ul class="submenu ">
+                        <li class="submenu-item  {{ request()->routeIs('ekskul.*') ? 'active' : '' }}">
+                            <a href="{{ route('ekskul.index') }}" class="submenu-link">Ekstrakulikuler</a>
+                        </li>
                         <li class="submenu-item  {{ request()->routeIs('matapelajaran.*') ? 'active' : '' }}">
                             <a href="{{ route('matapelajaran.index') }}" class="submenu-link">Mata Pelajaran</a>
                         </li>

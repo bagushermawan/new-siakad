@@ -271,10 +271,10 @@
                         return meta.row + 1;
                     }
                 },
-                {
-                    data: 'nik',
-                    name: 'NIK'
-                },
+                // {
+                //     data: 'nik',
+                //     name: 'NIK'
+                // },
                 {
                     data: 'name',
                     name: 'Nama'

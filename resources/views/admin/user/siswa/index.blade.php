@@ -62,6 +62,7 @@
                             <thead>
                                 <tr>
                                     <th>No</th>
+                                    {{-- <th>id</th> --}}
                                     <th>NISN</th>
                                     <th>Name</th>
                                     <th>Username</th>

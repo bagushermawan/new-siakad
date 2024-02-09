@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
         $this->call(KelasSeeder::class);
         $this->call(RolePermissionSeeder::class);
         $this->call(MataPelajaranSeeder::class);
+        $this->call(EkskulSeeder::class);
         $this->call(JadwalMataPelajaranSeeder::class);
         $this->call(ProfilePondokSeeder::class);
         $this->call(GuruSeeder::class);

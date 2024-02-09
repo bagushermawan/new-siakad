@@ -83,6 +83,7 @@
                                     </th>
                                     <th class="col-md-1">Kelas</th>
                                     <th>Mata Pelajaran</th>
+                                    <th>Ekskul</th>
                                     <th>Hari</th>
                                     <th>Jam</th>
                                     <th>Tahun Ajaran</th>
