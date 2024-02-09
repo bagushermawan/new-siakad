@@ -62,6 +62,7 @@
                             <thead>
                                 <tr>
                                     <th>No</th>
+                                    <th>NIK</th>
                                     <th>Nama Wali Santri</th>
                                     <th>Nama Santri</th>
                                     <th>Username</th>
@@ -72,7 +73,7 @@
                                         <center>Status</center>
                                     </th>
                                     <th>
-                                        Foto User
+                                        Foto Wali
                                     </th>
                                     <th>
                                         <center>Action</center>

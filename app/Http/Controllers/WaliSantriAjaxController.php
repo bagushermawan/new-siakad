@@ -99,7 +99,12 @@ class WaliSantriAjaxController extends Controller
         // Buat instansi model WaliSantri
         $waliSantri = new WaliSantri();
         $waliSantri->name = $request->input('name');
-        $waliSantri->username = $request->input('username');
+        // $waliSantri->username = $request->input('username');
+        if (empty($request->input('username'))) {
+            $waliSantri->username = strtolower(str_replace(' ', '', $request->input('name')));
+        } else {
+            $waliSantri->username = $request->input('username');
+        }
         $waliSantri->email = $request->input('email');
         $waliSantri->nohp = $request->input('nohp');
         $waliSantri->password = $request->password ? Hash::make($request->password) : Hash::make($request->username);

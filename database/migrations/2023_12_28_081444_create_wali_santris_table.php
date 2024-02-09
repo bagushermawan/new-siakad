@@ -15,10 +15,12 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('santri_id')->nullable();
             $table->foreign('santri_id')->references('id')->on('users')->onDelete('set null');
+            $table->string('nik')->nullable();
             $table->string('name');
             $table->string('username')->unique();
             $table->date('tanggal_lahir')->nullable();
             $table->string('nohp')->nullable();
+            $table->string('alamat')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->default(bcrypt('123'));

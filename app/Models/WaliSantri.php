@@ -19,9 +19,11 @@ class WaliSantri extends Authenticatable implements MustVerifyEmail
 
     protected $fillable = [
         'santri_id',
+        'nik',
         'name',
         'username',
         'tanggal_lahir',
+        'alamat',
         'nohp',
         'email',
         'password',
