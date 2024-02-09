@@ -143,7 +143,7 @@
                             html: `
                                     <input type="file" id="excel_file" class="swal2-file" accept=".xlsx, .xls, .csv">
                                     <br><br><br>
-                                    
+
                                      `,
                             showCancelButton: true,
                             confirmButtonText: 'Import',
@@ -215,7 +215,7 @@
                         );
                         var title = $(cell).text();
                         // Tambahkan kondisi untuk mengecek apakah kolom No
-                        if (colIdx === 0 || colIdx === 7 || colIdx === 8 || colIdx === 9 || colIdx === 5 || colIdx === 6) {
+                        if (colIdx === 0 || colIdx === 4 || colIdx === 5 || colIdx === 6 || colIdx === 7) {
                             // Jika kolom No, tidak tambahkan input filter
                             $(cell).html('');
                         } else {
@@ -296,17 +296,17 @@
                     data: 'tanggal_lahir',
                     name: 'Tanggal Lahir'
                 },
-                {
-                    data: 'kelas_name',
-                    name: 'kelas_name',
-                    render: function(data, type, row) {
-                        if (type === 'display') {
-                            return data ? data :
-                                '<a style="color:#6c757d;">Kelas tidak tersedia</a>';
-                        }
-                        return data;
-                    }
-                },
+                // {
+                //     data: 'kelas_name',
+                //     name: 'kelas_name',
+                //     render: function(data, type, row) {
+                //         if (type === 'display') {
+                //             return data ? data :
+                //                 '<a style="color:#6c757d;">Kelas tidak tersedia</a>';
+                //         }
+                //         return data;
+                //     }
+                // },
                 // {
                 //     data: 'email',
                 //     name: 'Email'

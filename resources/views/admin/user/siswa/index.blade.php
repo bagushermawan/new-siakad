@@ -66,7 +66,7 @@
                                     <th>Name</th>
                                     <th>Username</th>
                                     <th>Tanggal Lahir</th>
-                                    <th>Kelas</th>
+                                    {{-- <th>Kelas</th> --}}
                                     {{-- <th>Email</th> --}}
                                     {{-- <th>No Hp</th> --}}
                                     <th>
