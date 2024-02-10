@@ -338,10 +338,9 @@
                                     return char.toUpperCase();
                                 });
                             } else {
-                                data = '';
+                                return '<a href="#" class="open-unavailable-modal" data-toggle="modal" data-target="#statusModal" data-id="' +
+                                    row.id + '">Tidak Tersedia</a>';
                             }
-                            return data !== '' ? data :
-                                '<a style="color:#6c757d;">Status tidak tersedia</a>';
                         }
                         return data;
                     }
@@ -461,6 +460,49 @@
         });
     });
 
+    //Proses tidak ada status
+    $('body').on('click', '.open-unavailable-modal', function(e) {
+        var id = $(this).data('id');
+        $.ajax({
+            url: 'userAjax/' + id + '/edit',
+            type: 'GET',
+            success: function(response) {
+                console.log(id);
+                $('#statusModal').modal('show');
+                $('#nisnn').val(response.result.nisn);
+                $('#niss').val(response.result.nis);
+                $('#namee').val(response.result.name);
+                $('#usernamee').val(response.result.username);
+                $('#tanggal_lahirr').val(response.result.tanggal_lahir);
+
+                // Hapus objek Choices.js sebelum membuat yang baru
+                if (typeof kelasSelect !== 'undefined') {
+                    kelasSelect.destroy();
+                }
+                if (typeof statusSelect !== 'undefined') {
+                    statusSelect.destroy();
+                }
+
+                $('#kelas_idd').val(response.result.kelas_id);
+                $('#status_siswaa').val(response.result.status_siswa);
+                $('#emaill').val(response.result.email);
+                $('#rolee').val(response.result.role);
+                $('#passwordd').val(response.result.password);
+                console.log(response.result);
+                $('.tombol-simpan').off('click').on('click', function() {
+                    simpan(id);
+                });
+
+                // Inisialisasi objek Choices.js baru
+                statusSelect = new Choices('#status_siswaa', {
+                    searchEnabled: false,
+                    itemSelectText: '',
+                    allowHTML: true,
+                });
+            }
+        });
+    });
+
     // 03_PROSES EDIT
     $('body').on('click', '.tombol-edit', function(e) {
         var id = $(this).data('id');
@@ -506,6 +548,11 @@
                     allowHTML: true,
                 });
                 statusSelect = new Choices('#status_siswa', {
+                    searchEnabled: false,
+                    itemSelectText: '',
+                    allowHTML: true,
+                });
+                roleSelect = new Choices('#rolee', {
                     searchEnabled: false,
                     itemSelectText: '',
                     allowHTML: true,
@@ -566,17 +613,17 @@
             url: var_url,
             type: var_type,
             data: {
-                nisn: $('#nisn').val(),
-                nis: $('#nis').val(),
-                name: $('#name').val(),
-                username: $('#username').val(),
-                tanggal_lahir: $('#tanggal_lahir').val(),
-                kelas_id: $('#kelas_id').val() || null,
-                status_siswa: $('#status_siswa').val() || null,
-                email: $('#email').val(),
-                nohp: $('#nohp').val(),
-                role: $('#role').val(),
-                password: $('#password').val()
+                nisn: $('#nisn').val() || $('#nisnn').val(),
+                nis: $('#nis').val() || $('#niss').val(),
+                name: $('#name').val() || $('#namee').val(),
+                username: $('#username').val() || $('#usernamee').val(),
+                tanggal_lahir: $('#tanggal_lahir').val() || $('#tanggal_lahirr').val(),
+                kelas_id: $('#kelas_id').val() || $('#kelas_idd').val() || null,
+                status_siswa: $('#status_siswa').val() || $('#status_siswaa').val() || null,
+                email: $('#email').val() || $('#emaill').val(),
+                nohp: $('#nohp').val() || $('#nohpp').val(),
+                role: $('#role').val() || $('#rolee').val(),
+                password: $('#password').val() || $('#passwordd').val(),
             },
             success: function(response) {
                 if (response.errors) {
