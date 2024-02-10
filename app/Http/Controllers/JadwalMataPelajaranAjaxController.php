@@ -69,11 +69,11 @@ class JadwalMataPelajaranAjaxController extends Controller
             })
             ->addColumn('mata_pelajaran_id', function ($data) {
                 // Pastikan properti yang diakses benar-benar ada sebelum mengaksesnya
-                return optional($data->mataPelajaran)->name ?? 'Mata Pelajaran tidak tersedia';
+                return optional($data->mataPelajaran)->name ?? '';
             })
             ->addColumn('ekskul_id', function ($data) {
                 // Pastikan properti yang diakses benar-benar ada sebelum mengaksesnya
-                return optional($data->ekskul)->name ?? 'Mata Pelajaran tidak tersedia';
+                return optional($data->ekskul)->name ?? '';
             })
             ->addColumn('tahun_ajaran_id', function ($data) {
                 $tahunAjaran = $data->tahunAjaran;

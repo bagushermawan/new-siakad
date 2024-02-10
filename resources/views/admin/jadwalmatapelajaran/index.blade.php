@@ -83,11 +83,11 @@
                                     </th>
                                     <th class="col-md-1">Kelas</th>
                                     <th>Mata Pelajaran</th>
-                                    <th>Ekskul</th>
+                                    {{-- <th>Ekskul</th> --}}
                                     <th>Hari</th>
                                     <th>Jam</th>
                                     <th>Tahun Ajaran</th>
-                                    <th>Created at</th>
+                                    {{-- <th>Created at</th> --}}
                                     <th>
                                         <center>Action</center>
                                     </th>

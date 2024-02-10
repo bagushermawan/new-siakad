@@ -255,6 +255,13 @@
                 {
                     data: 'kelas_id',
                     name: 'kelas_id',
+                    render: function(data, type, row) {
+                        if (type === 'display') {
+                            return data ? data :
+                                '<a style="color:#6c757d;">Kelas tidak tersedia</a>';
+                        }
+                        return data;
+                    }
                 },
                 {
                     data: 'mata_pelajaran_id',
@@ -267,17 +274,17 @@
                         return data;
                     }
                 },
-                {
-                    data: 'ekskul_id',
-                    name: 'Ekstrakulikuler',
-                    render: function(data, type, row) {
-                        if (type === 'display') {
-                            return data ? data :
-                                '<a style="color:#6c757d;">Data Ekskul tidak tersedia</a>';
-                        }
-                        return data;
-                    }
-                },
+                // {
+                //     data: 'ekskul_id',
+                //     name: 'Ekstrakulikuler',
+                //     render: function(data, type, row) {
+                //         if (type === 'display') {
+                //             return data ? data :
+                //                 '<a style="color:#6c757d;">Data Ekskul tidak tersedia</a>';
+                //         }
+                //         return data;
+                //     }
+                // },
                 {
                     data: 'hari',
                     name: 'Hari'
@@ -290,18 +297,18 @@
                     data: 'tahun_ajaran_id',
                     name: 'Tahun Ajaran',
                 },
-                {
-                    data: 'created_at',
-                    name: 'created_at',
-                    render: function(data, type, row) {
-                        // Mengubah format tanggal dan waktu
-                        var date = new Date(data);
-                        var formattedDate = date
-                            .toLocaleString(); // Sesuaikan format sesuai kebutuhan
+                // {
+                //     data: 'created_at',
+                //     name: 'created_at',
+                //     render: function(data, type, row) {
+                //         // Mengubah format tanggal dan waktu
+                //         var date = new Date(data);
+                //         var formattedDate = date
+                //             .toLocaleString(); // Sesuaikan format sesuai kebutuhan
 
-                        return formattedDate;
-                    }
-                },
+                //         return formattedDate;
+                //     }
+                // },
                 {
                     data: 'aksi',
                     name: 'Action',
