@@ -100,11 +100,17 @@ class WaliSantriAjaxController extends Controller
         $waliSantri = new WaliSantri();
         $waliSantri->name = $request->input('name');
         // $waliSantri->username = $request->input('username');
-        if (empty($request->input('username'))) {
-            $waliSantri->username = strtolower(str_replace(' ', '', $request->input('name')));
+        $username = $request->username;
+        $nameParts = explode(' ', $request->name);
+        $namePart1 = $nameParts[0];
+        $namePart2 = count($nameParts) > 1 ? $nameParts[1] : null;
+
+        if (count($nameParts) === 1) {
+            $username = strtolower(str_replace('.', '', $namePart1)) . rand(10, 99);
         } else {
-            $waliSantri->username = $request->input('username');
+            $username = strtolower(str_replace('.', '', $namePart1 . $namePart2));
         }
+        $waliSantri->username = $username;
         $waliSantri->email = $request->input('email');
         $waliSantri->nohp = $request->input('nohp');
         $waliSantri->password = $request->password ? Hash::make($request->password) : Hash::make($request->username);

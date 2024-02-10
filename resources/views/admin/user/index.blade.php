@@ -136,7 +136,8 @@
 
                         <label>Username<span class="wajib">*</span>: </label>
                         <div class="form-group">
-                            <input id="username" type="text" name="username" class="form-control">
+                            <input id="username" type="text" name="username" class="form-control"
+                                placeholder="Username default sama dengan nama">
                         </div>
 
                         <label>Tanggal Lahir<span class="wajib">*</span>: </label>
@@ -255,6 +256,19 @@
                 $('#nisn, #nuptk, #kelas_id, #kelas, #santri_id, #santri').closest('.form-group').slideDown(10);
                 $('#nisn, #nuptk, #kelas_id, #kelas, #santri_id, #santri').slideDown(10);
             }
+        });
+    </script>
+    <script>
+        document.getElementById("name").addEventListener("input", function() {
+            var nameValue = this.value.trim().toLowerCase();
+            var usernameInput = document.getElementById("username");
+            var cleanedName = nameValue.replace(/\W+/g, '');
+            var nameParts = cleanedName.split(' ');
+            var usernameValue = nameParts[0];
+            if (nameParts.length > 1) {
+                usernameValue += nameParts[1];
+            }
+            usernameInput.value = usernameValue;
         });
     </script>
 @endpush

@@ -121,7 +121,8 @@
                         </div>
                         <label>Username: </label>
                         <div class="form-group">
-                            <input id="username" type="text" name="username" class="form-control">
+                            <input id="username" type="text" name="username" class="form-control"
+                                placeholder="Username default sama dengan nama">
                         </div>
                         <label>Email: </label>
                         <div class="form-group">
@@ -239,7 +240,8 @@
                         '<br>No HP: ' + santriInfo.nohp
                     );
                     // Set nilai foto_user
-                    var fotoUser = santriInfo.foto_user ? baseUrl + '/' + santriInfo.foto_user : '{{ asset('compiled/jpg/1.jpg') }}';
+                    var fotoUser = santriInfo.foto_user ? baseUrl + '/' + santriInfo.foto_user :
+                        '{{ asset('compiled/jpg/1.jpg') }}';
                     $('#santriPhoto').attr('src', fotoUser);
                     $('#santriModal').modal('show');
                 },
@@ -251,6 +253,19 @@
         $('#santriModal').on('hidden.bs.modal', function() {
             // Kembalikan posisi scroll setelah menutup modal
             $(window).scrollTop(scrollPosition);
+        });
+    </script>
+    <script>
+        document.getElementById("name").addEventListener("input", function() {
+            var nameValue = this.value.trim().toLowerCase();
+            var usernameInput = document.getElementById("username");
+            var cleanedName = nameValue.replace(/\W+/g, '');
+            var nameParts = cleanedName.split(' ');
+            var usernameValue = nameParts[0];
+            if (nameParts.length > 1) {
+                usernameValue += nameParts[1];
+            }
+            usernameInput.value = usernameValue;
         });
     </script>
 @endpush

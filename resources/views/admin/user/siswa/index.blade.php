@@ -117,7 +117,8 @@
                         </div>
                         <label>Username<span class="wajib">*</span>: </label>
                         <div class="form-group">
-                            <input id="username" type="text" name="username" class="form-control">
+                            <input id="username" type="text" name="username" class="form-control"
+                                placeholder="Username default sama dengan nama">
                         </div>
                         <label>Tanggal Lahir<span class="wajib">*</span>: </label>
                         <div class="form-group">
@@ -155,7 +156,8 @@
 
                         <label>Password: </label>
                         <div class="form-group">
-                            <input id="password" type="password" name="password" class="form-control" placeholder="Password default sama dengan Username">
+                            <input id="password" type="password" name="password" class="form-control"
+                                placeholder="Password default sama dengan Username">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -193,6 +195,19 @@
             searchEnabled: false,
             itemSelectText: '',
             allowHTML: true,
+        });
+    </script>
+    <script>
+        document.getElementById("name").addEventListener("input", function() {
+            var nameValue = this.value.trim().toLowerCase();
+            var usernameInput = document.getElementById("username");
+            var cleanedName = nameValue.replace(/\W+/g, '');
+            var nameParts = cleanedName.split(' ');
+            var usernameValue = nameParts[0];
+            if (nameParts.length > 1) {
+                usernameValue += nameParts[1];
+            }
+            usernameInput.value = usernameValue;
         });
     </script>
 @endpush

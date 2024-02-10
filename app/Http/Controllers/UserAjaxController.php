@@ -164,7 +164,6 @@ class UserAjaxController extends Controller
             $request->all(),
             [
                 'name' => ['required', 'string', 'max:255'],
-                'username' => ['required', 'string', 'max:255', 'unique:users,username', 'alpha_num'],
                 'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
                 'password' => ['nullable', Rules\Password::defaults()],
                 'kelas_id' => ['nullable', 'exists:kelas,id'],
@@ -172,7 +171,6 @@ class UserAjaxController extends Controller
             ],
             [
                 'name.required' => 'Nama wajib diisi',
-                'username.required' => 'Username wajib diisi',
                 'email.required' => 'Email wajib diisi',
                 'password.required' => 'Password wajib diisi',
                 'kelas_id.exists' => 'Kelas tidak valid',
@@ -183,24 +181,32 @@ class UserAjaxController extends Controller
         if ($validasi->fails()) {
             return response()->json(['errors' => $validasi->errors()]);
         } else {
+            $username = $request->username;
+            $nameParts = explode(' ', $request->name);
+            $namePart1 = $nameParts[0];
+            $namePart2 = count($nameParts) > 1 ? $nameParts[1] : null;
+
+            if (count($nameParts) === 1) {
+                $username = strtolower(str_replace('.', '', $namePart1)) . rand(10, 99);
+            } else {
+                $username = strtolower(str_replace('.', '', $namePart1 . $namePart2));
+            }
+
             $data = [
                 'nohp' => $request->nohp,
                 'nisn' => $request->nisn,
                 'nuptk' => $request->nuptk,
                 'name' => $request->name,
-                'username' => $request->username,
+                'username' => $username,
                 'tanggal_lahir' => $request->tanggal_lahir,
                 'email' => $request->email,
                 'kelas_id' => $request->kelas_id,
                 'role' => $request->role,
-                'password' => $request->password ? Hash::make($request->password) : Hash::make($request->username),
+                'password' => $request->password ? Hash::make($request->password) : Hash::make($username),
                 'email_verified_at' => Carbon::now(),
             ];
 
-            // Membuat user baru
-            // print_r($request->role);
             $user = User::create($data);
-
             $user->assignRole($request->role);
 
             return response()->json(['success' => 'Berhasil menyimpan data']);

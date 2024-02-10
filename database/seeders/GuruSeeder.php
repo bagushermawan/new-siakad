@@ -40,7 +40,8 @@ class GuruSeeder extends Seeder
         ];
 
         foreach ($guruData as $namaGuru) {
-            $username = strtolower(str_replace(' ', '', $namaGuru));
+            $namaGuruTanpaTitik = str_replace('.', '', $namaGuru);
+            $username = strtolower(str_replace(' ', '', $namaGuruTanpaTitik));
             $email = $username . '@gmail.com';
             $nuptk = $this->faker->numerify('################');
             $nohp = $this->faker->numerify('###########');
