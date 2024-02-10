@@ -54,7 +54,7 @@ class JadwalMataPelajaranAjaxController extends Controller
         $user = Auth::user();
         // Mendapatkan roles dari user
         $roles = $user->getRoleNames();
-        $data = JadwalMataPelajaran::with(['kelas', 'mataPelajaran', 'tahunAjaran', 'ekskul'])->orderBy('kelas_id', 'asc');
+        $data = JadwalMataPelajaran::with(['kelas', 'mataPelajaran', 'tahunAjaran', 'ekskul'])->orderBy('hari', 'desc');
 
         $isAdmin = $user->hasRole('admin');
 
