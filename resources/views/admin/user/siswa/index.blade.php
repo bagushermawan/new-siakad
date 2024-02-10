@@ -148,6 +148,7 @@
                                     <option value="aktif">Aktif</option>
                                     <option value="tidak aktif">Tidak Aktif</option>
                                     <option value="lulus">Lulus</option>
+                                    <option value="pindahan">Pindahan</option>
                             </select>
                         </div>
                         <label>Email<span class="wajib">*</span>: </label>
