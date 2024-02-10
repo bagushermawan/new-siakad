@@ -164,6 +164,7 @@ class UserAjaxController extends Controller
             $request->all(),
             [
                 'name' => ['required', 'string', 'max:255'],
+                'status_siswa' => ['required', 'string', 'max:255'],
                 'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
                 'password' => ['nullable', Rules\Password::defaults()],
                 'kelas_id' => ['nullable', 'exists:kelas,id'],
@@ -171,6 +172,7 @@ class UserAjaxController extends Controller
             ],
             [
                 'name.required' => 'Nama wajib diisi',
+                'status_siswa.required' => 'Status santri wajib diisi',
                 'email.required' => 'Email wajib diisi',
                 'password.required' => 'Password wajib diisi',
                 'kelas_id.exists' => 'Kelas tidak valid',
@@ -195,12 +197,14 @@ class UserAjaxController extends Controller
             $data = [
                 'nohp' => $request->nohp,
                 'nisn' => $request->nisn,
+                'nis' => $request->nis,
                 'nuptk' => $request->nuptk,
                 'name' => $request->name,
                 'username' => $username,
                 'tanggal_lahir' => $request->tanggal_lahir,
                 'email' => $request->email,
                 'kelas_id' => $request->kelas_id,
+                'status_siswa' => $request->status_siswa,
                 'role' => $request->role,
                 'password' => $request->password ? Hash::make($request->password) : Hash::make($username),
                 'email_verified_at' => Carbon::now(),
@@ -242,12 +246,14 @@ class UserAjaxController extends Controller
     {
         $data = [
             'nisn' => $request->nisn,
+            'nis' => $request->nis,
             'nuptk' => $request->nuptk,
             'nohp' => $request->nohp,
             'name' => $request->name,
             'username' => $request->username,
             'tanggal_lahir' => $request->tanggal_lahir,
             'kelas_id' => $request->kelas_id,
+            'status_siswa' => $request->status_siswa,
             'email' => $request->email,
         ];
 

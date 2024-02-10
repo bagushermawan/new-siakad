@@ -21,6 +21,8 @@ return new class extends Migration
             $table->string('password')->default(bcrypt('123'));
             $table->date('tanggal_lahir')->nullable();
             $table->string('nisn')->nullable();
+            $table->string('nis')->nullable();
+            $table->string('status_siswa')->nullable();
             $table->string('nuptk')->nullable();
             $table->string('nohp')->nullable();
             $table->unsignedBigInteger('kelas_id')->nullable();

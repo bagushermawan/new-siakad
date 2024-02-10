@@ -215,7 +215,8 @@
                         );
                         var title = $(cell).text();
                         // Tambahkan kondisi untuk mengecek apakah kolom No
-                        if (colIdx === 0 || colIdx === 4 || colIdx === 5 || colIdx === 6 || colIdx === 7) {
+                        if (colIdx === 0 || colIdx === 4 || colIdx === 5 || colIdx === 6 ||
+                            colIdx === 7) {
                             // Jika kolom No, tidak tambahkan input filter
                             $(cell).html('');
                         } else {
@@ -289,6 +290,17 @@
                     }
                 },
                 {
+                    data: 'nis',
+                    name: 'nis',
+                    render: function(data, type, row) {
+                        if (type === 'display') {
+                            return data ? data :
+                                '<a style="color:#6c757d;">NIS tidak tersedia</a>';
+                        }
+                        return data;
+                    }
+                },
+                {
                     data: 'name',
                     name: 'Nama'
                 },
@@ -300,17 +312,40 @@
                     data: 'tanggal_lahir',
                     name: 'Tanggal Lahir'
                 },
-                // {
-                //     data: 'kelas_name',
-                //     name: 'kelas_name',
-                //     render: function(data, type, row) {
-                //         if (type === 'display') {
-                //             return data ? data :
-                //                 '<a style="color:#6c757d;">Kelas tidak tersedia</a>';
-                //         }
-                //         return data;
-                //     }
-                // },
+                {
+                    data: 'kelas_name',
+                    name: 'kelas_name',
+                    render: function(data, type, row) {
+                        if (type === 'display') {
+                            return data ? data :
+                                '<a style="color:#6c757d;">Kelas tidak tersedia</a>';
+                        }
+                        return data;
+                    }
+                },
+                {
+                    data: 'status_siswa',
+                    name: 'status_siswa',
+                    render: function(data, type, row) {
+                        if (type === 'display') {
+                            // Memastikan data bukan null atau undefined sebelum melakukan pengonversian huruf
+                            if (data) {
+                                // Mengonversi semua huruf menjadi huruf kecil
+                                data = data.toLowerCase();
+
+                                // Mengganti huruf pertama dari setiap kata menjadi huruf kapital
+                                data = data.replace(/\b\w/g, function(char) {
+                                    return char.toUpperCase();
+                                });
+                            } else {
+                                data = '';
+                            }
+                            return data !== '' ? data :
+                                '<a style="color:#6c757d;">Status tidak tersedia</a>';
+                        }
+                        return data;
+                    }
+                },
                 // {
                 //     data: 'email',
                 //     name: 'Email'
@@ -408,8 +443,16 @@
         if (typeof kelasSelect !== 'undefined') {
             kelasSelect.destroy();
         }
+        if (typeof statusSelect !== 'undefined') {
+            statusSelect.destroy();
+        }
         kelasSelect = new Choices('#kelas_id', {
             searchEnabled: true,
+            itemSelectText: '',
+            allowHTML: true,
+        });
+        statusSelect = new Choices('#status_siswa', {
+            searchEnabled: false,
             itemSelectText: '',
             allowHTML: true,
         });
@@ -428,6 +471,7 @@
             success: function(response) {
                 $('#exampleModal').modal('show');
                 $('#nisn').val(response.result.nisn);
+                $('#nis').val(response.result.nis);
                 $('#name').val(response.result.name);
                 $('#username').val(response.result.username);
                 $('#tanggal_lahir').val(response.result.tanggal_lahir);
@@ -436,8 +480,12 @@
                 if (typeof kelasSelect !== 'undefined') {
                     kelasSelect.destroy();
                 }
+                if (typeof statusSelect !== 'undefined') {
+                    statusSelect.destroy();
+                }
 
                 $('#kelas_id').val(response.result.kelas_id);
+                $('#status_siswa').val(response.result.status_siswa);
                 $('#email').val(response.result.email);
                 $('#nohp').val(response.result.nohp);
                 $('#role').val(response.result.role);
@@ -454,6 +502,11 @@
                 // Inisialisasi objek Choices.js baru
                 kelasSelect = new Choices('#kelas_id', {
                     searchEnabled: true,
+                    itemSelectText: '',
+                    allowHTML: true,
+                });
+                statusSelect = new Choices('#status_siswa', {
+                    searchEnabled: false,
                     itemSelectText: '',
                     allowHTML: true,
                 });
@@ -514,10 +567,12 @@
             type: var_type,
             data: {
                 nisn: $('#nisn').val(),
+                nis: $('#nis').val(),
                 name: $('#name').val(),
                 username: $('#username').val(),
                 tanggal_lahir: $('#tanggal_lahir').val(),
                 kelas_id: $('#kelas_id').val() || null,
+                status_siswa: $('#status_siswa').val() || null,
                 email: $('#email').val(),
                 nohp: $('#nohp').val(),
                 role: $('#role').val(),
@@ -559,10 +614,12 @@
 
     $('#exampleModal').on('hidden.bs.modal', function() {
         $('#nisn').val('');
+        $('#nis').val('');
         $('#name').val('');
         $('#username').val('');
         $('#tanggal_lahir').val('');
         $('#kelas_id').val('');
+        $('#status_siswa').val('');
         $('#email').val('');
         $('#nohp').val('');
         $('#role').val('');

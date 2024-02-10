@@ -64,10 +64,12 @@
                                     <th>No</th>
                                     {{-- <th>id</th> --}}
                                     <th>NISN</th>
+                                    <th>NIS</th>
                                     <th>Name</th>
                                     <th>Username</th>
                                     <th>Tanggal Lahir</th>
-                                    {{-- <th>Kelas</th> --}}
+                                    <th>Kelas</th>
+                                    <th>Status</th>
                                     {{-- <th>Email</th> --}}
                                     {{-- <th>No Hp</th> --}}
                                     <th>
@@ -111,6 +113,10 @@
                         <div class="form-group">
                             <input id="nisn" type="text" name="nisn" class="form-control" autofocus>
                         </div>
+                        <label>NIS<span class="wajib">*</span>: </label>
+                        <div class="form-group">
+                            <input id="nis" type="text" name="nis" class="form-control" autofocus>
+                        </div>
                         <label>Nama<span class="wajib">*</span>: </label>
                         <div class="form-group">
                             <input id="name" type="text" name="name" class="form-control" autofocus>
@@ -126,12 +132,22 @@
                         </div>
                         <label>Kelas: </label>
                         <div class="form-group">
-                            <select class="form-control" id="kelas_id" name="kelas_id" name="kelas_id" required>
+                            <select class="form-control" id="kelas_id" name="kelas_id" required>
                                 {{-- <input type="hidden" id="old_kelas_id" name="old_kelas_id" value="{{ $users->kelas_id }}"> --}}
                                 <option value="">Pilih Kelas</option>
                                 @foreach ($kelasOptions as $kelas)
                                     <option value="{{ $kelas->id }}">{{ $kelas->name }}</option>
                                 @endforeach
+                            </select>
+                        </div>
+                        <label>Status<span class="wajib">*</span>: </label>
+                        <div class="form-group">
+                            <select class="form-control" id="status_siswa" name="status_siswa" required>
+                                {{-- <input type="hidden" id="old_kelas_id" name="old_kelas_id" value="{{ $users->kelas_id }}"> --}}
+                                <option value="">Pilih Status</option>
+                                    <option value="aktif">Aktif</option>
+                                    <option value="tidak aktif">Tidak Aktif</option>
+                                    <option value="lulus">Lulus</option>
                             </select>
                         </div>
                         <label>Email<span class="wajib">*</span>: </label>

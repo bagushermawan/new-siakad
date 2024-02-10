@@ -18,6 +18,7 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $fillable = [
         'name',
         'nisn',
+        'nis',
         'nuptk',
         'nohp',
         'username',
@@ -28,6 +29,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at',
         'last_login',
         'foto_user',
+        'status_siswa',
     ];
 
     public function kelas()
