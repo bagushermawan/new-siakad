@@ -78,10 +78,7 @@ class UserDashboardController extends Controller
             ->orderBy('updated_at', 'DESC')
             ->get();
 
-        $data_riwayat_login_walis = RiwayatLogin::where('wali_santri_id', '!=', $loggedInUserId)
-            ->orderBy('status_login', 'DESC')
-            ->orderBy('updated_at', 'DESC')
-            ->get();
+        $data_riwayat_login_walis = RiwayatLogin::where('wali_santri_id', '!=', $loggedInUserId)->orderBy('status_login', 'DESC')->orderBy('updated_at', 'DESC')->get();
 
         $thaktif = TahunAjaran::where('status', 'aktif')->first();
 
@@ -123,7 +120,6 @@ class UserDashboardController extends Controller
     {
         $loggedInUserId = Auth::user()->id;
 
-        // Dapatkan ID Santri yang terkait dengan waliSantri yang sedang login
         $santriId = WaliSantri::where('id', $loggedInUserId)->value('santri_id');
 
         if ($santriId) {
@@ -131,8 +127,8 @@ class UserDashboardController extends Controller
             $kelasSantri = User::where('id', $santriId)->value('kelas_id');
 
             // Dapatkan tahun ajaran yang sedang aktif berdasarkan name
-            $tahunAjaranAktif = TahunAjaran::where('status', 'aktif')->first();
-            $tahunAjaranName = $tahunAjaranAktif->name;
+            // $tahunAjaranAktif = TahunAjaran::where('status', 'aktif')->first();
+            // $tahunAjaranName = $tahunAjaranAktif->name;
 
             // Gunakan ID Santri, kelas, dan name tahun ajaran untuk mengambil nilai
             $dataNilai = Nilai::with(['user', 'kelas', 'mataPelajaran', 'tahunAjaran'])
@@ -180,8 +176,8 @@ class UserDashboardController extends Controller
         $kelasSantri = User::where('id', $loggedInUserId)->value('kelas_id');
 
         // Dapatkan tahun ajaran yang sedang aktif berdasarkan name
-        $tahunAjaranAktif = TahunAjaran::where('status', 'aktif')->first();
-        $tahunAjaranName = $tahunAjaranAktif->name;
+        // $tahunAjaranAktif = TahunAjaran::where('status', 'aktif')->first();
+        // $tahunAjaranName = $tahunAjaranAktif->name;
 
         // Gunakan ID Santri, kelas, dan name tahun ajaran untuk mengambil nilai
         $dataNilai = Nilai::with(['user', 'kelas', 'mataPelajaran', 'tahunAjaran'])
@@ -258,8 +254,9 @@ class UserDashboardController extends Controller
     // For Select semester genap/ganjil
     public function getTahunAjaranAktifOptions()
     {
-        $tahunAjaranAktif = TahunAjaran::where('status', 'aktif')->first();
-        $tahunAjaranOptions = TahunAjaran::where('name', $tahunAjaranAktif->name)->get(['id', 'name', 'semester']);
+        $tahunAjaranOptions = TahunAjaran::whereIn('semester', ['genap', 'ganjil'])
+            ->distinct('semester')
+            ->get('semester');
 
         return response()->json($tahunAjaranOptions);
     }
@@ -318,13 +315,10 @@ class UserDashboardController extends Controller
             $noHp = $request->input('nohp');
 
             // Perform the search based on username and phone number
-            $santri = User::where('username', $username)
-                ->where('nohp', $noHp)
-                ->first();
+            $santri = User::where('username', $username)->where('nohp', $noHp)->first();
 
             if ($santri) {
-                return view('user.connect', compact('santri', 'roles', 'santriId', 'waktu_sekarang'))
-                ->with('success', 'Santri ditemukan');
+                return view('user.connect', compact('santri', 'roles', 'santriId', 'waktu_sekarang'))->with('success', 'Santri ditemukan');
             } else {
                 return redirect()
                     ->back()
@@ -332,11 +326,7 @@ class UserDashboardController extends Controller
                     ->withErrors(['error' => 'Santri tidak ditemukan']);
             }
         } catch (ValidationException $e) {
-            return redirect()
-                ->back()
-                ->withInput()
-                ->withErrors($e->validator->errors())
-                ->with('error', $e->getMessage());
+            return redirect()->back()->withInput()->withErrors($e->validator->errors())->with('error', $e->getMessage());
         }
     }
 
@@ -353,13 +343,9 @@ class UserDashboardController extends Controller
             // $waliSantri->update(['santri_id' => $santriId]);
             WaliSantri::where('id', $waliSantri)->update(['santri_id' => $santriId]);
 
-            return redirect()
-                ->route('user.dashboard')
-                ->with('success', 'Santri berhasil dihubungkan.');
+            return redirect()->route('user.dashboard')->with('success', 'Santri berhasil dihubungkan.');
         } else {
-            return redirect()
-                ->route('user.dashboard')
-                ->with('error', 'Data WaliSantri tidak ditemukan.');
+            return redirect()->route('user.dashboard')->with('error', 'Data WaliSantri tidak ditemukan.');
         }
     }
 
@@ -426,9 +412,7 @@ class UserDashboardController extends Controller
 
         $user->save();
 
-        return redirect()
-            ->back()
-            ->with('status', 'profile-updated');
+        return redirect()->back()->with('status', 'profile-updated');
     }
 
     /**

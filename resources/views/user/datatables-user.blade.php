@@ -79,7 +79,7 @@
             });
             $('#filterAllTahunAjaran').on('change', function() {
                 var selecterTAid = $(this).val();
-                // $('#filterSemester').val('').trigger('change');
+                $('#filterSemester').val('').trigger('change');
                 $('#filterKelas').val('').trigger('change');
                 userTable.column(3).search(selecterTAid).draw();
             });

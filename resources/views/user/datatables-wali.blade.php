@@ -2,31 +2,42 @@
     <script>
         $(document).ready(function() {
             $.ajax({
-                url: "{{ url('/get_alltahunajaran_options') }}",
-                method: 'GET',
-                dataType: 'json',
-                success: function(response) {
-                    var allTahunAjaranOptions = response.allTahunAjaranOptions;
-                    var tahunAjaranOptions = response.tahunAjaranOptions;
-                    var selectTahunAjaran = document.getElementById('filterAllTahunAjaran');
+    url: "{{ url('/get_alltahunajaran_options') }}",
+    method: 'GET',
+    dataType: 'json',
+    success: function(response) {
+        var allTahunAjaranOptions = response.allTahunAjaranOptions;
+        var tahunAjaranOptions = response.tahunAjaranOptions;
+        var selectTahunAjaran = document.getElementById('filterAllTahunAjaran');
 
-                    allTahunAjaranOptions.forEach(function(tahunAjaran, index) {
-                        var option = document.createElement('option');
-                        option.value = tahunAjaran.name;
-                        option.text = tahunAjaran.name;
-                        selectTahunAjaran.add(option);
+        // Menambahkan opsi "Semua"
+        var optionSemua = document.createElement('option');
+        optionSemua.value = ""; // Atur nilai ke string kosong
+        optionSemua.text = "Semua";
+        selectTahunAjaran.add(optionSemua);
 
-                        // Cek apakah kelas_id dari opsi sama dengan tahunAjaranOptions
-                        if (tahunAjaran.name === tahunAjaranOptions) {
-                            option.selected = true; // Set sebagai terpilih jika sesuai
-                            $(selectTahunAjaran).trigger('change');
-                        }
-                    });
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error fetching data:', error);
-                }
-            });
+        allTahunAjaranOptions.forEach(function(tahunAjaran, index) {
+            var option = document.createElement('option');
+            option.value = tahunAjaran.name;
+            option.text = tahunAjaran.name;
+            selectTahunAjaran.add(option);
+
+            if (tahunAjaran.name === tahunAjaranOptions) {
+                option.selected = true;
+                $(selectTahunAjaran).trigger('change');
+            }
+        });
+
+        // Jika tidak ada tahun ajaran yang aktif, pilih opsi "Semua" secara default
+        if (!tahunAjaranOptions) {
+            optionSemua.selected = true;
+            $(selectTahunAjaran).trigger('change');
+        }
+    },
+    error: function(xhr, status, error) {
+        console.error('Error fetching data:', error);
+    }
+});
             $.ajax({
                 url: "{{ url('/get_tahunajaranAktif_options') }}",
                 method: 'GET',
@@ -79,7 +90,7 @@
             });
             $('#filterAllTahunAjaran').on('change', function() {
                 var selecterTAid = $(this).val();
-                // $('#filterSemester').val('').trigger('change');
+                $('#filterSemester').val('').trigger('change');
                 $('#filterKelas').val('').trigger('change');
                 myTable.column(3).search(selecterTAid).draw();
             });

@@ -134,7 +134,7 @@
                         {{-- <span>Tahun Ajaran: <b>{{ $thaktif->name }}</b></span> --}}
                         <div class="">Tahun Ajaran:
                             <select class="" id="filterAllTahunAjaran">
-                                <option value="">Semua</option>
+
                             </select>
                         </div>
                         <div class="ml-auto">Semester:
