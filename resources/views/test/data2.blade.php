@@ -118,9 +118,9 @@
                     <p><strong>No HP:</strong> {{ $nohpSantri }}</p>
                 </div>
                 <div class="col-md-6">
-                    <p><strong>Tahun Ajaran:</strong> {{ $thaktif->name }}</p>
+                    <p><strong>Tahun Ajaran:</strong> {{ $thaktif }}</p>
                     <p><strong>Kelas:</strong> {{ $kelasSantri }}</p>
-                    <p><strong>Semester:</strong> {{ $thaktif->semester }}</p>
+                    {{-- <p><strong>Semester:</strong> {{ $thaktif }}</p> --}}
                 </div>
             </div>
         </div>
@@ -130,6 +130,7 @@
                     <th>Nama Santri</th>
                     <th>Mata Pelajaran</th>
                     <th>Kelas</th>
+                    {{-- <th>Tahun Ajaran</th> --}}
                     <th>Nilai</th>
                 </tr>
             </thead>
@@ -139,6 +140,7 @@
                         <td>{!! html_entity_decode($item['user_id']) !!}</td>
                         <td>{{ $item['mata_pelajaran_id'] ?: 'Data Mata Pelajaran tidak tersedia' }}</td>
                         <td>{{ $item['kelas_id'] }}</td>
+                        {{-- <td>{{ $item['tahun_ajaran_id'] }}</td> --}}
                         <td>{{ $item['nilai'] }}</td>
                     </tr>
                 @endforeach

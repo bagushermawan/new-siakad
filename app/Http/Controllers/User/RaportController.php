@@ -25,7 +25,17 @@ class RaportController extends Controller
             // $santriId = WaliSantri::where('id', $loggedInUserId)->value('santri_id');
 
             $waliSantri = WaliSantri::with(['santri.kelas:id,name'])->find($loggedInUserId);
-            $thaktif = TahunAjaran::where('status', 'aktif')->first();
+            // $thaktif = TahunAjaran::where('status', 'aktif')->first();
+            $thaktif = ''; // Inisialisasi variabel untuk menampung tahun ajaran dan semester
+
+            // Pastikan ada data dalam $currentPageData
+            if (!empty($currentPageData)) {
+                $firstData = $currentPageData[0]; // Ambil elemen pertama dari $currentPageData
+                // Pastikan data memiliki struktur yang sesuai
+                if (isset($firstData['tahun_ajaran_id'])) {
+                    $thaktif = $firstData['tahun_ajaran_id']; // Gabungkan tahunAjaran dan semester
+                }
+            }
 
             if ($waliSantri && $waliSantri->santri) {
                 $santriData = $waliSantri->santri;
