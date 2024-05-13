@@ -121,6 +121,18 @@
                                 </p>
                             </td>
                         </tr>
+                        <tr>
+                            <td class="col-4">
+                                <div class="d-flex align-items-center">
+                                    <p class="font-bold h6 mb-0">Status Santri</p>
+                                </div>
+                            </td>
+                            <td class="col-auto">
+                                <p class=" mb-0"><span class="profilepp" style="margin-left: 1rem">:
+                                        {{ ucfirst(auth()->user()->status_siswa) }}</span>
+                                </p>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>

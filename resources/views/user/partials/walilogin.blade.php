@@ -118,6 +118,26 @@
                                 </p>
                             </td>
                         </tr>
+                        <tr>
+                            <td class="col-4">
+                                <div class="d-flex align-items-center">
+                                    <p class="font-bold h6 mb-0">Status Santri</p>
+                                </div>
+                            </td>
+                            <td class="col-auto">
+                                <p class=" mb-0">
+                                    @if ($statusSantri != null)
+                                        <span class="profilepp" style="margin-left: 1rem">
+                                            : {{ $statusSantri }}
+                                        </span>
+                                    @else
+                                        <span class="profilepp2" style="margin-left: 1rem">
+                                            : <i>Hubungi admin untuk update status</i>
+                                        </span>
+                                    @endif
+                                </p>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>

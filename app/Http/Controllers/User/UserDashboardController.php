@@ -50,12 +50,14 @@ class UserDashboardController extends Controller
             $emailSantri = $santriData->email ?? 'Email Tidak Tersedia';
             $namaSantri = $santriData->name ?? 'Nama Santri Tidak Tersedia';
             $usernameSantri = $santriData->username ?? 'Username Santri Tidak Tersedia';
+            $statusSantri = $santriData->status_siswa ?? '';
             $fotoSantri = $santriData->foto_user ?? '';
             $kelasSantri = $santriData->kelas ? $santriData->kelas->name : '';
         } else {
             $nisnSantri = 'NISN Tidak Tersedia';
             $nohpSantri = 'No HP Tidak Tersedia';
             $emailSantri = 'Email Tidak Tersedia';
+            $statusSantri = '';
             $namaSantri = 'Nama Santri Tidak Tersedia';
             $usernameSantri = 'Username Santri Tidak Tersedia';
             $fotoSantri = '';
@@ -94,6 +96,7 @@ class UserDashboardController extends Controller
             'nisnSantri' => $nisnSantri,
             'nohpSantri' => $nohpSantri,
             'emailSantri' => $emailSantri,
+            'statusSantri' => $statusSantri,
             'fotoSantri' => $fotoSantri,
             'kelasSantri' => $kelasSantri,
             'thaktif' => $thaktif,

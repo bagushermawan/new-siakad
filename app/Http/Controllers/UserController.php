@@ -17,7 +17,6 @@ use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
-
     public function index()
     {
         $user = Auth::user();
@@ -54,24 +53,20 @@ class UserController extends Controller
         ]);
     }
 
-
     public function create()
     {
         //
     }
-
 
     public function store(Request $request)
     {
         //
     }
 
-
     public function show(string $id)
     {
         //
     }
-
 
     public function edit($id)
     {
@@ -81,7 +76,6 @@ class UserController extends Controller
         $user = User::find($id);
         return view('admin.user.profileEdit', ['user' => $user, 'roles' => $roles]);
     }
-
 
     public function update(Request $request, $id)
     {
@@ -103,7 +97,6 @@ class UserController extends Controller
         $user->save();
         return redirect()->back()->with('status', 'profile-updated');
     }
-
 
     public function destroy(string $id)
     {
