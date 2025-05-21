@@ -91,6 +91,8 @@
         @include('admin.user.siswa.addedit')
         {{-- No Status Modal --}}
         @include('admin.user.siswa.nostatus')
+        {{-- No Status Modal --}}
+        @include('admin.user.siswa.xnohp')
     </div>
 @endsection
 @push('page-script')

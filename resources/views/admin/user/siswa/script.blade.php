@@ -323,12 +323,9 @@
                     name: 'nohp',
                     render: function(data, type, row) {
                         if (type === 'display') {
-                            if (data) {
-                                return data ;
-                            } else {
-                                // Tambahkan event handler untuk menampilkan swal saat foto tidak tersedia di klik
-                                return '<a style="color:rgba(var(--bs-link-color-rgb),var(--bs-link-opacity, 1)); cursor: pointer;" onclick="showSwalNoHP()">No HP tidak tersedia</a>';
-                            }
+                            return data ? data :
+                                '<a href="#" class="open-undefined-nohp-modal" data-toggle="modal" data-target="#xnohpModal" data-id="' +
+                                    row.id + '">Tidak Tersedia</a>';
                         }
                         return data;
                     }
@@ -493,7 +490,7 @@
             type: 'GET',
             success: function(response) {
                 console.log(id);
-                $('#statusModal').modal('show');
+                $('#nostatusModal').modal('show');
                 $('#nisnn').val(response.result.nisn);
                 $('#niss').val(response.result.nis);
                 $('#namee').val(response.result.name);
@@ -501,7 +498,6 @@
                 $('#nohpp').val(response.result.nohp);
                 $('#tanggal_lahirr').val(response.result.tanggal_lahir);
 
-                // Hapus objek Choices.js sebelum membuat yang baru
                 if (typeof kelasSelect !== 'undefined') {
                     kelasSelect.destroy();
                 }
@@ -524,6 +520,43 @@
                     searchEnabled: false,
                     itemSelectText: '',
                     allowHTML: true,
+                });
+            }
+        });
+    });
+
+        // Proses tidak ada no HP
+        $('body').on('click', '.open-undefined-nohp-modal', function(e) {
+        var id = $(this).data('id');
+        $.ajax({
+            url: 'userAjax/' + id + '/edit',
+            type: 'GET',
+            success: function(response) {
+                console.log(id);
+                $('#xnohpModal').modal('show');
+                $('#nisnhp').val(response.result.nisn);
+                $('#nishp').val(response.result.nis);
+                $('#namehp').val(response.result.name);
+                $('#usernamehp').val(response.result.username);
+                $('#nohphp').val(response.result.nohp);
+                $('#tanggal_lahirhp').val(response.result.tanggal_lahir);
+
+                if (typeof kelasSelect !== 'undefined') {
+                    kelasSelect.destroy();
+                }
+                if (typeof statusSelect !== 'undefined') {
+                    statusSelect.destroy();
+                }
+
+                $('#kelas_idhp').val(response.result.kelas_id);
+                $('#status_siswahp').val(response.result.status_siswa);
+                $('#emailhp').val(response.result.email);
+                $('#nohphp').val(response.result.nohp);
+                $('#rolehp').val(response.result.role);
+                $('#passwordhp').val(response.result.password);
+                console.log(response.result);
+                $('.tombol-simpan').off('click').on('click', function() {
+                    simpan(id);
                 });
             }
         });
@@ -640,17 +673,17 @@
             url: var_url,
             type: var_type,
             data: {
-                nisn: $('#nisn').val() || $('#nisnn').val(),
-                nis: $('#nis').val() || $('#niss').val(),
-                name: $('#name').val() || $('#namee').val(),
-                username: $('#username').val() || $('#usernamee').val(),
-                tanggal_lahir: $('#tanggal_lahir').val() || $('#tanggal_lahirr').val(),
-                kelas_id: $('#kelas_id').val() || $('#kelas_idd').val() || null,
-                status_siswa: $('#status_siswa').val() || $('#status_siswaa').val() || null,
-                email: $('#email').val() || $('#emaill').val(),
-                nohp: $('#nohp').val() || $('#nohpp').val(),
-                role: $('#role').val() || $('#rolee').val(),
-                password: $('#password').val() || $('#passwordd').val(),
+                nisn: $('#nisn').val() || $('#nisnn').val() || $('#nisnhp').val(),
+                name: $('#name').val() || $('#namee').val() || $('#namehp').val(),
+                username: $('#username').val() || $('#usernamee').val() || $('#usernamehp').val(),
+                tanggal_lahir: $('#tanggal_lahir').val() || $('#tanggal_lahirr').val() || $('#tanggal_lahirhp').val(),
+                kelas_id: $('#kelas_id').val() || $('#kelas_idd').val() || $('#kelas_idhp').val() || null,
+                status_siswa: $('#status_siswa').val() || $('#status_siswaa').val() || $('#status_siswahp').val() || null,
+                email: $('#email').val() || $('#emaill').val() || $('#emailhp').val(),
+                nohp: $('#nohp').val() || $('#nohpp').val() || $('#nohphp').val(),
+                role: $('#role').val() || $('#rolee').val() || $('#rolehp').val(),
+                password: $('#password').val() || $('#passwordd').val() || $('#passwordhp').val(),
+                nis: $('#nis').val() || $('#niss').val() || $('#nishp').val(),
             },
             success: function(response) {
                 if (response.errors) {
