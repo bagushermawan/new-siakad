@@ -67,6 +67,7 @@
                                     <th>NIS</th>
                                     <th>Name</th>
                                     <th>Username</th>
+                                    <th>No HP</th>
                                     <th>Tanggal Lahir</th>
                                     <th>Kelas</th>
                                     <th>Status</th>
@@ -125,6 +126,11 @@
                         <div class="form-group">
                             <input id="username" type="text" name="username" class="form-control"
                                 placeholder="Username default sama dengan nama">
+                        </div>
+                        <label>No Handphone<span class=""></span>: </label>
+                        <div class="form-group">
+                            <input id="nohp" type="number" name="nohp" class="form-control"
+                                placeholder="08xxx">
                         </div>
                         <label>Tanggal Lahir<span class="wajib">*</span>: </label>
                         <div class="form-group">
@@ -255,6 +261,11 @@
                         <div class="form-group">
                             <input id="usernamee" type="text" name="username" class="form-control"
                                 placeholder="Username default sama dengan nama" disabled>
+                        </div>
+                        <label>No HP<span class="wajib">*</span>: </label>
+                        <div class="form-group">
+                            <input id="nohpp" type="number" name="nohp" class="form-control"
+                                placeholder="08xxx" disabled>
                         </div>
                         <label>Status<span class="wajib">*</span>: </label>
                         <div class="form-group">

@@ -1,5 +1,5 @@
 <script>
-    function showSwal() {
+    function showSwalFoto() {
         Swal.fire({
             icon: 'info',
             title: 'Foto tidak tersedia',
@@ -7,6 +7,16 @@
             confirmButtonText: 'Tutup'
         });
     }
+
+    function showSwalNoHP() {
+        Swal.fire({
+            icon: 'info',
+            title: 'No HP tidak tersedia',
+            text: 'Silahkan login, lalu setting manual di akun terkait',
+            confirmButtonText: 'Tutup'
+        });
+    }
+
     $(document).ready(function() {
         const baseUrl = "{{ asset('storage/') }}";
         var isAdmin = {{ $isAdmin ? 'true' : 'false' }};
@@ -239,6 +249,21 @@
                     name: 'Email'
                 },
                 {
+                    data: 'nohp',
+                    name: 'nohp',
+                    render: function(data, type, row) {
+                        if (type === 'display') {
+                            if (data) {
+                                return data ;
+                            } else {
+                                // Tambahkan event handler untuk menampilkan swal saat foto tidak tersedia di klik
+                                return '<a style="color:rgba(var(--bs-link-color-rgb),var(--bs-link-opacity, 1)); cursor: pointer;" onclick="showSwalNoHP()">No HP tidak tersedia</a>';
+                            }
+                        }
+                        return data;
+                    }
+                },
+                {
                     data: 'created_at',
                     name: 'created_at',
                     render: function(data, type, row) {
@@ -280,7 +305,7 @@
                                     data + '" alt="Foto Pengguna"></div>';
                             } else {
                                 // Tambahkan event handler untuk menampilkan swal saat foto tidak tersedia di klik
-                                return '<a style="color:rgba(var(--bs-link-color-rgb),var(--bs-link-opacity, 1)); cursor: pointer;" onclick="showSwal()">Foto tidak tersedia</a>';
+                                return '<a style="color:rgba(var(--bs-link-color-rgb),var(--bs-link-opacity, 1)); cursor: pointer;" onclick="showSwalFoto()">Foto tidak tersedia</a>';
                             }
                         }
                         return data;

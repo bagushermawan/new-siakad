@@ -64,6 +64,7 @@
                                     <th>Name</th>
                                     <th>Username</th>
                                     <th>Email</th>
+                                    <th>No HP</th>
                                     <th>Created at</th>
                                     <th>
                                         <center>Status</center>

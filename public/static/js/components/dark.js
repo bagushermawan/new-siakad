@@ -21,6 +21,25 @@ function setTheme(theme, persist = false) {
   if (persist) {
     localStorage.setItem(THEME_KEY, theme)
   }
+
+  const lightIcon = document.getElementById("icon-light")
+  const darkIcon = document.getElementById("icon-dark")
+
+  if (lightIcon && darkIcon) {
+    if (theme === "dark") {
+      lightIcon.style.opacity = "0";
+      lightIcon.style.pointerEvents = "none";
+
+      darkIcon.style.opacity = "1";
+      darkIcon.style.pointerEvents = "auto";
+    } else {
+      lightIcon.style.opacity = "1";
+      lightIcon.style.pointerEvents = "auto";
+
+      darkIcon.style.opacity = "0";
+      darkIcon.style.pointerEvents = "none";
+    }
+  }
 }
 
 /**

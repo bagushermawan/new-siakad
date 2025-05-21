@@ -1,5 +1,5 @@
 <script>
-    function showSwal() {
+    function showSwalFoto() {
         Swal.fire({
             icon: 'info',
             title: 'Foto tidak tersedia',
@@ -7,6 +7,16 @@
             confirmButtonText: 'Tutup'
         });
     }
+
+    function showSwalNoHP() {
+        Swal.fire({
+            icon: 'info',
+            title: 'No HP tidak tersedia',
+            text: 'Silahkan login, lalu setting manual di akun terkait',
+            confirmButtonText: 'Tutup'
+        });
+    }
+
     $(document).ready(function() {
         const baseUrl = "{{ asset('storage/') }}";
         var isAdmin = {{ $isAdmin ? 'true' : 'false' }};
@@ -309,6 +319,21 @@
                     name: 'Username'
                 },
                 {
+                    data: 'nohp',
+                    name: 'nohp',
+                    render: function(data, type, row) {
+                        if (type === 'display') {
+                            if (data) {
+                                return data ;
+                            } else {
+                                // Tambahkan event handler untuk menampilkan swal saat foto tidak tersedia di klik
+                                return '<a style="color:rgba(var(--bs-link-color-rgb),var(--bs-link-opacity, 1)); cursor: pointer;" onclick="showSwalNoHP()">No HP tidak tersedia</a>';
+                            }
+                        }
+                        return data;
+                    }
+                },
+                {
                     data: 'tanggal_lahir',
                     name: 'Tanggal Lahir'
                 },
@@ -391,7 +416,7 @@
                                     data + '" alt="Foto Pengguna"></div>';
                             } else {
                                 // Tambahkan event handler untuk menampilkan swal saat foto tidak tersedia di klik
-                                return '<a style="color:rgba(var(--bs-link-color-rgb),var(--bs-link-opacity, 1)); cursor: pointer;" onclick="showSwal()">Foto tidak tersedia</a>';
+                                return '<a style="color:rgba(var(--bs-link-color-rgb),var(--bs-link-opacity, 1)); cursor: pointer;" onclick="showSwalFoto()">Foto tidak tersedia</a>';
                             }
                         }
                         return data;
@@ -473,6 +498,7 @@
                 $('#niss').val(response.result.nis);
                 $('#namee').val(response.result.name);
                 $('#usernamee').val(response.result.username);
+                $('#nohpp').val(response.result.nohp);
                 $('#tanggal_lahirr').val(response.result.tanggal_lahir);
 
                 // Hapus objek Choices.js sebelum membuat yang baru
@@ -516,6 +542,7 @@
                 $('#nis').val(response.result.nis);
                 $('#name').val(response.result.name);
                 $('#username').val(response.result.username);
+                $('#nohp').val(response.result.nohp);
                 $('#tanggal_lahir').val(response.result.tanggal_lahir);
 
                 // Hapus objek Choices.js sebelum membuat yang baru

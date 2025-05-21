@@ -70,6 +70,9 @@
             color: #a8a8c4;
             border: 1px solid rgba(39, 81, 231, 0.15);
         }
+        .icon-toggle {
+  transition: opacity 0.5s ease;
+}
     </style>
     @stack('page-css')
 </head>
