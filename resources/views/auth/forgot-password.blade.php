@@ -23,7 +23,7 @@
             <div class="col-lg-5 col-12">
                 <div id="auth-left">
                     <div class="auth-logo">
-                        <a href="index.html"><img src="{{ asset('/compiled/svg/logo.svg') }}" alt="Logo"></a>
+                        <a href="index.html"><img src="{{ asset('/compiled/svg/hearts.svg') }}" alt="Logo"></a>
                     </div>
                     <h1 class="auth-title">Lupa kata sandi?</h1>
                     <p class="auth-subtitle mb-5">Tidak masalah. Cukup beri tahu kami alamat email Anda dan kami akan mengirimkan email berisi tautan pengaturan ulang kata sandi yang memungkinkan Anda memilih yang baru.</p>

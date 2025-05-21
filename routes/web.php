@@ -46,7 +46,6 @@ Route::get('/welcome', function () {
 //     return view('dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');
 Route::middleware('auth:web,wali')->group(function () {
-    // Route::get('/user-role-count', [UserAjaxController::class, 'getUserRoleCountChartjs']);
     Route::get('/userd-role-count', [UserDashboardController::class, 'getUserRoleCountChartjs']);
     Route::get('/', [UserDashboardController::class, 'index'])->name('user.dashboard');
     Route::resource('/a', UserDashboardController::class);
