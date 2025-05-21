@@ -363,7 +363,7 @@
                                     return char.toUpperCase();
                                 });
                             } else {
-                                return '<a href="#" class="open-unavailable-modal" data-toggle="modal" data-target="#statusModal" data-id="' +
+                                return '<a href="#" class="open-status-undefined-modal" data-toggle="modal" data-target="#statusModal" data-id="' +
                                     row.id + '">Tidak Tersedia</a>';
                             }
                         }
@@ -486,7 +486,7 @@
     });
 
     //Proses tidak ada status
-    $('body').on('click', '.open-unavailable-modal', function(e) {
+    $('body').on('click', '.open-status-undefined-modal', function(e) {
         var id = $(this).data('id');
         $.ajax({
             url: 'userAjax/' + id + '/edit',
