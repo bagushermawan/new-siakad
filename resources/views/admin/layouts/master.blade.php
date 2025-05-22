@@ -80,7 +80,7 @@
 <body>
     <script src="{{ asset('static/js/initTheme.js') }}"></script>
     <div id="app">
-        @include('admin.layouts.sidebar2')
+        @include('admin.layouts.sidebar-dynamic')
         {{-- @include('admin.layouts.sidebar2', ['sidebarMenus' => $menus]) --}}
         {{-- @include('admin.layouts.sidebar2') --}}
         <div id="main" class='layout-navbar navbar-fixed'>
