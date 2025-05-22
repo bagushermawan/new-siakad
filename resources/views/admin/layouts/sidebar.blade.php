@@ -49,10 +49,7 @@
                         <span>Dashboard</span>
                     </a>
                 </li>
-
                 <li class="sidebar-title">Pages</li>
-
-
                 @if (auth()->user()->hasAnyRole(['admin', 'guru']))
                     <li
                         class="sidebar-item  {{ request()->routeIs('admin.user.index*', 'guru.*', 'siswa.*', 'wali*') ? 'active' : '' }} has-sub">
@@ -95,7 +92,6 @@
                         <span>Kelas</span>
                     </a>
                 </li>
-
                 <li
                     class="sidebar-item  {{ request()->routeIs('tahunajaran.*', 'ekskul.*', 'matapelajaran.*', 'jadwalmatapelajaran.*') ? 'active' : '' }} has-sub">
                     <a href="#" class='sidebar-link'>
@@ -118,15 +114,12 @@
                         </li>
                     </ul>
                 </li>
-
                 <li class="sidebar-item {{ request()->routeIs('nilai.*') ? 'active' : '' }}">
                     <a href="{{ route('nilai.index') }}" class='sidebar-link'>
                         <i class="bi bi-list-ol"></i>
                         <span>Nilai</span>
                     </a>
                 </li>
-
-
 
                 @if (auth()->user()->hasRole('admin'))
                     <li class="sidebar-title">Administrator</li>

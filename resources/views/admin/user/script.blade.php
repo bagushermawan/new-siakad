@@ -43,7 +43,7 @@
                             window.location.href = `/qwe/wali`;
                             break;
                         case 'admin':
-                            window.location.href = `/qwe/user`;
+                            window.location.href = `/qwe/profile`;
                             break;
                         case 'guru':
                             window.location.href = `/qwe/guru`;
