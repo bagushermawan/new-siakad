@@ -8,14 +8,56 @@
         });
     }
 
-    function showSwalNoHP() {
+    function showSwalNoHP(role, userId) {
+        console.log('Roles =', role);
+        const roleLabel = {
+            user: 'Santri/Siswa',
+            'wali santri': 'Wali Santri',
+            guru: 'Guru',
+            admin: 'All Users'
+        };
+
+        const label = roleLabel[role] || 'Pengguna';
+
         Swal.fire({
             icon: 'info',
             title: 'No HP tidak tersedia',
-            text: 'Silahkan login, lalu setting manual di akun terkait',
-            confirmButtonText: 'Tutup'
+            text: 'Silahkan login, lalu setting manual di akun terkait, atau klik tombol ini untuk ke laman terkait',
+            confirmButtonText: "Klik disini!",
+            cancelButtonText: "Tutup",
+            showCancelButton: true,
+            reverseButtons: true,
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: "Tautan dibuat!",
+                    text: `Pergi ke laman Users > ${label}.`,
+                    icon: "info",
+                    confirmButtonText: '<i class="fas fa-chevron-right"></i>'
+                }).then(() => {
+                    switch (role) {
+                        case 'user':
+                            window.location.href = `/qwe/siswa`;
+                            break;
+                        case 'wali santri':
+                            window.location.href = `/qwe/wali`;
+                            break;
+                        case 'admin':
+                            window.location.href = `/qwe/user`;
+                            break;
+                        case 'guru':
+                            window.location.href = `/qwe/guru`;
+                            break;
+                        default:
+                            Swal.fire("Error", "Role tidak dikenal.", "error");
+                            break;
+                    }
+                });
+            }
         });
     }
+
+
 
     $(document).ready(function() {
         const baseUrl = "{{ asset('storage/') }}";
@@ -254,15 +296,16 @@
                     render: function(data, type, row) {
                         if (type === 'display') {
                             if (data) {
-                                return data ;
+                                return data;
                             } else {
-                                // Tambahkan event handler untuk menampilkan swal saat foto tidak tersedia di klik
-                                return '<a style="color:rgba(var(--bs-link-color-rgb),var(--bs-link-opacity, 1)); cursor: pointer;" onclick="showSwalNoHP()">No HP tidak tersedia</a>';
+                                // Kirim data role dan id ke fungsi
+                                return `<a style="color:rgba(var(--bs-link-color-rgb),var(--bs-link-opacity, 1)); cursor: pointer;" onclick="showSwalNoHP('${row.role}', '${row.id}')">No HP tidak tersedia</a>`;
                             }
                         }
                         return data;
                     }
                 },
+
                 {
                     data: 'created_at',
                     name: 'created_at',
@@ -348,7 +391,7 @@
         }
     });
 
-    // 02_PROSES SIMPAN
+    // PROSES SIMPAN
     $('body').on('click', '.tombol-tambah', function(e) {
         e.preventDefault();
         if (typeof roleSelect !== 'undefined') {
@@ -383,7 +426,7 @@
         });
     });
 
-    // 03_PROSES EDIT
+    // PROSES EDIT
     $('body').on('click', '.tombol-edit', function(e) {
         var id = $(this).data('id');
         var userType = $(this).data('user-type'); // Tambahkan atribut data-user-type pada tombol-edit
