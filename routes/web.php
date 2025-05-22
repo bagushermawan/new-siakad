@@ -21,6 +21,7 @@ use App\Http\Controllers\PrestasiAjaxController;
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\WaliSantriAjaxController;
 use App\Http\Controllers\TahunAjaranAjaxController;
+use App\Http\Controllers\SidebarMenuController;
 use App\Http\Controllers\MataPelajaranAjaxController;
 use App\Http\Controllers\ProfilePondokAjaxController;
 use App\Http\Controllers\User\UserDashboardController;
@@ -46,6 +47,8 @@ Route::get('/welcome', function () {
 //     return view('dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');
 Route::middleware('auth:web,wali')->group(function () {
+    Route::resource('sidebar-menu', SidebarMenuController::class)->except(['show']);
+    Route::get('/sidebar-menux', [SidebarMenuController::class, 'index2'])->name('sidebar.menu2');
     Route::get('/userd-role-count', [UserDashboardController::class, 'getUserRoleCountChartjs']);
     Route::get('/', [UserDashboardController::class, 'index'])->name('user.dashboard');
     Route::resource('/a', UserDashboardController::class);

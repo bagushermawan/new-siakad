@@ -17,7 +17,7 @@ class ProfilePondokAjaxController extends Controller
         // Mendapatkan daftar user
         // Menentukan apakah user adalah admin
         $isAdmin = $user->hasRole('admin');
-        $a = ProfilePondok::all();
+        $a = ProfilePondok::first();
 
         return view('admin.profilepondok.index', ['roles' => $roles, 'isAdmin' => $isAdmin, 'a' => $a]);
     }

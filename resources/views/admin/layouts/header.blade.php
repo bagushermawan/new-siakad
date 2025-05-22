@@ -18,7 +18,8 @@
                         <div class="user-menu d-flex">
                             <div class="user-name text-end me-3">
                                 <h6 class="mb-0 text-gray-600">{{ ucfirst(auth()->user()->name) }}</h6>
-                                <p class="mb-0 text-sm text-gray-600">{{ ucfirst(implode(', ', $roles->all())) }}</p>
+                                <p class="mb-0 text-sm text-gray-600">{{ ucfirst(implode(', ', is_array($roles) ? $roles : $roles->toArray())) }}
+                                </p>
                             </div>
                             <div class="user-img d-flex align-items-center">
                                 <div class="avatar avatar-md">

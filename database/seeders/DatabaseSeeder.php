@@ -7,6 +7,7 @@ namespace Database\Seeders;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use App\Models;
+use App\Models\SidebarMenu;
 use App\Models\WaliSantri;
 
 class DatabaseSeeder extends Seeder
@@ -24,6 +25,7 @@ class DatabaseSeeder extends Seeder
         $this->call(JadwalMataPelajaranSeeder::class);
         $this->call(ProfilePondokSeeder::class);
         $this->call(GuruSeeder::class);
+        $this->call(SidebarMenu::class);
 
         // User::factory(601)->create();
         // $this->call(NilaiSeeder::class);

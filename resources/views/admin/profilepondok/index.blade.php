@@ -122,7 +122,11 @@
                         <div class="card-body">
                             <div class="d-flex justify-content-center align-items-center flex-column">
                                 <div class="avatar avatar-3xl">
-                                    <img src="{{ asset('storage/' .$a->first()->foto_pondok) }}" alt="Avatar" id="fotoPondok">
+                                    @if ($a->foto_pondok)
+                                        <img src="{{ asset('storage/' . $a->foto_pondok) }}" alt="Avatar">
+                                    @else
+                                        <img src="{{ asset('compiled/jpg/1.jpg') }}" alt="Avatar">
+                                    @endif
                                 </div>
                             </div>
                             <div class="table-responsive" style="margin-top: 3rem;">
