@@ -13,14 +13,14 @@ return new class extends Migration
     {
         Schema::create('sidebar_menus', function (Blueprint $table) {
             $table->id();
-            $table->string('title');            
-            $table->string('route_name');       
-            $table->string('icon')->nullable(); 
-            $table->string('group')->nullable(); 
-            $table->integer('order')->default(0); 
-            $table->boolean('is_submenu')->default(false); 
-            $table->unsignedBigInteger('parent_id')->nullable(); 
-            $table->string('roles')->nullable(); 
+            $table->string('title');
+            $table->string('route_name')->nullable();
+            $table->string('icon')->nullable();
+            $table->string('group')->nullable();
+            $table->integer('order')->default(99);
+            $table->boolean('is_submenu')->default(false);
+            $table->unsignedBigInteger('parent_id')->nullable();
+            $table->string('roles')->nullable();
             $table->timestamps();
         });
     }

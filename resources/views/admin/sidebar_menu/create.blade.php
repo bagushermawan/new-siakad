@@ -11,7 +11,7 @@
 @section('content')
     <h1>Tambah Sidebar Menu</h1>
 
-    <form action="{{ route('sidebar-menu.store') }}" method="POST">
+    <form action="{{ route('sidebarmenu.store') }}" method="POST">
         @csrf
 
         <div class="mb-3">
@@ -67,7 +67,7 @@
         </div>
 
         <button type="submit" class="btn btn-primary">Simpan</button>
-        <a href="{{ route('sidebar-menu.index') }}" class="btn btn-secondary">Batal</a>
+        <a href="{{ route('sidebarmenu.index') }}" class="btn btn-secondary">Batal</a>
     </form>
 @endsection
 @push('page-script')

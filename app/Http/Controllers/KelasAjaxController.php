@@ -107,9 +107,12 @@ class KelasAjaxController extends Controller
                 'walikelas_id' => $request->walikelas_id,
                 'event' => $request->event,
             ];
-            $idWalikelas = $request->walikelas_id;
-            $walikelas = User::find($idWalikelas);
-            $walikelas->syncRoles('wali kelas');
+            if ($request->filled('walikelas_id')) {
+                $walikelas = User::find($request->walikelas_id);
+                if ($walikelas) {
+                    $walikelas->syncRoles('wali kelas');
+                }
+            }
             $kelas = Kelas::create($data);
 
             return response()->json(['success' => 'Berhasil menyimpan data']);

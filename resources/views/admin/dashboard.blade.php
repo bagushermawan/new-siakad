@@ -132,7 +132,7 @@
 <body>
     <script src="{{ asset('static/js/initTheme.js') }}"></script>
     <div id="app">
-        @include('admin.layouts.sidebar')
+        @include('admin.layouts.sidebar-dynamic')
         <div id="main" class='layout-navbar navbar-fixed'>
             {{-- header --}}
             <div id="main-content">

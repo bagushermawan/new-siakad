@@ -30,4 +30,15 @@ class SidebarMenu extends Model
     {
         return $this->hasMany(SidebarMenu::class, 'parent_id');
     }
+
+    public static function getGroupedMenus()
+    {
+        return self::with(['children' => function ($query) {
+            $query->orderBy('order');
+        }])
+            ->whereNull('parent_id')
+            ->orderBy('order')
+            ->get()
+            ->groupBy('group');
+    }
 }

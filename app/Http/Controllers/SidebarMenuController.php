@@ -6,6 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\SidebarMenu;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
+use Yajra\DataTables\Facades\DataTables;
+use Spatie\Permission\Models\Role;
 
 class SidebarMenuController extends Controller
 {
@@ -14,35 +18,72 @@ class SidebarMenuController extends Controller
         $user = Auth::user();
         $roles = $user->getRoleNames()->toArray();
         $isAdmin = $user->hasRole('admin');
+        $listroles = Role::pluck('name')->toArray();
 
+        // Ambil semua menu yang memiliki roles cocok dengan user
         $allMenus = SidebarMenu::where(function ($query) use ($roles) {
-            $query->whereNull('roles')->orWhere(function ($q) use ($roles) {
-                foreach ($roles as $role) {
-                    $q->orWhere('roles', 'like', '%' . $role . '%');
-                }
-            });
+            foreach ($roles as $role) {
+                $query->orWhere('roles', 'like', '%' . $role . '%');
+            }
         })
             ->orderBy('order')
             ->get();
 
-        // Untuk sidebar: ambil menu utama (is_submenu=false) yang punya group dan children-nya
+        // Ambil menu utama (bukan submenu) dan isi dengan submenu (children) yang juga sesuai roles
         $mainMenus = $allMenus
             ->where('is_submenu', false)
             ->whereNotNull('group')
             ->map(function ($menu) use ($allMenus) {
                 $menu->children = $allMenus->where('parent_id', $menu->id);
                 return $menu;
+            })
+            // Hanya tampilkan menu yang punya anak atau route_name-nya bukan '#'
+            ->filter(function ($menu) {
+                return $menu->children->isNotEmpty() || $menu->route_name !== '#';
             });
 
-        // Group by `group` kolom untuk sidebar
-        $groupedMenus = $mainMenus->groupBy('group');
+        // Kelompokkan berdasarkan group
+        $groupedMenus = $mainMenus
+            ->groupBy('group')
+            // Hapus group kosong (tidak ada menu valid)
+            ->filter(function ($menus) {
+                return $menus->isNotEmpty();
+            });
 
         return view('admin.sidebar_menu.index', [
             'roles' => $roles,
             'isAdmin' => $isAdmin,
-            'menus' => $allMenus, // index
-            'sidebarMenus' => $groupedMenus, // sidebar
+            'menus' => $allMenus, // Untuk halaman index
+            'sidebarMenus' => $groupedMenus, // Untuk sidebar
+            'total_SidebarMenu' => SidebarMenu::count(),
+            'parents' => SidebarMenu::where('is_submenu', false)->get(),
+            'list_menu' => SidebarMenu::where([['is_submenu', '=', false], ['route_name', '=', '#']])
+                ->whereNull('icon')
+                ->whereNull('group')
+                ->whereNull('parent_id')
+                ->get(),
+            'listroles' => $listroles,
         ]);
+    }
+
+    public function indexAjaxSidebarMenu()
+    {
+        $user = Auth::user();
+        // Mendapatkan roles dari user
+        $roles = $user->getRoleNames();
+        $data = SidebarMenu::with('parent')->orderBy('order', 'asc');
+        $isAdmin = $user->hasRole('admin');
+
+        return DataTables::of($data)
+            ->addIndexColumn()
+            ->addColumn('aksi', function ($data) use ($isAdmin) {
+                return view('admin.sidebar_menu.tombol', ['data' => $data, 'isAdmin' => $isAdmin]);
+            })
+            ->addColumn('parent_name', function ($row) {
+                return $row->parent ? e($row->parent->title) : '<span style="font-style: italic; color: #888;">null</span>';
+            })
+            ->rawColumns(['parent_name'])
+            ->make(true);
     }
 
     public function index2()
@@ -78,7 +119,7 @@ class SidebarMenuController extends Controller
         return view('admin.sidebar_menu.index2', [
             'roles' => $roles,
             'isAdmin' => $isAdmin,
-            'sidebarMenus' => $groupedMenus,
+            'allMenus' => $allMenus,
         ]);
     }
 
@@ -94,56 +135,91 @@ class SidebarMenuController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'title' => 'required|string|max:255',
             'route_name' => 'nullable|string|max:255',
             'icon' => 'nullable|string|max:255',
             'group' => 'nullable|string|max:255',
-            'order' => 'required|integer',
+            'order' => 'nullable|integer',
             'is_submenu' => 'boolean',
-            'parent_id' => 'nullable|exists:sidebar_menus,id',
-            'roles' => 'nullable|string|max:255',
+            'parent_id' => 'nullable|integer|exists:sidebar_menus,id',
+            'roles' => 'nullable|array',
+            'roles.*' => 'string',
         ]);
+        if (empty($validated['route_name'])) {
+            $validated['route_name'] = '#';
+        }
+        if (empty($validated['order'])) {
+            $maxOrder = SidebarMenu::max('order');
+            $validated['order'] = $maxOrder ? $maxOrder + 1 : 1;
+        }
+        if (empty($validated['roles'])) {
+            $validated['roles'] = '';
+        }
+        $validated['roles'] = $validated['roles'] ? implode(',', $validated['roles']) : null;
+        SidebarMenu::create($validated);
 
-        SidebarMenu::create($request->all());
-
-        return redirect()->route('sidebar-menu.index')->with('success', 'Menu berhasil dibuat');
+        return response()->json(['success' => 'Berhasil menyimpan data']);
     }
 
-    public function edit(SidebarMenu $sidebarMenu)
+    public function edit(string $id)
     {
-        $user = Auth::user();
-        $roles = $user->getRoleNames();
-        $isAdmin = $user->hasRole('admin');
+        $data = SidebarMenu::where('id', $id)->first();
 
-        $parents = SidebarMenu::where('is_submenu', false)
-            ->where('id', '!=', $sidebarMenu->id) // supaya tidak jadi parent sendiri
-            ->get();
-        return view('admin.sidebar_menu.edit', ['roles' => $roles, 'isAdmin' => $isAdmin, 'parents' => $parents, 'sidebarMenu' => $sidebarMenu]);
+        // Pastikan field 'roles' bukan null atau kosong
+        $roles = [];
+        if (!empty($data->roles)) {
+            $roles = explode(',', $data->roles); // Ubah string jadi array
+        }
+
+        // Ganti isi roles dari string jadi array sebelum dikirim ke JS
+        $result = $data->toArray();
+        $result['roles'] = $roles;
+        // dd($result);
+
+        return response()->json(['result' => $result]);
     }
 
-    public function update(Request $request, SidebarMenu $sidebarMenu)
+    public function update(Request $request, string $id)
     {
-        $request->validate([
+        $validated = $request->validate([
             'title' => 'required|string|max:255',
             'route_name' => 'nullable|string|max:255',
             'icon' => 'nullable|string|max:255',
             'group' => 'nullable|string|max:255',
-            'order' => 'required|integer',
+            'order' => 'nullable|integer',
             'is_submenu' => 'boolean',
             'parent_id' => 'nullable|exists:sidebar_menus,id',
-            'roles' => 'nullable|string|max:255',
+            'roles' => 'nullable|array',
+            'roles.*' => 'string',
         ]);
+        if (empty($validated['order'])) {
+            $maxOrder = SidebarMenu::max('order');
+            $validated['order'] = $maxOrder ? $maxOrder + 1 : 1;
+        }
+        $validated['roles'] = $validated['roles'] ? implode(',', $validated['roles']) : null;
 
-        $sidebarMenu->update($request->all());
+        SidebarMenu::where('id', $id)->update($validated);
 
-        return redirect()->route('sidebar-menu.index')->with('success', 'Menu berhasil diperbarui');
+        return response()->json(['success' => 'Berhasil memperbarui data sdbrmn']);
     }
 
-    public function destroy(SidebarMenu $sidebarMenu)
+    public function destroy(string $id)
     {
-        $sidebarMenu->delete();
+        SidebarMenu::where('id', $id)->delete();
+    }
 
-        return redirect()->route('sidebar-menu.index')->with('success', 'Menu berhasil dihapus');
+    public function deleteAll()
+    {
+        try {
+            // Tambahkan logika penghapusan data di sini
+            // Contoh: Hapus semua data dari tabel 'users'
+            DB::table('sidebar_menus')->delete();
+
+            return response()->json(['success' => true, 'message' => 'All data deleted successfully.']);
+        } catch (\Exception $e) {
+            // Tangani kesalahan jika terjadi
+            return response()->json(['success' => false, 'message' => 'Failed to delete data: ' . $e->getMessage()]);
+        }
     }
 }
