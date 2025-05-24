@@ -190,11 +190,13 @@
     $('body').on('click', '.tombol-del', function(e) {
         var id = $(this).data('id');
         var title = $(this).data('title');
+        console.log(title);
 
         Swal.fire({
             title: `Yakin mau hapus <b>${title}</b>?`,
             text: "Anda tidak akan dapat mengembalikan data ini!",
             icon: 'warning',
+            width: 600,
             showCancelButton: true,
             confirmButtonColor: '#d33',
             cancelButtonColor: '#3085d6',

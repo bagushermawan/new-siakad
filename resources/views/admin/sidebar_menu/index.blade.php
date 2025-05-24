@@ -15,6 +15,61 @@
         .form-control.pw::placeholder {
             color: #495057 !important;
         }
+        @keyframes rainbow {
+
+            0%,
+            100% {
+                background-color: rgba(255, 0, 0, 0.1);
+            }
+
+            8% {
+                background-color: rgba(255, 127, 0, 0.1);
+            }
+
+            16% {
+                background-color: rgba(255, 255, 0, 0.1);
+            }
+
+            25% {
+                background-color: rgba(127, 255, 0, 0.1);
+            }
+
+            33% {
+                background-color: rgba(0, 255, 0, 0.1);
+            }
+
+            41% {
+                background-color: rgba(0, 255, 127, 0.1);
+            }
+
+            50% {
+                background-color: rgba(0, 255, 255, 0.1);
+            }
+
+            58% {
+                background-color: rgba(0, 127, 255, 0.1);
+            }
+
+            66% {
+                background-color: rgba(0, 0, 255, 0.1);
+            }
+
+            75% {
+                background-color: rgba(127, 0, 255, 0.1);
+            }
+
+            83% {
+                background-color: rgba(255, 0, 255, 0.1);
+            }
+
+            91% {
+                background-color: rgba(255, 0, 127, 0.1);
+            }
+        }        .swal2-container.swal2-center.swal2-backdrop-show {
+            background-size: 200% 200%, cover, auto;
+            animation: rainbow 3s linear infinite;
+            background-blend-mode: screen, normal, overlay;
+        }
     </style>
 @endpush
 @section('content')

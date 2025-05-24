@@ -9,7 +9,7 @@
                 <a class="dropdown-item tombol-edit" href="#" data-id="{{ $data->id }}"
                     data-user-type="{{ $data->user_type }}">Edit</a>
                 <a class="dropdown-item tombol-del" href="#" data-id="{{ $data->id }}"
-                    data-user-type="{{ $data->user_type }}" data-name="{{ $data->name }}">Delete</a>
+                    data-user-type="{{ $data->user_type }}" data-name="{{ $data->name }}" data-title="{{ $data->title }}">Delete</a>
 
                 @if (auth()->user()->hasRole('admin') &&
                         in_array(request()->route()->getName(),
