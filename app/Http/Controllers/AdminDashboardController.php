@@ -50,16 +50,17 @@ class AdminDashboardController extends Controller
         //     ->get();
 
         $data_riwayat_login = RiwayatLogin::where(function ($query) {
-            $query->where('user_id', '!=', Auth::user()->id)
-            ->where('wali_santri_id', null);
-        })->orWhere('wali_santri_id', '!=', null)
-        // ->where('updated_at', '>=', Carbon::today())
-        ->orderBy('status_login', 'DESC')
-        ->orderBy('updated_at', 'DESC')
-        ->get();
+            $query->where('user_id', '!=', Auth::user()->id)->where('wali_santri_id', null);
+        })
+            ->orWhere('wali_santri_id', '!=', null)
+            // ->where('updated_at', '>=', Carbon::today())
+            ->orderBy('status_login', 'DESC')
+            ->orderBy('updated_at', 'DESC')
+            ->get();
 
         // Alternatif: Mendapatkan role pertama dari user
         // $role = $user->getRoleNames()->first();
+        // dd($data_riwayat_login);
 
         return view('admin.dashboard', [
             'user' => $user,

@@ -11,6 +11,9 @@ use Illuminate\Http\RedirectResponse;
 use App\Providers\RouteServiceProvider;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Models\RiwayatLogin;
+use Illuminate\Support\Facades\Session;
+use App\Models\User;
+use App\Models\WaliSantri;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -107,38 +110,42 @@ class AuthenticatedSessionController extends Controller
         return RouteServiceProvider::HOME;
     }
 
-    public function destroy(Request $request): RedirectResponse
+    public function destroy(Request $request, $userId = null): RedirectResponse
     {
-        $guard = null;
-        $userId = null;
+        if ($userId) {
+            // Logout by admin
+            $user = User::find($userId);
+            $waliSantri = WaliSantri::find($userId);
 
-        if (auth()->guard('web')->check()) {
-            $guard = 'web';
-            $userId = auth()->guard('web')->id();
-            auth()->guard('web')->logout();
-        }
-        elseif (auth()->guard('wali')->check()) {
-            $guard = 'wali';
-            $userId = auth()->guard('wali')->id();
-            auth()->guard('wali')->logout();
+            if ($user) {
+                RiwayatLogin::where('user_id', $user->id)->update(['status_login' => false]);
+                Session::forget('login_' . $user->id . '_user');
+                return redirect()->back()->with('success', 'User berhasil di-logout oleh admin.');
+            }
+
+            if ($waliSantri) {
+                RiwayatLogin::where('wali_santri_id', $waliSantri->id)->update(['status_login' => false]);
+                Session::forget('login_' . $waliSantri->id . '_wali');
+                return redirect()->back()->with('success', 'Wali Santri berhasil di-logout oleh admin.');
+            }
+
+            return redirect()->back()->withErrors(['message' => 'Pengguna tidak ditemukan.']);
         }
 
+        // Logout diri sendiri
+        $guard = auth()->check() ? 'web' : (auth('wali')->check() ? 'wali' : null);
+        $authUserId = auth($guard)->id();
+
+        auth($guard)->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        // Update status login
-        if ($guard && isset($userId)) {
-            if ($guard === 'web') {
-                RiwayatLogin::where('user_id', $userId)->update([
-                    'status_login' => false,
-                ]);
-            } elseif ($guard === 'wali') {
-                RiwayatLogin::where('wali_santri_id', $userId)->update([
-                    'status_login' => false,
-                ]);
-            }
+        if ($guard === 'web') {
+            RiwayatLogin::where('user_id', $authUserId)->update(['status_login' => false]);
+        } elseif ($guard === 'wali') {
+            RiwayatLogin::where('wali_santri_id', $authUserId)->update(['status_login' => false]);
         }
 
-        return redirect('login');
+        return redirect('/login');
     }
 }

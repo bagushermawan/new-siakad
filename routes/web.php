@@ -77,7 +77,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/user/{id}/login', [LoginAsController::class, 'loginAsUser']);
     Route::get('/wali/{id}/login', [LoginAsController::class, 'loginAsWaliSantri']);
 
-    Route::get('/qwe/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
+    Route::get('/qwe/dashboard', [AdminDashboardController::class, 'index'])->name('admin.dashboard')->middleware('role:admin');
     Route::get('/user-role-count', [UserAjaxController::class, 'getUserRoleCountChartjs']);
 
     Route::resource('/qwe/guru', GuruController::class);
@@ -174,6 +174,10 @@ Route::get('cekguard', function () {
         '<br>' .
         'Role:  ' .
          ucfirst(implode(', ', Auth::user()->getRoleNames()->all())) .
+        '<br>' . '<br>' .
+        'guard:  ' .
+        (Auth::guard()->name) .
+        '<br>' .
         '</h5><br></h1>
 
         <!-- Tombol Logout -->

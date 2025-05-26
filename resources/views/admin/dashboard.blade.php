@@ -270,6 +270,19 @@
                                                             </h5>
                                                             <h6 class="text-muted mb-0">
                                                                 {{ $riwayat_login->user->email }}</h6>
+                                                                @if ($riwayat_login->status_login == true)
+                                                                <h6 class="text-muted mb-0"
+                                                                    style="color:green !important;">
+                                                                    Online
+                                                                </h6>
+                                                                @if (auth()->user()->hasRole('admin'))
+                                                                <form action="{{ route('admin.logout.user', $riwayat_login->user->id ?? $riwayat_login->waliSantri->id) }}"
+                                                                    method="POST" class="d-inline">
+                                                                  @csrf
+                                                                  <button type="submit" class="btn btn-sm btn-outline-danger">Logout</button>
+                                                              </form>
+                                                              @endif
+                                                            @endif
                                                         @elseif ($riwayat_login->waliSantri)
                                                             <!-- Menampilkan data dari wali_santris -->
                                                             <h5 class="mb-1">{{ $riwayat_login->waliSantri->name }}
@@ -282,6 +295,13 @@
                                                                     style="color:green !important;">
                                                                     Online
                                                                 </h6>
+                                                                @if (auth()->user()->hasRole('admin'))
+                                                                <form action="{{ route('admin.logout.user', $riwayat_login->user->id ?? $riwayat_login->waliSantri->id) }}"
+                                                                    method="POST" class="d-inline">
+                                                                  @csrf
+                                                                  <button type="submit" class="btn btn-sm btn-outline-danger">Logout</button>
+                                                              </form>
+                                                              @endif
                                                             @endif
                                                         @endif
                                                         @if ($riwayat_login->status_login == false)
