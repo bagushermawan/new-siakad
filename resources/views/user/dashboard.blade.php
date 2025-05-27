@@ -74,9 +74,7 @@
         </div>
         <div class="page-content">
             <section class="section">
-                @if (
-                    $santriId == null &&
-                        auth()->user()->hasRole('wali santri'))
+                @if ($santriId == null && auth()->user()->hasRole('wali santri'))
                     {{-- Tidak ada santri ID --}}
                     @include('user.partials.nosantri')
                 @elseif (auth()->user()->hasRole('user'))
@@ -171,9 +169,7 @@
     <script src="{{ asset('extensions/datatables.net/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('extensions/datatables.net-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
     @include('user.script')
-    @if (
-        $santriId == null &&
-            auth()->user()->hasRole('wali santri'))
+    @if ($santriId == null && auth()->user()->hasRole('wali santri'))
     @elseif (auth()->user()->hasRole('user'))
         @include('user.datatables-user')
     @else

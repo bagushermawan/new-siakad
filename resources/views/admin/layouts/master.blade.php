@@ -70,9 +70,10 @@
             color: #a8a8c4;
             border: 1px solid rgba(39, 81, 231, 0.15);
         }
+
         .icon-toggle {
-  transition: opacity 0.5s ease;
-}
+            transition: opacity 0.5s ease;
+        }
     </style>
     @stack('page-css')
 </head>
@@ -97,16 +98,40 @@
         <script src="{{ asset('/extensions/sweetalert2/sweetalert2.all.min.js') }}"></script>
         @stack('page-script')
         <script>
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 5000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer);
+                    toast.addEventListener('mouseleave', Swal.resumeTimer);
+                }
+            });
+
             @if (session('successMessage'))
-                Swal.fire('Sukses!', '{{ session('successMessage') }}', 'success');
+                Toast.fire({
+                    icon: 'success',
+                    title: @json(session('successMessage'))
+                });
             @endif
+
             @if (session('destroyMessage'))
-                Swal.fire('Sukses!', '{{ session('destroyMessage') }}', 'info');
+                Toast.fire({
+                    icon: 'info',
+                    title: @json(session('destroyMessage'))
+                });
             @endif
+
             @if (session('updateMessage'))
-                Swal.fire('Sukses!', '{{ session('updateMessage') }}', 'success');
+                Toast.fire({
+                    icon: 'success',
+                    title: @json(session('updateMessage'))
+                });
             @endif
         </script>
+
         {{-- Script Tooltip --}}
         <script>
             document.addEventListener('DOMContentLoaded', function() {

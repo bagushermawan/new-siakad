@@ -150,6 +150,7 @@
                             </div>
                         </div>
                     </div>
+                    <button id="test-toast" class="btn btn-primary">Test Toast</button>
                 </div>
                 <div class="page-content">
                     <section class="row">

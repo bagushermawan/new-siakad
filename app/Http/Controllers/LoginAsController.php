@@ -18,30 +18,14 @@ class LoginAsController extends Controller
             $guard = null;
             $userId = null;
 
-            if (
-                auth()
-                    ->guard('web')
-                    ->check()
-            ) {
+            if (auth()->guard('web')->check()) {
                 $guard = 'web';
-                $userId = auth()
-                    ->guard('web')
-                    ->id();
-                auth()
-                    ->guard('web')
-                    ->logout();
-            } elseif (
-                auth()
-                    ->guard('wali')
-                    ->check()
-            ) {
+                $userId = auth()->guard('web')->id();
+                auth()->guard('web')->logout();
+            } elseif (auth()->guard('wali')->check()) {
                 $guard = 'wali';
-                $userId = auth()
-                    ->guard('wali')
-                    ->id();
-                auth()
-                    ->guard('wali')
-                    ->logout();
+                $userId = auth()->guard('wali')->id();
+                auth()->guard('wali')->logout();
             }
 
             $request->session()->invalidate();
@@ -79,30 +63,14 @@ class LoginAsController extends Controller
             $guard = null;
             $userId = null;
 
-            if (
-                auth()
-                    ->guard('web')
-                    ->check()
-            ) {
+            if (auth()->guard('web')->check()) {
                 $guard = 'web';
-                $userId = auth()
-                    ->guard('web')
-                    ->id();
-                auth()
-                    ->guard('web')
-                    ->logout();
-            } elseif (
-                auth()
-                    ->guard('wali')
-                    ->check()
-            ) {
+                $userId = auth()->guard('web')->id();
+                auth()->guard('web')->logout();
+            } elseif (auth()->guard('wali')->check()) {
                 $guard = 'wali';
-                $userId = auth()
-                    ->guard('wali')
-                    ->id();
-                auth()
-                    ->guard('wali')
-                    ->logout();
+                $userId = auth()->guard('wali')->id();
+                auth()->guard('wali')->logout();
             }
 
             $request->session()->invalidate();

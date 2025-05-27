@@ -64,9 +64,14 @@
                         </div>
                     </li>
                     <li class="menu-item">
-                            <a href="{{ route('user.dashboard') }}" class='menu-link'>
-                                <span><i class="fas fa-list-alt"></i> Kelas Santri</span>
-                            </a>
+                        <a href="{{ route('user.dashboard') }}" class='menu-link'>
+                            <span><i class="fas fa-list-alt"></i> Kelas Santri</span>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="{{ route('user.dashboard') }}" class='menu-link'>
+                            <span><i class="fas fa-list-alt"></i> santri banyak</span>
+                        </a>
                     </li>
                 </ul>
                 <div class="checkbox-container">

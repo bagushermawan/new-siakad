@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Session;
 
 class SidebarMenuController extends Controller
 {
@@ -159,7 +160,7 @@ class SidebarMenuController extends Controller
         $validated['roles'] = $validated['roles'] ? implode(',', $validated['roles']) : null;
         SidebarMenu::create($validated);
 
-        return response()->json(['success' => 'Berhasil menyimpan data']);
+        return response()->json(['successMessage' => 'Berhasil menyimpan Sidebar Menu']);
     }
 
     public function edit(string $id)
@@ -201,12 +202,13 @@ class SidebarMenuController extends Controller
 
         SidebarMenu::where('id', $id)->update($validated);
 
-        return response()->json(['success' => 'Berhasil memperbarui data sdbrmn']);
+        return response()->json(['updateMessage' => 'Berhasil memperbarui data Sidebar Menu']);
     }
 
     public function destroy(string $id)
     {
         SidebarMenu::where('id', $id)->delete();
+        return response()->json(['destroyMessage' => 'Sidebar berhasil dihapus']);
     }
 
     public function deleteAll()

@@ -43,11 +43,7 @@ class AuthenticatedSessionController extends Controller
     {
         $request->authenticate();
         $request->session()->regenerate();
-        // Tambahkan logika untuk menentukan guard yang berhasil login
         $guard = $this->getGuard($request);
-
-        // Panggil event UserLoggedIn
-        // event(new UserLoggedIn(auth()->user()));
 
         // Riwayat Login
         $userId = auth()

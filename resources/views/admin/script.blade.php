@@ -129,3 +129,45 @@
         }
     });
 </script>
+@if (session('successLogin'))
+    <script>
+        const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+            }
+        });
+        Toast.fire({
+            icon: "success",
+            title: "{Selamat Datang, <b>{{ auth()->user()->name }}</b>"
+        });
+    </script>
+@endif
+<script>
+    document.getElementById('test-toast').addEventListener('click', function() {
+        const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 5000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('click', () => {
+                    Swal.close(); // Menutup toast ketika diklik
+                });
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+            }
+        });
+
+        Toast.fire({
+            icon: "success",
+            title: "Selamat Datang, <b>{{ auth()->user()->name }}</b>"
+        });
+    });
+</script>
